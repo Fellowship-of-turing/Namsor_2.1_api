@@ -1,18 +1,17 @@
 ---
-title: API Reference
+title: NamSor API v3
 
 language_tabs: # must be one of https://prismjs.com/#supported-languages
-  - shell
-  - ruby
-  - python
-  - javascript
+    - shell
+    - ruby
+    - python
+    - javascript
 
 toc_footers:
-  - <a href='#'>Sign Up for a Developer Key</a>
-  - <a href='https://github.com/slatedocs/slate'>Documentation Powered by Slate</a>
+    - <a href='#'>Sign Up for a Developer Key</a>
 
 includes:
-  - errors.md
+    - errors.md
 
 search: true
 code_clipboard: true
@@ -20,11 +19,11 @@ code_clipboard: true
 
 # Introduction
 
-Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.
+NamSor API v2 : enpoints to process personal names (gender, cultural origin or ethnicity) in all alphabets or languages. Use GET methods for small tests, but prefer POST methods for higher throughput (batch processing of up to 100 names at a time). Need something you can't find here? We have many more features coming soon. Let us know, we'll do our best to add it!
 
-We have language bindings in Shell, Ruby, Python, and JavaScript! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
+**Version:** 2.0.11
 
-This example API documentation page was created with [Slate](https://github.com/slatedocs/slate). Feel free to edit it and use it as a base for your own API's documentation.
+[NamSor API client SDKs v2 for Java, Python](https://github.com/namsor)
 
 # Authentication
 
@@ -49,9 +48,9 @@ curl "api_endpoint_here"
 ```
 
 ```javascript
-const kittn = require('kittn');
+const kittn = require("kittn");
 
-let api = kittn.authorize('meowmeowmeow');
+let api = kittn.authorize("meowmeowmeow");
 ```
 
 > Make sure to replace `meowmeowmeow` with your API key.
@@ -90,9 +89,9 @@ curl "http://example.com/api/kittens"
 ```
 
 ```javascript
-const kittn = require('kittn');
+const kittn = require("kittn");
 
-let api = kittn.authorize('meowmeowmeow');
+let api = kittn.authorize("meowmeowmeow");
 let kittens = api.kittens.get();
 ```
 
@@ -100,20 +99,20 @@ let kittens = api.kittens.get();
 
 ```json
 [
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
-  }
+    {
+        "id": 1,
+        "name": "Fluffums",
+        "breed": "calico",
+        "fluffiness": 6,
+        "cuteness": 7
+    },
+    {
+        "id": 2,
+        "name": "Max",
+        "breed": "unknown",
+        "fluffiness": 5,
+        "cuteness": 10
+    }
 ]
 ```
 
@@ -125,10 +124,10 @@ This endpoint retrieves all kittens.
 
 ### Query Parameters
 
-Parameter | Default | Description
---------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+| Parameter    | Default | Description                                                                      |
+| ------------ | ------- | -------------------------------------------------------------------------------- |
+| include_cats | false   | If set to true, the result will also include cats.                               |
+| available    | true    | If set to false, the result will include kittens that have already been adopted. |
 
 <aside class="success">
 Remember — a happy kitten is an authenticated kitten!
@@ -156,9 +155,9 @@ curl "http://example.com/api/kittens/2"
 ```
 
 ```javascript
-const kittn = require('kittn');
+const kittn = require("kittn");
 
-let api = kittn.authorize('meowmeowmeow');
+let api = kittn.authorize("meowmeowmeow");
 let max = api.kittens.get(2);
 ```
 
@@ -166,11 +165,11 @@ let max = api.kittens.get(2);
 
 ```json
 {
-  "id": 2,
-  "name": "Max",
-  "breed": "unknown",
-  "fluffiness": 5,
-  "cuteness": 10
+    "id": 2,
+    "name": "Max",
+    "breed": "unknown",
+    "fluffiness": 5,
+    "cuteness": 10
 }
 ```
 
@@ -184,9 +183,9 @@ This endpoint retrieves a specific kitten.
 
 ### URL Parameters
 
-Parameter | Description
---------- | -----------
-ID | The ID of the kitten to retrieve
+| Parameter | Description                      |
+| --------- | -------------------------------- |
+| ID        | The ID of the kitten to retrieve |
 
 ## Delete a Specific Kitten
 
@@ -211,9 +210,9 @@ curl "http://example.com/api/kittens/2"
 ```
 
 ```javascript
-const kittn = require('kittn');
+const kittn = require("kittn");
 
-let api = kittn.authorize('meowmeowmeow');
+let api = kittn.authorize("meowmeowmeow");
 let max = api.kittens.delete(2);
 ```
 
@@ -221,8 +220,8 @@ let max = api.kittens.delete(2);
 
 ```json
 {
-  "id": 2,
-  "deleted" : ":("
+    "id": 2,
+    "deleted": ":("
 }
 ```
 
@@ -234,7 +233,30 @@ This endpoint deletes a specific kitten.
 
 ### URL Parameters
 
-Parameter | Description
---------- | -----------
-ID | The ID of the kitten to delete
+| Parameter | Description                    |
+| --------- | ------------------------------ |
+| ID        | The ID of the kitten to delete |
 
+# /API2/JSON/NAMETYPE/{PROPERNOUN}
+
+## **_GET_**
+
+**Summary:** Infer the likely type of a proper noun (personal name, brand name, place name etc.)
+
+### HTTP Request
+
+`***GET*** /api2/json/nameType/{properNoun}`
+
+**Parameters**
+
+| Name       | Located in | Description | Required | Type |
+| ---------- | ---------- | ----------- | -------- | ---- |
+| properNoun | path       |             | Yes      |      |
+
+**Responses**
+
+| Code | Description                           |
+| ---- | ------------------------------------- |
+| 200  | A typed name.                         |
+| 401  | Missing or incorrect API Key          |
+| 403  | API Limit Reached or API Key Disabled |
