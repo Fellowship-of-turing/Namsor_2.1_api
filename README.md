@@ -1,4 +1,6 @@
-# TODO
+# C2T
+
+## TODO
 
 -   Integrate pricing in doc
 -   Determine required fields
@@ -6,13 +8,18 @@
 -   Write up query titles and descriptions for missing ones
 -   Build script for translating to format compatible with Slate model (titles, desc, params)
 
+## Notes
+
+a. To change code synthax highlighting theme change the CSS file in slate.ejs "<head>"
+Current theme : "<link href="slate/css/vscodedark.css" rel="stylesheet">"
+
 # Slate v3 POC
 
 ![Build](https://github.com/Mermade/reslate/workflows/Build/badge.svg)
 
 Proof-of-concept Slate v3 using [eleventy](https://www.11ty.dev/) as the static site generator.
 
-![screenshot](https://github.com/Mermade/reslate/blob/main/docs/screenshot.jpg?raw=true)
+<!-- ![screenshot](https://github.com/Mermade/reslate/blob/main/docs/screenshot.jpg?raw=true) -->
 
 ## Features
 
