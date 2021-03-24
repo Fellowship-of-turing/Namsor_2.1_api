@@ -1,0 +1,17 @@
+*** Todo colab 
+
+- liste des routes dont les couts sont differents de 1 unité
+
+*** Todo me
+
+- tuto pour ajouter des routes / valeurs exemple
+
+*** Errors
+
+- L 3275 . schema de sortie dans une entrée ?
+- L 222 . request type */* ?
+- L 210 . missing 200 response
+- L 1044 . missing response OK
+- l3102 . no response schema
+- l3114 . no response schema
+- Change order or paths so it is logical and similar get/post routes are close
