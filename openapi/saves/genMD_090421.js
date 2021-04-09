@@ -339,8 +339,9 @@ if (targetFile === 'openapi/openapi.json') {
   delete swaggerFile.components;
   fs.writeFileSync('openapi/premarkdown.json', JSON.stringify(swaggerFile), 'utf8');
   console.log('record: ', record);
-  // console.log('routeRequests: ', routeRequests['/api2/json/parseName/{nameFull}/{countryIso2}']);
-  // console.log('routeRequests: ', routeRequests['/api2/json/parseNameBatch']);
+  console.log('routeRequests: ', routeRequests['/api2/json/parseName/{nameFull}/{countryIso2}']);
+  console.log('routeRequests: ', routeRequests['/api2/json/parseNameBatch']);
+  console.log('routeRequests: ', routeRequests['/api2/json/parseNameBatch'].schema);
   // console.log('routeResponses: ', routeResponses);
 };
 
@@ -378,15 +379,6 @@ widdershins.convert(swaggerFile, options)
 
     let mdRouteReplace = (target, input, startIndex, endIndex, route) => {
       let indexTarget = dirtyMD.indexOf(target, startIndex);
-      if (target == 'To perform this operation, you must be authenticated by means of one of the following methods:') {
-        // console.log('startIndex: ', startIndex);
-        if (!(startIndex < indexTarget) || !(endIndex > indexTarget)) {
-          console.log('route: ', route);
-          console.log('startIndex: ', startIndex);
-          console.log('indexTarget: ', indexTarget);
-          console.log('endIndex: ', endIndex);
-        }
-      }
       if (
         startIndex &&
         endIndex &&
@@ -425,7 +417,7 @@ widdershins.convert(swaggerFile, options)
 
     // Links to http code standars
     let contentToSwap = [
-      // '[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)',
+      '[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)',
       '<aside class="warning">',
       'To perform this operation, you must be authenticated by means of one of the following methods:',
       'api_key',
@@ -436,8 +428,6 @@ widdershins.convert(swaggerFile, options)
 
     let reqTag = '!{request-table-tag}';
     let resTag = '!{response-table-tag}';
-    let reqBodyArray = '*The HTTP request body is required to be an array of objects.*';
-    let reqBodyObject = '*The HTTP request body is required to be an object.*';
 
     let routes = Object.keys(swaggerFile.paths);
     routes.forEach(route => {
@@ -446,19 +436,11 @@ widdershins.convert(swaggerFile, options)
       // console.log('routeContent: ', routeContent.responses['200'].content);
       let routeId = routeContent.operationId;
 
-      let routeStart = () => dirtyMD.indexOf(`<a id="opId${routeId}"></a>`);
-      let routeEnd = () => {
-        let nextOperation = dirtyMD.indexOf(`<a id="opId`, routeStart() + 1);
-        if (nextOperation !== -1) {
-          return nextOperation;
-        }
-        else {
-          return dirtyMD.length;
-        };
-      };
-      // if (routeEnd() === -1) routeEnd() = dirtyMD.length;
+      let routeStart = dirtyMD.indexOf(`<a id="opId${routeId}"></a>`);
+      let routeEnd = dirtyMD.indexOf(`<a id="opId`, routeStart + 1);
+      if (routeEnd === -1) routeEnd = dirtyMD.length;
 
-      mdRouteReplace(`<h3 id="${routeId.toLowerCase()}-responseschema">Response Schema</h3>`, '', routeStart(), routeEnd(), route);
+      mdRouteReplace(`<h3 id="${routeId.toLowerCase()}-responseschema">Response Schema</h3>`, '', routeStart, routeEnd, route);
 
       /***********************
           FORMAT REQUEST
@@ -467,18 +449,18 @@ widdershins.convert(swaggerFile, options)
       // Delete old table
       if (routeRequests[route]) {
 
-        let requestTableStart = dirtyMD.indexOf('|Name|In|Type|Required|Description|', routeStart());
-        mdRouteReplace('|Name|In|Type|Required|Description|', reqTag, routeStart(), routeEnd(), route);
-        mdRouteReplace('|---|---|---|---|---|', '', requestTableStart, routeEnd(), route);
+        let requestTableStart = dirtyMD.indexOf('|Name|In|Type|Required|Description|', routeStart);
+        mdRouteReplace('|Name|In|Type|Required|Description|', reqTag, routeStart, routeEnd, route);
+        mdRouteReplace('|---|---|---|---|---|', '', requestTableStart, routeEnd, route);
 
         if (routeRequests[route].type === 'param') {
           Object.keys(routeRequests[route].schema).forEach(param => {
             let paramName = routeRequests[route].schema[param].name;
-            mdRouteReplace(`|${paramName}|path|any|true|none|`, '', requestTableStart, routeEnd(), route);
+            mdRouteReplace(`|${paramName}|path|any|true|none|`, '', requestTableStart, routeEnd, route);
           });
         }
         else {
-          mdRouteReplace(`|body|body|any|false|${routeRequests[route].description}|`, '', requestTableStart, routeEnd(), route);
+          mdRouteReplace(`|body|body|any|false|${routeRequests[route].description}|`, '', requestTableStart, routeEnd, route);
         };
       }
       else {
@@ -488,36 +470,31 @@ widdershins.convert(swaggerFile, options)
       // Insert new table
       if (routeRequests[route]) {
 
-        if (routeRequests[route].type === 'array') {
-          mdRouteReplace(reqTag, `${reqBodyArray}\n\n${reqTag}`, routeStart(), routeEnd(), route);
-        }
-        else if (routeRequests[route].type === 'object') {
-          mdRouteReplace(reqTag, `${reqBodyObject}\n\n${reqTag}`, routeStart(), routeEnd(), route);
-        };
-
-        mdRouteReplace(reqTag, `|Name|Type|Required|Description|\n${reqTag}`, routeStart(), routeEnd(), route);
-        mdRouteReplace(reqTag, `|---|---|---|---|\n${reqTag}`, routeStart(), routeEnd(), route);
+        mdRouteReplace(reqTag, `|Name|Type|Required|Description|\n${reqTag}`, routeStart, routeEnd, route);
+        mdRouteReplace(reqTag, `|---|---|---|---|\n${reqTag}`, routeStart, routeEnd, route);
 
         if (routeRequests[route].type === 'param') {
           Object.keys(routeRequests[route].schema).forEach(param => {
             prm = routeRequests[route].schema[param];
-            prm.required = prm.required === true ? 'true' : 'false';
+            prm.required = prm.required === true ? 'TRUE' : 'FALSE';
             prm.desc = prm.description ? prm.description : '';
-            mdRouteReplace(reqTag, `|${prm.name}|${prm.type}|${prm.required}|${prm.desc}|\n${reqTag}`, routeStart(), routeEnd(), route);
+            mdRouteReplace(reqTag, `|${prm.name}|${prm.type}|${prm.required}|${prm.desc}|\n${reqTag}`, routeStart, routeEnd, route);
           });
         }
         else {
+          console.log('route: ', route);
           Object.keys(routeRequests[route].schema).forEach(param => {
             prm = routeRequests[route].schema[param];
+            console.log('prm: ', prm);
             prm.name = param;
-            prm.type = prm.type ? capitalize(prm.type) : 'Object';
-            prm.required = prm.required === true ? 'true' : 'false';
+            prm.type = prm.type ? capitalize(prm.type) : 'Any';
+            prm.required = prm.required === true ? 'TRUE' : 'FALSE';
             prm.desc = prm.description ? prm.description : '';
-            mdRouteReplace(reqTag, `|${prm.name}|${prm.type}|${prm.required}|${prm.desc}|\n${reqTag}`, routeStart(), routeEnd(), route);
+            mdRouteReplace(reqTag, `|${prm.name}|${prm.type}|${prm.required}|${prm.desc}|\n${reqTag}`, routeStart, routeEnd, route);
           });
         };
 
-        mdRouteReplace(reqTag, '', routeStart(), routeEnd(), route);
+        mdRouteReplace(reqTag, '', routeStart, routeEnd, route);
       }
 
       /***********************
@@ -525,19 +502,19 @@ widdershins.convert(swaggerFile, options)
       ************************/
 
       // Delete old table
-      let responseTableStart = dirtyMD.indexOf('|Status|Meaning|Description|Schema|', routeStart());
-      mdRouteReplace('|Status|Meaning|Description|Schema|', resTag, routeStart(), routeEnd(), route);
-      mdRouteReplace('|---|---|---|---|', '', responseTableStart, routeEnd(), route);
-      let responseTableEnd = routeResponses[route] ? dirtyMD.indexOf('Inline|', routeStart()) : dirtyMD.indexOf('None|', routeStart());
+      let responseTableStart = dirtyMD.indexOf('|Status|Meaning|Description|Schema|', routeStart);
+      mdRouteReplace('|Status|Meaning|Description|Schema|', resTag, routeStart, routeEnd, route);
+      mdRouteReplace('|---|---|---|---|', '', responseTableStart, routeEnd, route);
+      let responseTableEnd = routeResponses[route] ? dirtyMD.indexOf('Inline|', routeStart) : dirtyMD.indexOf('None|', routeStart);
       let endLength = routeResponses[route] ? 'Inline|'.length : 'None|'.length;
-      let responseLineOk = dirtyMD.slice(dirtyMD.indexOf('|200|', routeStart()), responseTableEnd + endLength);
-      mdRouteReplace(responseLineOk, '', responseTableStart, routeEnd(), route);
+      let responseLineOk = dirtyMD.slice(dirtyMD.indexOf('|200|', routeStart), responseTableEnd + endLength);
+      mdRouteReplace(responseLineOk, '', responseTableStart, routeEnd, route);
 
-      let foundNone = findNone(routeStart(), routeEnd());
-      if (foundNone !== -1) mdRouteReplace('None', '', foundNone, routeEnd(), route);
+      let foundNone = findNone(routeStart, routeEnd);
+      if (foundNone !== -1) mdRouteReplace('None', '', foundNone, routeEnd, route);
 
       let urlRequest = '`' + routeMethods[route].toUpperCase() + ' ' + route + '`';
-      mdRouteReplace(urlRequest, '', routeStart(), routeEnd(), route);
+      mdRouteReplace(urlRequest, '', routeStart, routeEnd, route);
 
       let paramTitle = `<h3 id="${routeId.toLowerCase()}-parameters">Parameters</h3>`;
       let urlRequestTitle = `<h3 id="${routeId.toLowerCase()}-requesturl">HTTP Request</h3>`;
@@ -556,19 +533,19 @@ widdershins.convert(swaggerFile, options)
       else {
         costLine = `*<u>Cost :</u> The processing of each name requires **1** credit.*`
       };
-      mdRouteReplace(paramTitle, `${costLine}\n\n${urlRequestBlock}\n\n${paramTitle}`, routeStart(), routeEnd(), route);
+      mdRouteReplace(paramTitle, `${costLine}\n\n${urlRequestBlock}\n\n${paramTitle}`, routeStart, routeEnd, route);
 
-      mdRouteReplace(contentToSwap[0], '', routeStart(), routeEnd(), route);
-      mdRouteReplace(contentToSwap[1], '', routeStart(), routeEnd(), route);
-      mdRouteReplace(contentToSwap[2], '', routeStart(), routeEnd(), route);
-      mdRouteReplace(contentToSwap[3], '', routeStart(), routeEnd(), route);
+      mdRouteReplace(contentToSwap[0], `OK`, routeStart, routeEnd, route);
+      mdRouteReplace(contentToSwap[1], '', routeStart, routeEnd, route);
+      mdRouteReplace(contentToSwap[2], '', routeStart, routeEnd, route);
+      mdRouteReplace(contentToSwap[3], '', routeStart, routeEnd, route);
 
-      if (routeMethods[route] === 'get') mdRouteReplace('Parameters</h3>', 'Request Parameters</h3>', routeStart(), routeEnd(), route);
-      if (routeMethods[route] === 'post') mdRouteReplace('Parameters</h3>', 'Request Body</h3>', routeStart(), routeEnd(), route);
+      if (routeMethods[route] === 'get') mdRouteReplace('Parameters</h3>', 'Request Parameters</h3>', routeStart, routeEnd, route);
+      if (routeMethods[route] === 'post') mdRouteReplace('Parameters</h3>', 'Request Body</h3>', routeStart, routeEnd, route);
       // Insert space based name
       let spaceNamed = routeId.replace(/-/g, ' ');
-      mdRouteReplace(`## ${routeId}`, `## ${spaceNamed}`, routeStart() - 50, routeEnd(), route);
-      mdRouteReplace('> Code samples', `> **${spaceNamed}** code sample :`, routeStart(), routeEnd(), route);
+      mdRouteReplace(`## ${routeId}`, `## ${spaceNamed}`, routeStart - 50, routeEnd, route);
+      mdRouteReplace('> Code samples', `> **${spaceNamed}** code sample :`, routeStart, routeEnd, route);
     });
 
     ///////////////
@@ -578,6 +555,7 @@ widdershins.convert(swaggerFile, options)
     mdReplace('dec1', '{');
     mdReplace('dec2', '}');
     mdReplace('Responses</h3>', 'Response</h3>');
+    // mdReplace(escapeRegExp('|Inline|'), '|See example|');
     mdReplace('> 200 Response', '');
     let responseTitle = '> The above command returns JSON structured like this:';
     mdReplace('> Example responses', responseTitle);

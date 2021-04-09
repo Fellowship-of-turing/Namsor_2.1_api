@@ -14,4 +14,30 @@
 - L 1044 . missing response OK
 - l3102 . no response schema
 - l3114 . no response schema
+- l3273 . /api2/json/phoneCodeBatch "FirstLastNameOriginedOut" take out nested schema
 - Change order or paths so it is logical and similar get/post routes are close
+- Revise route costs so all have the same format
+- No param for request:
+err route:  /api2/json/softwareVersion
+err route:  /api2/json/namsorCounter
+err route:  /api2/json/billingCurrencies
+err route:  /api2/json/availablePlans
+err route:  /api2/json/apiStatus
+err route:  /api2/json/apiServices
+err route:  /api2/json/stats
+err route:  /api2/json/apiUsage
+err route:  /api2/json/apiUsageHistory
+err route:  /api2/json/apiUsageHistoryAggregate
+err route:  /api2/json/redeployUI
+err route:  /api2/json/invalidateCache
+err route:  /api2/json/shutdown
+err route:  /api2/json/flush
+- Add descriptions to requests
+    "parameters": [
+        {
+            "name": "firstName",
+            "in": "path",
+            "required": true,
+            "description": "testing",
+            "schema": { "type": "string" }
+        },

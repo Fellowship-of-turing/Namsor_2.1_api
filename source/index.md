@@ -43,7 +43,7 @@ Personal names (anthroponyms) : gender, country origin/ethnicity, diaspora, US '
 
 <a id="opIdCountry"></a>
 
-> Country code sample :
+> **Country** code sample :
 
 ```shell
 curl --request GET \
@@ -86,17 +86,22 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/country/{personalNameFull}", 
 
 
 
-*[USES 10 UNITS PER NAME] Infer the likely country of residence of a personal full name, or one surname. Assumes names as they are in the country of residence OR the country of origin.*
+*Infer the likely country of residence of a personal full name, or one surname. Assumes names as they are in the country of residence OR the country of origin.*
 
-<h3 id="country-requesturl">URL</h3>
+*<u>Cost :</u> The processing of each name requires **10** credits.*
+
+<h3 id="country-requesturl">HTTP Request</h3>
 
 `GET https://v2.namsor.com/NamSorAPIv2/api2/json/country/{personalNameFull}`
 
-<h3 id="country-parameters">Parameters</h3>
+<h3 id="country-parameters">Request Parameters</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|personalNameFull|path|any|true|none|
+|Name|Type|Required|Description|
+|---|---|---|---|
+|personalNameFull|String|true||
+
+
+
 
 > The above command returns JSON structured like this:
 
@@ -118,13 +123,11 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/country/{personalNameFull}", 
 }
 ```
 
-<h3 id="country-responses">Responses</h3>
+<h3 id="country-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|A origined name.|Inline|
-|401|Unauthorized|Missing or incorrect API Key|None|
-|403|Forbidden|API Limit Reached or API Key Disabled|None|
+!{response-table-tag}
+
+
 
 
 
@@ -137,7 +140,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/country/{personalNameFull}", 
 
 <a id="opIdOrigin"></a>
 
-> Origin code sample :
+> **Origin** code sample :
 
 ```shell
 curl --request GET \
@@ -180,18 +183,24 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/origin/{firstName}/{lastName}
 
 
 
-*[USES 10 UNITS PER NAME] Infer the likely country of origin of a personal name. Assumes names as they are in the country of origin. For US, CA, AU, NZ and other melting-pots : use 'diaspora' instead.*
+*Infer the likely country of origin of a personal name. Assumes names as they are in the country of origin. For US, CA, AU, NZ and other melting-pots : use 'diaspora' instead.*
 
-<h3 id="origin-requesturl">URL</h3>
+*<u>Cost :</u> The processing of each name requires **10** credits.*
+
+<h3 id="origin-requesturl">HTTP Request</h3>
 
 `GET https://v2.namsor.com/NamSorAPIv2/api2/json/origin/{firstName}/{lastName}`
 
-<h3 id="origin-parameters">Parameters</h3>
+<h3 id="origin-parameters">Request Parameters</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|firstName|path|any|true|none|
-|lastName|path|any|true|none|
+|Name|Type|Required|Description|
+|---|---|---|---|
+|firstName|String|true||
+|lastName|String|true||
+
+
+
+
 
 > The above command returns JSON structured like this:
 
@@ -214,13 +223,11 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/origin/{firstName}/{lastName}
 }
 ```
 
-<h3 id="origin-responses">Responses</h3>
+<h3 id="origin-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|A origined name.|Inline|
-|401|Unauthorized|Missing or incorrect API Key|None|
-|403|Forbidden|API Limit Reached or API Key Disabled|None|
+!{response-table-tag}
+
+
 
 
 
@@ -233,7 +240,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/origin/{firstName}/{lastName}
 
 <a id="opIdGender"></a>
 
-> Gender code sample :
+> **Gender** code sample :
 
 ```shell
 curl --request GET \
@@ -278,16 +285,22 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/gender/{firstName}/{lastName}
 
 *Infer the likely gender of a name.*
 
-<h3 id="gender-requesturl">URL</h3>
+*<u>Cost :</u> The processing of each name requires **1** credit.*
+
+<h3 id="gender-requesturl">HTTP Request</h3>
 
 `GET https://v2.namsor.com/NamSorAPIv2/api2/json/gender/{firstName}/{lastName}`
 
-<h3 id="gender-parameters">Parameters</h3>
+<h3 id="gender-parameters">Request Parameters</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|firstName|path|any|true|none|
-|lastName|path|any|true|none|
+|Name|Type|Required|Description|
+|---|---|---|---|
+|firstName|String|true||
+|lastName|String|true||
+
+
+
+
 
 > The above command returns JSON structured like this:
 
@@ -305,13 +318,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/gender/{firstName}/{lastName}
 }
 ```
 
-<h3 id="gender-responses">Responses</h3>
+<h3 id="gender-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|A genderized name.|Inline|
-|401|Unauthorized|Missing or incorrect API Key|None|
-|403|Forbidden|API Limit Reached or API Key Disabled|None|
+!{response-table-tag}
 
 
 
@@ -320,11 +329,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/gender/{firstName}/{lastName}
 
 
 
-## Gender-Geo
+
+
+## Gender Geo
 
 <a id="opIdGender-Geo"></a>
 
-> Gender-Geo code sample :
+> **Gender Geo** code sample :
 
 ```shell
 curl --request GET \
@@ -369,17 +380,24 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderGeo/{firstName}/{lastNa
 
 *Infer the likely gender of a name, given a local context (ISO2 country code).*
 
-<h3 id="gender-geo-requesturl">URL</h3>
+*<u>Cost :</u> The processing of each name requires **1** credit.*
+
+<h3 id="gender-geo-requesturl">HTTP Request</h3>
 
 `GET https://v2.namsor.com/NamSorAPIv2/api2/json/genderGeo/{firstName}/{lastName}/{countryIso2}`
 
-<h3 id="gender-geo-parameters">Parameters</h3>
+<h3 id="gender-geo-parameters">Request Parameters</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|firstName|path|any|true|none|
-|lastName|path|any|true|none|
-|countryIso2|path|any|true|none|
+|Name|Type|Required|Description|
+|---|---|---|---|
+|firstName|String|true||
+|lastName|String|true||
+|countryIso2|String|true||
+
+
+
+
+
 
 > The above command returns JSON structured like this:
 
@@ -397,13 +415,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderGeo/{firstName}/{lastNa
 }
 ```
 
-<h3 id="gender-geo-responses">Responses</h3>
+<h3 id="gender-geo-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|A genderized name.|Inline|
-|401|Unauthorized|Missing or incorrect API Key|None|
-|403|Forbidden|API Limit Reached or API Key Disabled|None|
+!{response-table-tag}
 
 
 
@@ -412,11 +426,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderGeo/{firstName}/{lastNa
 
 
 
-## Gender-Geo-Batch
+
+
+## Gender Geo Batch
 
 <a id="opIdGender-Geo-Batch"></a>
 
-> Gender-Geo-Batch code sample :
+> **Gender Geo Batch** code sample :
 
 ```shell
 curl --request POST \
@@ -491,15 +507,25 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderGeoBatch", {
 ]
 ```
 
-<h3 id="gender-geo-batch-requesturl">URL</h3>
+*<u>Cost :</u> The processing of each name requires **1** credit.*
+
+<h3 id="gender-geo-batch-requesturl">HTTP Request</h3>
 
 `POST https://v2.namsor.com/NamSorAPIv2/api2/json/genderGeoBatch`
 
-<h3 id="gender-geo-batch-parameters">Parameters</h3>
+<h3 id="gender-geo-batch-parameters">Request Body</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|body|body|any|false|A list of names, with country code.|
+*The HTTP request body is required to be an array of objects.*
+
+|Name|Type|Required|Description|
+|---|---|---|---|
+|id|String|false||
+|firstName|String|false||
+|lastName|String|false||
+|countryIso2|String|false||
+
+
+
 
 > The above command returns JSON structured like this:
 
@@ -519,13 +545,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderGeoBatch", {
 ]
 ```
 
-<h3 id="gender-geo-batch-responses">Responses</h3>
+<h3 id="gender-geo-batch-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|A list of genderized names.|Inline|
-|401|Unauthorized|Missing or incorrect API Key|None|
-|403|Forbidden|API Limit Reached or API Key Disabled|None|
+!{response-table-tag}
 
 
 
@@ -534,11 +556,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderGeoBatch", {
 
 
 
-## Gender-Batch
+
+
+## Gender Batch
 
 <a id="opIdGender-Batch"></a>
 
-> Gender-Batch code sample :
+> **Gender Batch** code sample :
 
 ```shell
 curl --request POST \
@@ -611,15 +635,24 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderBatch", {
 ]
 ```
 
-<h3 id="gender-batch-requesturl">URL</h3>
+*<u>Cost :</u> The processing of each name requires **1** credit.*
+
+<h3 id="gender-batch-requesturl">HTTP Request</h3>
 
 `POST https://v2.namsor.com/NamSorAPIv2/api2/json/genderBatch`
 
-<h3 id="gender-batch-parameters">Parameters</h3>
+<h3 id="gender-batch-parameters">Request Body</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|body|body|any|false|A list of personal names|
+*The HTTP request body is required to be an array of objects.*
+
+|Name|Type|Required|Description|
+|---|---|---|---|
+|id|String|false||
+|firstName|String|false||
+|lastName|String|false||
+
+
+
 
 > The above command returns JSON structured like this:
 
@@ -639,13 +672,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderBatch", {
 ]
 ```
 
-<h3 id="gender-batch-responses">Responses</h3>
+<h3 id="gender-batch-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|A list of genderized names.|Inline|
-|401|Unauthorized|Missing or incorrect API Key|None|
-|403|Forbidden|API Limit Reached or API Key Disabled|None|
+!{response-table-tag}
 
 
 
@@ -654,11 +683,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderBatch", {
 
 
 
-## Parsed-Gender-Batch
+
+
+## Parsed Gender Batch
 
 <a id="opIdParsed-Gender-Batch"></a>
 
-> Parsed-Gender-Batch code sample :
+> **Parsed Gender Batch** code sample :
 
 ```shell
 curl --request POST \
@@ -737,15 +768,27 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parsedGenderBatch", {
 ]
 ```
 
-<h3 id="parsed-gender-batch-requesturl">URL</h3>
+*<u>Cost :</u> The processing of each name requires **1** credit.*
+
+<h3 id="parsed-gender-batch-requesturl">HTTP Request</h3>
 
 `POST https://v2.namsor.com/NamSorAPIv2/api2/json/parsedGenderBatch`
 
-<h3 id="parsed-gender-batch-parameters">Parameters</h3>
+<h3 id="parsed-gender-batch-parameters">Request Body</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|body|body|any|false|A list of personal names|
+*The HTTP request body is required to be an array of objects.*
+
+|Name|Type|Required|Description|
+|---|---|---|---|
+|id|String|false||
+|firstName|String|false||
+|lastName|String|false||
+|prefixOrTitle|String|false||
+|suffix|String|false||
+|middleName|String|false||
+
+
+
 
 > The above command returns JSON structured like this:
 
@@ -765,13 +808,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parsedGenderBatch", {
 ]
 ```
 
-<h3 id="parsed-gender-batch-responses">Responses</h3>
+<h3 id="parsed-gender-batch-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|A list of genderized names.|Inline|
-|401|Unauthorized|Missing or incorrect API Key|None|
-|403|Forbidden|API Limit Reached or API Key Disabled|None|
+!{response-table-tag}
 
 
 
@@ -780,11 +819,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parsedGenderBatch", {
 
 
 
-## Parsed-Gender-Geo-Batch
+
+
+## Parsed Gender Geo Batch
 
 <a id="opIdParsed-Gender-Geo-Batch"></a>
 
-> Parsed-Gender-Geo-Batch code sample :
+> **Parsed Gender Geo Batch** code sample :
 
 ```shell
 curl --request POST \
@@ -865,15 +906,28 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parsedGenderGeoBatch", {
 ]
 ```
 
-<h3 id="parsed-gender-geo-batch-requesturl">URL</h3>
+*<u>Cost :</u> The processing of each name requires **1** credit.*
+
+<h3 id="parsed-gender-geo-batch-requesturl">HTTP Request</h3>
 
 `POST https://v2.namsor.com/NamSorAPIv2/api2/json/parsedGenderGeoBatch`
 
-<h3 id="parsed-gender-geo-batch-parameters">Parameters</h3>
+<h3 id="parsed-gender-geo-batch-parameters">Request Body</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|body|body|any|false|A list of personal names|
+*The HTTP request body is required to be an array of objects.*
+
+|Name|Type|Required|Description|
+|---|---|---|---|
+|id|String|false||
+|firstName|String|false||
+|lastName|String|false||
+|prefixOrTitle|String|false||
+|suffix|String|false||
+|middleName|String|false||
+|countryIso2|String|false||
+
+
+
 
 > The above command returns JSON structured like this:
 
@@ -893,13 +947,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parsedGenderGeoBatch", {
 ]
 ```
 
-<h3 id="parsed-gender-geo-batch-responses">Responses</h3>
+<h3 id="parsed-gender-geo-batch-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|A list of genderized names.|Inline|
-|401|Unauthorized|Missing or incorrect API Key|None|
-|403|Forbidden|API Limit Reached or API Key Disabled|None|
+!{response-table-tag}
 
 
 
@@ -908,11 +958,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parsedGenderGeoBatch", {
 
 
 
-## Gender-Full-Geo
+
+
+## Gender Full Geo
 
 <a id="opIdGender-Full-Geo"></a>
 
-> Gender-Full-Geo code sample :
+> **Gender Full Geo** code sample :
 
 ```shell
 curl --request GET \
@@ -957,16 +1009,22 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderFullGeo/{fullName}/{cou
 
 *Infer the likely gender of a full name, given a local context (ISO2 country code).*
 
-<h3 id="gender-full-geo-requesturl">URL</h3>
+*<u>Cost :</u> The processing of each name requires **1** credit.*
+
+<h3 id="gender-full-geo-requesturl">HTTP Request</h3>
 
 `GET https://v2.namsor.com/NamSorAPIv2/api2/json/genderFullGeo/{fullName}/{countryIso2}`
 
-<h3 id="gender-full-geo-parameters">Parameters</h3>
+<h3 id="gender-full-geo-parameters">Request Parameters</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|fullName|path|any|true|none|
-|countryIso2|path|any|true|none|
+|Name|Type|Required|Description|
+|---|---|---|---|
+|fullName|String|true||
+|countryIso2|String|true||
+
+
+
+
 
 > The above command returns JSON structured like this:
 
@@ -983,13 +1041,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderFullGeo/{fullName}/{cou
 }
 ```
 
-<h3 id="gender-full-geo-responses">Responses</h3>
+<h3 id="gender-full-geo-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|A genderized name.|Inline|
-|401|Unauthorized|Missing or incorrect API Key|None|
-|403|Forbidden|API Limit Reached or API Key Disabled|None|
+!{response-table-tag}
 
 
 
@@ -998,11 +1052,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderFullGeo/{fullName}/{cou
 
 
 
-## Gender-Full
+
+
+## Gender Full
 
 <a id="opIdGender-Full"></a>
 
-> Gender-Full code sample :
+> **Gender Full** code sample :
 
 ```shell
 curl --request GET \
@@ -1047,15 +1103,20 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderFull/{fullName}", {
 
 *Infer the likely gender of a full name, ex. John H. Smith*
 
-<h3 id="gender-full-requesturl">URL</h3>
+*<u>Cost :</u> The processing of each name requires **1** credit.*
+
+<h3 id="gender-full-requesturl">HTTP Request</h3>
 
 `GET https://v2.namsor.com/NamSorAPIv2/api2/json/genderFull/{fullName}`
 
-<h3 id="gender-full-parameters">Parameters</h3>
+<h3 id="gender-full-parameters">Request Parameters</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|fullName|path|any|true|none|
+|Name|Type|Required|Description|
+|---|---|---|---|
+|fullName|String|true||
+
+
+
 
 > The above command returns JSON structured like this:
 
@@ -1072,13 +1133,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderFull/{fullName}", {
 }
 ```
 
-<h3 id="gender-full-responses">Responses</h3>
+<h3 id="gender-full-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|A genderized name.|Inline|
-|401|Unauthorized|Missing or incorrect API Key|None|
-|403|Forbidden|API Limit Reached or API Key Disabled|None|
+!{response-table-tag}
 
 
 
@@ -1087,11 +1144,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderFull/{fullName}", {
 
 
 
-## Gender-Full-Batch
+
+
+## Gender Full Batch
 
 <a id="opIdGender-Full-Batch"></a>
 
-> Gender-Full-Batch code sample :
+> **Gender Full Batch** code sample :
 
 ```shell
 curl --request POST \
@@ -1162,15 +1221,23 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderFullBatch", {
 ]
 ```
 
-<h3 id="gender-full-batch-requesturl">URL</h3>
+*<u>Cost :</u> The processing of each name requires **1** credit.*
+
+<h3 id="gender-full-batch-requesturl">HTTP Request</h3>
 
 `POST https://v2.namsor.com/NamSorAPIv2/api2/json/genderFullBatch`
 
-<h3 id="gender-full-batch-parameters">Parameters</h3>
+<h3 id="gender-full-batch-parameters">Request Body</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|body|body|any|false|A list of personal names|
+*The HTTP request body is required to be an array of objects.*
+
+|Name|Type|Required|Description|
+|---|---|---|---|
+|id|String|false||
+|name|String|false||
+
+
+
 
 > The above command returns JSON structured like this:
 
@@ -1189,13 +1256,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderFullBatch", {
 ]
 ```
 
-<h3 id="gender-full-batch-responses">Responses</h3>
+<h3 id="gender-full-batch-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|A list of genderized names.|Inline|
-|401|Unauthorized|Missing or incorrect API Key|None|
-|403|Forbidden|API Limit Reached or API Key Disabled|None|
+!{response-table-tag}
 
 
 
@@ -1204,11 +1267,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderFullBatch", {
 
 
 
-## Gender-Full-Geo-Batch
+
+
+## Gender Full Geo Batch
 
 <a id="opIdGender-Full-Geo-Batch"></a>
 
-> Gender-Full-Geo-Batch code sample :
+> **Gender Full Geo Batch** code sample :
 
 ```shell
 curl --request POST \
@@ -1281,15 +1346,24 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderFullGeoBatch", {
 ]
 ```
 
-<h3 id="gender-full-geo-batch-requesturl">URL</h3>
+*<u>Cost :</u> The processing of each name requires **1** credit.*
+
+<h3 id="gender-full-geo-batch-requesturl">HTTP Request</h3>
 
 `POST https://v2.namsor.com/NamSorAPIv2/api2/json/genderFullGeoBatch`
 
-<h3 id="gender-full-geo-batch-parameters">Parameters</h3>
+<h3 id="gender-full-geo-batch-parameters">Request Body</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|body|body|any|false|A list of personal names, with a country ISO2 code|
+*The HTTP request body is required to be an array of objects.*
+
+|Name|Type|Required|Description|
+|---|---|---|---|
+|id|String|false||
+|name|String|false||
+|countryIso2|String|false||
+
+
+
 
 > The above command returns JSON structured like this:
 
@@ -1308,13 +1382,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderFullGeoBatch", {
 ]
 ```
 
-<h3 id="gender-full-geo-batch-responses">Responses</h3>
+<h3 id="gender-full-geo-batch-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|A list of genderized names.|Inline|
-|401|Unauthorized|Missing or incorrect API Key|None|
-|403|Forbidden|API Limit Reached or API Key Disabled|None|
+!{response-table-tag}
 
 
 
@@ -1323,11 +1393,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderFullGeoBatch", {
 
 
 
-## Origin-Batch
+
+
+## Origin Batch
 
 <a id="opIdOrigin-Batch"></a>
 
-> Origin-Batch code sample :
+> **Origin Batch** code sample :
 
 ```shell
 curl --request POST \
@@ -1386,7 +1458,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/originBatch", {
 
 
 
-*[USES 10 UNITS PER NAME] Infer the likely country of origin of up to 100 names, detecting automatically the cultural context.*
+*Infer the likely country of origin of up to 100 names, detecting automatically the cultural context.*
 
 > Body parameter
 
@@ -1400,15 +1472,24 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/originBatch", {
 ]
 ```
 
-<h3 id="origin-batch-requesturl">URL</h3>
+*<u>Cost :</u> The processing of each name requires **10** credits.*
+
+<h3 id="origin-batch-requesturl">HTTP Request</h3>
 
 `POST https://v2.namsor.com/NamSorAPIv2/api2/json/originBatch`
 
-<h3 id="origin-batch-parameters">Parameters</h3>
+<h3 id="origin-batch-parameters">Request Body</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|body|body|any|false|A list of personal names|
+*The HTTP request body is required to be an array of objects.*
+
+|Name|Type|Required|Description|
+|---|---|---|---|
+|id|String|false||
+|firstName|String|false||
+|lastName|String|false||
+
+
+
 
 > The above command returns JSON structured like this:
 
@@ -1433,13 +1514,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/originBatch", {
 ]
 ```
 
-<h3 id="origin-batch-responses">Responses</h3>
+<h3 id="origin-batch-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|A list of genderized names.|Inline|
-|401|Unauthorized|Missing or incorrect API Key|None|
-|403|Forbidden|API Limit Reached or API Key Disabled|None|
+!{response-table-tag}
 
 
 
@@ -1448,11 +1525,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/originBatch", {
 
 
 
-## Country-Batch
+
+
+## Country Batch
 
 <a id="opIdCountry-Batch"></a>
 
-> Country-Batch code sample :
+> **Country Batch** code sample :
 
 ```shell
 curl --request POST \
@@ -1510,7 +1589,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/countryBatch", {
 
 
 
-*[USES 10 UNITS PER NAME] Infer the likely country of residence of up to 100 personal full names, or surnames. Assumes names as they are in the country of residence OR the country of origin.*
+*Infer the likely country of residence of up to 100 personal full names, or surnames. Assumes names as they are in the country of residence OR the country of origin.*
 
 > Body parameter
 
@@ -1523,15 +1602,23 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/countryBatch", {
 ]
 ```
 
-<h3 id="country-batch-requesturl">URL</h3>
+*<u>Cost :</u> The processing of each name requires **10** credits.*
+
+<h3 id="country-batch-requesturl">HTTP Request</h3>
 
 `POST https://v2.namsor.com/NamSorAPIv2/api2/json/countryBatch`
 
-<h3 id="country-batch-parameters">Parameters</h3>
+<h3 id="country-batch-parameters">Request Body</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|body|body|any|false|A list of personal names|
+*The HTTP request body is required to be an array of objects.*
+
+|Name|Type|Required|Description|
+|---|---|---|---|
+|id|String|false||
+|name|String|false||
+
+
+
 
 > The above command returns JSON structured like this:
 
@@ -1555,13 +1642,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/countryBatch", {
 ]
 ```
 
-<h3 id="country-batch-responses">Responses</h3>
+<h3 id="country-batch-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|A list of genderized names.|Inline|
-|401|Unauthorized|Missing or incorrect API Key|None|
-|403|Forbidden|API Limit Reached or API Key Disabled|None|
+!{response-table-tag}
 
 
 
@@ -1570,11 +1653,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/countryBatch", {
 
 
 
-## US-Race-&-Ethnicity
 
-<a id="opIdUS-Race-&-Ethnicity"></a>
 
-> US-Race-&-Ethnicity code sample :
+## US Race and Ethnicity
+
+<a id="opIdUS-Race-and-Ethnicity"></a>
+
+> **US Race and Ethnicity** code sample :
 
 ```shell
 curl --request GET \
@@ -1617,18 +1702,24 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/usRaceEthnicity/{firstName}/{
 
 
 
-*[USES 10 UNITS PER NAME] Infer a US resident's likely race/ethnicity according to US Census taxonomy W_NL (white, non latino), HL (hispano latino),  A (asian, non latino), B_NL (black, non latino).*
+*Infer a US resident's likely race/ethnicity according to US Census taxonomy W_NL (white, non latino), HL (hispano latino),  A (asian, non latino), B_NL (black, non latino).*
 
-<h3 id="us-race-&-ethnicity-requesturl">URL</h3>
+*<u>Cost :</u> The processing of each name requires **10** credits.*
+
+<h3 id="us-race-and-ethnicity-requesturl">HTTP Request</h3>
 
 `GET https://v2.namsor.com/NamSorAPIv2/api2/json/usRaceEthnicity/{firstName}/{lastName}`
 
-<h3 id="us-race-&-ethnicity-parameters">Parameters</h3>
+<h3 id="us-race-and-ethnicity-parameters">Request Parameters</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|firstName|path|any|true|none|
-|lastName|path|any|true|none|
+|Name|Type|Required|Description|
+|---|---|---|---|
+|firstName|String|true||
+|lastName|String|true||
+
+
+
+
 
 > The above command returns JSON structured like this:
 
@@ -1648,13 +1739,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/usRaceEthnicity/{firstName}/{
 }
 ```
 
-<h3 id="us-race-&-ethnicity-responses">Responses</h3>
+<h3 id="us-race-and-ethnicity-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|a US resident's likely race/ethnicity : W_NL (white, non latino), HL (hispano latino),  A (asian, non latino), B_NL (black, non latino).|Inline|
-|401|Unauthorized|Missing or incorrect API Key|None|
-|403|Forbidden|API Limit Reached or API Key Disabled|None|
+!{response-table-tag}
 
 
 
@@ -1663,11 +1750,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/usRaceEthnicity/{firstName}/{
 
 
 
-## US-Zip-Race-&-Ethnicity
 
-<a id="opIdUS-Zip-Race-&-Ethnicity"></a>
 
-> US-Zip-Race-&-Ethnicity code sample :
+## US ZIP Race and Ethnicity
+
+<a id="opIdUS-ZIP-Race-and-Ethnicity"></a>
+
+> **US ZIP Race and Ethnicity** code sample :
 
 ```shell
 curl --request GET \
@@ -1710,19 +1799,26 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/usRaceEthnicityZIP5/{firstNam
 
 
 
-*[USES 10 UNITS PER NAME] Infer a US resident's likely race/ethnicity according to US Census taxonomy, using (optional) ZIP5 code info. Output is W_NL (white, non latino), HL (hispano latino),  A (asian, non latino), B_NL (black, non latino).*
+*Infer a US resident's likely race/ethnicity according to US Census taxonomy, using (optional) ZIP5 code info. Output is W_NL (white, non latino), HL (hispano latino),  A (asian, non latino), B_NL (black, non latino).*
 
-<h3 id="us-zip-race-&-ethnicity-requesturl">URL</h3>
+*<u>Cost :</u> The processing of each name requires **10** credits.*
+
+<h3 id="us-zip-race-and-ethnicity-requesturl">HTTP Request</h3>
 
 `GET https://v2.namsor.com/NamSorAPIv2/api2/json/usRaceEthnicityZIP5/{firstName}/{lastName}/{zip5Code}`
 
-<h3 id="us-zip-race-&-ethnicity-parameters">Parameters</h3>
+<h3 id="us-zip-race-and-ethnicity-parameters">Request Parameters</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|firstName|path|any|true|none|
-|lastName|path|any|true|none|
-|zip5Code|path|any|true|none|
+|Name|Type|Required|Description|
+|---|---|---|---|
+|firstName|String|true||
+|lastName|String|true||
+|zip5Code|String|true||
+
+
+
+
+
 
 > The above command returns JSON structured like this:
 
@@ -1742,13 +1838,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/usRaceEthnicityZIP5/{firstNam
 }
 ```
 
-<h3 id="us-zip-race-&-ethnicity-responses">Responses</h3>
+<h3 id="us-zip-race-and-ethnicity-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|a US resident's likely race/ethnicity : W_NL (white, non latino), HL (hispano latino),  A (asian, non latino), B_NL (black, non latino).|Inline|
-|401|Unauthorized|Missing or incorrect API Key|None|
-|403|Forbidden|API Limit Reached or API Key Disabled|None|
+!{response-table-tag}
 
 
 
@@ -1757,11 +1849,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/usRaceEthnicityZIP5/{firstNam
 
 
 
-## US-Race-&-Ethnicity-Batch
 
-<a id="opIdUS-Race-&-Ethnicity-Batch"></a>
 
-> US-Race-&-Ethnicity-Batch code sample :
+## US Race and Ethnicity Batch
+
+<a id="opIdUS-Race-and-Ethnicity-Batch"></a>
+
+> **US Race and Ethnicity Batch** code sample :
 
 ```shell
 curl --request POST \
@@ -1821,7 +1915,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/usRaceEthnicityBatch", {
 
 
 
-*[USES 10 UNITS PER NAME] Infer up-to 100 US resident's likely race/ethnicity according to US Census taxonomy.*
+*Infer up-to 100 US resident's likely race/ethnicity according to US Census taxonomy.*
 
 > Body parameter
 
@@ -1836,15 +1930,25 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/usRaceEthnicityBatch", {
 ]
 ```
 
-<h3 id="us-race-&-ethnicity-batch-requesturl">URL</h3>
+*<u>Cost :</u> The processing of each name requires **10** credits.*
+
+<h3 id="us-race-and-ethnicity-batch-requesturl">HTTP Request</h3>
 
 `POST https://v2.namsor.com/NamSorAPIv2/api2/json/usRaceEthnicityBatch`
 
-<h3 id="us-race-&-ethnicity-batch-parameters">Parameters</h3>
+<h3 id="us-race-and-ethnicity-batch-parameters">Request Body</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|body|body|any|false|A list of personal names|
+*The HTTP request body is required to be an array of objects.*
+
+|Name|Type|Required|Description|
+|---|---|---|---|
+|id|String|false||
+|firstName|String|false||
+|lastName|String|false||
+|countryIso2|String|false||
+
+
+
 
 > The above command returns JSON structured like this:
 
@@ -1866,13 +1970,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/usRaceEthnicityBatch", {
 ]
 ```
 
-<h3 id="us-race-&-ethnicity-batch-responses">Responses</h3>
+<h3 id="us-race-and-ethnicity-batch-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|A list of US resident's likely race/ethnicity. W_NL (white, non latino), HL (hispano latino),  A (asian, non latino), B_NL (black, non latino).|Inline|
-|401|Unauthorized|Missing or incorrect API Key|None|
-|403|Forbidden|API Limit Reached or API Key Disabled|None|
+!{response-table-tag}
 
 
 
@@ -1881,11 +1981,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/usRaceEthnicityBatch", {
 
 
 
-## US-Zip-Race-&-Ethnicity-Batch
 
-<a id="opIdUS-Zip-Race-&-Ethnicity-Batch"></a>
 
-> US-Zip-Race-&-Ethnicity-Batch code sample :
+## US ZIP Race and Ethnicity Batch
+
+<a id="opIdUS-ZIP-Race-and-Ethnicity-Batch"></a>
+
+> **US ZIP Race and Ethnicity Batch** code sample :
 
 ```shell
 curl --request POST \
@@ -1946,7 +2048,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/usZipRaceEthnicityBatch", {
 
 
 
-*[USES 10 UNITS PER NAME] Infer up-to 100 US resident's likely race/ethnicity according to US Census taxonomy, with (optional) ZIP code.*
+*Infer up-to 100 US resident's likely race/ethnicity according to US Census taxonomy, with (optional) ZIP code.*
 
 > Body parameter
 
@@ -1962,15 +2064,26 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/usZipRaceEthnicityBatch", {
 ]
 ```
 
-<h3 id="us-zip-race-&-ethnicity-batch-requesturl">URL</h3>
+*<u>Cost :</u> The processing of each name requires **10** credits.*
+
+<h3 id="us-zip-race-and-ethnicity-batch-requesturl">HTTP Request</h3>
 
 `POST https://v2.namsor.com/NamSorAPIv2/api2/json/usZipRaceEthnicityBatch`
 
-<h3 id="us-zip-race-&-ethnicity-batch-parameters">Parameters</h3>
+<h3 id="us-zip-race-and-ethnicity-batch-parameters">Request Body</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|body|body|any|false|A list of personal names|
+*The HTTP request body is required to be an array of objects.*
+
+|Name|Type|Required|Description|
+|---|---|---|---|
+|id|String|false||
+|firstName|String|false||
+|lastName|String|false||
+|countryIso2|String|false||
+|zipCode|String|false||
+
+
+
 
 > The above command returns JSON structured like this:
 
@@ -1992,13 +2105,11 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/usZipRaceEthnicityBatch", {
 ]
 ```
 
-<h3 id="us-zip-race-&-ethnicity-batch-responses">Responses</h3>
+<h3 id="us-zip-race-and-ethnicity-batch-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|A list of US resident's likely race/ethnicity. W_NL (white, non latino), HL (hispano latino),  A (asian, non latino), B_NL (black, non latino).|Inline|
-|401|Unauthorized|Missing or incorrect API Key|None|
-|403|Forbidden|API Limit Reached or API Key Disabled|None|
+!{response-table-tag}
+
+
 
 
 
@@ -2011,7 +2122,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/usZipRaceEthnicityBatch", {
 
 <a id="opIdDiaspora"></a>
 
-> Diaspora code sample :
+> **Diaspora** code sample :
 
 ```shell
 curl --request GET \
@@ -2054,19 +2165,26 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/diaspora/{countryIso2}/{first
 
 
 
-*[USES 20 UNITS PER NAME] Infer the likely ethnicity/diaspora of a personal name, given a country of residence ISO2 code (ex. US, CA, AU, NZ etc.)*
+*Infer the likely ethnicity/diaspora of a personal name, given a country of residence ISO2 code (ex. US, CA, AU, NZ etc.)*
 
-<h3 id="diaspora-requesturl">URL</h3>
+*<u>Cost :</u> The processing of each name requires **20** credits.*
+
+<h3 id="diaspora-requesturl">HTTP Request</h3>
 
 `GET https://v2.namsor.com/NamSorAPIv2/api2/json/diaspora/{countryIso2}/{firstName}/{lastName}`
 
-<h3 id="diaspora-parameters">Parameters</h3>
+<h3 id="diaspora-parameters">Request Parameters</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|countryIso2|path|any|true|none|
-|firstName|path|any|true|none|
-|lastName|path|any|true|none|
+|Name|Type|Required|Description|
+|---|---|---|---|
+|countryIso2|String|true||
+|firstName|String|true||
+|lastName|String|true||
+
+
+
+
+
 
 > The above command returns JSON structured like this:
 
@@ -2086,13 +2204,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/diaspora/{countryIso2}/{first
 }
 ```
 
-<h3 id="diaspora-responses">Responses</h3>
+<h3 id="diaspora-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|A diaspora / ethnicity for given name and geography.|Inline|
-|401|Unauthorized|Missing or incorrect API Key|None|
-|403|Forbidden|API Limit Reached or API Key Disabled|None|
+!{response-table-tag}
 
 
 
@@ -2101,11 +2215,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/diaspora/{countryIso2}/{first
 
 
 
-## Diaspora-Batch
+
+
+## Diaspora Batch
 
 <a id="opIdDiaspora-Batch"></a>
 
-> Diaspora-Batch code sample :
+> **Diaspora Batch** code sample :
 
 ```shell
 curl --request POST \
@@ -2165,7 +2281,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/diasporaBatch", {
 
 
 
-*[USES 20 UNITS PER NAME] Infer the likely ethnicity/diaspora of up to 100 personal names, given a country of residence ISO2 code (ex. US, CA, AU, NZ etc.)*
+*Infer the likely ethnicity/diaspora of up to 100 personal names, given a country of residence ISO2 code (ex. US, CA, AU, NZ etc.)*
 
 > Body parameter
 
@@ -2180,15 +2296,25 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/diasporaBatch", {
 ]
 ```
 
-<h3 id="diaspora-batch-requesturl">URL</h3>
+*<u>Cost :</u> The processing of each name requires **20** credits.*
+
+<h3 id="diaspora-batch-requesturl">HTTP Request</h3>
 
 `POST https://v2.namsor.com/NamSorAPIv2/api2/json/diasporaBatch`
 
-<h3 id="diaspora-batch-parameters">Parameters</h3>
+<h3 id="diaspora-batch-parameters">Request Body</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|body|body|any|false|A list of personal names|
+*The HTTP request body is required to be an array of objects.*
+
+|Name|Type|Required|Description|
+|---|---|---|---|
+|id|String|false||
+|firstName|String|false||
+|lastName|String|false||
+|countryIso2|String|false||
+
+
+
 
 > The above command returns JSON structured like this:
 
@@ -2210,13 +2336,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/diasporaBatch", {
 ]
 ```
 
-<h3 id="diaspora-batch-responses">Responses</h3>
+<h3 id="diaspora-batch-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|A list of diaspora / ethnicity given a name and residency.|Inline|
-|401|Unauthorized|Missing or incorrect API Key|None|
-|403|Forbidden|API Limit Reached or API Key Disabled|None|
+!{response-table-tag}
 
 
 
@@ -2225,11 +2347,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/diasporaBatch", {
 
 
 
-## Parse-Name-Geo
+
+
+## Parse Name Geo
 
 <a id="opIdParse-Name-Geo"></a>
 
-> Parse-Name-Geo code sample :
+> **Parse Name Geo** code sample :
 
 ```shell
 curl --request GET \
@@ -2274,16 +2398,22 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseName/{nameFull}/{country
 
 *Infer the likely first/last name structure of a name, ex. John Smith or SMITH, John or SMITH; John. For better accuracy, provide a geographic context.*
 
-<h3 id="parse-name-geo-requesturl">URL</h3>
+*<u>Cost :</u> The processing of each name requires **1** credit.*
+
+<h3 id="parse-name-geo-requesturl">HTTP Request</h3>
 
 `GET https://v2.namsor.com/NamSorAPIv2/api2/json/parseName/{nameFull}/{countryIso2}`
 
-<h3 id="parse-name-geo-parameters">Parameters</h3>
+<h3 id="parse-name-geo-parameters">Request Parameters</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|nameFull|path|any|true|none|
-|countryIso2|path|any|true|none|
+|Name|Type|Required|Description|
+|---|---|---|---|
+|nameFull|String|true||
+|countryIso2|String|true||
+
+
+
+
 
 > The above command returns JSON structured like this:
 
@@ -2299,13 +2429,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseName/{nameFull}/{country
 }
 ```
 
-<h3 id="parse-name-geo-responses">Responses</h3>
+<h3 id="parse-name-geo-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|A origined name.|Inline|
-|401|Unauthorized|Missing or incorrect API Key|None|
-|403|Forbidden|API Limit Reached or API Key Disabled|None|
+!{response-table-tag}
 
 
 
@@ -2314,11 +2440,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseName/{nameFull}/{country
 
 
 
-## Parse-Name-Batch
+
+
+## Parse Name Batch
 
 <a id="opIdParse-Name-Batch"></a>
 
-> Parse-Name-Batch code sample :
+> **Parse Name Batch** code sample :
 
 ```shell
 curl --request POST \
@@ -2389,15 +2517,23 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseNameBatch", {
 ]
 ```
 
-<h3 id="parse-name-batch-requesturl">URL</h3>
+*<u>Cost :</u> The processing of each name requires **1** credit.*
+
+<h3 id="parse-name-batch-requesturl">HTTP Request</h3>
 
 `POST https://v2.namsor.com/NamSorAPIv2/api2/json/parseNameBatch`
 
-<h3 id="parse-name-batch-parameters">Parameters</h3>
+<h3 id="parse-name-batch-parameters">Request Body</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|body|body|any|false|A list of personal names|
+*The HTTP request body is required to be an array of objects.*
+
+|Name|Type|Required|Description|
+|---|---|---|---|
+|id|String|false||
+|name|String|false||
+
+
+
 
 > The above command returns JSON structured like this:
 
@@ -2415,13 +2551,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseNameBatch", {
 ]
 ```
 
-<h3 id="parse-name-batch-responses">Responses</h3>
+<h3 id="parse-name-batch-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|A list of parsed names.|Inline|
-|401|Unauthorized|Missing or incorrect API Key|None|
-|403|Forbidden|API Limit Reached or API Key Disabled|None|
+!{response-table-tag}
 
 
 
@@ -2430,11 +2562,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseNameBatch", {
 
 
 
-## Parse-Name-Geo-Batch
+
+
+## Parse Name Geo Batch
 
 <a id="opIdParse-Name-Geo-Batch"></a>
 
-> Parse-Name-Geo-Batch code sample :
+> **Parse Name Geo Batch** code sample :
 
 ```shell
 curl --request POST \
@@ -2507,15 +2641,24 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseNameGeoBatch", {
 ]
 ```
 
-<h3 id="parse-name-geo-batch-requesturl">URL</h3>
+*<u>Cost :</u> The processing of each name requires **1** credit.*
+
+<h3 id="parse-name-geo-batch-requesturl">HTTP Request</h3>
 
 `POST https://v2.namsor.com/NamSorAPIv2/api2/json/parseNameGeoBatch`
 
-<h3 id="parse-name-geo-batch-parameters">Parameters</h3>
+<h3 id="parse-name-geo-batch-parameters">Request Body</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|body|body|any|false|A list of personal names|
+*The HTTP request body is required to be an array of objects.*
+
+|Name|Type|Required|Description|
+|---|---|---|---|
+|id|String|false||
+|name|String|false||
+|countryIso2|String|false||
+
+
+
 
 > The above command returns JSON structured like this:
 
@@ -2533,13 +2676,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseNameGeoBatch", {
 ]
 ```
 
-<h3 id="parse-name-geo-batch-responses">Responses</h3>
+<h3 id="parse-name-geo-batch-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|A list of parsed names.|Inline|
-|401|Unauthorized|Missing or incorrect API Key|None|
-|403|Forbidden|API Limit Reached or API Key Disabled|None|
+!{response-table-tag}
 
 
 
@@ -2548,11 +2687,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseNameGeoBatch", {
 
 
 
-## Parse-Name
+
+
+## Parse Name
 
 <a id="opIdParse-Name"></a>
 
-> Parse-Name code sample :
+> **Parse Name** code sample :
 
 ```shell
 curl --request GET \
@@ -2597,15 +2738,20 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseName/{nameFull}", {
 
 *Infer the likely first/last name structure of a name, ex. John Smith or SMITH, John or SMITH; John. *
 
-<h3 id="parse-name-requesturl">URL</h3>
+*<u>Cost :</u> The processing of each name requires **1** credit.*
+
+<h3 id="parse-name-requesturl">HTTP Request</h3>
 
 `GET https://v2.namsor.com/NamSorAPIv2/api2/json/parseName/{nameFull}`
 
-<h3 id="parse-name-parameters">Parameters</h3>
+<h3 id="parse-name-parameters">Request Parameters</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|nameFull|path|any|true|none|
+|Name|Type|Required|Description|
+|---|---|---|---|
+|nameFull|String|true||
+
+
+
 
 > The above command returns JSON structured like this:
 
@@ -2621,13 +2767,11 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseName/{nameFull}", {
 }
 ```
 
-<h3 id="parse-name-responses">Responses</h3>
+<h3 id="parse-name-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|A origined name.|Inline|
-|401|Unauthorized|Missing or incorrect API Key|None|
-|403|Forbidden|API Limit Reached or API Key Disabled|None|
+!{response-table-tag}
+
+
 
 
 
@@ -2640,11 +2784,11 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseName/{nameFull}", {
 
 Social media and pseudonyms
 
-## Phone-Code
+## Phone Code
 
 <a id="opIdPhone-Code"></a>
 
-> Phone-Code code sample :
+> **Phone Code** code sample :
 
 ```shell
 curl --request GET \
@@ -2687,19 +2831,26 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/phoneCode/{firstName}/{lastNa
 
 
 
-*[USES 11 UNITS PER NAME] Infer the likely country and phone prefix, given a personal name and formatted / unformatted phone number.*
+*Infer the likely country and phone prefix, given a personal name and formatted / unformatted phone number.*
 
-<h3 id="phone-code-requesturl">URL</h3>
+*<u>Cost :</u> The processing of each name requires **11** credits.*
+
+<h3 id="phone-code-requesturl">HTTP Request</h3>
 
 `GET https://v2.namsor.com/NamSorAPIv2/api2/json/phoneCode/{firstName}/{lastName}/{phoneNumber}`
 
-<h3 id="phone-code-parameters">Parameters</h3>
+<h3 id="phone-code-parameters">Request Parameters</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|firstName|path|any|true|none|
-|lastName|path|any|true|none|
-|phoneNumber|path|any|true|none|
+|Name|Type|Required|Description|
+|---|---|---|---|
+|firstName|String|true||
+|lastName|String|true||
+|phoneNumber|String|true||
+
+
+
+
+
 
 > The above command returns JSON structured like this:
 
@@ -2725,13 +2876,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/phoneCode/{firstName}/{lastNa
 }
 ```
 
-<h3 id="phone-code-responses">Responses</h3>
+<h3 id="phone-code-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|A name with country and phone code.|Inline|
-|401|Unauthorized|Missing or incorrect API Key|None|
-|403|Forbidden|API Limit Reached or API Key Disabled|None|
+!{response-table-tag}
 
 
 
@@ -2740,11 +2887,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/phoneCode/{firstName}/{lastNa
 
 
 
-## Phone-Code-Geo
+
+
+## Phone Code Geo
 
 <a id="opIdPhone-Code-Geo"></a>
 
-> Phone-Code-Geo code sample :
+> **Phone Code Geo** code sample :
 
 ```shell
 curl --request GET \
@@ -2787,20 +2936,28 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/phoneCodeGeo/{firstName}/{las
 
 
 
-*[USES 11 UNITS PER NAME] Infer the likely phone prefix, given a personal name and formatted / unformatted phone number, with a local context (ISO2 country of residence).*
+*Infer the likely phone prefix, given a personal name and formatted / unformatted phone number, with a local context (ISO2 country of residence).*
 
-<h3 id="phone-code-geo-requesturl">URL</h3>
+*<u>Cost :</u> The processing of each name requires **11** credits.*
+
+<h3 id="phone-code-geo-requesturl">HTTP Request</h3>
 
 `GET https://v2.namsor.com/NamSorAPIv2/api2/json/phoneCodeGeo/{firstName}/{lastName}/{phoneNumber}/{countryIso2}`
 
-<h3 id="phone-code-geo-parameters">Parameters</h3>
+<h3 id="phone-code-geo-parameters">Request Parameters</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|firstName|path|any|true|none|
-|lastName|path|any|true|none|
-|phoneNumber|path|any|true|none|
-|countryIso2|path|any|true|none|
+|Name|Type|Required|Description|
+|---|---|---|---|
+|firstName|String|true||
+|lastName|String|true||
+|phoneNumber|String|true||
+|countryIso2|String|true||
+
+
+
+
+
+
 
 > The above command returns JSON structured like this:
 
@@ -2826,13 +2983,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/phoneCodeGeo/{firstName}/{las
 }
 ```
 
-<h3 id="phone-code-geo-responses">Responses</h3>
+<h3 id="phone-code-geo-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|A name with country and phone code.|Inline|
-|401|Unauthorized|Missing or incorrect API Key|None|
-|403|Forbidden|API Limit Reached or API Key Disabled|None|
+!{response-table-tag}
 
 
 
@@ -2841,11 +2994,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/phoneCodeGeo/{firstName}/{las
 
 
 
-## Phone-Code-Geo-Feedback-Loop
+
+
+## Phone Code Geo Feedback Loop
 
 <a id="opIdPhone-Code-Geo-Feedback-Loop"></a>
 
-> Phone-Code-Geo-Feedback-Loop code sample :
+> **Phone Code Geo Feedback Loop** code sample :
 
 ```shell
 curl --request GET \
@@ -2890,19 +3045,28 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/phoneCodeGeoFeedbackLoop/{fir
 
 *[CREDITS 1 UNIT] Feedback loop to better infer the likely phone prefix, given a personal name and formatted / unformatted phone number, with a local context (ISO2 country of residence).*
 
-<h3 id="phone-code-geo-feedback-loop-requesturl">URL</h3>
+*<u>Cost :</u> The processing of each name requires **1** credit.*
+
+<h3 id="phone-code-geo-feedback-loop-requesturl">HTTP Request</h3>
 
 `GET https://v2.namsor.com/NamSorAPIv2/api2/json/phoneCodeGeoFeedbackLoop/{firstName}/{lastName}/{phoneNumber}/{phoneNumberE164}/{countryIso2}`
 
-<h3 id="phone-code-geo-feedback-loop-parameters">Parameters</h3>
+<h3 id="phone-code-geo-feedback-loop-parameters">Request Parameters</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|firstName|path|any|true|none|
-|lastName|path|any|true|none|
-|phoneNumber|path|any|true|none|
-|phoneNumberE164|path|any|true|none|
-|countryIso2|path|any|true|none|
+|Name|Type|Required|Description|
+|---|---|---|---|
+|firstName|String|true||
+|lastName|String|true||
+|phoneNumber|String|true||
+|phoneNumberE164|String|true||
+|countryIso2|String|true||
+
+
+
+
+
+
+
 
 > The above command returns JSON structured like this:
 
@@ -2928,13 +3092,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/phoneCodeGeoFeedbackLoop/{fir
 }
 ```
 
-<h3 id="phone-code-geo-feedback-loop-responses">Responses</h3>
+<h3 id="phone-code-geo-feedback-loop-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|A name with country and phone code.|Inline|
-|401|Unauthorized|Missing or incorrect API Key|None|
-|403|Forbidden|API Limit Reached or API Key Disabled|None|
+!{response-table-tag}
 
 
 
@@ -2943,11 +3103,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/phoneCodeGeoFeedbackLoop/{fir
 
 
 
-## Phone-Code-Batch
+
+
+## Phone Code Batch
 
 <a id="opIdPhone-Code-Batch"></a>
 
-> Phone-Code-Batch code sample :
+> **Phone Code Batch** code sample :
 
 ```shell
 curl --request POST \
@@ -3007,7 +3169,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/phoneCodeBatch", {
 
 
 
-*[USES 11 UNITS PER NAME] Infer the likely country and phone prefix, of up to 100 personal names, detecting automatically the local context given a name and formatted / unformatted phone number.*
+*Infer the likely country and phone prefix, of up to 100 personal names, detecting automatically the local context given a name and formatted / unformatted phone number.*
 
 > Body parameter
 
@@ -3022,15 +3184,26 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/phoneCodeBatch", {
 ]
 ```
 
-<h3 id="phone-code-batch-requesturl">URL</h3>
+*<u>Cost :</u> The processing of each name requires **11** credits.*
+
+<h3 id="phone-code-batch-requesturl">HTTP Request</h3>
 
 `POST https://v2.namsor.com/NamSorAPIv2/api2/json/phoneCodeBatch`
 
-<h3 id="phone-code-batch-parameters">Parameters</h3>
+<h3 id="phone-code-batch-parameters">Request Body</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|body|body|any|false|A list of personal names|
+*The HTTP request body is required to be an array of objects.*
+
+|Name|Type|Required|Description|
+|---|---|---|---|
+|id|String|false||
+|firstName|String|false||
+|lastName|String|false||
+|phoneNumber|String|false||
+|FirstLastNameOriginedOut|Object|false||
+
+
+
 
 > The above command returns JSON structured like this:
 
@@ -3058,13 +3231,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/phoneCodeBatch", {
 ]
 ```
 
-<h3 id="phone-code-batch-responses">Responses</h3>
+<h3 id="phone-code-batch-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|A list of genderized names.|Inline|
-|401|Unauthorized|Missing or incorrect API Key|None|
-|403|Forbidden|API Limit Reached or API Key Disabled|None|
+!{response-table-tag}
 
 
 
@@ -3073,11 +3242,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/phoneCodeBatch", {
 
 
 
-## Phone-Code-Geo-Batch
+
+
+## Phone Code Geo Batch
 
 <a id="opIdPhone-Code-Geo-Batch"></a>
 
-> Phone-Code-Geo-Batch code sample :
+> **Phone Code Geo Batch** code sample :
 
 ```shell
 curl --request POST \
@@ -3139,7 +3310,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/phoneCodeGeoBatch", {
 
 
 
-*[USES 11 UNITS PER NAME] Infer the likely country and phone prefix, of up to 100 personal names, with a local context (ISO2 country of residence).*
+*Infer the likely country and phone prefix, of up to 100 personal names, with a local context (ISO2 country of residence).*
 
 > Body parameter
 
@@ -3156,15 +3327,28 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/phoneCodeGeoBatch", {
 ]
 ```
 
-<h3 id="phone-code-geo-batch-requesturl">URL</h3>
+*<u>Cost :</u> The processing of each name requires **11** credits.*
+
+<h3 id="phone-code-geo-batch-requesturl">HTTP Request</h3>
 
 `POST https://v2.namsor.com/NamSorAPIv2/api2/json/phoneCodeGeoBatch`
 
-<h3 id="phone-code-geo-batch-parameters">Parameters</h3>
+<h3 id="phone-code-geo-batch-parameters">Request Body</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|body|body|any|false|A list of personal names|
+*The HTTP request body is required to be an array of objects.*
+
+|Name|Type|Required|Description|
+|---|---|---|---|
+|id|String|false||
+|firstName|String|false||
+|lastName|String|false||
+|phoneNumber|String|false||
+|FirstLastNameOriginedOut|Object|false||
+|countryIso2|String|false||
+|countryIso2Alt|String|false||
+
+
+
 
 > The above command returns JSON structured like this:
 
@@ -3192,13 +3376,11 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/phoneCodeGeoBatch", {
 ]
 ```
 
-<h3 id="phone-code-geo-batch-responses">Responses</h3>
+<h3 id="phone-code-geo-batch-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|A list of genderized names.|Inline|
-|401|Unauthorized|Missing or incorrect API Key|None|
-|403|Forbidden|API Limit Reached or API Key Disabled|None|
+!{response-table-tag}
+
+
 
 
 
@@ -3211,11 +3393,11 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/phoneCodeGeoBatch", {
 
 CHINESE special features
 
-## Parse-Chinese-Name
+## Parse Chinese Name
 
 <a id="opIdParse-Chinese-Name"></a>
 
-> Parse-Chinese-Name code sample :
+> **Parse Chinese Name** code sample :
 
 ```shell
 curl --request GET \
@@ -3260,15 +3442,20 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseChineseName/{chineseName
 
 *Infer the likely first/last name structure of a name, ex. 王晓明 -> 王(surname) 晓明(given name)*
 
-<h3 id="parse-chinese-name-requesturl">URL</h3>
+*<u>Cost :</u> The processing of each name requires **1** credit.*
+
+<h3 id="parse-chinese-name-requesturl">HTTP Request</h3>
 
 `GET https://v2.namsor.com/NamSorAPIv2/api2/json/parseChineseName/{chineseName}`
 
-<h3 id="parse-chinese-name-parameters">Parameters</h3>
+<h3 id="parse-chinese-name-parameters">Request Parameters</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|chineseName|path|any|true|none|
+|Name|Type|Required|Description|
+|---|---|---|---|
+|chineseName|String|true||
+
+
+
 
 > The above command returns JSON structured like this:
 
@@ -3284,13 +3471,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseChineseName/{chineseName
 }
 ```
 
-<h3 id="parse-chinese-name-responses">Responses</h3>
+<h3 id="parse-chinese-name-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|A origined name.|Inline|
-|401|Unauthorized|Missing or incorrect API Key|None|
-|403|Forbidden|API Limit Reached or API Key Disabled|None|
+!{response-table-tag}
 
 
 
@@ -3299,11 +3482,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseChineseName/{chineseName
 
 
 
-## Parse-Chinese-Name-Batch
+
+
+## Parse Chinese Name Batch
 
 <a id="opIdParse-Chinese-Name-Batch"></a>
 
-> Parse-Chinese-Name-Batch code sample :
+> **Parse Chinese Name Batch** code sample :
 
 ```shell
 curl --request POST \
@@ -3374,15 +3559,23 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseChineseNameBatch", {
 ]
 ```
 
-<h3 id="parse-chinese-name-batch-requesturl">URL</h3>
+*<u>Cost :</u> The processing of each name requires **1** credit.*
+
+<h3 id="parse-chinese-name-batch-requesturl">HTTP Request</h3>
 
 `POST https://v2.namsor.com/NamSorAPIv2/api2/json/parseChineseNameBatch`
 
-<h3 id="parse-chinese-name-batch-parameters">Parameters</h3>
+<h3 id="parse-chinese-name-batch-parameters">Request Body</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|body|body|any|false|A list of personal names|
+*The HTTP request body is required to be an array of objects.*
+
+|Name|Type|Required|Description|
+|---|---|---|---|
+|id|String|false||
+|name|String|false||
+
+
+
 
 > The above command returns JSON structured like this:
 
@@ -3400,13 +3593,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseChineseNameBatch", {
 ]
 ```
 
-<h3 id="parse-chinese-name-batch-responses">Responses</h3>
+<h3 id="parse-chinese-name-batch-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|A list of parsed names.|Inline|
-|401|Unauthorized|Missing or incorrect API Key|None|
-|403|Forbidden|API Limit Reached or API Key Disabled|None|
+!{response-table-tag}
 
 
 
@@ -3415,11 +3604,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseChineseNameBatch", {
 
 
 
-## Pinyin-Chinese-Name
+
+
+## Pinyin Chinese Name
 
 <a id="opIdPinyin-Chinese-Name"></a>
 
-> Pinyin-Chinese-Name code sample :
+> **Pinyin Chinese Name** code sample :
 
 ```shell
 curl --request GET \
@@ -3464,15 +3655,20 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/pinyinChineseName/{chineseNam
 
 *Romanize the Chinese name to Pinyin, ex. 王晓明 -> Wang (surname) Xiaoming (given name)*
 
-<h3 id="pinyin-chinese-name-requesturl">URL</h3>
+*<u>Cost :</u> The processing of each name requires **1** credit.*
+
+<h3 id="pinyin-chinese-name-requesturl">HTTP Request</h3>
 
 `GET https://v2.namsor.com/NamSorAPIv2/api2/json/pinyinChineseName/{chineseName}`
 
-<h3 id="pinyin-chinese-name-parameters">Parameters</h3>
+<h3 id="pinyin-chinese-name-parameters">Request Parameters</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|chineseName|path|any|true|none|
+|Name|Type|Required|Description|
+|---|---|---|---|
+|chineseName|String|true||
+
+
+
 
 > The above command returns JSON structured like this:
 
@@ -3488,13 +3684,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/pinyinChineseName/{chineseNam
 }
 ```
 
-<h3 id="pinyin-chinese-name-responses">Responses</h3>
+<h3 id="pinyin-chinese-name-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|A pinyin name.|Inline|
-|401|Unauthorized|Missing or incorrect API Key|None|
-|403|Forbidden|API Limit Reached or API Key Disabled|None|
+!{response-table-tag}
 
 
 
@@ -3503,11 +3695,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/pinyinChineseName/{chineseNam
 
 
 
-## Pinyin-Chinese-Name-Batch
+
+
+## Pinyin Chinese Name Batch
 
 <a id="opIdPinyin-Chinese-Name-Batch"></a>
 
-> Pinyin-Chinese-Name-Batch code sample :
+> **Pinyin Chinese Name Batch** code sample :
 
 ```shell
 curl --request POST \
@@ -3578,15 +3772,23 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/pinyinChineseNameBatch", {
 ]
 ```
 
-<h3 id="pinyin-chinese-name-batch-requesturl">URL</h3>
+*<u>Cost :</u> The processing of each name requires **1** credit.*
+
+<h3 id="pinyin-chinese-name-batch-requesturl">HTTP Request</h3>
 
 `POST https://v2.namsor.com/NamSorAPIv2/api2/json/pinyinChineseNameBatch`
 
-<h3 id="pinyin-chinese-name-batch-parameters">Parameters</h3>
+<h3 id="pinyin-chinese-name-batch-parameters">Request Body</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|body|body|any|false|A list of Chinese names|
+*The HTTP request body is required to be an array of objects.*
+
+|Name|Type|Required|Description|
+|---|---|---|---|
+|id|String|false||
+|name|String|false||
+
+
+
 
 > The above command returns JSON structured like this:
 
@@ -3604,13 +3806,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/pinyinChineseNameBatch", {
 ]
 ```
 
-<h3 id="pinyin-chinese-name-batch-responses">Responses</h3>
+<h3 id="pinyin-chinese-name-batch-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|A list of Pinyin names.|Inline|
-|401|Unauthorized|Missing or incorrect API Key|None|
-|403|Forbidden|API Limit Reached or API Key Disabled|None|
+!{response-table-tag}
 
 
 
@@ -3619,11 +3817,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/pinyinChineseNameBatch", {
 
 
 
-## Chinese-Name-Match
+
+
+## Chinese Name Match
 
 <a id="opIdChinese-Name-Match"></a>
 
-> Chinese-Name-Match code sample :
+> **Chinese Name Match** code sample :
 
 ```shell
 curl --request GET \
@@ -3668,17 +3868,24 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameMatch/{chineseSurn
 
 *Return a score for matching Chinese name ex. 王晓明 with a romanized name ex. Wang Xiaoming*
 
-<h3 id="chinese-name-match-requesturl">URL</h3>
+*<u>Cost :</u> The processing of each name requires **1** credit.*
+
+<h3 id="chinese-name-match-requesturl">HTTP Request</h3>
 
 `GET https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameMatch/{chineseSurnameLatin}/{chineseGivenNameLatin}/{chineseName}`
 
-<h3 id="chinese-name-match-parameters">Parameters</h3>
+<h3 id="chinese-name-match-parameters">Request Parameters</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|chineseSurnameLatin|path|any|true|none|
-|chineseGivenNameLatin|path|any|true|none|
-|chineseName|path|any|true|none|
+|Name|Type|Required|Description|
+|---|---|---|---|
+|chineseSurnameLatin|String|true||
+|chineseGivenNameLatin|String|true||
+|chineseName|String|true||
+
+
+
+
+
 
 > The above command returns JSON structured like this:
 
@@ -3697,13 +3904,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameMatch/{chineseSurn
 }
 ```
 
-<h3 id="chinese-name-match-responses">Responses</h3>
+<h3 id="chinese-name-match-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|A romanized name.|Inline|
-|401|Unauthorized|Missing or incorrect API Key|None|
-|403|Forbidden|API Limit Reached or API Key Disabled|None|
+!{response-table-tag}
 
 
 
@@ -3712,11 +3915,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameMatch/{chineseSurn
 
 
 
-## Chinese-Name-Match-Batch
+
+
+## Chinese Name Match Batch
 
 <a id="opIdChinese-Name-Match-Batch"></a>
 
-> Chinese-Name-Match-Batch code sample :
+> **Chinese Name Match Batch** code sample :
 
 ```shell
 curl --request POST \
@@ -3789,15 +3994,24 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameMatchBatch", {
 ]
 ```
 
-<h3 id="chinese-name-match-batch-requesturl">URL</h3>
+*<u>Cost :</u> The processing of each name requires **1** credit.*
+
+<h3 id="chinese-name-match-batch-requesturl">HTTP Request</h3>
 
 `POST https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameMatchBatch`
 
-<h3 id="chinese-name-match-batch-parameters">Parameters</h3>
+<h3 id="chinese-name-match-batch-parameters">Request Body</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|body|body|any|false|A list of personal Chinese names in LATIN, firstName = chineseGivenName; lastName=chineseSurname|
+*The HTTP request body is required to be an array of objects.*
+
+|Name|Type|Required|Description|
+|---|---|---|---|
+|id|String|false||
+|firstName|String|false||
+|lastName|String|false||
+
+
+
 
 > The above command returns JSON structured like this:
 
@@ -3814,13 +4028,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameMatchBatch", {
 ]
 ```
 
-<h3 id="chinese-name-match-batch-responses">Responses</h3>
+<h3 id="chinese-name-match-batch-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|A list of genderized names.|Inline|
-|401|Unauthorized|Missing or incorrect API Key|None|
-|403|Forbidden|API Limit Reached or API Key Disabled|None|
+!{response-table-tag}
 
 
 
@@ -3829,11 +4039,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameMatchBatch", {
 
 
 
-## Gender-Chinese-Name-Pinyin
+
+
+## Gender Chinese Name Pinyin
 
 <a id="opIdGender-Chinese-Name-Pinyin"></a>
 
-> Gender-Chinese-Name-Pinyin code sample :
+> **Gender Chinese Name Pinyin** code sample :
 
 ```shell
 curl --request GET \
@@ -3878,16 +4090,22 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseNamePinyin/{chin
 
 *Infer the likely gender of a Chinese name in LATIN (Pinyin).*
 
-<h3 id="gender-chinese-name-pinyin-requesturl">URL</h3>
+*<u>Cost :</u> The processing of each name requires **1** credit.*
+
+<h3 id="gender-chinese-name-pinyin-requesturl">HTTP Request</h3>
 
 `GET https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseNamePinyin/{chineseSurnameLatin}/{chineseGivenNameLatin}`
 
-<h3 id="gender-chinese-name-pinyin-parameters">Parameters</h3>
+<h3 id="gender-chinese-name-pinyin-parameters">Request Parameters</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|chineseSurnameLatin|path|any|true|none|
-|chineseGivenNameLatin|path|any|true|none|
+|Name|Type|Required|Description|
+|---|---|---|---|
+|chineseSurnameLatin|String|true||
+|chineseGivenNameLatin|String|true||
+
+
+
+
 
 > The above command returns JSON structured like this:
 
@@ -3905,13 +4123,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseNamePinyin/{chin
 }
 ```
 
-<h3 id="gender-chinese-name-pinyin-responses">Responses</h3>
+<h3 id="gender-chinese-name-pinyin-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|A genderized name.|Inline|
-|401|Unauthorized|Missing or incorrect API Key|None|
-|403|Forbidden|API Limit Reached or API Key Disabled|None|
+!{response-table-tag}
 
 
 
@@ -3920,11 +4134,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseNamePinyin/{chin
 
 
 
-## Gender-Chinese-Name-Pinyin-Batch
+
+
+## Gender Chinese Name Pinyin Batch
 
 <a id="opIdGender-Chinese-Name-Pinyin-Batch"></a>
 
-> Gender-Chinese-Name-Pinyin-Batch code sample :
+> **Gender Chinese Name Pinyin Batch** code sample :
 
 ```shell
 curl --request POST \
@@ -3997,15 +4213,24 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseNamePinyinBatch"
 ]
 ```
 
-<h3 id="gender-chinese-name-pinyin-batch-requesturl">URL</h3>
+*<u>Cost :</u> The processing of each name requires **1** credit.*
+
+<h3 id="gender-chinese-name-pinyin-batch-requesturl">HTTP Request</h3>
 
 `POST https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseNamePinyinBatch`
 
-<h3 id="gender-chinese-name-pinyin-batch-parameters">Parameters</h3>
+<h3 id="gender-chinese-name-pinyin-batch-parameters">Request Body</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|body|body|any|false|A list of names, with country code.|
+*The HTTP request body is required to be an array of objects.*
+
+|Name|Type|Required|Description|
+|---|---|---|---|
+|id|String|false||
+|firstName|String|false||
+|lastName|String|false||
+
+
+
 
 > The above command returns JSON structured like this:
 
@@ -4025,13 +4250,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseNamePinyinBatch"
 ]
 ```
 
-<h3 id="gender-chinese-name-pinyin-batch-responses">Responses</h3>
+<h3 id="gender-chinese-name-pinyin-batch-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|A list of genderized names.|Inline|
-|401|Unauthorized|Missing or incorrect API Key|None|
-|403|Forbidden|API Limit Reached or API Key Disabled|None|
+!{response-table-tag}
 
 
 
@@ -4040,11 +4261,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseNamePinyinBatch"
 
 
 
-## Gender-Chinese-Name
+
+
+## Gender Chinese Name
 
 <a id="opIdGender-Chinese-Name"></a>
 
-> Gender-Chinese-Name code sample :
+> **Gender Chinese Name** code sample :
 
 ```shell
 curl --request GET \
@@ -4089,15 +4312,20 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseName/{chineseNam
 
 *Infer the likely gender of a Chinese full name ex. 王晓明*
 
-<h3 id="gender-chinese-name-requesturl">URL</h3>
+*<u>Cost :</u> The processing of each name requires **1** credit.*
+
+<h3 id="gender-chinese-name-requesturl">HTTP Request</h3>
 
 `GET https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseName/{chineseName}`
 
-<h3 id="gender-chinese-name-parameters">Parameters</h3>
+<h3 id="gender-chinese-name-parameters">Request Parameters</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|chineseName|path|any|true|none|
+|Name|Type|Required|Description|
+|---|---|---|---|
+|chineseName|String|true||
+
+
+
 
 > The above command returns JSON structured like this:
 
@@ -4114,13 +4342,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseName/{chineseNam
 }
 ```
 
-<h3 id="gender-chinese-name-responses">Responses</h3>
+<h3 id="gender-chinese-name-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|A genderized name.|Inline|
-|401|Unauthorized|Missing or incorrect API Key|None|
-|403|Forbidden|API Limit Reached or API Key Disabled|None|
+!{response-table-tag}
 
 
 
@@ -4129,11 +4353,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseName/{chineseNam
 
 
 
-## Gender-Chinese-Name-Batch
+
+
+## Gender Chinese Name Batch
 
 <a id="opIdGender-Chinese-Name-Batch"></a>
 
-> Gender-Chinese-Name-Batch code sample :
+> **Gender Chinese Name Batch** code sample :
 
 ```shell
 curl --request POST \
@@ -4204,15 +4430,23 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseNameBatch", {
 ]
 ```
 
-<h3 id="gender-chinese-name-batch-requesturl">URL</h3>
+*<u>Cost :</u> The processing of each name requires **1** credit.*
+
+<h3 id="gender-chinese-name-batch-requesturl">HTTP Request</h3>
 
 `POST https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseNameBatch`
 
-<h3 id="gender-chinese-name-batch-parameters">Parameters</h3>
+<h3 id="gender-chinese-name-batch-parameters">Request Body</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|body|body|any|false|A list of personal names, with a country ISO2 code|
+*The HTTP request body is required to be an array of objects.*
+
+|Name|Type|Required|Description|
+|---|---|---|---|
+|id|String|false||
+|name|String|false||
+
+
+
 
 > The above command returns JSON structured like this:
 
@@ -4231,13 +4465,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseNameBatch", {
 ]
 ```
 
-<h3 id="gender-chinese-name-batch-responses">Responses</h3>
+<h3 id="gender-chinese-name-batch-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|A list of genderized names.|Inline|
-|401|Unauthorized|Missing or incorrect API Key|None|
-|403|Forbidden|API Limit Reached or API Key Disabled|None|
+!{response-table-tag}
 
 
 
@@ -4246,11 +4476,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseNameBatch", {
 
 
 
-## Chinese-Name-Candidates
+
+
+## Chinese Name Candidates
 
 <a id="opIdChinese-Name-Candidates"></a>
 
-> Chinese-Name-Candidates code sample :
+> **Chinese Name Candidates** code sample :
 
 ```shell
 curl --request GET \
@@ -4295,16 +4527,22 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameCandidates/{chines
 
 *Identify Chinese name candidates, based on the romanized name ex. Wang Xiaoming*
 
-<h3 id="chinese-name-candidates-requesturl">URL</h3>
+*<u>Cost :</u> The processing of each name requires **1** credit.*
+
+<h3 id="chinese-name-candidates-requesturl">HTTP Request</h3>
 
 `GET https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameCandidates/{chineseSurnameLatin}/{chineseGivenNameLatin}`
 
-<h3 id="chinese-name-candidates-parameters">Parameters</h3>
+<h3 id="chinese-name-candidates-parameters">Request Parameters</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|chineseSurnameLatin|path|any|true|none|
-|chineseGivenNameLatin|path|any|true|none|
+|Name|Type|Required|Description|
+|---|---|---|---|
+|chineseSurnameLatin|String|true||
+|chineseGivenNameLatin|String|true||
+
+
+
+
 
 > The above command returns JSON structured like this:
 
@@ -4323,13 +4561,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameCandidates/{chines
 }
 ```
 
-<h3 id="chinese-name-candidates-responses">Responses</h3>
+<h3 id="chinese-name-candidates-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|A romanized name.|Inline|
-|401|Unauthorized|Missing or incorrect API Key|None|
-|403|Forbidden|API Limit Reached or API Key Disabled|None|
+!{response-table-tag}
 
 
 
@@ -4338,11 +4572,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameCandidates/{chines
 
 
 
-## Chinese-Name-Candidates-Batch
+
+
+## Chinese Name Candidates Batch
 
 <a id="opIdChinese-Name-Candidates-Batch"></a>
 
-> Chinese-Name-Candidates-Batch code sample :
+> **Chinese Name Candidates Batch** code sample :
 
 ```shell
 curl --request POST \
@@ -4415,15 +4651,24 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameCandidatesBatch", 
 ]
 ```
 
-<h3 id="chinese-name-candidates-batch-requesturl">URL</h3>
+*<u>Cost :</u> The processing of each name requires **1** credit.*
+
+<h3 id="chinese-name-candidates-batch-requesturl">HTTP Request</h3>
 
 `POST https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameCandidatesBatch`
 
-<h3 id="chinese-name-candidates-batch-parameters">Parameters</h3>
+<h3 id="chinese-name-candidates-batch-parameters">Request Body</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|body|body|any|false|A list of personal Chinese names in LATIN, firstName = chineseGivenName; lastName=chineseSurname|
+*The HTTP request body is required to be an array of objects.*
+
+|Name|Type|Required|Description|
+|---|---|---|---|
+|id|String|false||
+|firstName|String|false||
+|lastName|String|false||
+
+
+
 
 > The above command returns JSON structured like this:
 
@@ -4440,13 +4685,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameCandidatesBatch", 
 ]
 ```
 
-<h3 id="chinese-name-candidates-batch-responses">Responses</h3>
+<h3 id="chinese-name-candidates-batch-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|A list of genderized names.|Inline|
-|401|Unauthorized|Missing or incorrect API Key|None|
-|403|Forbidden|API Limit Reached or API Key Disabled|None|
+!{response-table-tag}
 
 
 
@@ -4455,11 +4696,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameCandidatesBatch", 
 
 
 
-## Chinese-Name-Gender-Candidates
+
+
+## Chinese Name Gender Candidates
 
 <a id="opIdChinese-Name-Gender-Candidates"></a>
 
-> Chinese-Name-Gender-Candidates code sample :
+> **Chinese Name Gender Candidates** code sample :
 
 ```shell
 curl --request GET \
@@ -4504,17 +4747,24 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameGenderCandidates/{
 
 *Identify Chinese name candidates, based on the romanized name ex. Wang Xiaoming - having a known gender ('male' or 'female')*
 
-<h3 id="chinese-name-gender-candidates-requesturl">URL</h3>
+*<u>Cost :</u> The processing of each name requires **1** credit.*
+
+<h3 id="chinese-name-gender-candidates-requesturl">HTTP Request</h3>
 
 `GET https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameGenderCandidates/{chineseSurnameLatin}/{chineseGivenNameLatin}/{knownGender}`
 
-<h3 id="chinese-name-gender-candidates-parameters">Parameters</h3>
+<h3 id="chinese-name-gender-candidates-parameters">Request Parameters</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|chineseSurnameLatin|path|any|true|none|
-|chineseGivenNameLatin|path|any|true|none|
-|knownGender|path|any|true|none|
+|Name|Type|Required|Description|
+|---|---|---|---|
+|chineseSurnameLatin|String|true||
+|chineseGivenNameLatin|String|true||
+|knownGender|String|true||
+
+
+
+
+
 
 > The above command returns JSON structured like this:
 
@@ -4533,13 +4783,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameGenderCandidates/{
 }
 ```
 
-<h3 id="chinese-name-gender-candidates-responses">Responses</h3>
+<h3 id="chinese-name-gender-candidates-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|A romanized name.|Inline|
-|401|Unauthorized|Missing or incorrect API Key|None|
-|403|Forbidden|API Limit Reached or API Key Disabled|None|
+!{response-table-tag}
 
 
 
@@ -4548,11 +4794,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameGenderCandidates/{
 
 
 
-## Chinese-Name-Candidates-Gender-Batch
+
+
+## Chinese Name Candidates Gender Batch
 
 <a id="opIdChinese-Name-Candidates-Gender-Batch"></a>
 
-> Chinese-Name-Candidates-Gender-Batch code sample :
+> **Chinese Name Candidates Gender Batch** code sample :
 
 ```shell
 curl --request POST \
@@ -4625,15 +4873,24 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameCandidatesGenderBa
 ]
 ```
 
-<h3 id="chinese-name-candidates-gender-batch-requesturl">URL</h3>
+*<u>Cost :</u> The processing of each name requires **1** credit.*
+
+<h3 id="chinese-name-candidates-gender-batch-requesturl">HTTP Request</h3>
 
 `POST https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameCandidatesGenderBatch`
 
-<h3 id="chinese-name-candidates-gender-batch-parameters">Parameters</h3>
+<h3 id="chinese-name-candidates-gender-batch-parameters">Request Body</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|body|body|any|false|A list of personal Chinese names in LATIN, firstName = chineseGivenName; lastName=chineseSurname|
+*The HTTP request body is required to be an array of objects.*
+
+|Name|Type|Required|Description|
+|---|---|---|---|
+|id|String|false||
+|firstName|String|false||
+|lastName|String|false||
+
+
+
 
 > The above command returns JSON structured like this:
 
@@ -4650,13 +4907,11 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameCandidatesGenderBa
 ]
 ```
 
-<h3 id="chinese-name-candidates-gender-batch-responses">Responses</h3>
+<h3 id="chinese-name-candidates-gender-batch-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|A list of genderized names.|Inline|
-|401|Unauthorized|Missing or incorrect API Key|None|
-|403|Forbidden|API Limit Reached or API Key Disabled|None|
+!{response-table-tag}
+
+
 
 
 
@@ -4669,11 +4924,11 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameCandidatesGenderBa
 
 JAPANESE special features
 
-## Parse-Japanese-Name
+## Parse Japanese Name
 
 <a id="opIdParse-Japanese-Name"></a>
 
-> Parse-Japanese-Name code sample :
+> **Parse Japanese Name** code sample :
 
 ```shell
 curl --request GET \
@@ -4718,15 +4973,20 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseJapaneseName/{japaneseNa
 
 *Infer the likely first/last name structure of a name, ex. 山本 早苗 or Yamamoto Sanae*
 
-<h3 id="parse-japanese-name-requesturl">URL</h3>
+*<u>Cost :</u> The processing of each name requires **1** credit.*
+
+<h3 id="parse-japanese-name-requesturl">HTTP Request</h3>
 
 `GET https://v2.namsor.com/NamSorAPIv2/api2/json/parseJapaneseName/{japaneseName}`
 
-<h3 id="parse-japanese-name-parameters">Parameters</h3>
+<h3 id="parse-japanese-name-parameters">Request Parameters</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|japaneseName|path|any|true|none|
+|Name|Type|Required|Description|
+|---|---|---|---|
+|japaneseName|String|true||
+
+
+
 
 > The above command returns JSON structured like this:
 
@@ -4742,13 +5002,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseJapaneseName/{japaneseNa
 }
 ```
 
-<h3 id="parse-japanese-name-responses">Responses</h3>
+<h3 id="parse-japanese-name-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|A origined name.|Inline|
-|401|Unauthorized|Missing or incorrect API Key|None|
-|403|Forbidden|API Limit Reached or API Key Disabled|None|
+!{response-table-tag}
 
 
 
@@ -4757,11 +5013,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseJapaneseName/{japaneseNa
 
 
 
-## Parse-Japanese-Name-Batch
+
+
+## Parse Japanese Name Batch
 
 <a id="opIdParse-Japanese-Name-Batch"></a>
 
-> Parse-Japanese-Name-Batch code sample :
+> **Parse Japanese Name Batch** code sample :
 
 ```shell
 curl --request POST \
@@ -4832,15 +5090,23 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseJapaneseNameBatch", {
 ]
 ```
 
-<h3 id="parse-japanese-name-batch-requesturl">URL</h3>
+*<u>Cost :</u> The processing of each name requires **1** credit.*
+
+<h3 id="parse-japanese-name-batch-requesturl">HTTP Request</h3>
 
 `POST https://v2.namsor.com/NamSorAPIv2/api2/json/parseJapaneseNameBatch`
 
-<h3 id="parse-japanese-name-batch-parameters">Parameters</h3>
+<h3 id="parse-japanese-name-batch-parameters">Request Body</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|body|body|any|false|A list of personal names|
+*The HTTP request body is required to be an array of objects.*
+
+|Name|Type|Required|Description|
+|---|---|---|---|
+|id|String|false||
+|name|String|false||
+
+
+
 
 > The above command returns JSON structured like this:
 
@@ -4858,13 +5124,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseJapaneseNameBatch", {
 ]
 ```
 
-<h3 id="parse-japanese-name-batch-responses">Responses</h3>
+<h3 id="parse-japanese-name-batch-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|A list of parsed names.|Inline|
-|401|Unauthorized|Missing or incorrect API Key|None|
-|403|Forbidden|API Limit Reached or API Key Disabled|None|
+!{response-table-tag}
 
 
 
@@ -4873,11 +5135,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseJapaneseNameBatch", {
 
 
 
-## Japanese-Name-Kanji-Candidates
+
+
+## Japanese Name Kanji Candidates
 
 <a id="opIdJapanese-Name-Kanji-Candidates"></a>
 
-> Japanese-Name-Kanji-Candidates code sample :
+> **Japanese Name Kanji Candidates** code sample :
 
 ```shell
 curl --request GET \
@@ -4922,16 +5186,22 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameKanjiCandidates/{
 
 *Identify japanese name candidates in KANJI, based on the romanized name ex. Yamamoto Sanae*
 
-<h3 id="japanese-name-kanji-candidates-requesturl">URL</h3>
+*<u>Cost :</u> The processing of each name requires **1** credit.*
+
+<h3 id="japanese-name-kanji-candidates-requesturl">HTTP Request</h3>
 
 `GET https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameKanjiCandidates/{japaneseSurnameLatin}/{japaneseGivenNameLatin}`
 
-<h3 id="japanese-name-kanji-candidates-parameters">Parameters</h3>
+<h3 id="japanese-name-kanji-candidates-parameters">Request Parameters</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|japaneseSurnameLatin|path|any|true|none|
-|japaneseGivenNameLatin|path|any|true|none|
+|Name|Type|Required|Description|
+|---|---|---|---|
+|japaneseSurnameLatin|String|true||
+|japaneseGivenNameLatin|String|true||
+
+
+
+
 
 > The above command returns JSON structured like this:
 
@@ -4950,13 +5220,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameKanjiCandidates/{
 }
 ```
 
-<h3 id="japanese-name-kanji-candidates-responses">Responses</h3>
+<h3 id="japanese-name-kanji-candidates-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|A romanized name.|Inline|
-|401|Unauthorized|Missing or incorrect API Key|None|
-|403|Forbidden|API Limit Reached or API Key Disabled|None|
+!{response-table-tag}
 
 
 
@@ -4965,11 +5231,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameKanjiCandidates/{
 
 
 
-## Japanese-Name-Latin-Candidates
+
+
+## Japanese Name Latin Candidates
 
 <a id="opIdJapanese-Name-Latin-Candidates"></a>
 
-> Japanese-Name-Latin-Candidates code sample :
+> **Japanese Name Latin Candidates** code sample :
 
 ```shell
 curl --request GET \
@@ -5014,16 +5282,22 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameLatinCandidates/{
 
 *Romanize japanese name, based on the name in Kanji.*
 
-<h3 id="japanese-name-latin-candidates-requesturl">URL</h3>
+*<u>Cost :</u> The processing of each name requires **1** credit.*
+
+<h3 id="japanese-name-latin-candidates-requesturl">HTTP Request</h3>
 
 `GET https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameLatinCandidates/{japaneseSurnameKanji}/{japaneseGivenNameKanji}`
 
-<h3 id="japanese-name-latin-candidates-parameters">Parameters</h3>
+<h3 id="japanese-name-latin-candidates-parameters">Request Parameters</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|japaneseSurnameKanji|path|any|true|none|
-|japaneseGivenNameKanji|path|any|true|none|
+|Name|Type|Required|Description|
+|---|---|---|---|
+|japaneseSurnameKanji|String|true||
+|japaneseGivenNameKanji|String|true||
+
+
+
+
 
 > The above command returns JSON structured like this:
 
@@ -5042,13 +5316,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameLatinCandidates/{
 }
 ```
 
-<h3 id="japanese-name-latin-candidates-responses">Responses</h3>
+<h3 id="japanese-name-latin-candidates-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|A romanized name.|Inline|
-|401|Unauthorized|Missing or incorrect API Key|None|
-|403|Forbidden|API Limit Reached or API Key Disabled|None|
+!{response-table-tag}
 
 
 
@@ -5057,11 +5327,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameLatinCandidates/{
 
 
 
-## Japanese-Name-Kanji-Candidates-Batch
+
+
+## Japanese Name Kanji Candidates Batch
 
 <a id="opIdJapanese-Name-Kanji-Candidates-Batch"></a>
 
-> Japanese-Name-Kanji-Candidates-Batch code sample :
+> **Japanese Name Kanji Candidates Batch** code sample :
 
 ```shell
 curl --request POST \
@@ -5134,15 +5406,24 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameKanjiCandidatesBa
 ]
 ```
 
-<h3 id="japanese-name-kanji-candidates-batch-requesturl">URL</h3>
+*<u>Cost :</u> The processing of each name requires **1** credit.*
+
+<h3 id="japanese-name-kanji-candidates-batch-requesturl">HTTP Request</h3>
 
 `POST https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameKanjiCandidatesBatch`
 
-<h3 id="japanese-name-kanji-candidates-batch-parameters">Parameters</h3>
+<h3 id="japanese-name-kanji-candidates-batch-parameters">Request Body</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|body|body|any|false|A list of personal japanese names in LATIN, firstName = japaneseGivenName; lastName=japaneseSurname|
+*The HTTP request body is required to be an array of objects.*
+
+|Name|Type|Required|Description|
+|---|---|---|---|
+|id|String|false||
+|firstName|String|false||
+|lastName|String|false||
+
+
+
 
 > The above command returns JSON structured like this:
 
@@ -5159,13 +5440,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameKanjiCandidatesBa
 ]
 ```
 
-<h3 id="japanese-name-kanji-candidates-batch-responses">Responses</h3>
+<h3 id="japanese-name-kanji-candidates-batch-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|A list of genderized names.|Inline|
-|401|Unauthorized|Missing or incorrect API Key|None|
-|403|Forbidden|API Limit Reached or API Key Disabled|None|
+!{response-table-tag}
 
 
 
@@ -5174,11 +5451,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameKanjiCandidatesBa
 
 
 
-## Japanese-Name-Latin-Candidates-Batch
+
+
+## Japanese Name Latin Candidates Batch
 
 <a id="opIdJapanese-Name-Latin-Candidates-Batch"></a>
 
-> Japanese-Name-Latin-Candidates-Batch code sample :
+> **Japanese Name Latin Candidates Batch** code sample :
 
 ```shell
 curl --request POST \
@@ -5251,15 +5530,24 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameLatinCandidatesBa
 ]
 ```
 
-<h3 id="japanese-name-latin-candidates-batch-requesturl">URL</h3>
+*<u>Cost :</u> The processing of each name requires **1** credit.*
+
+<h3 id="japanese-name-latin-candidates-batch-requesturl">HTTP Request</h3>
 
 `POST https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameLatinCandidatesBatch`
 
-<h3 id="japanese-name-latin-candidates-batch-parameters">Parameters</h3>
+<h3 id="japanese-name-latin-candidates-batch-parameters">Request Body</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|body|body|any|false|A list of personal japanese names in KANJI, firstName = japaneseGivenName; lastName=japaneseSurname|
+*The HTTP request body is required to be an array of objects.*
+
+|Name|Type|Required|Description|
+|---|---|---|---|
+|id|String|false||
+|firstName|String|false||
+|lastName|String|false||
+
+
+
 
 > The above command returns JSON structured like this:
 
@@ -5276,13 +5564,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameLatinCandidatesBa
 ]
 ```
 
-<h3 id="japanese-name-latin-candidates-batch-responses">Responses</h3>
+<h3 id="japanese-name-latin-candidates-batch-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|A list of genderized names.|Inline|
-|401|Unauthorized|Missing or incorrect API Key|None|
-|403|Forbidden|API Limit Reached or API Key Disabled|None|
+!{response-table-tag}
 
 
 
@@ -5291,11 +5575,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameLatinCandidatesBa
 
 
 
-## Japanese-Name-Match
+
+
+## Japanese Name Match
 
 <a id="opIdJapanese-Name-Match"></a>
 
-> Japanese-Name-Match code sample :
+> **Japanese Name Match** code sample :
 
 ```shell
 curl --request GET \
@@ -5340,17 +5626,24 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameMatch/{japaneseSu
 
 *Return a score for matching Japanese name in KANJI ex. 山本 早苗 with a romanized name ex. Yamamoto Sanae*
 
-<h3 id="japanese-name-match-requesturl">URL</h3>
+*<u>Cost :</u> The processing of each name requires **1** credit.*
+
+<h3 id="japanese-name-match-requesturl">HTTP Request</h3>
 
 `GET https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameMatch/{japaneseSurnameLatin}/{japaneseGivenNameLatin}/{japaneseName}`
 
-<h3 id="japanese-name-match-parameters">Parameters</h3>
+<h3 id="japanese-name-match-parameters">Request Parameters</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|japaneseSurnameLatin|path|any|true|none|
-|japaneseGivenNameLatin|path|any|true|none|
-|japaneseName|path|any|true|none|
+|Name|Type|Required|Description|
+|---|---|---|---|
+|japaneseSurnameLatin|String|true||
+|japaneseGivenNameLatin|String|true||
+|japaneseName|String|true||
+
+
+
+
+
 
 > The above command returns JSON structured like this:
 
@@ -5369,13 +5662,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameMatch/{japaneseSu
 }
 ```
 
-<h3 id="japanese-name-match-responses">Responses</h3>
+<h3 id="japanese-name-match-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|A romanized name.|Inline|
-|401|Unauthorized|Missing or incorrect API Key|None|
-|403|Forbidden|API Limit Reached or API Key Disabled|None|
+!{response-table-tag}
 
 
 
@@ -5384,11 +5673,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameMatch/{japaneseSu
 
 
 
-## Japanese-Name-Match-Feedback-Loop
+
+
+## Japanese Name Match Feedback Loop
 
 <a id="opIdJapanese-Name-Match-Feedback-Loop"></a>
 
-> Japanese-Name-Match-Feedback-Loop code sample :
+> **Japanese Name Match Feedback Loop** code sample :
 
 ```shell
 curl --request GET \
@@ -5433,17 +5724,24 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameMatchFeedbackLoop
 
 *[CREDITS 1 UNIT] Feedback loop to better perform matching Japanese name in KANJI ex. 山本 早苗 with a romanized name ex. Yamamoto Sanae*
 
-<h3 id="japanese-name-match-feedback-loop-requesturl">URL</h3>
+*<u>Cost :</u> The processing of each name requires **1** credit.*
+
+<h3 id="japanese-name-match-feedback-loop-requesturl">HTTP Request</h3>
 
 `GET https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameMatchFeedbackLoop/{japaneseSurnameLatin}/{japaneseGivenNameLatin}/{japaneseName}`
 
-<h3 id="japanese-name-match-feedback-loop-parameters">Parameters</h3>
+<h3 id="japanese-name-match-feedback-loop-parameters">Request Parameters</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|japaneseSurnameLatin|path|any|true|none|
-|japaneseGivenNameLatin|path|any|true|none|
-|japaneseName|path|any|true|none|
+|Name|Type|Required|Description|
+|---|---|---|---|
+|japaneseSurnameLatin|String|true||
+|japaneseGivenNameLatin|String|true||
+|japaneseName|String|true||
+
+
+
+
+
 
 > The above command returns JSON structured like this:
 
@@ -5462,13 +5760,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameMatchFeedbackLoop
 }
 ```
 
-<h3 id="japanese-name-match-feedback-loop-responses">Responses</h3>
+<h3 id="japanese-name-match-feedback-loop-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|A romanized name.|Inline|
-|401|Unauthorized|Missing or incorrect API Key|None|
-|403|Forbidden|API Limit Reached or API Key Disabled|None|
+!{response-table-tag}
 
 
 
@@ -5477,11 +5771,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameMatchFeedbackLoop
 
 
 
-## Japanese-Name-Match-Batch
+
+
+## Japanese Name Match Batch
 
 <a id="opIdJapanese-Name-Match-Batch"></a>
 
-> Japanese-Name-Match-Batch code sample :
+> **Japanese Name Match Batch** code sample :
 
 ```shell
 curl --request POST \
@@ -5554,15 +5850,24 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameMatchBatch", {
 ]
 ```
 
-<h3 id="japanese-name-match-batch-requesturl">URL</h3>
+*<u>Cost :</u> The processing of each name requires **1** credit.*
+
+<h3 id="japanese-name-match-batch-requesturl">HTTP Request</h3>
 
 `POST https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameMatchBatch`
 
-<h3 id="japanese-name-match-batch-parameters">Parameters</h3>
+<h3 id="japanese-name-match-batch-parameters">Request Body</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|body|body|any|false|A list of personal Japanese names in LATIN, firstName = japaneseGivenName; lastName=japaneseSurname|
+*The HTTP request body is required to be an array of objects.*
+
+|Name|Type|Required|Description|
+|---|---|---|---|
+|id|String|false||
+|firstName|String|false||
+|lastName|String|false||
+
+
+
 
 > The above command returns JSON structured like this:
 
@@ -5579,13 +5884,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameMatchBatch", {
 ]
 ```
 
-<h3 id="japanese-name-match-batch-responses">Responses</h3>
+<h3 id="japanese-name-match-batch-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|A list of matched names.|Inline|
-|401|Unauthorized|Missing or incorrect API Key|None|
-|403|Forbidden|API Limit Reached or API Key Disabled|None|
+!{response-table-tag}
 
 
 
@@ -5594,11 +5895,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameMatchBatch", {
 
 
 
-## Gender-Japanese-Name-Pinyin
+
+
+## Gender Japanese Name Pinyin
 
 <a id="opIdGender-Japanese-Name-Pinyin"></a>
 
-> Gender-Japanese-Name-Pinyin code sample :
+> **Gender Japanese Name Pinyin** code sample :
 
 ```shell
 curl --request GET \
@@ -5643,16 +5946,22 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderJapaneseName/{japaneseS
 
 *Infer the likely gender of a Japanese name in LATIN (Pinyin).*
 
-<h3 id="gender-japanese-name-pinyin-requesturl">URL</h3>
+*<u>Cost :</u> The processing of each name requires **1** credit.*
+
+<h3 id="gender-japanese-name-pinyin-requesturl">HTTP Request</h3>
 
 `GET https://v2.namsor.com/NamSorAPIv2/api2/json/genderJapaneseName/{japaneseSurname}/{japaneseGivenName}`
 
-<h3 id="gender-japanese-name-pinyin-parameters">Parameters</h3>
+<h3 id="gender-japanese-name-pinyin-parameters">Request Parameters</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|japaneseSurname|path|any|true|none|
-|japaneseGivenName|path|any|true|none|
+|Name|Type|Required|Description|
+|---|---|---|---|
+|japaneseSurname|String|true||
+|japaneseGivenName|String|true||
+
+
+
+
 
 > The above command returns JSON structured like this:
 
@@ -5670,13 +5979,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderJapaneseName/{japaneseS
 }
 ```
 
-<h3 id="gender-japanese-name-pinyin-responses">Responses</h3>
+<h3 id="gender-japanese-name-pinyin-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|A genderized name.|Inline|
-|401|Unauthorized|Missing or incorrect API Key|None|
-|403|Forbidden|API Limit Reached or API Key Disabled|None|
+!{response-table-tag}
 
 
 
@@ -5685,11 +5990,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderJapaneseName/{japaneseS
 
 
 
-## Gender-Japanese-Name-Pinyin-Batch
+
+
+## Gender Japanese Name Pinyin Batch
 
 <a id="opIdGender-Japanese-Name-Pinyin-Batch"></a>
 
-> Gender-Japanese-Name-Pinyin-Batch code sample :
+> **Gender Japanese Name Pinyin Batch** code sample :
 
 ```shell
 curl --request POST \
@@ -5762,15 +6069,24 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderJapaneseNameBatch", {
 ]
 ```
 
-<h3 id="gender-japanese-name-pinyin-batch-requesturl">URL</h3>
+*<u>Cost :</u> The processing of each name requires **1** credit.*
+
+<h3 id="gender-japanese-name-pinyin-batch-requesturl">HTTP Request</h3>
 
 `POST https://v2.namsor.com/NamSorAPIv2/api2/json/genderJapaneseNameBatch`
 
-<h3 id="gender-japanese-name-pinyin-batch-parameters">Parameters</h3>
+<h3 id="gender-japanese-name-pinyin-batch-parameters">Request Body</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|body|body|any|false|A list of names, with country code.|
+*The HTTP request body is required to be an array of objects.*
+
+|Name|Type|Required|Description|
+|---|---|---|---|
+|id|String|false||
+|firstName|String|false||
+|lastName|String|false||
+
+
+
 
 > The above command returns JSON structured like this:
 
@@ -5790,13 +6106,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderJapaneseNameBatch", {
 ]
 ```
 
-<h3 id="gender-japanese-name-pinyin-batch-responses">Responses</h3>
+<h3 id="gender-japanese-name-pinyin-batch-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|A list of genderized names.|Inline|
-|401|Unauthorized|Missing or incorrect API Key|None|
-|403|Forbidden|API Limit Reached or API Key Disabled|None|
+!{response-table-tag}
 
 
 
@@ -5805,11 +6117,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderJapaneseNameBatch", {
 
 
 
-## Gender-Japanese-Name-Full
+
+
+## Gender Japanese Name Full
 
 <a id="opIdGender-Japanese-Name-Full"></a>
 
-> Gender-Japanese-Name-Full code sample :
+> **Gender Japanese Name Full** code sample :
 
 ```shell
 curl --request GET \
@@ -5854,15 +6168,20 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderJapaneseNameFull/{japan
 
 *Infer the likely gender of a Japanese full name ex. 王晓明*
 
-<h3 id="gender-japanese-name-full-requesturl">URL</h3>
+*<u>Cost :</u> The processing of each name requires **1** credit.*
+
+<h3 id="gender-japanese-name-full-requesturl">HTTP Request</h3>
 
 `GET https://v2.namsor.com/NamSorAPIv2/api2/json/genderJapaneseNameFull/{japaneseName}`
 
-<h3 id="gender-japanese-name-full-parameters">Parameters</h3>
+<h3 id="gender-japanese-name-full-parameters">Request Parameters</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|japaneseName|path|any|true|none|
+|Name|Type|Required|Description|
+|---|---|---|---|
+|japaneseName|String|true||
+
+
+
 
 > The above command returns JSON structured like this:
 
@@ -5879,13 +6198,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderJapaneseNameFull/{japan
 }
 ```
 
-<h3 id="gender-japanese-name-full-responses">Responses</h3>
+<h3 id="gender-japanese-name-full-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|A genderized name.|Inline|
-|401|Unauthorized|Missing or incorrect API Key|None|
-|403|Forbidden|API Limit Reached or API Key Disabled|None|
+!{response-table-tag}
 
 
 
@@ -5894,11 +6209,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderJapaneseNameFull/{japan
 
 
 
-## Gender-Japanese-Name-Full-Batch
+
+
+## Gender Japanese Name Full Batch
 
 <a id="opIdGender-Japanese-Name-Full-Batch"></a>
 
-> Gender-Japanese-Name-Full-Batch code sample :
+> **Gender Japanese Name Full Batch** code sample :
 
 ```shell
 curl --request POST \
@@ -5969,15 +6286,23 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderJapaneseNameFullBatch",
 ]
 ```
 
-<h3 id="gender-japanese-name-full-batch-requesturl">URL</h3>
+*<u>Cost :</u> The processing of each name requires **1** credit.*
+
+<h3 id="gender-japanese-name-full-batch-requesturl">HTTP Request</h3>
 
 `POST https://v2.namsor.com/NamSorAPIv2/api2/json/genderJapaneseNameFullBatch`
 
-<h3 id="gender-japanese-name-full-batch-parameters">Parameters</h3>
+<h3 id="gender-japanese-name-full-batch-parameters">Request Body</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|body|body|any|false|A list of personal names|
+*The HTTP request body is required to be an array of objects.*
+
+|Name|Type|Required|Description|
+|---|---|---|---|
+|id|String|false||
+|name|String|false||
+
+
+
 
 > The above command returns JSON structured like this:
 
@@ -5996,13 +6321,11 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderJapaneseNameFullBatch",
 ]
 ```
 
-<h3 id="gender-japanese-name-full-batch-responses">Responses</h3>
+<h3 id="gender-japanese-name-full-batch-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|A list of genderized names.|Inline|
-|401|Unauthorized|Missing or incorrect API Key|None|
-|403|Forbidden|API Limit Reached or API Key Disabled|None|
+!{response-table-tag}
+
+
 
 
 
@@ -6015,11 +6338,11 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderJapaneseNameFullBatch",
 
 Administrative, system management.
 
-## Stripe-Connect
+## Stripe Connect
 
 <a id="opIdStripe-Connect"></a>
 
-> Stripe-Connect code sample :
+> **Stripe Connect** code sample :
 
 ```shell
 curl --request GET \
@@ -6058,24 +6381,31 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/stripeConnect", {
 
 *Connects a Stripe Account.*
 
-<h3 id="stripe-connect-requesturl">URL</h3>
+*<u>Cost :</u> The processing of each name requires **1** credit.*
+
+<h3 id="stripe-connect-requesturl">HTTP Request</h3>
 
 `GET https://v2.namsor.com/NamSorAPIv2/api2/json/stripeConnect`
 
-<h3 id="stripe-connect-parameters">Parameters</h3>
+<h3 id="stripe-connect-parameters">Request Parameters</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
+|Name|Type|Required|Description|
+|---|---|---|---|
+|scope|String|false||
+|code|String|false||
+|error|String|false||
+|error_description|String|false||
+
+
 |scope|query|any|false|none|
 |code|query|any|false|none|
 |error|query|any|false|none|
 |error_description|query|any|false|none|
 
-<h3 id="stripe-connect-responses">Responses</h3>
+<h3 id="stripe-connect-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|401|Unauthorized|Missing or incorrect email or payment token|None|
+!{response-table-tag}
+
 
 
 
@@ -6086,7 +6416,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/stripeConnect", {
 
 <a id="opIdCharge"></a>
 
-> Charge code sample :
+> **Charge** code sample :
 
 ```shell
 curl --request POST \
@@ -6143,14 +6473,22 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/charge", {
 
 > Body parameter
 
-<h3 id="charge-requesturl">URL</h3>
+*<u>Cost :</u> The processing of each name requires **1** credit.*
+
+<h3 id="charge-requesturl">HTTP Request</h3>
 
 `POST https://v2.namsor.com/NamSorAPIv2/api2/json/charge`
 
-<h3 id="charge-parameters">Parameters</h3>
+<h3 id="charge-parameters">Request Body</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
+*The HTTP request body is required to be an object.*
+
+|Name|Type|Required|Description|
+|---|---|---|---|
+|stripeToken|String|false||
+|stripeEmail|String|false||
+
+
 |body|body|any|false|none|
 
 > The above command returns JSON structured like this:
@@ -6172,12 +6510,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/charge", {
 }
 ```
 
-<h3 id="charge-responses">Responses</h3>
+<h3 id="charge-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|A stripe customerID|Inline|
-|401|Unauthorized|Missing or incorrect email or payment token|None|
+!{response-table-tag}
 
 
 
@@ -6186,11 +6521,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/charge", {
 
 
 
-## Payment-Information
+
+
+## Payment Information
 
 <a id="opIdPayment-Information"></a>
 
-> Payment-Information code sample :
+> **Payment Information** code sample :
 
 ```shell
 curl --request GET \
@@ -6235,15 +6572,20 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/paymentInfo/{token}", {
 
 *Get the Stripe payment information associated with the current google auth session token.*
 
-<h3 id="payment-information-requesturl">URL</h3>
+*<u>Cost :</u> The processing of each name requires **1** credit.*
+
+<h3 id="payment-information-requesturl">HTTP Request</h3>
 
 `GET https://v2.namsor.com/NamSorAPIv2/api2/json/paymentInfo/{token}`
 
-<h3 id="payment-information-parameters">Parameters</h3>
+<h3 id="payment-information-parameters">Request Parameters</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|token|path|any|true|none|
+|Name|Type|Required|Description|
+|---|---|---|---|
+|token|String|true||
+
+
+
 
 > The above command returns JSON structured like this:
 
@@ -6264,12 +6606,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/paymentInfo/{token}", {
 }
 ```
 
-<h3 id="payment-information-responses">Responses</h3>
+<h3 id="payment-information-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|An session token|Inline|
-|401|Unauthorized|Missing or incorrect token|None|
+!{response-table-tag}
 
 
 
@@ -6278,11 +6617,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/paymentInfo/{token}", {
 
 
 
-## Update-Payment-Default
+
+
+## Update Payment Default
 
 <a id="opIdUpdate-Payment-Default"></a>
 
-> Update-Payment-Default code sample :
+> **Update Payment Default** code sample :
 
 ```shell
 curl --request GET \
@@ -6327,16 +6668,22 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/updatePaymentDefault/{defautS
 
 *Update the default Stripe card associated with the current google auth session token.*
 
-<h3 id="update-payment-default-requesturl">URL</h3>
+*<u>Cost :</u> The processing of each name requires **1** credit.*
+
+<h3 id="update-payment-default-requesturl">HTTP Request</h3>
 
 `GET https://v2.namsor.com/NamSorAPIv2/api2/json/updatePaymentDefault/{defautSourceId}/{token}`
 
-<h3 id="update-payment-default-parameters">Parameters</h3>
+<h3 id="update-payment-default-parameters">Request Parameters</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|defautSourceId|path|any|true|none|
-|token|path|any|true|none|
+|Name|Type|Required|Description|
+|---|---|---|---|
+|defautSourceId|String|true||
+|token|String|true||
+
+
+
+
 
 > The above command returns JSON structured like this:
 
@@ -6357,12 +6704,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/updatePaymentDefault/{defautS
 }
 ```
 
-<h3 id="update-payment-default-responses">Responses</h3>
+<h3 id="update-payment-default-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|An session token|Inline|
-|401|Unauthorized|Missing or incorrect token|None|
+!{response-table-tag}
 
 
 
@@ -6371,11 +6715,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/updatePaymentDefault/{defautS
 
 
 
-## Software-Version
+
+
+## Software Version
 
 <a id="opIdSoftware-Version"></a>
 
-> Software-Version code sample :
+> **Software Version** code sample :
 
 ```shell
 curl --request GET \
@@ -6431,12 +6777,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/softwareVersion", {
 }
 ```
 
-<h3 id="software-version-responses">Responses</h3>
+<h3 id="software-version-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|The current software version|Inline|
-|401|Unauthorized|Missing or incorrect token|None|
+!{response-table-tag}
 
 
 
@@ -6445,11 +6788,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/softwareVersion", {
 
 
 
-## Namsor-Counter
+
+
+## Namsor Counter
 
 <a id="opIdNamsor-Counter"></a>
 
-> Namsor-Counter code sample :
+> **Namsor Counter** code sample :
 
 ```shell
 curl --request GET \
@@ -6505,12 +6850,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/namsorCounter", {
 }
 ```
 
-<h3 id="namsor-counter-responses">Responses</h3>
+<h3 id="namsor-counter-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|The overall API counter|Inline|
-|401|Unauthorized|Missing or incorrect token|None|
+!{response-table-tag}
 
 
 
@@ -6519,11 +6861,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/namsorCounter", {
 
 
 
-## Billing-Currencies
+
+
+## Billing Currencies
 
 <a id="opIdBilling-Currencies"></a>
 
-> Billing-Currencies code sample :
+> **Billing Currencies** code sample :
 
 ```shell
 curl --request GET \
@@ -6578,12 +6922,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/billingCurrencies", {
 }
 ```
 
-<h3 id="billing-currencies-responses">Responses</h3>
+<h3 id="billing-currencies-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|The supported billing currencies.|Inline|
-|401|Unauthorized|Missing or incorrect token|None|
+!{response-table-tag}
 
 
 
@@ -6592,11 +6933,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/billingCurrencies", {
 
 
 
-## Billing-Info
+
+
+## Billing Info
 
 <a id="opIdBilling-Info"></a>
 
-> Billing-Info code sample :
+> **Billing Info** code sample :
 
 ```shell
 curl --request GET \
@@ -6641,15 +6984,20 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/billingInfo/{token}", {
 
 *Read the billing information (company name, address, phone, vat ID)*
 
-<h3 id="billing-info-requesturl">URL</h3>
+*<u>Cost :</u> The processing of each name requires **1** credit.*
+
+<h3 id="billing-info-requesturl">HTTP Request</h3>
 
 `GET https://v2.namsor.com/NamSorAPIv2/api2/json/billingInfo/{token}`
 
-<h3 id="billing-info-parameters">Parameters</h3>
+<h3 id="billing-info-parameters">Request Parameters</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|token|path|any|true|none|
+|Name|Type|Required|Description|
+|---|---|---|---|
+|token|String|true||
+
+
+
 
 > The above command returns JSON structured like this:
 
@@ -6671,12 +7019,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/billingInfo/{token}", {
 }
 ```
 
-<h3 id="billing-info-responses">Responses</h3>
+<h3 id="billing-info-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|The current billing info|Inline|
-|401|Unauthorized|Missing or incorrect token|None|
+!{response-table-tag}
 
 
 
@@ -6685,11 +7030,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/billingInfo/{token}", {
 
 
 
-## Update-Billing-Info
+
+
+## Update Billing Info
 
 <a id="opIdUpdate-Billing-Info"></a>
 
-> Update-Billing-Info code sample :
+> **Update Billing Info** code sample :
 
 ```shell
 curl --request POST \
@@ -6762,14 +7109,31 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/updateBillingInfo/type,string
 }
 ```
 
-<h3 id="update-billing-info-requesturl">URL</h3>
+*<u>Cost :</u> The processing of each name requires **1** credit.*
+
+<h3 id="update-billing-info-requesturl">HTTP Request</h3>
 
 `POST https://v2.namsor.com/NamSorAPIv2/api2/json/updateBillingInfo/{token}`
 
-<h3 id="update-billing-info-parameters">Parameters</h3>
+<h3 id="update-billing-info-parameters">Request Body</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
+*The HTTP request body is required to be an object.*
+
+|Name|Type|Required|Description|
+|---|---|---|---|
+|billingEmail|String|false||
+|preferredCurrency|String|false||
+|customerName|String|false||
+|customerPhone|String|false||
+|addressLine1|String|false||
+|addressLine2|String|false||
+|addressCity|String|false||
+|addressPostalCode|String|false||
+|addressState|String|false||
+|addressCountry|String|false||
+|vatID|String|false||
+
+
 |token|path|string|true|none|
 |body|body|any|false|none|
 
@@ -6793,12 +7157,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/updateBillingInfo/type,string
 }
 ```
 
-<h3 id="update-billing-info-responses">Responses</h3>
+<h3 id="update-billing-info-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|The updated billing info|Inline|
-|401|Unauthorized|Missing or incorrect token|None|
+!{response-table-tag}
 
 
 
@@ -6807,11 +7168,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/updateBillingInfo/type,string
 
 
 
-## Billing-History
+
+
+## Billing History
 
 <a id="opIdBilling-History"></a>
 
-> Billing-History code sample :
+> **Billing History** code sample :
 
 ```shell
 curl --request GET \
@@ -6856,15 +7219,20 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/billingHistory/{token}", {
 
 *Read the history billing information (invoices paid via Stripe or manually).*
 
-<h3 id="billing-history-requesturl">URL</h3>
+*<u>Cost :</u> The processing of each name requires **1** credit.*
+
+<h3 id="billing-history-requesturl">HTTP Request</h3>
 
 `GET https://v2.namsor.com/NamSorAPIv2/api2/json/billingHistory/{token}`
 
-<h3 id="billing-history-parameters">Parameters</h3>
+<h3 id="billing-history-parameters">Request Parameters</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|token|path|any|true|none|
+|Name|Type|Required|Description|
+|---|---|---|---|
+|token|String|true||
+
+
+
 
 > The above command returns JSON structured like this:
 
@@ -6877,12 +7245,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/billingHistory/{token}", {
 }
 ```
 
-<h3 id="billing-history-responses">Responses</h3>
+<h3 id="billing-history-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|The billing history|Inline|
-|401|Unauthorized|Missing or incorrect token|None|
+!{response-table-tag}
 
 
 
@@ -6891,11 +7256,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/billingHistory/{token}", {
 
 
 
-## Procure-Key
+
+
+## Procure Key
 
 <a id="opIdProcure-Key"></a>
 
-> Procure-Key code sample :
+> **Procure Key** code sample :
 
 ```shell
 curl --request GET \
@@ -6940,15 +7307,20 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/procureKey/{token}", {
 
 *Procure an API Key (sent via Email), based on an auth token. Keep your API Key secret.*
 
-<h3 id="procure-key-requesturl">URL</h3>
+*<u>Cost :</u> The processing of each name requires **1** credit.*
+
+<h3 id="procure-key-requesturl">HTTP Request</h3>
 
 `GET https://v2.namsor.com/NamSorAPIv2/api2/json/procureKey/{token}`
 
-<h3 id="procure-key-parameters">Parameters</h3>
+<h3 id="procure-key-parameters">Request Parameters</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|token|path|any|true|none|
+|Name|Type|Required|Description|
+|---|---|---|---|
+|token|String|true||
+
+
+
 
 > The above command returns JSON structured like this:
 
@@ -6969,12 +7341,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/procureKey/{token}", {
 }
 ```
 
-<h3 id="procure-key-responses">Responses</h3>
+<h3 id="procure-key-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|An API Key|Inline|
-|401|Unauthorized|Missing or incorrect token|None|
+!{response-table-tag}
 
 
 
@@ -6983,11 +7352,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/procureKey/{token}", {
 
 
 
-## Available-Plans
+
+
+## Available Plans
 
 <a id="opIdAvailable-Plans"></a>
 
-> Available-Plans code sample :
+> **Available Plans** code sample :
 
 ```shell
 curl --request GET \
@@ -7032,15 +7403,20 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/availablePlans/{token}", {
 
 *List all available plans in the user's preferred currency.*
 
-<h3 id="available-plans-requesturl">URL</h3>
+*<u>Cost :</u> The processing of each name requires **1** credit.*
+
+<h3 id="available-plans-requesturl">HTTP Request</h3>
 
 `GET https://v2.namsor.com/NamSorAPIv2/api2/json/availablePlans/{token}`
 
-<h3 id="available-plans-parameters">Parameters</h3>
+<h3 id="available-plans-parameters">Request Parameters</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|token|path|any|true|none|
+|Name|Type|Required|Description|
+|---|---|---|---|
+|token|String|true||
+
+
+
 
 > The above command returns JSON structured like this:
 
@@ -7055,12 +7431,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/availablePlans/{token}", {
 }
 ```
 
-<h3 id="available-plans-responses">Responses</h3>
+<h3 id="available-plans-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|Available plans|Inline|
-|401|Unauthorized|Missing or incorrect token|None|
+!{response-table-tag}
 
 
 
@@ -7069,11 +7442,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/availablePlans/{token}", {
 
 
 
-## Available-Plans-USD
+
+
+## Available Plans USD
 
 <a id="opIdAvailable-Plans-USD"></a>
 
-> Available-Plans-USD code sample :
+> **Available Plans USD** code sample :
 
 ```shell
 curl --request GET \
@@ -7131,12 +7506,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/availablePlans", {
 }
 ```
 
-<h3 id="available-plans-usd-responses">Responses</h3>
+<h3 id="available-plans-usd-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|Available plans|Inline|
-|401|Unauthorized|Missing or incorrect token|None|
+!{response-table-tag}
 
 
 
@@ -7145,11 +7517,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/availablePlans", {
 
 
 
-## Api-Status
+
+
+## Api Status
 
 <a id="opIdApi-Status"></a>
 
-> Api-Status code sample :
+> **Api Status** code sample :
 
 ```shell
 curl --request GET \
@@ -7207,12 +7581,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/apiStatus", {
 }
 ```
 
-<h3 id="api-status-responses">Responses</h3>
+<h3 id="api-status-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|Available classifiers and status|Inline|
-|401|Unauthorized|Missing or incorrect token|None|
+!{response-table-tag}
 
 
 
@@ -7221,11 +7592,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/apiStatus", {
 
 
 
-## Available-Services
+
+
+## Available Services
 
 <a id="opIdAvailable-Services"></a>
 
-> Available-Services code sample :
+> **Available Services** code sample :
 
 ```shell
 curl --request GET \
@@ -7283,12 +7656,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/apiServices", {
 }
 ```
 
-<h3 id="available-services-responses">Responses</h3>
+<h3 id="available-services-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|Available services|Inline|
-|401|Unauthorized|Missing or incorrect token|None|
+!{response-table-tag}
 
 
 
@@ -7297,11 +7667,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/apiServices", {
 
 
 
-## Taxonomy-Classes
+
+
+## Taxonomy Classes
 
 <a id="opIdTaxonomy-Classes"></a>
 
-> Taxonomy-Classes code sample :
+> **Taxonomy Classes** code sample :
 
 ```shell
 curl --request GET \
@@ -7346,15 +7718,20 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/taxonomyClasses/{classifierNa
 
 *Print the taxonomy classes valid for the given classifier.*
 
-<h3 id="taxonomy-classes-requesturl">URL</h3>
+*<u>Cost :</u> The processing of each name requires **1** credit.*
+
+<h3 id="taxonomy-classes-requesturl">HTTP Request</h3>
 
 `GET https://v2.namsor.com/NamSorAPIv2/api2/json/taxonomyClasses/{classifierName}`
 
-<h3 id="taxonomy-classes-parameters">Parameters</h3>
+<h3 id="taxonomy-classes-parameters">Request Parameters</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|classifierName|path|any|true|none|
+|Name|Type|Required|Description|
+|---|---|---|---|
+|classifierName|String|true||
+
+
+
 
 > The above command returns JSON structured like this:
 
@@ -7369,12 +7746,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/taxonomyClasses/{classifierNa
 }
 ```
 
-<h3 id="taxonomy-classes-responses">Responses</h3>
+<h3 id="taxonomy-classes-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|Available plans|Inline|
-|401|Unauthorized|Missing or incorrect token|None|
+!{response-table-tag}
 
 
 
@@ -7383,11 +7757,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/taxonomyClasses/{classifierNa
 
 
 
-## Subscribe-Plan
+
+
+## Subscribe Plan
 
 <a id="opIdSubscribe-Plan"></a>
 
-> Subscribe-Plan code sample :
+> **Subscribe Plan** code sample :
 
 ```shell
 curl --request GET \
@@ -7432,16 +7808,22 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/subscribePlan/{planName}/{tok
 
 *Subscribe to a give API plan, using the user's preferred or default currency.*
 
-<h3 id="subscribe-plan-requesturl">URL</h3>
+*<u>Cost :</u> The processing of each name requires **1** credit.*
+
+<h3 id="subscribe-plan-requesturl">HTTP Request</h3>
 
 `GET https://v2.namsor.com/NamSorAPIv2/api2/json/subscribePlan/{planName}/{token}`
 
-<h3 id="subscribe-plan-parameters">Parameters</h3>
+<h3 id="subscribe-plan-parameters">Request Parameters</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|planName|path|any|true|none|
-|token|path|any|true|none|
+|Name|Type|Required|Description|
+|---|---|---|---|
+|planName|String|true||
+|token|String|true||
+
+
+
+
 
 > The above command returns JSON structured like this:
 
@@ -7471,12 +7853,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/subscribePlan/{planName}/{tok
 }
 ```
 
-<h3 id="subscribe-plan-responses">Responses</h3>
+<h3 id="subscribe-plan-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|An API subscription|Inline|
-|401|Unauthorized|Missing or incorrect token|None|
+!{response-table-tag}
 
 
 
@@ -7485,11 +7864,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/subscribePlan/{planName}/{tok
 
 
 
-## Subscribe-Plan-OnBehalf
+
+
+## Subscribe Plan OnBehalf
 
 <a id="opIdSubscribe-Plan-OnBehalf"></a>
 
-> Subscribe-Plan-OnBehalf code sample :
+> **Subscribe Plan OnBehalf** code sample :
 
 ```shell
 curl --request GET \
@@ -7534,16 +7915,22 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/subscribePlanOnBehalf/{planNa
 
 *Subscribe to a give API plan, using the user's preferred or default currency (admin only).*
 
-<h3 id="subscribe-plan-onbehalf-requesturl">URL</h3>
+*<u>Cost :</u> The processing of each name requires **1** credit.*
+
+<h3 id="subscribe-plan-onbehalf-requesturl">HTTP Request</h3>
 
 `GET https://v2.namsor.com/NamSorAPIv2/api2/json/subscribePlanOnBehalf/{planName}/{apiKey}`
 
-<h3 id="subscribe-plan-onbehalf-parameters">Parameters</h3>
+<h3 id="subscribe-plan-onbehalf-parameters">Request Parameters</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|planName|path|any|true|none|
-|apiKey|path|any|true|none|
+|Name|Type|Required|Description|
+|---|---|---|---|
+|planName|String|true||
+|apiKey|String|true||
+
+
+
+
 
 > The above command returns JSON structured like this:
 
@@ -7573,12 +7960,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/subscribePlanOnBehalf/{planNa
 }
 ```
 
-<h3 id="subscribe-plan-onbehalf-responses">Responses</h3>
+<h3 id="subscribe-plan-onbehalf-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|An API subscription|Inline|
-|401|Unauthorized|Missing or incorrect token|None|
+!{response-table-tag}
 
 
 
@@ -7587,11 +7971,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/subscribePlanOnBehalf/{planNa
 
 
 
-## Remove-User-Account
+
+
+## Remove User Account
 
 <a id="opIdRemove-User-Account"></a>
 
-> Remove-User-Account code sample :
+> **Remove User Account** code sample :
 
 ```shell
 curl --request GET \
@@ -7636,15 +8022,20 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/removeUserAccount/{token}", {
 
 *Remove the user account.*
 
-<h3 id="remove-user-account-requesturl">URL</h3>
+*<u>Cost :</u> The processing of each name requires **1** credit.*
+
+<h3 id="remove-user-account-requesturl">HTTP Request</h3>
 
 `GET https://v2.namsor.com/NamSorAPIv2/api2/json/removeUserAccount/{token}`
 
-<h3 id="remove-user-account-parameters">Parameters</h3>
+<h3 id="remove-user-account-parameters">Request Parameters</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|token|path|any|true|none|
+|Name|Type|Required|Description|
+|---|---|---|---|
+|token|String|true||
+
+
+
 
 > The above command returns JSON structured like this:
 
@@ -7674,12 +8065,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/removeUserAccount/{token}", {
 }
 ```
 
-<h3 id="remove-user-account-responses">Responses</h3>
+<h3 id="remove-user-account-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|An API subscription|Inline|
-|401|Unauthorized|Missing or incorrect token|None|
+!{response-table-tag}
 
 
 
@@ -7688,11 +8076,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/removeUserAccount/{token}", {
 
 
 
-## Remove-User-Account-OnBehalf
+
+
+## Remove User Account OnBehalf
 
 <a id="opIdRemove-User-Account-OnBehalf"></a>
 
-> Remove-User-Account-OnBehalf code sample :
+> **Remove User Account OnBehalf** code sample :
 
 ```shell
 curl --request GET \
@@ -7737,15 +8127,20 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/removeUserAccountOnBehalf/{ap
 
 *Remove (on behalf) a user account.*
 
-<h3 id="remove-user-account-onbehalf-requesturl">URL</h3>
+*<u>Cost :</u> The processing of each name requires **1** credit.*
+
+<h3 id="remove-user-account-onbehalf-requesturl">HTTP Request</h3>
 
 `GET https://v2.namsor.com/NamSorAPIv2/api2/json/removeUserAccountOnBehalf/{apiKey}`
 
-<h3 id="remove-user-account-onbehalf-parameters">Parameters</h3>
+<h3 id="remove-user-account-onbehalf-parameters">Request Parameters</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|apiKey|path|any|true|none|
+|Name|Type|Required|Description|
+|---|---|---|---|
+|apiKey|String|true||
+
+
+
 
 > The above command returns JSON structured like this:
 
@@ -7775,12 +8170,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/removeUserAccountOnBehalf/{ap
 }
 ```
 
-<h3 id="remove-user-account-onbehalf-responses">Responses</h3>
+<h3 id="remove-user-account-onbehalf-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|An API subscription|Inline|
-|401|Unauthorized|Missing or incorrect token|None|
+!{response-table-tag}
 
 
 
@@ -7789,11 +8181,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/removeUserAccountOnBehalf/{ap
 
 
 
-## Update-Limit
+
+
+## Update Limit
 
 <a id="opIdUpdate-Limit"></a>
 
-> Update-Limit code sample :
+> **Update Limit** code sample :
 
 ```shell
 curl --request GET \
@@ -7838,17 +8232,24 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/updateLimit/{usageLimit}/{har
 
 *Modifies the hard/soft limit on the API plan's overages (default is 0$ soft limit).*
 
-<h3 id="update-limit-requesturl">URL</h3>
+*<u>Cost :</u> The processing of each name requires **1** credit.*
+
+<h3 id="update-limit-requesturl">HTTP Request</h3>
 
 `GET https://v2.namsor.com/NamSorAPIv2/api2/json/updateLimit/{usageLimit}/{hardOrSoft}/{token}`
 
-<h3 id="update-limit-parameters">Parameters</h3>
+<h3 id="update-limit-parameters">Request Parameters</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|usageLimit|path|any|true|none|
-|hardOrSoft|path|any|true|none|
-|token|path|any|true|none|
+|Name|Type|Required|Description|
+|---|---|---|---|
+|usageLimit|Integer|true||
+|hardOrSoft|Boolean|true||
+|token|String|true||
+
+
+
+
+
 
 > The above command returns JSON structured like this:
 
@@ -7863,12 +8264,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/updateLimit/{usageLimit}/{har
 }
 ```
 
-<h3 id="update-limit-responses">Responses</h3>
+<h3 id="update-limit-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|An API subscription|Inline|
-|401|Unauthorized|Missing or incorrect token|None|
+!{response-table-tag}
 
 
 
@@ -7877,11 +8275,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/updateLimit/{usageLimit}/{har
 
 
 
-## Verify-Email
+
+
+## Verify Email
 
 <a id="opIdVerify-Email"></a>
 
-> Verify-Email code sample :
+> **Verify Email** code sample :
 
 ```shell
 curl --request GET \
@@ -7926,15 +8326,20 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/verifyEmail/{emailToken}", {
 
 *Verifies an email, based on token sent to that email*
 
-<h3 id="verify-email-requesturl">URL</h3>
+*<u>Cost :</u> The processing of each name requires **1** credit.*
+
+<h3 id="verify-email-requesturl">HTTP Request</h3>
 
 `GET https://v2.namsor.com/NamSorAPIv2/api2/json/verifyEmail/{emailToken}`
 
-<h3 id="verify-email-parameters">Parameters</h3>
+<h3 id="verify-email-parameters">Request Parameters</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|emailToken|path|any|true|none|
+|Name|Type|Required|Description|
+|---|---|---|---|
+|emailToken|String|true||
+
+
+
 
 > The above command returns JSON structured like this:
 
@@ -7955,12 +8360,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/verifyEmail/{emailToken}", {
 }
 ```
 
-<h3 id="verify-email-responses">Responses</h3>
+<h3 id="verify-email-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|An API Key|Inline|
-|401|Unauthorized|Missing or incorrect token|None|
+!{response-table-tag}
 
 
 
@@ -7969,11 +8371,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/verifyEmail/{emailToken}", {
 
 
 
-## Verify-Remove-Email
+
+
+## Verify Remove Email
 
 <a id="opIdVerify-Remove-Email"></a>
 
-> Verify-Remove-Email code sample :
+> **Verify Remove Email** code sample :
 
 ```shell
 curl --request GET \
@@ -8018,15 +8422,20 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/verifyRemoveEmail/{emailToken
 
 *Verifies an email, based on token sent to that email*
 
-<h3 id="verify-remove-email-requesturl">URL</h3>
+*<u>Cost :</u> The processing of each name requires **1** credit.*
+
+<h3 id="verify-remove-email-requesturl">HTTP Request</h3>
 
 `GET https://v2.namsor.com/NamSorAPIv2/api2/json/verifyRemoveEmail/{emailToken}`
 
-<h3 id="verify-remove-email-parameters">Parameters</h3>
+<h3 id="verify-remove-email-parameters">Request Parameters</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|emailToken|path|any|true|none|
+|Name|Type|Required|Description|
+|---|---|---|---|
+|emailToken|String|true||
+
+
+
 
 > The above command returns JSON structured like this:
 
@@ -8047,12 +8456,11 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/verifyRemoveEmail/{emailToken
 }
 ```
 
-<h3 id="verify-remove-email-responses">Responses</h3>
+<h3 id="verify-remove-email-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|An API Key|Inline|
-|401|Unauthorized|Missing or incorrect token|None|
+!{response-table-tag}
+
+
 
 
 
@@ -8065,7 +8473,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/verifyRemoveEmail/{emailToken
 
 <a id="opIdStats"></a>
 
-> Stats code sample :
+> **Stats** code sample :
 
 ```shell
 curl --request GET \
@@ -8125,12 +8533,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/stats", {
 }
 ```
 
-<h3 id="stats-responses">Responses</h3>
+<h3 id="stats-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|Current system status.|Inline|
-|401|Unauthorized|Missing or incorrect API Key|None|
+!{response-table-tag}
 
 
 
@@ -8139,11 +8544,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/stats", {
 
 
 
-## Api-Usage
+
+
+## Api Usage
 
 <a id="opIdApi-Usage"></a>
 
-> Api-Usage code sample :
+> **Api Usage** code sample :
 
 ```shell
 curl --request GET \
@@ -8201,12 +8608,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/apiUsage", {
 }
 ```
 
-<h3 id="api-usage-responses">Responses</h3>
+<h3 id="api-usage-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|Print current API usage.|Inline|
-|401|Unauthorized|Missing or incorrect API Key|None|
+!{response-table-tag}
 
 
 
@@ -8215,11 +8619,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/apiUsage", {
 
 
 
-## Api-Usage-History
+
+
+## Api Usage History
 
 <a id="opIdApi-Usage-History"></a>
 
-> Api-Usage-History code sample :
+> **Api Usage History** code sample :
 
 ```shell
 curl --request GET \
@@ -8277,12 +8683,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/apiUsageHistory", {
 }
 ```
 
-<h3 id="api-usage-history-responses">Responses</h3>
+<h3 id="api-usage-history-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|Print historical API usage.|Inline|
-|401|Unauthorized|Missing or incorrect API Key|None|
+!{response-table-tag}
 
 
 
@@ -8291,11 +8694,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/apiUsageHistory", {
 
 
 
-## Api-Usage-History-Aggregate
+
+
+## Api Usage History Aggregate
 
 <a id="opIdApi-Usage-History-Aggregate"></a>
 
-> Api-Usage-History-Aggregate code sample :
+> **Api Usage History Aggregate** code sample :
 
 ```shell
 curl --request GET \
@@ -8353,12 +8758,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/apiUsageHistoryAggregate", {
 }
 ```
 
-<h3 id="api-usage-history-aggregate-responses">Responses</h3>
+<h3 id="api-usage-history-aggregate-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|Print historical API usage.|Inline|
-|401|Unauthorized|Missing or incorrect API Key|None|
+!{response-table-tag}
 
 
 
@@ -8367,11 +8769,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/apiUsageHistoryAggregate", {
 
 
 
-## Source-Stats
+
+
+## Source Stats
 
 <a id="opIdSource-Stats"></a>
 
-> Source-Stats code sample :
+> **Source Stats** code sample :
 
 ```shell
 curl --request GET \
@@ -8416,15 +8820,20 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/sourceStats/{source}", {
 
 *Print basic source statistics.*
 
-<h3 id="source-stats-requesturl">URL</h3>
+*<u>Cost :</u> The processing of each name requires **1** credit.*
+
+<h3 id="source-stats-requesturl">HTTP Request</h3>
 
 `GET https://v2.namsor.com/NamSorAPIv2/api2/json/sourceStats/{source}`
 
-<h3 id="source-stats-parameters">Parameters</h3>
+<h3 id="source-stats-parameters">Request Parameters</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|source|path|any|true|none|
+|Name|Type|Required|Description|
+|---|---|---|---|
+|source|String|true||
+
+
+
 
 > The above command returns JSON structured like this:
 
@@ -8441,12 +8850,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/sourceStats/{source}", {
 }
 ```
 
-<h3 id="source-stats-responses">Responses</h3>
+<h3 id="source-stats-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|Current system status.|Inline|
-|401|Unauthorized|Missing or incorrect API Key|None|
+!{response-table-tag}
 
 
 
@@ -8455,11 +8861,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/sourceStats/{source}", {
 
 
 
-## Add-Credits
+
+
+## Add Credits
 
 <a id="opIdAdd-Credits"></a>
 
-> Add-Credits code sample :
+> **Add Credits** code sample :
 
 ```shell
 curl --request GET \
@@ -8504,17 +8912,24 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/addCredits/{apiKey}/{usageCre
 
 *Add usage credits to an API Key.*
 
-<h3 id="add-credits-requesturl">URL</h3>
+*<u>Cost :</u> The processing of each name requires **1** credit.*
+
+<h3 id="add-credits-requesturl">HTTP Request</h3>
 
 `GET https://v2.namsor.com/NamSorAPIv2/api2/json/addCredits/{apiKey}/{usageCredits}/{userMessage}`
 
-<h3 id="add-credits-parameters">Parameters</h3>
+<h3 id="add-credits-parameters">Request Parameters</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|apiKey|path|any|true|none|
-|usageCredits|path|any|true|none|
-|userMessage|path|any|true|none|
+|Name|Type|Required|Description|
+|---|---|---|---|
+|apiKey|String|true||
+|usageCredits|Integer|true||
+|userMessage|String|true||
+
+
+
+
+
 
 > The above command returns JSON structured like this:
 
@@ -8531,12 +8946,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/addCredits/{apiKey}/{usageCre
 }
 ```
 
-<h3 id="add-credits-responses">Responses</h3>
+<h3 id="add-credits-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|Estimate new after applying credits.|Inline|
-|401|Unauthorized|Missing or incorrect API Key|None|
+!{response-table-tag}
 
 
 
@@ -8545,11 +8957,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/addCredits/{apiKey}/{usageCre
 
 
 
-## Redeploy-UI
+
+
+## Redeploy UI
 
 <a id="opIdRedeploy-UI"></a>
 
-> Redeploy-UI code sample :
+> **Redeploy UI** code sample :
 
 ```shell
 curl --request GET \
@@ -8588,33 +9002,37 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/redeployUI/{live}", {
 
 *Redeploy UI from current dev branch.*
 
-<h3 id="redeploy-ui-requesturl">URL</h3>
+*<u>Cost :</u> The processing of each name requires **1** credit.*
+
+<h3 id="redeploy-ui-requesturl">HTTP Request</h3>
 
 `GET https://v2.namsor.com/NamSorAPIv2/api2/json/redeployUI/{live}`
 
-<h3 id="redeploy-ui-parameters">Parameters</h3>
+<h3 id="redeploy-ui-parameters">Request Parameters</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|live|path|any|true|none|
-
-<h3 id="redeploy-ui-responses">Responses</h3>
-
-|Status|Meaning|Description|Schema|
+|Name|Type|Required|Description|
 |---|---|---|---|
-|200|OK|Redeploy UI from DEV.|None|
-|401|Unauthorized|Missing or incorrect API Key|None|
+|live|Boolean|true||
+
+
+
+
+<h3 id="redeploy-ui-responses">Response</h3>
+
+!{response-table-tag}
 
 
 
 
 
 
-## Redeploy-UI_1
+
+
+## Redeploy UI_1
 
 <a id="opIdRedeploy-UI_1"></a>
 
-> Redeploy-UI_1 code sample :
+> **Redeploy UI_1** code sample :
 
 ```shell
 curl --request GET \
@@ -8653,23 +9071,22 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/redeployUI", {
 
 *Redeploy UI from current dev branch.*
 
-<h3 id="redeploy-ui_1-responses">Responses</h3>
+<h3 id="redeploy-ui_1-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|Redeploy UI from DEV.|None|
-|401|Unauthorized|Missing or incorrect API Key|None|
+!{response-table-tag}
 
 
 
 
 
 
-## Invalidate-Cache
+
+
+## Invalidate Cache
 
 <a id="opIdInvalidate-Cache"></a>
 
-> Invalidate-Cache code sample :
+> **Invalidate Cache** code sample :
 
 ```shell
 curl --request GET \
@@ -8708,23 +9125,22 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/invalidateCache", {
 
 *Invalidate system caches.*
 
-<h3 id="invalidate-cache-responses">Responses</h3>
+<h3 id="invalidate-cache-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|Clear caches.|None|
-|401|Unauthorized|Missing or incorrect API Key|None|
+!{response-table-tag}
 
 
 
 
 
 
-## Debug-Level
+
+
+## Debug Level
 
 <a id="opIdDebug-Level"></a>
 
-> Debug-Level code sample :
+> **Debug Level** code sample :
 
 ```shell
 curl --request GET \
@@ -8763,22 +9179,27 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/debugLevel/{logger}/{level}",
 
 *Update debug level for a classifier*
 
-<h3 id="debug-level-requesturl">URL</h3>
+*<u>Cost :</u> The processing of each name requires **1** credit.*
+
+<h3 id="debug-level-requesturl">HTTP Request</h3>
 
 `GET https://v2.namsor.com/NamSorAPIv2/api2/json/debugLevel/{logger}/{level}`
 
-<h3 id="debug-level-parameters">Parameters</h3>
+<h3 id="debug-level-parameters">Request Parameters</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|logger|path|any|true|none|
-|level|path|any|true|none|
-
-<h3 id="debug-level-responses">Responses</h3>
-
-|Status|Meaning|Description|Schema|
+|Name|Type|Required|Description|
 |---|---|---|---|
-|401|Unauthorized|Missing or incorrect API Key|None|
+|logger|String|true||
+|level|String|true||
+
+
+
+
+
+<h3 id="debug-level-responses">Response</h3>
+
+!{response-table-tag}
+
 
 
 
@@ -8789,7 +9210,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/debugLevel/{logger}/{level}",
 
 <a id="opIdLearnable"></a>
 
-> Learnable code sample :
+> **Learnable** code sample :
 
 ```shell
 curl --request GET \
@@ -8828,23 +9249,28 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/learnable/{source}/{learnable
 
 *Activate/deactivate learning from a source.*
 
-<h3 id="learnable-requesturl">URL</h3>
+*<u>Cost :</u> The processing of each name requires **1** credit.*
+
+<h3 id="learnable-requesturl">HTTP Request</h3>
 
 `GET https://v2.namsor.com/NamSorAPIv2/api2/json/learnable/{source}/{learnable}`
 
-<h3 id="learnable-parameters">Parameters</h3>
+<h3 id="learnable-parameters">Request Parameters</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|source|path|any|true|none|
-|learnable|path|any|true|none|
-
-<h3 id="learnable-responses">Responses</h3>
-
-|Status|Meaning|Description|Schema|
+|Name|Type|Required|Description|
 |---|---|---|---|
-|200|OK|Vetting of a source.|None|
-|401|Unauthorized|Missing or incorrect API Key|None|
+|source|String|true||
+|learnable|Boolean|true||
+
+
+
+
+
+<h3 id="learnable-responses">Response</h3>
+
+!{response-table-tag}
+
+
 
 
 
@@ -8855,7 +9281,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/learnable/{source}/{learnable
 
 <a id="opIdAnonymize"></a>
 
-> Anonymize code sample :
+> **Anonymize** code sample :
 
 ```shell
 curl --request GET \
@@ -8894,23 +9320,28 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/anonymize/{source}/{anonymize
 
 *Activate/deactivate anonymization for a source.*
 
-<h3 id="anonymize-requesturl">URL</h3>
+*<u>Cost :</u> The processing of each name requires **1** credit.*
+
+<h3 id="anonymize-requesturl">HTTP Request</h3>
 
 `GET https://v2.namsor.com/NamSorAPIv2/api2/json/anonymize/{source}/{anonymized}`
 
-<h3 id="anonymize-parameters">Parameters</h3>
+<h3 id="anonymize-parameters">Request Parameters</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|source|path|any|true|none|
-|anonymized|path|any|true|none|
-
-<h3 id="anonymize-responses">Responses</h3>
-
-|Status|Meaning|Description|Schema|
+|Name|Type|Required|Description|
 |---|---|---|---|
-|200|OK|Anonymization of a source.|None|
-|401|Unauthorized|Missing or incorrect API Key|None|
+|source|String|true||
+|anonymized|Boolean|true||
+
+
+
+
+
+<h3 id="anonymize-responses">Response</h3>
+
+!{response-table-tag}
+
+
 
 
 
@@ -8921,7 +9352,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/anonymize/{source}/{anonymize
 
 <a id="opIdVet"></a>
 
-> Vet code sample :
+> **Vet** code sample :
 
 ```shell
 curl --request GET \
@@ -8960,34 +9391,39 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/vetting/{source}/{vetted}", {
 
 *Vetting of a source.*
 
-<h3 id="vet-requesturl">URL</h3>
+*<u>Cost :</u> The processing of each name requires **1** credit.*
+
+<h3 id="vet-requesturl">HTTP Request</h3>
 
 `GET https://v2.namsor.com/NamSorAPIv2/api2/json/vetting/{source}/{vetted}`
 
-<h3 id="vet-parameters">Parameters</h3>
+<h3 id="vet-parameters">Request Parameters</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|source|path|any|true|none|
-|vetted|path|any|true|none|
-
-<h3 id="vet-responses">Responses</h3>
-
-|Status|Meaning|Description|Schema|
+|Name|Type|Required|Description|
 |---|---|---|---|
-|200|OK|Vetting of a source.|None|
-|401|Unauthorized|Missing or incorrect API Key|None|
+|source|String|true||
+|vetted|Boolean|true||
+
+
+
+
+
+<h3 id="vet-responses">Response</h3>
+
+!{response-table-tag}
 
 
 
 
 
 
-## Corporate-Key
+
+
+## Corporate Key
 
 <a id="opIdCorporate-Key"></a>
 
-> Corporate-Key code sample :
+> **Corporate Key** code sample :
 
 ```shell
 curl --request GET \
@@ -9026,23 +9462,28 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/corporateKey/{apiKey}/{corpor
 
 *Setting an API Key to a corporate status.*
 
-<h3 id="corporate-key-requesturl">URL</h3>
+*<u>Cost :</u> The processing of each name requires **1** credit.*
+
+<h3 id="corporate-key-requesturl">HTTP Request</h3>
 
 `GET https://v2.namsor.com/NamSorAPIv2/api2/json/corporateKey/{apiKey}/{corporate}`
 
-<h3 id="corporate-key-parameters">Parameters</h3>
+<h3 id="corporate-key-parameters">Request Parameters</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|apiKey|path|any|true|none|
-|corporate|path|any|true|none|
-
-<h3 id="corporate-key-responses">Responses</h3>
-
-|Status|Meaning|Description|Schema|
+|Name|Type|Required|Description|
 |---|---|---|---|
-|200|OK|API Key set to a corporate status.|None|
-|401|Unauthorized|Missing or incorrect API Key|None|
+|apiKey|String|true||
+|corporate|Boolean|true||
+
+
+
+
+
+<h3 id="corporate-key-responses">Response</h3>
+
+!{response-table-tag}
+
+
 
 
 
@@ -9053,7 +9494,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/corporateKey/{apiKey}/{corpor
 
 <a id="opIdShutdown"></a>
 
-> Shutdown code sample :
+> **Shutdown** code sample :
 
 ```shell
 curl --request GET \
@@ -9092,12 +9533,11 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/shutdown", {
 
 *Stop learning and shutdown system.*
 
-<h3 id="shutdown-responses">Responses</h3>
+<h3 id="shutdown-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|Shutdown AI.|None|
-|401|Unauthorized|Missing or incorrect API Key|None|
+!{response-table-tag}
+
+
 
 
 
@@ -9108,7 +9548,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/shutdown", {
 
 <a id="opIdFlush"></a>
 
-> Flush code sample :
+> **Flush** code sample :
 
 ```shell
 curl --request GET \
@@ -9147,23 +9587,22 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/flush", {
 
 *Flush counters.*
 
-<h3 id="flush-responses">Responses</h3>
+<h3 id="flush-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|Flush API Key caches.|None|
-|401|Unauthorized|Missing or incorrect API Key|None|
+!{response-table-tag}
 
 
 
 
 
 
-## User-Info
+
+
+## User Info
 
 <a id="opIdUser-Info"></a>
 
-> User-Info code sample :
+> **User Info** code sample :
 
 ```shell
 curl --request GET \
@@ -9208,15 +9647,20 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/userInfo/{token}", {
 
 *Get the user profile associated with the current google auth session token.*
 
-<h3 id="user-info-requesturl">URL</h3>
+*<u>Cost :</u> The processing of each name requires **1** credit.*
+
+<h3 id="user-info-requesturl">HTTP Request</h3>
 
 `GET https://v2.namsor.com/NamSorAPIv2/api2/json/userInfo/{token}`
 
-<h3 id="user-info-parameters">Parameters</h3>
+<h3 id="user-info-parameters">Request Parameters</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|token|path|any|true|none|
+|Name|Type|Required|Description|
+|---|---|---|---|
+|token|String|true||
+
+
+
 
 > The above command returns JSON structured like this:
 
@@ -9237,12 +9681,11 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/userInfo/{token}", {
 }
 ```
 
-<h3 id="user-info-responses">Responses</h3>
+<h3 id="user-info-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|An session token|Inline|
-|401|Unauthorized|Missing or incorrect token|None|
+!{response-table-tag}
+
+
 
 
 
@@ -9253,11 +9696,11 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/userInfo/{token}", {
 
 <h1 id="namsor-api-v2-general">General</h1>
 
-## Name-Type
+## Name Type
 
 <a id="opIdName-Type"></a>
 
-> Name-Type code sample :
+> **Name Type** code sample :
 
 ```shell
 curl --request GET \
@@ -9302,15 +9745,20 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/nameType/{properNoun}", {
 
 *Infer the likely type of a proper noun (personal name, brand name, place name etc.)*
 
-<h3 id="name-type-requesturl">URL</h3>
+*<u>Cost :</u> The processing of each name requires **1** credit.*
+
+<h3 id="name-type-requesturl">HTTP Request</h3>
 
 `GET https://v2.namsor.com/NamSorAPIv2/api2/json/nameType/{properNoun}`
 
-<h3 id="name-type-parameters">Parameters</h3>
+<h3 id="name-type-parameters">Request Parameters</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|properNoun|path|any|true|none|
+|Name|Type|Required|Description|
+|---|---|---|---|
+|properNoun|String|true||
+
+
+
 
 > The above command returns JSON structured like this:
 
@@ -9326,13 +9774,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/nameType/{properNoun}", {
 }
 ```
 
-<h3 id="name-type-responses">Responses</h3>
+<h3 id="name-type-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|A typed name.|Inline|
-|401|Unauthorized|Missing or incorrect API Key|None|
-|403|Forbidden|API Limit Reached or API Key Disabled|None|
+!{response-table-tag}
 
 
 
@@ -9341,11 +9785,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/nameType/{properNoun}", {
 
 
 
-## Name-Type-Geo
+
+
+## Name Type Geo
 
 <a id="opIdName-Type-Geo"></a>
 
-> Name-Type-Geo code sample :
+> **Name Type Geo** code sample :
 
 ```shell
 curl --request GET \
@@ -9390,16 +9836,22 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/nameType/{properNoun}/{countr
 
 *Infer the likely type of a proper noun (personal name, brand name, place name etc.)*
 
-<h3 id="name-type-geo-requesturl">URL</h3>
+*<u>Cost :</u> The processing of each name requires **1** credit.*
+
+<h3 id="name-type-geo-requesturl">HTTP Request</h3>
 
 `GET https://v2.namsor.com/NamSorAPIv2/api2/json/nameType/{properNoun}/{countryIso2}`
 
-<h3 id="name-type-geo-parameters">Parameters</h3>
+<h3 id="name-type-geo-parameters">Request Parameters</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|properNoun|path|any|true|none|
-|countryIso2|path|any|true|none|
+|Name|Type|Required|Description|
+|---|---|---|---|
+|properNoun|String|true||
+|countryIso2|String|true||
+
+
+
+
 
 > The above command returns JSON structured like this:
 
@@ -9415,13 +9867,11 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/nameType/{properNoun}/{countr
 }
 ```
 
-<h3 id="name-type-geo-responses">Responses</h3>
+<h3 id="name-type-geo-responses">Response</h3>
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|OK|A typed name.|Inline|
-|401|Unauthorized|Missing or incorrect API Key|None|
-|403|Forbidden|API Limit Reached or API Key Disabled|None|
+!{response-table-tag}
+
+
 
 
 
