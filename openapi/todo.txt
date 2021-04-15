@@ -38,6 +38,7 @@ err route:  /api2/json/flush
             "name": "firstName",
             "in": "path",
             "required": true,
-            "description": "testing",
+            ->"description": "testing",
             "schema": { "type": "string" }
         },
+- /api2/json/updateBillingInfo/{token} param & body ???

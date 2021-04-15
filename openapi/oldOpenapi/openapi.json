@@ -2,7 +2,7 @@
     "openapi": "3.0.1",
     "info": {
         "title": "NamSor API v2",
-        "description": "NamSor API v2 : enpoints to process personal names (gender, cultural origin or ethnicity) in all alphabets or languages. By default, enpoints use 1 unit per name (ex. Gender), but Ethnicity classification uses 10 to 20 units per name depending on taxonomy. Use GET methods for small tests, but prefer POST methods for higher throughput (batch processing of up to 100 names at a time). Need something you can't find here? We have many more features coming soon. Let us know, we'll do our best to add it! ",
+        "description": "NamSor API v2 : enpoints to process personal names (gender, cultural origin or ethnicity) in all alphabets or languages. Use GET methods for small tests, but prefer POST methods for higher throughput (batch processing of up to 100 names at a time). Need something you can't find here? We have many more features coming soon. Let us know, we'll do our best to add it! ",
         "contact": {
             "name": "Namsor SAS",
             "url": "http://www.namsor.com/",
@@ -12,7 +12,7 @@
             "name": "NamSorAPI_Lic_v0.0.7",
             "url": "https://v2.namsor.com/NamSorAPIv2/assets/pdf/201803_NamSor_API_Terms_v007.pdf"
         },
-        "version": "2.0.14"
+        "version": "2.0.11"
     },
     "externalDocs": {
         "description": "NamSor API client SDKs v2 for Java, Python",
@@ -45,6 +45,44 @@
                 "parameters": [
                     {
                         "name": "properNoun",
+                        "in": "path",
+                        "required": true,
+                        "schema": { "type": "string" }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A typed name.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProperNounCategorizedOut"
+                                }
+                            }
+                        }
+                    },
+                    "401": { "description": "Missing or incorrect API Key" },
+                    "403": {
+                        "description": "API Limit Reached or API Key Disabled"
+                    }
+                },
+                "security": [{ "api_key": [] }]
+            }
+        },
+        "/api2/json/nameType/{properNoun}/{countryIso2}": {
+            "get": {
+                "tags": ["general"],
+                "summary": "Infer the likely type of a proper noun (personal name, brand name, place name etc.)",
+                "operationId": "nameType_1",
+                "parameters": [
+                    {
+                        "name": "properNoun",
+                        "in": "path",
+                        "required": true,
+                        "schema": { "type": "string" }
+                    },
+                    {
+                        "name": "countryIso2",
                         "in": "path",
                         "required": true,
                         "schema": { "type": "string" }
@@ -941,6 +979,38 @@
                 "security": [{ "api_key": [] }]
             }
         },
+        "/api2/json/redeployUI/{live}": {
+            "get": {
+                "tags": ["admin"],
+                "summary": "Redeploy UI from current dev branch.",
+                "operationId": "redeployUI",
+                "parameters": [
+                    {
+                        "name": "live",
+                        "in": "path",
+                        "required": true,
+                        "schema": { "type": "boolean" }
+                    }
+                ],
+                "responses": {
+                    "200": { "description": "Redeploy UI from DEV." },
+                    "401": { "description": "Missing or incorrect API Key" }
+                },
+                "security": [{ "api_key": [] }]
+            }
+        },
+        "/api2/json/redeployUI": {
+            "get": {
+                "tags": ["admin"],
+                "summary": "Redeploy UI from current dev branch.",
+                "operationId": "redeployUI_1",
+                "responses": {
+                    "200": { "description": "Redeploy UI from DEV." },
+                    "401": { "description": "Missing or incorrect API Key" }
+                },
+                "security": [{ "api_key": [] }]
+            }
+        },
         "/api2/json/invalidateCache": {
             "get": {
                 "tags": ["admin"],
@@ -1076,208 +1146,6 @@
                     },
                     "401": { "description": "Missing or incorrect API Key" }
                 }
-            }
-        },
-        "/api2/json/nameTypeGeo/{properNoun}/{countryIso2}": {
-            "get": {
-                "tags": ["general"],
-                "summary": "Infer the likely type of a proper noun (personal name, brand name, place name etc.)",
-                "operationId": "nameTypeGeo",
-                "parameters": [
-                    {
-                        "name": "properNoun",
-                        "in": "path",
-                        "required": true,
-                        "schema": { "type": "string" }
-                    },
-                    {
-                        "name": "countryIso2",
-                        "in": "path",
-                        "required": true,
-                        "schema": { "type": "string" }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "A typed name.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProperNounCategorizedOut"
-                                }
-                            }
-                        }
-                    },
-                    "401": { "description": "Missing or incorrect API Key" },
-                    "403": {
-                        "description": "API Limit Reached or API Key Disabled"
-                    }
-                },
-                "security": [{ "api_key": [] }]
-            }
-        },
-        "/api2/json/nameTypeBatch": {
-            "post": {
-                "tags": ["general"],
-                "summary": "Infer the likely common type of up to 100 proper nouns (personal name, brand name, place name etc.)",
-                "operationId": "nameTypeBatch",
-                "requestBody": {
-                    "description": "A list of proper names",
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/BatchNameIn"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "A list of commonTypeized names.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/BatchProperNounCategorizedOut"
-                                }
-                            }
-                        }
-                    },
-                    "401": { "description": "Missing or incorrect API Key" },
-                    "403": {
-                        "description": "API Limit Reached or API Key Disabled"
-                    }
-                },
-                "security": [{ "api_key": [] }]
-            }
-        },
-        "/api2/json/nameTypeGeoBatch": {
-            "post": {
-                "tags": ["general"],
-                "summary": "Infer the likely common type of up to 100 proper nouns (personal name, brand name, place name etc.)",
-                "operationId": "nameTypeGeoBatch",
-                "requestBody": {
-                    "description": "A list of proper names",
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/BatchNameGeoIn"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "A list of commonTypeized names.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/BatchProperNounCategorizedOut"
-                                }
-                            }
-                        }
-                    },
-                    "401": { "description": "Missing or incorrect API Key" },
-                    "403": {
-                        "description": "API Limit Reached or API Key Disabled"
-                    }
-                },
-                "security": [{ "api_key": [] }]
-            }
-        },
-        "/api2/json/corridor/{countryIso2From}/{firstNameFrom}/{lastNameFrom}/{countryIso2To}/{firstNameTo}/{lastNameTo}": {
-            "get": {
-                "tags": ["personal"],
-                "summary": "[USES 20 UNITS PER NAME COUPLE] Infer several classifications for a cross border interaction between names (ex. remit, travel, intl com)",
-                "operationId": "corridor",
-                "parameters": [
-                    {
-                        "name": "countryIso2From",
-                        "in": "path",
-                        "required": true,
-                        "schema": { "type": "string" }
-                    },
-                    {
-                        "name": "firstNameFrom",
-                        "in": "path",
-                        "required": true,
-                        "schema": { "type": "string" }
-                    },
-                    {
-                        "name": "lastNameFrom",
-                        "in": "path",
-                        "required": true,
-                        "schema": { "type": "string" }
-                    },
-                    {
-                        "name": "countryIso2To",
-                        "in": "path",
-                        "required": true,
-                        "schema": { "type": "string" }
-                    },
-                    {
-                        "name": "firstNameTo",
-                        "in": "path",
-                        "required": true,
-                        "schema": { "type": "string" }
-                    },
-                    {
-                        "name": "lastNameTo",
-                        "in": "path",
-                        "required": true,
-                        "schema": { "type": "string" }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Two classified names.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/CorridorOut"
-                                }
-                            }
-                        }
-                    },
-                    "401": { "description": "Missing or incorrect API Key" },
-                    "403": {
-                        "description": "API Limit Reached or API Key Disabled"
-                    }
-                },
-                "security": [{ "api_key": [] }]
-            }
-        },
-        "/api2/json/corridorBatch": {
-            "post": {
-                "tags": ["personal"],
-                "summary": "[USES 20 UNITS PER NAME PAIR] Infer several classifications for up to 100 cross border interaction between names (ex. remit, travel, intl com)",
-                "operationId": "corridorBatch",
-                "requestBody": {
-                    "description": "A list of name pairs, with country code (nameFrom -> nameTo).",
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/BatchCorridorIn"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "A list of classified name pairs.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/BatchCorridorOut"
-                                }
-                            }
-                        }
-                    },
-                    "401": { "description": "Missing or incorrect API Key" },
-                    "403": {
-                        "description": "API Limit Reached or API Key Disabled"
-                    }
-                },
-                "security": [{ "api_key": [] }]
             }
         },
         "/api2/json/gender/{firstName}/{lastName}": {
@@ -1707,7 +1575,7 @@
         "/api2/json/usRaceEthnicity/{firstName}/{lastName}": {
             "get": {
                 "tags": ["personal"],
-                "summary": "[USES 10 UNITS PER NAME] Infer a US resident's likely race/ethnicity according to US Census taxonomy W_NL (white, non latino), HL (hispano latino),  A (asian, non latino), B_NL (black, non latino). Optionally add header X-OPTION-USRACEETHNICITY-TAXONOMY: USRACEETHNICITY-6CLASSES for two additional classes, AI_AN (American Indian or Alaskan Native) and PI (Pacific Islander).",
+                "summary": "[USES 10 UNITS PER NAME] Infer a US resident's likely race/ethnicity according to US Census taxonomy W_NL (white, non latino), HL (hispano latino),  A (asian, non latino), B_NL (black, non latino).",
                 "operationId": "usRaceEthnicity",
                 "parameters": [
                     {
@@ -1725,7 +1593,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "a US resident's likely race/ethnicity : W_NL (white, non latino), HL (hispano latino),  A (asian, non latino), B_NL (black, non latino), AI_AN (American Indian or Alaskan Native*) and PI (Pacific Islander*). *optionally",
+                        "description": "a US resident's likely race/ethnicity : W_NL (white, non latino), HL (hispano latino),  A (asian, non latino), B_NL (black, non latino).",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1745,7 +1613,7 @@
         "/api2/json/usRaceEthnicityZIP5/{firstName}/{lastName}/{zip5Code}": {
             "get": {
                 "tags": ["personal"],
-                "summary": "[USES 10 UNITS PER NAME] Infer a US resident's likely race/ethnicity according to US Census taxonomy, using (optional) ZIP5 code info. Output is W_NL (white, non latino), HL (hispano latino),  A (asian, non latino), B_NL (black, non latino). Optionally add header X-OPTION-USRACEETHNICITY-TAXONOMY: USRACEETHNICITY-6CLASSES for two additional classes, AI_AN (American Indian or Alaskan Native) and PI (Pacific Islander).",
+                "summary": "[USES 10 UNITS PER NAME] Infer a US resident's likely race/ethnicity according to US Census taxonomy, using (optional) ZIP5 code info. Output is W_NL (white, non latino), HL (hispano latino),  A (asian, non latino), B_NL (black, non latino).",
                 "operationId": "usRaceEthnicityZIP5",
                 "parameters": [
                     {
@@ -1769,7 +1637,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "a US resident's likely race/ethnicity : W_NL (white, non latino), HL (hispano latino),  A (asian, non latino), B_NL (black, non latino), AI_AN (American Indian or Alaskan Native*) and PI (Pacific Islander*). *optionally",
+                        "description": "a US resident's likely race/ethnicity : W_NL (white, non latino), HL (hispano latino),  A (asian, non latino), B_NL (black, non latino).",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1789,7 +1657,7 @@
         "/api2/json/usRaceEthnicityBatch": {
             "post": {
                 "tags": ["personal"],
-                "summary": "[USES 10 UNITS PER NAME] Infer up-to 100 US resident's likely race/ethnicity according to US Census taxonomy. Output is W_NL (white, non latino), HL (hispano latino),  A (asian, non latino), B_NL (black, non latino). Optionally add header X-OPTION-USRACEETHNICITY-TAXONOMY: USRACEETHNICITY-6CLASSES for two additional classes, AI_AN (American Indian or Alaskan Native) and PI (Pacific Islander).",
+                "summary": "[USES 10 UNITS PER NAME] Infer up-to 100 US resident's likely race/ethnicity according to US Census taxonomy.",
                 "operationId": "usRaceEthnicityBatch",
                 "requestBody": {
                     "description": "A list of personal names",
@@ -1803,7 +1671,7 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "A list of US resident's likely race/ethnicity. W_NL (white, non latino), HL (hispano latino),  A (asian, non latino), B_NL (black, non latino), AI_AN (American Indian or Alaskan Native*) and PI (Pacific Islander*). *optionally",
+                        "description": "A list of US resident's likely race/ethnicity. W_NL (white, non latino), HL (hispano latino),  A (asian, non latino), B_NL (black, non latino).",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1823,7 +1691,7 @@
         "/api2/json/usZipRaceEthnicityBatch": {
             "post": {
                 "tags": ["personal"],
-                "summary": "[USES 10 UNITS PER NAME] Infer up-to 100 US resident's likely race/ethnicity according to US Census taxonomy, with (optional) ZIP code. Output is W_NL (white, non latino), HL (hispano latino),  A (asian, non latino), B_NL (black, non latino). Optionally add header X-OPTION-USRACEETHNICITY-TAXONOMY: USRACEETHNICITY-6CLASSES for two additional classes, AI_AN (American Indian or Alaskan Native) and PI (Pacific Islander).",
+                "summary": "[USES 10 UNITS PER NAME] Infer up-to 100 US resident's likely race/ethnicity according to US Census taxonomy, with (optional) ZIP code.",
                 "operationId": "usZipRaceEthnicityBatch",
                 "requestBody": {
                     "description": "A list of personal names",
@@ -1837,7 +1705,7 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "A list of US resident's likely race/ethnicity. W_NL (white, non latino), HL (hispano latino),  A (asian, non latino), B_NL (black, non latino), AI_AN (American Indian or Alaskan Native*) and PI (Pacific Islander*). *optionally",
+                        "description": "A list of US resident's likely race/ethnicity. W_NL (white, non latino), HL (hispano latino),  A (asian, non latino), B_NL (black, non latino).",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -2602,55 +2470,11 @@
                 "security": [{ "api_key": [] }]
             }
         },
-        "/api2/json/japaneseNameKanjiCandidates/{japaneseSurnameLatin}/{japaneseGivenNameLatin}/{knownGender}": {
-            "get": {
-                "tags": ["japanese"],
-                "summary": "Identify japanese name candidates in KANJI, based on the romanized name ex. Yamamoto Sanae - and a known gender.",
-                "operationId": "japaneseNameKanjiCandidates",
-                "parameters": [
-                    {
-                        "name": "japaneseSurnameLatin",
-                        "in": "path",
-                        "required": true,
-                        "schema": { "type": "string" }
-                    },
-                    {
-                        "name": "japaneseGivenNameLatin",
-                        "in": "path",
-                        "required": true,
-                        "schema": { "type": "string" }
-                    },
-                    {
-                        "name": "knownGender",
-                        "in": "path",
-                        "required": true,
-                        "schema": { "type": "string" }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "A romanized name.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/RomanizedNameOut"
-                                }
-                            }
-                        }
-                    },
-                    "401": { "description": "Missing or incorrect API Key" },
-                    "403": {
-                        "description": "API Limit Reached or API Key Disabled"
-                    }
-                },
-                "security": [{ "api_key": [] }]
-            }
-        },
         "/api2/json/japaneseNameKanjiCandidates/{japaneseSurnameLatin}/{japaneseGivenNameLatin}": {
             "get": {
                 "tags": ["japanese"],
                 "summary": "Identify japanese name candidates in KANJI, based on the romanized name ex. Yamamoto Sanae",
-                "operationId": "japaneseNameKanjiCandidates_1",
+                "operationId": "japaneseNameKanjiCandidates",
                 "parameters": [
                     {
                         "name": "japaneseSurnameLatin",
@@ -2729,40 +2553,6 @@
                 "operationId": "japaneseNameKanjiCandidatesBatch",
                 "requestBody": {
                     "description": "A list of personal japanese names in LATIN, firstName = japaneseGivenName; lastName=japaneseSurname",
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/BatchFirstLastNameIn"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "A list of genderized names.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/BatchNameMatchCandidatesOut"
-                                }
-                            }
-                        }
-                    },
-                    "401": { "description": "Missing or incorrect API Key" },
-                    "403": {
-                        "description": "API Limit Reached or API Key Disabled"
-                    }
-                },
-                "security": [{ "api_key": [] }]
-            }
-        },
-        "/api2/json/japaneseNameGenderKanjiCandidatesBatch": {
-            "post": {
-                "tags": ["japanese"],
-                "summary": "Identify japanese name candidates in KANJI, based on the romanized name (firstName = japaneseGivenName; lastName=japaneseSurname) with KNOWN gender, ex. Yamamoto Sanae",
-                "operationId": "japaneseNameGenderKanjiCandidatesBatch",
-                "requestBody": {
-                    "description": "A list of personal japanese names in LATIN, firstName = japaneseGivenName; lastName=japaneseSurname and known gender",
                     "content": {
                         "application/json": {
                             "schema": {
@@ -3524,18 +3314,15 @@
             "NameMatchCandidatesOut": {
                 "type": "object",
                 "properties": {
-                    "script": { "type": "string" },
                     "id": { "type": "string" },
                     "firstName": { "type": "string" },
                     "lastName": { "type": "string" },
-                    "orderOption": { "type": "string" },
                     "matchCandidates": {
                         "type": "array",
                         "items": {
                             "$ref": "#/components/schemas/NameMatchCandidateOut"
                         }
-                    },
-                    "category": { "type": "string" }
+                    }
                 },
                 "xml": { "name": "NameMatchCandidatesOut" }
             },
@@ -3600,14 +3387,6 @@
                     "probabilityCalibrated": { "type": "boolean" }
                 },
                 "xml": { "name": "APIClassifierOut" }
-            },
-            "NameIn": {
-                "type": "object",
-                "properties": {
-                    "id": { "type": "string", "xml": { "attribute": true } },
-                    "name": { "type": "string", "xml": { "attribute": true } }
-                },
-                "xml": { "name": "NameIn" }
             },
             "APIPlanSubscriptionOut": {
                 "type": "object",
@@ -3675,7 +3454,6 @@
             "FirstLastNameGenderedOut": {
                 "type": "object",
                 "properties": {
-                    "script": { "type": "string" },
                     "id": { "type": "string" },
                     "firstName": { "type": "string" },
                     "lastName": { "type": "string" },
@@ -3693,8 +3471,7 @@
                     "probabilityCalibrated": {
                         "type": "number",
                         "format": "double"
-                    },
-                    "category": { "type": "string" }
+                    }
                 },
                 "description": "Represents the output of inferring the LIKELY gender from a personal name.",
                 "xml": { "name": "FirstLastNameGenderedOut" }
@@ -3775,13 +3552,11 @@
             "ProperNounCategorizedOut": {
                 "type": "object",
                 "properties": {
-                    "script": { "type": "string" },
                     "id": { "type": "string" },
                     "name": { "type": "string" },
                     "commonType": { "type": "string" },
                     "commonTypeAlt": { "type": "string" },
-                    "score": { "type": "number", "format": "double" },
-                    "category": { "type": "string" }
+                    "score": { "type": "number", "format": "double" }
                 },
                 "xml": { "name": "ProperNounCategorizedOut" }
             },
@@ -3810,7 +3585,6 @@
             "PersonalNameGenderedOut": {
                 "type": "object",
                 "properties": {
-                    "script": { "type": "string" },
                     "id": { "type": "string" },
                     "name": { "type": "string" },
                     "likelyGender": {
@@ -3827,15 +3601,13 @@
                     "probabilityCalibrated": {
                         "type": "number",
                         "format": "double"
-                    },
-                    "category": { "type": "string" }
+                    }
                 },
                 "xml": { "name": "PersonalNameGenderedOut" }
             },
             "FirstLastNameOriginedOut": {
                 "type": "object",
                 "properties": {
-                    "script": { "type": "string" },
                     "id": { "type": "string" },
                     "firstName": { "type": "string" },
                     "lastName": { "type": "string" },
@@ -3879,21 +3651,10 @@
                     "probabilityAltCalibrated": {
                         "type": "number",
                         "format": "double"
-                    },
-                    "category": { "type": "string" }
+                    }
                 },
                 "description": "Represents the output of inferring the LIKELY country of Origin from a personal name.",
                 "xml": { "name": "FirstLastNameOriginedOut" }
-            },
-            "BatchNameGeoIn": {
-                "type": "object",
-                "properties": {
-                    "properNouns": {
-                        "type": "array",
-                        "items": { "$ref": "#/components/schemas/NameGeoIn" }
-                    }
-                },
-                "xml": { "name": "BatchNameGeoIn" }
             },
             "BatchFirstLastNameGenderIn": {
                 "type": "object",
@@ -3924,25 +3685,6 @@
                 },
                 "xml": { "name": "InvoiceItemOut" }
             },
-            "CorridorOut": {
-                "type": "object",
-                "properties": {
-                    "id": { "type": "string", "xml": { "attribute": true } },
-                    "FirstLastNameGenderedOut": {
-                        "$ref": "#/components/schemas/FirstLastNameGenderedOut"
-                    },
-                    "FirstLastNameOriginedOut": {
-                        "$ref": "#/components/schemas/FirstLastNameOriginedOut"
-                    },
-                    "FirstLastNameDiasporaedOut": {
-                        "$ref": "#/components/schemas/FirstLastNameDiasporaedOut"
-                    },
-                    "script": { "type": "string" },
-                    "category": { "type": "string" }
-                },
-                "description": "Represent multiple classifications for corridor sender and receiver (gender, country, origin, diaspora)",
-                "xml": { "name": "CorridorOut" }
-            },
             "BatchNameMatchedOut": {
                 "type": "object",
                 "properties": {
@@ -3954,6 +3696,14 @@
                     }
                 },
                 "xml": { "name": "BatchNameMatchedOut" }
+            },
+            "DeployUIOut": {
+                "type": "object",
+                "properties": {
+                    "errorMessage": { "type": "string" },
+                    "succeeded": { "type": "boolean" }
+                },
+                "xml": { "name": "DeployUIOut" }
             },
             "BatchNameMatchCandidatesOut": {
                 "type": "object",
@@ -3982,7 +3732,6 @@
             "FirstLastNameDiasporaedOut": {
                 "type": "object",
                 "properties": {
-                    "script": { "type": "string" },
                     "id": { "type": "string" },
                     "firstName": { "type": "string" },
                     "lastName": { "type": "string" },
@@ -4014,8 +3763,7 @@
                             "type": "string",
                             "description": "List ethnicities (top 10)"
                         }
-                    },
-                    "category": { "type": "string" }
+                    }
                 },
                 "description": "Represents the output of inferring the LIKELY ethnicity from a personal name, given an country of residence.",
                 "xml": { "name": "FirstLastNameDiasporaedOut" }
@@ -4095,16 +3843,6 @@
                 },
                 "xml": { "name": "NamSorCounterOut" }
             },
-            "BatchCorridorIn": {
-                "type": "object",
-                "properties": {
-                    "corridorFromTo": {
-                        "type": "array",
-                        "items": { "$ref": "#/components/schemas/CorridorIn" }
-                    }
-                },
-                "xml": { "name": "BatchCorridorIn" }
-            },
             "SourceDetailedMetricsOut": {
                 "type": "object",
                 "properties": {
@@ -4171,16 +3909,6 @@
                 },
                 "xml": { "name": "APIServicesOut" }
             },
-            "BatchNameIn": {
-                "type": "object",
-                "properties": {
-                    "properNouns": {
-                        "type": "array",
-                        "items": { "$ref": "#/components/schemas/NameIn" }
-                    }
-                },
-                "xml": { "name": "BatchNameIn" }
-            },
             "InvoiceOut": {
                 "type": "object",
                 "properties": {
@@ -4217,11 +3945,9 @@
             "FirstLastNameOut": {
                 "type": "object",
                 "properties": {
-                    "script": { "type": "string" },
                     "id": { "type": "string" },
                     "firstName": { "type": "string" },
-                    "lastName": { "type": "string" },
-                    "category": { "type": "string" }
+                    "lastName": { "type": "string" }
                 },
                 "xml": { "name": "FirstLastNameOut" }
             },
@@ -4305,22 +4031,9 @@
                 },
                 "xml": { "name": "APIPlansOut" }
             },
-            "NameGeoIn": {
-                "type": "object",
-                "properties": {
-                    "id": { "type": "string", "xml": { "attribute": true } },
-                    "name": { "type": "string", "xml": { "attribute": true } },
-                    "countryIso2": {
-                        "type": "string",
-                        "xml": { "attribute": true }
-                    }
-                },
-                "xml": { "name": "NameGeoIn" }
-            },
             "FirstLastNamePhoneCodedOut": {
                 "type": "object",
                 "properties": {
-                    "script": { "type": "string" },
                     "id": { "type": "string" },
                     "firstName": { "type": "string" },
                     "lastName": { "type": "string" },
@@ -4341,8 +4054,7 @@
                     "phoneNumber": { "type": "string" },
                     "verified": { "type": "boolean" },
                     "score": { "type": "number", "format": "double" },
-                    "countryIso2": { "type": "string" },
-                    "category": { "type": "string" }
+                    "countryIso2": { "type": "string" }
                 },
                 "description": "Represents the output of inferring the LIKELY country and phone code from a personal name and phone number.",
                 "xml": { "name": "FirstLastNamePhoneCodedOut" }
@@ -4352,14 +4064,14 @@
                 "properties": {
                     "id": { "type": "string", "xml": { "attribute": true } },
                     "name1": { "$ref": "#/components/schemas/FirstLastNameIn" },
-                    "name2": { "$ref": "#/components/schemas/PersonalNameIn" }
+                    "name2": { "$ref": "#/components/schemas/PersonalNameIn" },
+                    "name": { "type": "string" }
                 },
                 "xml": { "name": "MatchPersonalFirstLastNameIn" }
             },
             "PersonalNameParsedOut": {
                 "type": "object",
                 "properties": {
-                    "script": { "type": "string" },
                     "id": { "type": "string" },
                     "name": { "type": "string" },
                     "nameParserType": { "type": "string" },
@@ -4367,8 +4079,7 @@
                     "firstLastName": {
                         "$ref": "#/components/schemas/FirstLastNameOut"
                     },
-                    "score": { "type": "number", "format": "double" },
-                    "category": { "type": "string" }
+                    "score": { "type": "number", "format": "double" }
                 },
                 "xml": { "name": "PersonalNameParsedOut" }
             },
@@ -4439,30 +4150,6 @@
                 },
                 "xml": { "name": "FirstLastNameGeoZippedIn" }
             },
-            "CorridorIn": {
-                "type": "object",
-                "properties": {
-                    "id": { "type": "string", "xml": { "attribute": true } },
-                    "firstLastNameGeoFrom": {
-                        "$ref": "#/components/schemas/FirstLastNameGeoIn"
-                    },
-                    "firstLastNameGeoTo": {
-                        "$ref": "#/components/schemas/FirstLastNameGeoIn"
-                    }
-                },
-                "description": "Represent any transnational interaction between names (ex. remittance, communication, cross-border investment, airline travel",
-                "xml": { "name": "CorridorIn" }
-            },
-            "BatchCorridorOut": {
-                "type": "object",
-                "properties": {
-                    "corridorFromTo": {
-                        "type": "array",
-                        "items": { "$ref": "#/components/schemas/CorridorOut" }
-                    }
-                },
-                "xml": { "name": "BatchCorridorOut" }
-            },
             "BatchPersonalNameGeoIn": {
                 "type": "object",
                 "properties": {
@@ -4505,15 +4192,7 @@
                 "type": "object",
                 "properties": {
                     "candidateName": { "type": "string" },
-                    "probability": { "type": "number", "format": "double" },
-                    "predScoreGivenName": {
-                        "type": "number",
-                        "format": "double"
-                    },
-                    "predScoreFamilyName": {
-                        "type": "number",
-                        "format": "double"
-                    }
+                    "probability": { "type": "number", "format": "double" }
                 },
                 "xml": { "name": "NameMatchCandidateOut" }
             },
@@ -4548,7 +4227,6 @@
             "FirstLastNameUSRaceEthnicityOut": {
                 "type": "object",
                 "properties": {
-                    "script": { "type": "string" },
                     "id": { "type": "string" },
                     "firstName": { "type": "string" },
                     "lastName": { "type": "string" },
@@ -4556,13 +4234,13 @@
                         "type": "string",
                         "description": "Second most likely US 'race'/ethnicity",
                         "xml": { "attribute": true },
-                        "enum": ["W_NL", "HL", "A", "B_NL", "AI_AN", "PI"]
+                        "enum": ["W_NL", "HL", "A", "B_NL"]
                     },
                     "raceEthnicity": {
                         "type": "string",
                         "description": "Most likely US 'race'/ethnicity",
                         "xml": { "attribute": true },
-                        "enum": ["W_NL", "HL", "A", "B_NL", "AI_AN", "PI"]
+                        "enum": ["W_NL", "HL", "A", "B_NL"]
                     },
                     "score": {
                         "type": "number",
@@ -4584,8 +4262,7 @@
                     "probabilityAltCalibrated": {
                         "type": "number",
                         "format": "double"
-                    },
-                    "category": { "type": "string" }
+                    }
                 },
                 "description": "Represents the output of inferring the LIKELY US 'race/ethnicity' from a personal name, given US country of residence and (optionally) a ZIP5 code.",
                 "xml": { "name": "FirstLastNameUSRaceEthnicityOut" }
@@ -4635,19 +4312,6 @@
                 },
                 "xml": { "name": "APIServiceOut" }
             },
-            "BatchProperNounCategorizedOut": {
-                "type": "object",
-                "properties": {
-                    "properNouns": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/ProperNounCategorizedOut"
-                        }
-                    }
-                },
-                "description": "Represents the output of inferring the common type (anthroponym, toponym, brand, etc.) from a list of proper names.",
-                "xml": { "name": "BatchProperNounCategorizedOut" }
-            },
             "BatchFirstLastNameIn": {
                 "type": "object",
                 "properties": {
@@ -4690,7 +4354,6 @@
             "RomanizedNameOut": {
                 "type": "object",
                 "properties": {
-                    "script": { "type": "string" },
                     "id": { "type": "string" },
                     "latinName": { "type": "string" },
                     "originalName": { "type": "string" },
@@ -4698,19 +4361,16 @@
                     "targetLanguage": { "type": "string" },
                     "sourceScript": { "type": "string" },
                     "targetScript": { "type": "string" },
-                    "score": { "type": "number", "format": "double" },
-                    "category": { "type": "string" }
+                    "score": { "type": "number", "format": "double" }
                 },
                 "xml": { "name": "RomanizedNameOut" }
             },
             "NameMatchedOut": {
                 "type": "object",
                 "properties": {
-                    "script": { "type": "string" },
                     "id": { "type": "string" },
                     "matchStatus": { "type": "string" },
-                    "score": { "type": "number", "format": "double" },
-                    "category": { "type": "string" }
+                    "score": { "type": "number", "format": "double" }
                 },
                 "xml": { "name": "NameMatchedOut" }
             },
@@ -4831,7 +4491,6 @@
             "PersonalNameGeoOut": {
                 "type": "object",
                 "properties": {
-                    "script": { "type": "string" },
                     "id": { "type": "string" },
                     "name": { "type": "string" },
                     "score": { "type": "number", "format": "double" },
@@ -4855,8 +4514,7 @@
                     "probabilityAltCalibrated": {
                         "type": "number",
                         "format": "double"
-                    },
-                    "category": { "type": "string" }
+                    }
                 },
                 "xml": { "name": "PersonalNameGeoOut" }
             },

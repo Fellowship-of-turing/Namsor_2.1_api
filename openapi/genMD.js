@@ -58,6 +58,7 @@ let routeMethods = {};
 let routeCosts = {};
 let routeRequests = {};
 let routeResponses = {};
+let STRUCT = {};
 
 /***************************************************/
 /**************** Openapi.json Mod ****************/
@@ -105,9 +106,13 @@ if (targetFile === 'openapi/openapi.json') {
     }
     else {
       let route = methodPath[method];
+      STRUCT[routes[i]] = { http: method };
       routeMethods[routes[i]] = method;
 
       // Swap operation ID for dash separated names
+      if (!routeNames[route.operationId]) {
+        console.log(`\u001b[31mError\u001b[m\nRoute ${routes[i]} - No route name found for this operation id.`);
+      };
       swaggerFile.paths[routes[i]][method].operationId = routeNames[route.operationId];
 
       // Delete systematic security requirement
@@ -124,6 +129,14 @@ if (targetFile === 'openapi/openapi.json') {
         routeCosts[routes[i]] = costText.slice(costText.indexOf('USES') + 5, costText.indexOf('UNITS') - 1);
         route.summary = route.summary.slice(costEnd + 2, route.summary.length);
       };
+      if (route.summary.indexOf('[CREDIT') !== - 1) {
+        let costEnd = route.summary.indexOf(']');
+        let costText = route.summary.slice(0, costEnd + 2);
+        routeCosts[routes[i]] = costText.slice(costText.indexOf('USES') + 5, costText.indexOf('UNITS') - 1);
+        route.summary = route.summary.slice(costEnd + 2, route.summary.length);
+      };
+      STRUCT[routes[i]].summary = route.summary;
+      STRUCT[routes[i]].tag = route.tags[0];
 
       if (method === 'get') {
         record.get++
@@ -141,11 +154,13 @@ if (targetFile === 'openapi/openapi.json') {
             schema: {},
           };
 
+          STRUCT[routes[i]].request = {};
           route.parameters.forEach(param => {
             routeRequests[routes[i]].schema[param.name] = param;
             if (param.schema) {
               param.type = param.schema.type ? capitalize(param.schema.type) : 'Any';
               param.schema = `dec1${param.name}dec2`;
+              STRUCT[routes[i]].request[param.name] = param.type;
             };
           });
         };
@@ -342,6 +357,7 @@ if (targetFile === 'openapi/openapi.json') {
   // console.log('routeRequests: ', routeRequests['/api2/json/parseName/{nameFull}/{countryIso2}']);
   // console.log('routeRequests: ', routeRequests['/api2/json/parseNameBatch']);
   // console.log('routeResponses: ', routeResponses);
+  console.log('STRUCT: ', STRUCT);
 };
 
 /************************************************/
@@ -438,6 +454,8 @@ widdershins.convert(swaggerFile, options)
     let resTag = '!{response-table-tag}';
     let reqBodyArray = '*The HTTP request body is required to be an array of objects.*';
     let reqBodyObject = '*The HTTP request body is required to be an object.*';
+    let resBodyArray = '*The HTTP response body is an array of objects.*';
+    let resBodyObject = '*The HTTP response body is an object.*';
 
     let routes = Object.keys(swaggerFile.paths);
     routes.forEach(route => {
@@ -445,7 +463,10 @@ widdershins.convert(swaggerFile, options)
       let routeContent = swaggerFile.paths[route][routeMethods[route]];
       // console.log('routeContent: ', routeContent.responses['200'].content);
       let routeId = routeContent.operationId;
-
+      if (!routeId) {
+        console.log('swaggerFile.paths[route]: ', swaggerFile.paths[route]);
+        console.log('!routeId: ', route)
+      };
       let routeStart = () => dirtyMD.indexOf(`<a id="opId${routeId}"></a>`);
       let routeEnd = () => {
         let nextOperation = dirtyMD.indexOf(`<a id="opId`, routeStart() + 1);
@@ -518,7 +539,7 @@ widdershins.convert(swaggerFile, options)
         };
 
         mdRouteReplace(reqTag, '', routeStart(), routeEnd(), route);
-      }
+      };
 
       /***********************
           FORMAT RESPONSE
@@ -545,6 +566,40 @@ widdershins.convert(swaggerFile, options)
       let urlRequestBlock = `${urlRequestTitle}\n\n${urlRequestEndpoint}`;
 
       // Insert new table
+      if (routeResponses[route]) {
+
+        if (routeResponses[route].type === 'array') {
+          mdRouteReplace(resTag, `${resBodyArray}\n\n${resTag}`, routeStart(), routeEnd(), route);
+        }
+        else if (routeResponses[route].type === 'object') {
+          mdRouteReplace(resTag, `${resBodyObject}\n\n${resTag}`, routeStart(), routeEnd(), route);
+        };
+
+        mdRouteReplace(resTag, `|Name|Type|Required|Description|\n${resTag}`, routeStart(), routeEnd(), route);
+        mdRouteReplace(resTag, `|---|---|---|---|\n${resTag}`, routeStart(), routeEnd(), route);
+
+        // if (routeResponses[route].type === 'param') {
+        //   Object.keys(routeResponses[route].schema).forEach(param => {
+        //     prm = routeResponses[route].schema[param];
+        //     prm.required = prm.required === true ? 'true' : 'false';
+        //     prm.desc = prm.description ? prm.description : '';
+        //     mdRouteReplace(resTag, `|${prm.name}|${prm.type}|${prm.required}|${prm.desc}|\n${resTag}`, routeStart(), routeEnd(), route);
+        //   });
+        // }
+        // else {
+        //   console.log('routeResponses[route]: ', routeResponses[route]);
+        //   Object.keys(routeResponses[route].schema).forEach(param => {
+        //     prm = routeResponses[route].schema[param];
+        //     prm.name = param;
+        //     prm.type = prm.type ? capitalize(prm.type) : 'Object';
+        //     prm.required = prm.required === true ? 'true' : 'false';
+        //     prm.desc = prm.description ? prm.description : '';
+        //     mdRouteReplace(resTag, `|${prm.name}|${prm.type}|${prm.required}|${prm.desc}|\n${resTag}`, routeStart(), routeEnd(), route);
+        //   });
+        // };
+
+        mdRouteReplace(resTag, '', routeStart(), routeEnd(), route);
+      };
 
       /***********************
           REQUETS COST

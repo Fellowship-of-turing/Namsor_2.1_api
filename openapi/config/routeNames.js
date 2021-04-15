@@ -4,7 +4,9 @@
 module.exports = {
   // general
   nameType: 'Name-Type',
-  nameType_1: 'Name-Type-Geo',
+  nameTypeBatch: 'Name-Type-Batch',
+  nameTypeGeo: 'Name-Type-Geo',
+  nameTypeGeoBatch: 'Name-Type-Geo-Batch',
 
   // personal
   country: 'Country',
@@ -31,6 +33,8 @@ module.exports = {
   parseNameGeoBatch: 'Parse-Name-Geo-Batch',
   parseName: 'Parse-Name',
   parseNameBatch: 'Parse-Name-Batch',
+  corridor: 'Corridor',
+  corridorBatch: 'Corridor-Batch',
 
   // admin
   stripeConnect: 'Stripe-Connect',
@@ -104,6 +108,8 @@ module.exports = {
   genderJapaneseNamePinyinBatch: 'Gender-Japanese-Name-Pinyin-Batch',
   genderJapaneseNameFull: 'Gender-Japanese-Name-Full',
   genderJapaneseNameFullBatch: 'Gender-Japanese-Name-Full-Batch',
+  japaneseNameKanjiCandidates_1: 'Japanese-Name-Nogender-Kanji-Candidates',
+  japaneseNameGenderKanjiCandidatesBatch: 'Japanese-Name-Gender-Kanji-Candidates-Batch',
 
   // social
   phoneCode: 'Phone-Code',
