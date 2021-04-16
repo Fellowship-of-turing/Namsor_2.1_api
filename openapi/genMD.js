@@ -109,6 +109,9 @@ if (targetFile === 'openapi/openapi.json') {
       STRUCT[routes[i]] = { http: method };
       routeMethods[routes[i]] = method;
 
+      // Capitalize tag names
+      route.tags = route.tags.map(tag => capitalize(tag));
+
       // Swap operation ID for dash separated names
       if (!routeNames[route.operationId]) {
         console.log(`\u001b[31mError\u001b[m\nRoute ${routes[i]} - No route name found for this operation id.`);
@@ -132,11 +135,14 @@ if (targetFile === 'openapi/openapi.json') {
       if (route.summary.indexOf('[CREDIT') !== - 1) {
         let costEnd = route.summary.indexOf(']');
         let costText = route.summary.slice(0, costEnd + 2);
-        routeCosts[routes[i]] = costText.slice(costText.indexOf('USES') + 5, costText.indexOf('UNITS') - 1);
+        routeCosts[routes[i]] = costText.slice(costText.indexOf('CREDIT') + 7, costText.indexOf('UNIT') - 1);
         route.summary = route.summary.slice(costEnd + 2, route.summary.length);
       };
       STRUCT[routes[i]].summary = route.summary;
       STRUCT[routes[i]].tag = route.tags[0];
+
+      STRUCT[routes[i]].request = {};
+      STRUCT[routes[i]].response = {};
 
       if (method === 'get') {
         record.get++
@@ -154,7 +160,6 @@ if (targetFile === 'openapi/openapi.json') {
             schema: {},
           };
 
-          STRUCT[routes[i]].request = {};
           route.parameters.forEach(param => {
             routeRequests[routes[i]].schema[param.name] = param;
             if (param.schema) {
@@ -185,6 +190,7 @@ if (targetFile === 'openapi/openapi.json') {
 
             let requestSchemaName = requestSchemaPath.$ref.slice(prefixLenght, requestSchemaPath.$ref.length);
             let schemaNameInPath = Object.keys(schemas[requestSchemaName].properties);
+            STRUCT[routes[i]].requestSchemaName = requestSchemaName;
 
             // type 1/2 - Case of $ref to an array to an object
             if (
@@ -197,6 +203,7 @@ if (targetFile === 'openapi/openapi.json') {
               let REQ_STRUCT = [];
               let requestSubSchemaPath = schemas[requestSchemaName].properties[schemaNameInPath[0]].items.$ref;
               let requestSubSchemaName = requestSubSchemaPath.slice(prefixLenght, requestSubSchemaPath.length);
+              STRUCT[routes[i]].requestSchemaName = requestSubSchemaName;
               let requestSubSchema = schemas[requestSubSchemaName];
 
               if (!requestSubSchema.type === 'object') {
@@ -206,7 +213,8 @@ if (targetFile === 'openapi/openapi.json') {
                 let requestSubStructure = {};
                 Object.keys(requestSubSchema.properties).forEach(key => {
                   if (requestSubSchema.properties[key].type) {
-                    requestSubStructure[key] = requestSubSchema.properties[key].type;
+                    STRUCT[routes[i]].request[key] = capitalize(requestSubSchema.properties[key].type);
+                    requestSubStructure[key] = capitalize(requestSubSchema.properties[key].type);
                   };
                 });
 
@@ -230,7 +238,8 @@ if (targetFile === 'openapi/openapi.json') {
 
               Object.keys(schemas[requestSchemaName].properties).forEach(key => {
                 if (schemas[requestSchemaName].properties[key].type) {
-                  REQ_STRUCT[key] = schemas[requestSchemaName].properties[key].type;
+                  STRUCT[routes[i]].request[key] = capitalize(schemas[requestSchemaName].properties[key].type);
+                  REQ_STRUCT[key] = capitalize(schemas[requestSchemaName].properties[key].type);
                 };
               });
 
@@ -256,7 +265,8 @@ if (targetFile === 'openapi/openapi.json') {
 
             Object.keys(requestSchemaPath.properties).forEach(key => {
               if (requestSchemaPath.properties[key].type) {
-                REQ_STRUCT[key] = requestSchemaPath.properties[key].type;
+                STRUCT[routes[i]].request[key] = capitalize(requestSchemaPath.properties[key].type);
+                REQ_STRUCT[key] = capitalize(requestSchemaPath.properties[key].type);
               };
             });
 
@@ -292,6 +302,7 @@ if (targetFile === 'openapi/openapi.json') {
         let responseSchemaPath = route.responses['200'].content['application/json'].schema.$ref;
         let responseSchemaName = responseSchemaPath.slice(prefixLenght, responseSchemaPath.length);
         let schemaNameInPath = Object.keys(schemas[responseSchemaName].properties);
+        STRUCT[routes[i]].responseSchemaName = responseSchemaName;
 
         // type 1/2 - Case of $ref to an array to an object
         if (
@@ -304,6 +315,7 @@ if (targetFile === 'openapi/openapi.json') {
           let RES_STRUCT = [];
           let responseSubSchemaPath = schemas[responseSchemaName].properties[schemaNameInPath[0]].items.$ref;
           let responseSubSchemaName = responseSubSchemaPath.slice(prefixLenght, responseSubSchemaPath.length);
+          STRUCT[routes[i]].responseSchemaName = responseSubSchemaName;
           let responseSubSchema = schemas[responseSubSchemaName];
 
           if (!responseSubSchema.type === 'object') {
@@ -313,12 +325,17 @@ if (targetFile === 'openapi/openapi.json') {
             let responseSubStructure = {};
             Object.keys(responseSubSchema.properties).forEach(key => {
               if (responseSubSchema.properties[key].type) {
-                responseSubStructure[key] = responseSubSchema.properties[key].type;
+                STRUCT[routes[i]].response[key] = capitalize(responseSubSchema.properties[key].type);
+                responseSubStructure[key] = capitalize(responseSubSchema.properties[key].type);
               };
             });
             RES_STRUCT.push(responseSubStructure);
 
-            routeResponses[routes[i]] = responseSubSchema.properties;
+            routeResponses[routes[i]] = {
+              type: 'array',
+              description: route.responses['200'].description,
+              schema: JSON.parse(JSON.stringify(responseSubSchema.properties)),
+            };
             route.responses['200'].content['application/json'].schema = RES_STRUCT;
           };
         }
@@ -333,20 +350,22 @@ if (targetFile === 'openapi/openapi.json') {
 
           Object.keys(schemas[responseSchemaName].properties).forEach(key => {
             if (schemas[responseSchemaName].properties[key].type) {
-              RES_STRUCT[key] = schemas[responseSchemaName].properties[key].type;
+              STRUCT[routes[i]].response[key] = capitalize(schemas[responseSchemaName].properties[key].type);
+              RES_STRUCT[key] = capitalize(schemas[responseSchemaName].properties[key].type);
             };
           });
 
-          routeResponses[routes[i]] = schemas[responseSchemaName].properties;
+          routeResponses[routes[i]] = {
+            type: 'object',
+            description: route.responses['200'].description,
+            schema: JSON.parse(JSON.stringify(schemas[responseSchemaName].properties)),
+          };
           route.responses['200'].content['application/json'].schema = RES_STRUCT;
         }
         else {
           console.log(`\u001b[31mError\u001b[m\nRoute ${routes[i]} - Unexpected $ref response structure must be either an object or an array`);
         };
       };
-
-      // Capitalize tag names
-      route.tags = route.tags.map(tag => capitalize(tag));
     }
   };
 
@@ -357,7 +376,7 @@ if (targetFile === 'openapi/openapi.json') {
   // console.log('routeRequests: ', routeRequests['/api2/json/parseName/{nameFull}/{countryIso2}']);
   // console.log('routeRequests: ', routeRequests['/api2/json/parseNameBatch']);
   // console.log('routeResponses: ', routeResponses);
-  console.log('STRUCT: ', STRUCT);
+  // console.log('STRUCT: ', STRUCT);
 };
 
 /************************************************/
@@ -433,6 +452,22 @@ widdershins.convert(swaggerFile, options)
 
     let escapeRegExp = (text) => {
       return text.replace(/[-[\]{}()*+?.,\\/^$|#\s]/g, '\\$&');
+    };
+
+    let listEnums = (enumList) => {
+      let listString = '';
+      enumList.forEach((elem, i) => {
+        if (i === 0) {
+          listString = `+${elem}`;
+        }
+        else if ((i + 1) === enumList.length) {
+          listString = `${listString} +${elem}`;
+        }
+        else {
+          listString = `${listString} +${elem}`;
+        };
+      });
+      return listString;
     };
 
     //////////////////////
@@ -575,28 +610,18 @@ widdershins.convert(swaggerFile, options)
           mdRouteReplace(resTag, `${resBodyObject}\n\n${resTag}`, routeStart(), routeEnd(), route);
         };
 
-        mdRouteReplace(resTag, `|Name|Type|Required|Description|\n${resTag}`, routeStart(), routeEnd(), route);
+        mdRouteReplace(resTag, `|Name|Type|Enumerators|Description|\n${resTag}`, routeStart(), routeEnd(), route);
         mdRouteReplace(resTag, `|---|---|---|---|\n${resTag}`, routeStart(), routeEnd(), route);
 
-        // if (routeResponses[route].type === 'param') {
-        //   Object.keys(routeResponses[route].schema).forEach(param => {
-        //     prm = routeResponses[route].schema[param];
-        //     prm.required = prm.required === true ? 'true' : 'false';
-        //     prm.desc = prm.description ? prm.description : '';
-        //     mdRouteReplace(resTag, `|${prm.name}|${prm.type}|${prm.required}|${prm.desc}|\n${resTag}`, routeStart(), routeEnd(), route);
-        //   });
-        // }
-        // else {
-        //   console.log('routeResponses[route]: ', routeResponses[route]);
-        //   Object.keys(routeResponses[route].schema).forEach(param => {
-        //     prm = routeResponses[route].schema[param];
-        //     prm.name = param;
-        //     prm.type = prm.type ? capitalize(prm.type) : 'Object';
-        //     prm.required = prm.required === true ? 'true' : 'false';
-        //     prm.desc = prm.description ? prm.description : '';
-        //     mdRouteReplace(resTag, `|${prm.name}|${prm.type}|${prm.required}|${prm.desc}|\n${resTag}`, routeStart(), routeEnd(), route);
-        //   });
-        // };
+        Object.keys(routeResponses[route].schema).forEach(param => {
+          if (prm.enum) console.log('enums found ', route)
+          prm = routeResponses[route].schema[param];
+          prm.name = param;
+          prm.type = prm.type ? capitalize(prm.type) : 'Object';
+          prm.enum = prm.enum ? listEnums(prm.enum, route) : '';
+          prm.desc = prm.description ? prm.description : '';
+          mdRouteReplace(resTag, `|${prm.name}|${prm.type}|${prm.enum}|${prm.desc}|\n${resTag}`, routeStart(), routeEnd(), route);
+        });
 
         mdRouteReplace(resTag, '', routeStart(), routeEnd(), route);
       };

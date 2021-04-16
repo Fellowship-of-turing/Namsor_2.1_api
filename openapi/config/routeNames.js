@@ -1,5 +1,5 @@
 
-// These routes names will be used to display in the API documentation
+// These routes names will be used for display in the API documentation
 
 module.exports = {
   // general
