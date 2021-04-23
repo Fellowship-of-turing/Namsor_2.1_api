@@ -4,6 +4,7 @@
 
 *** Todo me
 
+- Add get developper key url bottom menu
 - tuto pour ajouter des routes / valeurs exemple
 
 *** Errors
@@ -42,3 +43,10 @@ err route:  /api2/json/flush
             "schema": { "type": "string" }
         },
 - /api2/json/updateBillingInfo/{token} param & body ???
+
+------------------------------------------------------------------------------------------------------
+RDV 20/04/2021
+
+- pourquoi routes POST et GET ? et pas juste POST
+- peut on remplacer les schemas nested par des nouveaux schemas de lvl 1 ?
+-> V3
