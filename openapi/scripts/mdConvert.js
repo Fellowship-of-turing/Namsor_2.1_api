@@ -177,7 +177,6 @@ let mdConvert = (swaggerFile, wsOptions, store, log) => {
               prm = routeRequests[route].schema[param];
               prm.name = param;
               prm.type = prm.type ? capitalize(prm.type) : 'Object';
-              if (prm.type == 'Object') console.log('req obj:', route);
               prm.required = prm.required === true ? 'true' : 'false';
               prm.desc = prm.description ? prm.description : '';
               mdRouteReplace(reqTag, `|${prm.name}|${prm.type}|${prm.required}|${prm.desc}|\n${reqTag}`, routeStart(), routeEnd(), route);
@@ -273,6 +272,58 @@ let mdConvert = (swaggerFile, wsOptions, store, log) => {
       mdReplace('> 200 Response', '');
       let responseTitle = '> The above command returns JSON structured like this:';
       mdReplace('> Example responses', responseTitle);
+
+      let includeFiles = [
+        'information.md',
+        'authentication.md',
+        'errors.md',
+      ];
+
+      let contentToInject = '# General Info\n\n';
+      includeFiles.forEach(subFile => {
+        let getFile = fs.readFileSync(`source/_includes/${subFile}`, 'utf8');
+        contentToInject = `${contentToInject}\n\n${getFile}`;
+      });
+
+      dirtyMD = dirtyMD.replace('<h1 id="namsor-api-v2-', `${contentToInject}\n\n<h1 id="namsor-api-v2-`);
+
+      let apiKeyTags = {
+        shell: {
+          target: "--header 'Accept: application/json'",
+          header: "--header 'X-API-KEY: your-api-key'"
+        },
+        java: {
+          target: '.header("Accept", "application/json")',
+          header: '.header("X-API-KEY", "your-api-key")'
+        },
+        javascript: {
+          target: ' "Accept": "application/json"',
+          header: '    "X-API-KEY": "your-api-key"'
+        },
+        python: {
+          target: '{"Accept": "application/json"',
+          header: ' "X-API-KEY": "your-api-key"'
+        },
+      };
+
+      Object.keys(apiKeyTags).forEach(lang => {
+        let keyParam = apiKeyTags[lang];
+        let escapedExpression = keyParam.target.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+        if (lang == 'python') {
+          let targetLength = keyParam.target.length;
+          mdReplace(escapedExpression, `{\n ${keyParam.target.slice(1, targetLength)},\n${keyParam.header}\n`);
+          console.log('keyParam.target.slice(1, targetLength): ', keyParam.target.slice(1, targetLength));
+        }
+        else if (lang == 'javascript') {
+          mdReplace(escapedExpression, `${keyParam.target},\n${keyParam.header}`);
+        }
+        else if (lang == 'java') {
+          mdReplace(escapedExpression, `${keyParam.header}\n  ${keyParam.target}`);
+        }
+        else if (lang == 'shell') {
+          mdReplace(escapedExpression, `${keyParam.target} \\\n  ${keyParam.header}`);
+        };
+      });
 
       // dirtyMD contains the clean converted markdown
       fs.writeFileSync('source/index.md', dirtyMD, 'utf8');

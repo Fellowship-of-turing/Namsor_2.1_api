@@ -1,21 +1,64 @@
-# Authentication
+## Authentication
+
+The free BASIC subscription allows to classify up to 500 names per month (origin, ethnicity) and 5000 names per month (gender).
 
 <aside class="notice">
-This error section is stored in a separate file in <code>includes/errors.md</code>. Slate allows you to optionally separate out your docs into many files...just save them to the <code>includes</code> folder and add them to the top of your <code>index.md</code>'s frontmatter. Files are included in the order listed.
+To track credit usage you can either check the provided graphics in your user account or query the appropriate Admin routes.
 </aside>
 
-The NamSor API uses the following error codes:
+### API Key Creation
 
-| Error Code | Meaning                                                                                   |
-| ---------- | ----------------------------------------------------------------------------------------- |
-| 400        | Bad Request -- Your request is invalid.                                                   |
-| 401        | Unauthorized -- Your API key is wrong.                                                    |
-| 403        | Forbidden -- The kitten requested is hidden for administrators only.                      |
-| 404        | Not Found -- The specified kitten could not be found.                                     |
-| 405        | Method Not Allowed -- You tried to access a kitten with an invalid method.                |
-| 406        | Not Acceptable -- You requested a format that isn't json.                                 |
-| 410        | Gone -- The kitten requested has been removed from our servers.                           |
-| 418        | I'm a teapot.                                                                             |
-| 429        | Too Many Requests -- You're requesting too many kittens! Slow down!                       |
-| 500        | Internal Server Error -- We had a problem with our server. Try again later.               |
-| 503        | Service Unavailable -- We're temporarily offline for maintenance. Please try again later. |
+text here
+
+### API Key Setup
+
+Your API key must be set in the _header_ of your request using the _X-API-KEY_ property.
+
+Please refer yourself to the provided code samples for correct key installation.
+
+> **API Key Setup** code sample :
+
+```shell
+curl --request GET \
+  --url https://v2.namsor.com/NamSorAPIv2/api2/json/gender/api-endpoint \
+  --header 'Accept: application/json'
+  --header 'X-API-KEY: your-api-key'
+```
+
+```java
+HttpResponse<String> response = Unirest.get("https://v2.namsor.com/NamSorAPIv2/api2/json/gender/api-endpoint")
+  .header("Accept", "application/json")
+  .header("X-API-KEY", "your-api-key")
+  .asString();
+```
+
+```python
+import requests
+
+url = "https://v2.namsor.com/NamSorAPIv2/api2/json/gender/api-endpoint"
+
+headers = {
+  "Accept": "application/json",
+  "X-API-KEY": "your-api-key"
+}
+
+response = requests.request("GET", url, headers=headers)
+
+print(response.text)
+```
+
+```javascript
+fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/gender/api-endpoint", {
+    method: "GET",
+    headers: {
+        Accept: "application/json",
+        "X-API-KEY": "your-api-key",
+    },
+})
+    .then((response) => {
+        console.log(response);
+    })
+    .catch((err) => {
+        console.error(err);
+    });
+```

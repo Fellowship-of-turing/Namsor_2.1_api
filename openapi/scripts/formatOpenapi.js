@@ -30,26 +30,10 @@ let formatOpenapi = (swaggerFile, log) => {
 
   let schemas = swaggerFile.components.schemas;
 
-  let record = {
-    total: 0,
-    get: 0,
-    get_res_pb: 0,
-    get_res: 0,
-    post: 0,
-    singleNameInPath: 0,
-    singleNameInPath_arrays: 0,
-    singleNameInPath_notarrays: 0,
-    hasdolla: 0,
-    nodollaref: 0,
-    res_singleNameInPath_arrays: 0,
-    res_singleNameInPath_obj: 0,
-  }
-
   for (let i = 0; i < routes.length; i++) {
     // console.log('routes[i]: ', routes[i]);
     let methodPath = swaggerFile.paths[routes[i]];
     let method = methodPath.get ? 'get' : methodPath.post ? 'post' : 'err';
-    record.total++
     if (method === "err") {
       console.log(`\u001b[31mError\u001b[m\nRoute ${routes[i]} - Unexpected method, must be either 'get' or 'post'`);
     }
@@ -81,12 +65,14 @@ let formatOpenapi = (swaggerFile, log) => {
         routeCosts[routes[i]] = costText.slice(costText.indexOf('USES') + 5, costText.indexOf('UNITS') - 1);
         route.summary = route.summary.slice(costEnd + 2, route.summary.length);
       };
+
       if (route.summary.indexOf('[CREDIT') !== - 1) {
         let costEnd = route.summary.indexOf(']');
         let costText = route.summary.slice(0, costEnd + 2);
         routeCosts[routes[i]] = costText.slice(costText.indexOf('CREDIT') + 7, costText.indexOf('UNIT') - 1);
         route.summary = route.summary.slice(costEnd + 2, route.summary.length);
       };
+
       STRUCT[routes[i]].summary = route.summary;
       STRUCT[routes[i]].tag = route.tags[0];
 
@@ -94,7 +80,6 @@ let formatOpenapi = (swaggerFile, log) => {
       STRUCT[routes[i]].response = {};
 
       if (method === 'get') {
-        record.get++
 
         //////////////////
         // GET REQUEST //
@@ -120,7 +105,6 @@ let formatOpenapi = (swaggerFile, log) => {
         };
       }
       else if (method === 'post') {
-        record.post++
         // Get full path to request schemas
 
         ///////////////////
@@ -135,7 +119,6 @@ let formatOpenapi = (swaggerFile, log) => {
 
           // $ref 1/2 - The schema hold a reference to sub schema
           if (requestSchemaPath.$ref) {
-            record.hasdolla++
 
             let requestSchemaName = requestSchemaPath.$ref.slice(prefixLenght, requestSchemaPath.$ref.length);
             let schemaNameInPath = Object.keys(schemas[requestSchemaName].properties);
@@ -147,7 +130,6 @@ let formatOpenapi = (swaggerFile, log) => {
               schemas[requestSchemaName].properties[schemaNameInPath[0]].type === 'array' &&
               schemas[requestSchemaName].properties[schemaNameInPath[0]].items.$ref
             ) {
-              record.singleNameInPath_arrays++
 
               let REQ_STRUCT = [];
               let requestSubSchemaPath = schemas[requestSchemaName].properties[schemaNameInPath[0]].items.$ref;
@@ -208,7 +190,6 @@ let formatOpenapi = (swaggerFile, log) => {
               schemas[requestSchemaName].type === 'object' &&
               !!schemas[requestSchemaName].properties
             ) {
-              record.singleNameInPath_arrays++
 
               let REQ_STRUCT = {};
               let passRefNested = {};
@@ -260,7 +241,6 @@ let formatOpenapi = (swaggerFile, log) => {
             requestSchemaPath.type === 'object' &&
             !!requestSchemaPath.properties
           ) {
-            record.nodollaref++
             let REQ_STRUCT = {};
 
             Object.keys(requestSchemaPath.properties).forEach(key => {
@@ -294,11 +274,9 @@ let formatOpenapi = (swaggerFile, log) => {
         !route.responses['200'].content['application/json'].schema ||
         !route.responses['200'].content['application/json'].schema.$ref
       ) {
-        record.get_res_pb++
         if (log.res_no_schema) console.log(`\u001b[31mError\u001b[m\nRoute ${routes[i]} - Unable to find response schema`);
       }
       else {
-        if (method == 'get') record.get_res++
         let responseSchemaPath = route.responses['200'].content['application/json'].schema.$ref;
         let responseSchemaName = responseSchemaPath.slice(prefixLenght, responseSchemaPath.length);
         let schemaNameInPath = Object.keys(schemas[responseSchemaName].properties);
@@ -310,8 +288,6 @@ let formatOpenapi = (swaggerFile, log) => {
           schemas[responseSchemaName].properties[schemaNameInPath[0]].type === 'array' &&
           schemas[responseSchemaName].properties[schemaNameInPath[0]].items.$ref
         ) {
-          record.res_singleNameInPath_arrays++
-
           let RES_STRUCT = [];
           let responseSubSchemaPath = schemas[responseSchemaName].properties[schemaNameInPath[0]].items.$ref;
           let responseSubSchemaName = responseSubSchemaPath.slice(prefixLenght, responseSubSchemaPath.length);
@@ -370,7 +346,6 @@ let formatOpenapi = (swaggerFile, log) => {
           schemas[responseSchemaName].type === 'object' &&
           !!schemas[responseSchemaName].properties
         ) {
-          record.res_singleNameInPath_obj++
 
           let RES_STRUCT = {};
           let passRefNested = {};

@@ -50,3 +50,10 @@ RDV 20/04/2021
 - pourquoi routes POST et GET ? et pas juste POST
 - peut on remplacer les schemas nested par des nouveaux schemas de lvl 1 ?
 -> V3
+
+------------------------------------------------------------------------------------------------------
+TODO 26/04
+- firebase export db
+- gmail + templates mail
+- facture pdf
+- doc API (modèles obj nested)

@@ -13,11 +13,11 @@ language_clients:
 toc_footers:
   - <a href="https://github.com/namsor">NamSor API client SDKs v2 for Java,
     Python</a>
+  - <a href="https://v2.namsor.com">Visit namsor.com</a>
   - <a href="https://github.com/namsor/namsor-java-sdk2">Get the NamSor Java
     SDK</a>
   - <a href="https://github.com/namsor/namsor-python-sdk2">Get the NamSor Python
     SDK</a>
-  - <a href="https://v2.namsor.com">Visit namsor.com</a>
 includes:
   - errors.md
   - authentication.md
@@ -42,6 +42,100 @@ Base URLs:
 Email: <a href="mailto:contact@namsor.com">Namsor SAS</a> Web: <a href="http://www.namsor.com/">Namsor SAS</a> 
 License: <a href="https://v2.namsor.com/NamSorAPIv2/assets/pdf/201803_NamSor_API_Terms_v007.pdf">NamSorAPI_Lic_v0.0.7</a>
 
+# General Info
+
+
+
+## General Information
+
+-   The base endpoint is: https://v2.namsor.com/NamSorAPIv2
+-   All endpoints return either a JSON object or array.
+-   Batch processing returns the data in the same order as it was sent.
+-   All endpoints **require** an API Key.
+-   Never share your API key to ANYONE.
+
+
+## Authentication
+
+The free BASIC subscription allows to classify up to 500 names per month (origin, ethnicity) and 5000 names per month (gender).
+
+<aside class="notice">
+To track credit usage you can either check the provided graphics in your user account or query the appropriate Admin routes.
+</aside>
+
+### API Key Creation
+
+text here
+
+### API Key Setup
+
+Your API key must be set in the _header_ of your request using the _X-API-KEY_ property.
+
+Please refer yourself to the provided code samples for correct key installation.
+
+> **API Key Setup** code sample :
+
+```shell
+curl --request GET \
+  --url https://v2.namsor.com/NamSorAPIv2/api2/json/gender/api-endpoint \
+  --header 'Accept: application/json' \
+  --header 'X-API-KEY: your-api-key'
+  --header 'X-API-KEY: your-api-key'
+```
+
+```java
+HttpResponse<String> response = Unirest.get("https://v2.namsor.com/NamSorAPIv2/api2/json/gender/api-endpoint")
+  .header("X-API-KEY", "your-api-key")
+  .header("Accept", "application/json")
+  .header("X-API-KEY", "your-api-key")
+  .asString();
+```
+
+```python
+import requests
+
+url = "https://v2.namsor.com/NamSorAPIv2/api2/json/gender/api-endpoint"
+
+headers = {
+  "Accept": "application/json",
+    "X-API-KEY": "your-api-key",
+  "X-API-KEY": "your-api-key"
+}
+
+response = requests.request("GET", url, headers=headers)
+
+print(response.text)
+```
+
+```javascript
+fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/gender/api-endpoint", {
+    method: "GET",
+    headers: {
+        Accept: "application/json",
+        "X-API-KEY": "your-api-key",
+    },
+})
+    .then((response) => {
+        console.log(response);
+    })
+    .catch((err) => {
+        console.error(err);
+    });
+```
+
+
+## Errors
+
+The NamSor API uses the following error codes:
+
+| Error Code | Meaning                                                                     |
+| ---------- | --------------------------------------------------------------------------- |
+| 401        | Unauthorized -- Missing or incorrect API Key.                               |
+| 403        | Forbidden -- API Limit Reached or API Key Disabled.                         |
+| 404        | Not Found -- The specified route could not be found.                        |
+| 500        | Internal Server Error -- We had a problem with our server. Try again later. |
+
+
 <h1 id="namsor-api-v2-personal">Personal</h1>
 
 Personal names (anthroponyms) : gender, country origin/ethnicity, diaspora, US 'race'/ethniciy
@@ -55,11 +149,13 @@ Personal names (anthroponyms) : gender, country origin/ethnicity, diaspora, US '
 ```shell
 curl --request GET \
   --url https://v2.namsor.com/NamSorAPIv2/api2/json/corridor/{countryIso2From}/{firstNameFrom}/{lastNameFrom}/{countryIso2To}/{firstNameTo}/{lastNameTo} \
-  --header 'Accept: application/json'
+  --header 'Accept: application/json' \
+  --header 'X-API-KEY: your-api-key'
 ```
 
 ```java
 HttpResponse<String> response = Unirest.get("https://v2.namsor.com/NamSorAPIv2/api2/json/corridor/{countryIso2From}/{firstNameFrom}/{lastNameFrom}/{countryIso2To}/{firstNameTo}/{lastNameTo}")
+  .header("X-API-KEY", "your-api-key")
   .header("Accept", "application/json")
   .asString();
 ```
@@ -69,7 +165,10 @@ import requests
 
 url = "https://v2.namsor.com/NamSorAPIv2/api2/json/corridor/{countryIso2From}/{firstNameFrom}/{lastNameFrom}/{countryIso2To}/{firstNameTo}/{lastNameTo}"
 
-headers = {"Accept": "application/json"}
+headers = {
+ "Accept": "application/json",
+ "X-API-KEY": "your-api-key"
+}
 
 response = requests.request("GET", url, headers=headers)
 
@@ -80,7 +179,8 @@ print(response.text)
 fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/corridor/{countryIso2From}/{firstNameFrom}/{lastNameFrom}/{countryIso2To}/{firstNameTo}/{lastNameTo}", {
   "method": "GET",
   "headers": {
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
   }
 })
 .then(response => {
@@ -240,6 +340,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/corridor/{countryIso2From}/{f
 curl --request POST \
   --url https://v2.namsor.com/NamSorAPIv2/api2/json/corridorBatch \
   --header 'Accept: application/json' \
+  --header 'X-API-KEY: your-api-key' \
   --header 'Content-Type: application/json' \
   --data '[{"id":"String","firstLastNameGeoFrom":{"id":"String","firstName":"String","lastName":"String","countryIso2":"String"},"firstLastNameGeoTo":{"id":"String","firstName":"String","lastName":"String","countryIso2":"String"}}]'
 ```
@@ -247,6 +348,7 @@ curl --request POST \
 ```java
 HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/api2/json/corridorBatch")
   .header("Content-Type", "application/json")
+  .header("X-API-KEY", "your-api-key")
   .header("Accept", "application/json")
   .body("[{\"id\":\"String\",\"firstLastNameGeoFrom\":{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\",\"countryIso2\":\"String\"},\"firstLastNameGeoTo\":{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\",\"countryIso2\":\"String\"}}]")
   .asString();
@@ -276,7 +378,8 @@ payload = [
 ]
 headers = {
     "Content-Type": "application/json",
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
 }
 
 response = requests.request("POST", url, json=payload, headers=headers)
@@ -289,7 +392,8 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/corridorBatch", {
   "method": "POST",
   "headers": {
     "Content-Type": "application/json",
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
   },
   "body": "[{\"id\":\"String\",\"firstLastNameGeoFrom\":{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\",\"countryIso2\":\"String\"},\"firstLastNameGeoTo\":{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\",\"countryIso2\":\"String\"}}]"
 })
@@ -467,11 +571,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/corridorBatch", {
 ```shell
 curl --request GET \
   --url https://v2.namsor.com/NamSorAPIv2/api2/json/country/{personalNameFull} \
-  --header 'Accept: application/json'
+  --header 'Accept: application/json' \
+  --header 'X-API-KEY: your-api-key'
 ```
 
 ```java
 HttpResponse<String> response = Unirest.get("https://v2.namsor.com/NamSorAPIv2/api2/json/country/{personalNameFull}")
+  .header("X-API-KEY", "your-api-key")
   .header("Accept", "application/json")
   .asString();
 ```
@@ -481,7 +587,10 @@ import requests
 
 url = "https://v2.namsor.com/NamSorAPIv2/api2/json/country/{personalNameFull}"
 
-headers = {"Accept": "application/json"}
+headers = {
+ "Accept": "application/json",
+ "X-API-KEY": "your-api-key"
+}
 
 response = requests.request("GET", url, headers=headers)
 
@@ -492,7 +601,8 @@ print(response.text)
 fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/country/{personalNameFull}", {
   "method": "GET",
   "headers": {
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
   }
 })
 .then(response => {
@@ -582,6 +692,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/country/{personalNameFull}", 
 curl --request POST \
   --url https://v2.namsor.com/NamSorAPIv2/api2/json/countryBatch \
   --header 'Accept: application/json' \
+  --header 'X-API-KEY: your-api-key' \
   --header 'Content-Type: application/json' \
   --data '[{"id":"String","name":"String"}]'
 ```
@@ -589,6 +700,7 @@ curl --request POST \
 ```java
 HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/api2/json/countryBatch")
   .header("Content-Type", "application/json")
+  .header("X-API-KEY", "your-api-key")
   .header("Accept", "application/json")
   .body("[{\"id\":\"String\",\"name\":\"String\"}]")
   .asString();
@@ -607,7 +719,8 @@ payload = [
 ]
 headers = {
     "Content-Type": "application/json",
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
 }
 
 response = requests.request("POST", url, json=payload, headers=headers)
@@ -620,7 +733,8 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/countryBatch", {
   "method": "POST",
   "headers": {
     "Content-Type": "application/json",
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
   },
   "body": "[{\"id\":\"String\",\"name\":\"String\"}]"
 })
@@ -726,11 +840,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/countryBatch", {
 ```shell
 curl --request GET \
   --url https://v2.namsor.com/NamSorAPIv2/api2/json/diaspora/{countryIso2}/{firstName}/{lastName} \
-  --header 'Accept: application/json'
+  --header 'Accept: application/json' \
+  --header 'X-API-KEY: your-api-key'
 ```
 
 ```java
 HttpResponse<String> response = Unirest.get("https://v2.namsor.com/NamSorAPIv2/api2/json/diaspora/{countryIso2}/{firstName}/{lastName}")
+  .header("X-API-KEY", "your-api-key")
   .header("Accept", "application/json")
   .asString();
 ```
@@ -740,7 +856,10 @@ import requests
 
 url = "https://v2.namsor.com/NamSorAPIv2/api2/json/diaspora/{countryIso2}/{firstName}/{lastName}"
 
-headers = {"Accept": "application/json"}
+headers = {
+ "Accept": "application/json",
+ "X-API-KEY": "your-api-key"
+}
 
 response = requests.request("GET", url, headers=headers)
 
@@ -751,7 +870,8 @@ print(response.text)
 fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/diaspora/{countryIso2}/{firstName}/{lastName}", {
   "method": "GET",
   "headers": {
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
   }
 })
 .then(response => {
@@ -841,6 +961,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/diaspora/{countryIso2}/{first
 curl --request POST \
   --url https://v2.namsor.com/NamSorAPIv2/api2/json/diasporaBatch \
   --header 'Accept: application/json' \
+  --header 'X-API-KEY: your-api-key' \
   --header 'Content-Type: application/json' \
   --data '[{"id":"String","firstName":"String","lastName":"String","countryIso2":"String"}]'
 ```
@@ -848,6 +969,7 @@ curl --request POST \
 ```java
 HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/api2/json/diasporaBatch")
   .header("Content-Type", "application/json")
+  .header("X-API-KEY", "your-api-key")
   .header("Accept", "application/json")
   .body("[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\",\"countryIso2\":\"String\"}]")
   .asString();
@@ -868,7 +990,8 @@ payload = [
 ]
 headers = {
     "Content-Type": "application/json",
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
 }
 
 response = requests.request("POST", url, json=payload, headers=headers)
@@ -881,7 +1004,8 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/diasporaBatch", {
   "method": "POST",
   "headers": {
     "Content-Type": "application/json",
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
   },
   "body": "[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\",\"countryIso2\":\"String\"}]"
 })
@@ -987,11 +1111,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/diasporaBatch", {
 ```shell
 curl --request GET \
   --url https://v2.namsor.com/NamSorAPIv2/api2/json/gender/{firstName}/{lastName} \
-  --header 'Accept: application/json'
+  --header 'Accept: application/json' \
+  --header 'X-API-KEY: your-api-key'
 ```
 
 ```java
 HttpResponse<String> response = Unirest.get("https://v2.namsor.com/NamSorAPIv2/api2/json/gender/{firstName}/{lastName}")
+  .header("X-API-KEY", "your-api-key")
   .header("Accept", "application/json")
   .asString();
 ```
@@ -1001,7 +1127,10 @@ import requests
 
 url = "https://v2.namsor.com/NamSorAPIv2/api2/json/gender/{firstName}/{lastName}"
 
-headers = {"Accept": "application/json"}
+headers = {
+ "Accept": "application/json",
+ "X-API-KEY": "your-api-key"
+}
 
 response = requests.request("GET", url, headers=headers)
 
@@ -1012,7 +1141,8 @@ print(response.text)
 fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/gender/{firstName}/{lastName}", {
   "method": "GET",
   "headers": {
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
   }
 })
 .then(response => {
@@ -1096,6 +1226,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/gender/{firstName}/{lastName}
 curl --request POST \
   --url https://v2.namsor.com/NamSorAPIv2/api2/json/genderBatch \
   --header 'Accept: application/json' \
+  --header 'X-API-KEY: your-api-key' \
   --header 'Content-Type: application/json' \
   --data '[{"id":"String","firstName":"String","lastName":"String"}]'
 ```
@@ -1103,6 +1234,7 @@ curl --request POST \
 ```java
 HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/api2/json/genderBatch")
   .header("Content-Type", "application/json")
+  .header("X-API-KEY", "your-api-key")
   .header("Accept", "application/json")
   .body("[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\"}]")
   .asString();
@@ -1122,7 +1254,8 @@ payload = [
 ]
 headers = {
     "Content-Type": "application/json",
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
 }
 
 response = requests.request("POST", url, json=payload, headers=headers)
@@ -1135,7 +1268,8 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderBatch", {
   "method": "POST",
   "headers": {
     "Content-Type": "application/json",
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
   },
   "body": "[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\"}]"
 })
@@ -1235,11 +1369,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderBatch", {
 ```shell
 curl --request GET \
   --url https://v2.namsor.com/NamSorAPIv2/api2/json/genderFull/{fullName} \
-  --header 'Accept: application/json'
+  --header 'Accept: application/json' \
+  --header 'X-API-KEY: your-api-key'
 ```
 
 ```java
 HttpResponse<String> response = Unirest.get("https://v2.namsor.com/NamSorAPIv2/api2/json/genderFull/{fullName}")
+  .header("X-API-KEY", "your-api-key")
   .header("Accept", "application/json")
   .asString();
 ```
@@ -1249,7 +1385,10 @@ import requests
 
 url = "https://v2.namsor.com/NamSorAPIv2/api2/json/genderFull/{fullName}"
 
-headers = {"Accept": "application/json"}
+headers = {
+ "Accept": "application/json",
+ "X-API-KEY": "your-api-key"
+}
 
 response = requests.request("GET", url, headers=headers)
 
@@ -1260,7 +1399,8 @@ print(response.text)
 fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderFull/{fullName}", {
   "method": "GET",
   "headers": {
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
   }
 })
 .then(response => {
@@ -1340,6 +1480,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderFull/{fullName}", {
 curl --request POST \
   --url https://v2.namsor.com/NamSorAPIv2/api2/json/genderFullBatch \
   --header 'Accept: application/json' \
+  --header 'X-API-KEY: your-api-key' \
   --header 'Content-Type: application/json' \
   --data '[{"id":"String","name":"String"}]'
 ```
@@ -1347,6 +1488,7 @@ curl --request POST \
 ```java
 HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/api2/json/genderFullBatch")
   .header("Content-Type", "application/json")
+  .header("X-API-KEY", "your-api-key")
   .header("Accept", "application/json")
   .body("[{\"id\":\"String\",\"name\":\"String\"}]")
   .asString();
@@ -1365,7 +1507,8 @@ payload = [
 ]
 headers = {
     "Content-Type": "application/json",
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
 }
 
 response = requests.request("POST", url, json=payload, headers=headers)
@@ -1378,7 +1521,8 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderFullBatch", {
   "method": "POST",
   "headers": {
     "Content-Type": "application/json",
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
   },
   "body": "[{\"id\":\"String\",\"name\":\"String\"}]"
 })
@@ -1474,11 +1618,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderFullBatch", {
 ```shell
 curl --request GET \
   --url https://v2.namsor.com/NamSorAPIv2/api2/json/genderFullGeo/{fullName}/{countryIso2} \
-  --header 'Accept: application/json'
+  --header 'Accept: application/json' \
+  --header 'X-API-KEY: your-api-key'
 ```
 
 ```java
 HttpResponse<String> response = Unirest.get("https://v2.namsor.com/NamSorAPIv2/api2/json/genderFullGeo/{fullName}/{countryIso2}")
+  .header("X-API-KEY", "your-api-key")
   .header("Accept", "application/json")
   .asString();
 ```
@@ -1488,7 +1634,10 @@ import requests
 
 url = "https://v2.namsor.com/NamSorAPIv2/api2/json/genderFullGeo/{fullName}/{countryIso2}"
 
-headers = {"Accept": "application/json"}
+headers = {
+ "Accept": "application/json",
+ "X-API-KEY": "your-api-key"
+}
 
 response = requests.request("GET", url, headers=headers)
 
@@ -1499,7 +1648,8 @@ print(response.text)
 fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderFullGeo/{fullName}/{countryIso2}", {
   "method": "GET",
   "headers": {
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
   }
 })
 .then(response => {
@@ -1581,6 +1731,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderFullGeo/{fullName}/{cou
 curl --request POST \
   --url https://v2.namsor.com/NamSorAPIv2/api2/json/genderFullGeoBatch \
   --header 'Accept: application/json' \
+  --header 'X-API-KEY: your-api-key' \
   --header 'Content-Type: application/json' \
   --data '[{"id":"String","name":"String","countryIso2":"String"}]'
 ```
@@ -1588,6 +1739,7 @@ curl --request POST \
 ```java
 HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/api2/json/genderFullGeoBatch")
   .header("Content-Type", "application/json")
+  .header("X-API-KEY", "your-api-key")
   .header("Accept", "application/json")
   .body("[{\"id\":\"String\",\"name\":\"String\",\"countryIso2\":\"String\"}]")
   .asString();
@@ -1607,7 +1759,8 @@ payload = [
 ]
 headers = {
     "Content-Type": "application/json",
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
 }
 
 response = requests.request("POST", url, json=payload, headers=headers)
@@ -1620,7 +1773,8 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderFullGeoBatch", {
   "method": "POST",
   "headers": {
     "Content-Type": "application/json",
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
   },
   "body": "[{\"id\":\"String\",\"name\":\"String\",\"countryIso2\":\"String\"}]"
 })
@@ -1718,11 +1872,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderFullGeoBatch", {
 ```shell
 curl --request GET \
   --url https://v2.namsor.com/NamSorAPIv2/api2/json/genderGeo/{firstName}/{lastName}/{countryIso2} \
-  --header 'Accept: application/json'
+  --header 'Accept: application/json' \
+  --header 'X-API-KEY: your-api-key'
 ```
 
 ```java
 HttpResponse<String> response = Unirest.get("https://v2.namsor.com/NamSorAPIv2/api2/json/genderGeo/{firstName}/{lastName}/{countryIso2}")
+  .header("X-API-KEY", "your-api-key")
   .header("Accept", "application/json")
   .asString();
 ```
@@ -1732,7 +1888,10 @@ import requests
 
 url = "https://v2.namsor.com/NamSorAPIv2/api2/json/genderGeo/{firstName}/{lastName}/{countryIso2}"
 
-headers = {"Accept": "application/json"}
+headers = {
+ "Accept": "application/json",
+ "X-API-KEY": "your-api-key"
+}
 
 response = requests.request("GET", url, headers=headers)
 
@@ -1743,7 +1902,8 @@ print(response.text)
 fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderGeo/{firstName}/{lastName}/{countryIso2}", {
   "method": "GET",
   "headers": {
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
   }
 })
 .then(response => {
@@ -1829,6 +1989,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderGeo/{firstName}/{lastNa
 curl --request POST \
   --url https://v2.namsor.com/NamSorAPIv2/api2/json/genderGeoBatch \
   --header 'Accept: application/json' \
+  --header 'X-API-KEY: your-api-key' \
   --header 'Content-Type: application/json' \
   --data '[{"id":"String","firstName":"String","lastName":"String","countryIso2":"String"}]'
 ```
@@ -1836,6 +1997,7 @@ curl --request POST \
 ```java
 HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/api2/json/genderGeoBatch")
   .header("Content-Type", "application/json")
+  .header("X-API-KEY", "your-api-key")
   .header("Accept", "application/json")
   .body("[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\",\"countryIso2\":\"String\"}]")
   .asString();
@@ -1856,7 +2018,8 @@ payload = [
 ]
 headers = {
     "Content-Type": "application/json",
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
 }
 
 response = requests.request("POST", url, json=payload, headers=headers)
@@ -1869,7 +2032,8 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderGeoBatch", {
   "method": "POST",
   "headers": {
     "Content-Type": "application/json",
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
   },
   "body": "[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\",\"countryIso2\":\"String\"}]"
 })
@@ -1971,11 +2135,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderGeoBatch", {
 ```shell
 curl --request GET \
   --url https://v2.namsor.com/NamSorAPIv2/api2/json/origin/{firstName}/{lastName} \
-  --header 'Accept: application/json'
+  --header 'Accept: application/json' \
+  --header 'X-API-KEY: your-api-key'
 ```
 
 ```java
 HttpResponse<String> response = Unirest.get("https://v2.namsor.com/NamSorAPIv2/api2/json/origin/{firstName}/{lastName}")
+  .header("X-API-KEY", "your-api-key")
   .header("Accept", "application/json")
   .asString();
 ```
@@ -1985,7 +2151,10 @@ import requests
 
 url = "https://v2.namsor.com/NamSorAPIv2/api2/json/origin/{firstName}/{lastName}"
 
-headers = {"Accept": "application/json"}
+headers = {
+ "Accept": "application/json",
+ "X-API-KEY": "your-api-key"
+}
 
 response = requests.request("GET", url, headers=headers)
 
@@ -1996,7 +2165,8 @@ print(response.text)
 fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/origin/{firstName}/{lastName}", {
   "method": "GET",
   "headers": {
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
   }
 })
 .then(response => {
@@ -2090,6 +2260,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/origin/{firstName}/{lastName}
 curl --request POST \
   --url https://v2.namsor.com/NamSorAPIv2/api2/json/originBatch \
   --header 'Accept: application/json' \
+  --header 'X-API-KEY: your-api-key' \
   --header 'Content-Type: application/json' \
   --data '[{"id":"String","firstName":"String","lastName":"String"}]'
 ```
@@ -2097,6 +2268,7 @@ curl --request POST \
 ```java
 HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/api2/json/originBatch")
   .header("Content-Type", "application/json")
+  .header("X-API-KEY", "your-api-key")
   .header("Accept", "application/json")
   .body("[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\"}]")
   .asString();
@@ -2116,7 +2288,8 @@ payload = [
 ]
 headers = {
     "Content-Type": "application/json",
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
 }
 
 response = requests.request("POST", url, json=payload, headers=headers)
@@ -2129,7 +2302,8 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/originBatch", {
   "method": "POST",
   "headers": {
     "Content-Type": "application/json",
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
   },
   "body": "[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\"}]"
 })
@@ -2239,11 +2413,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/originBatch", {
 ```shell
 curl --request GET \
   --url https://v2.namsor.com/NamSorAPIv2/api2/json/parseName/{nameFull} \
-  --header 'Accept: application/json'
+  --header 'Accept: application/json' \
+  --header 'X-API-KEY: your-api-key'
 ```
 
 ```java
 HttpResponse<String> response = Unirest.get("https://v2.namsor.com/NamSorAPIv2/api2/json/parseName/{nameFull}")
+  .header("X-API-KEY", "your-api-key")
   .header("Accept", "application/json")
   .asString();
 ```
@@ -2253,7 +2429,10 @@ import requests
 
 url = "https://v2.namsor.com/NamSorAPIv2/api2/json/parseName/{nameFull}"
 
-headers = {"Accept": "application/json"}
+headers = {
+ "Accept": "application/json",
+ "X-API-KEY": "your-api-key"
+}
 
 response = requests.request("GET", url, headers=headers)
 
@@ -2264,7 +2443,8 @@ print(response.text)
 fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseName/{nameFull}", {
   "method": "GET",
   "headers": {
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
   }
 })
 .then(response => {
@@ -2349,6 +2529,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseName/{nameFull}", {
 curl --request POST \
   --url https://v2.namsor.com/NamSorAPIv2/api2/json/parseNameBatch \
   --header 'Accept: application/json' \
+  --header 'X-API-KEY: your-api-key' \
   --header 'Content-Type: application/json' \
   --data '[{"id":"String","name":"String"}]'
 ```
@@ -2356,6 +2537,7 @@ curl --request POST \
 ```java
 HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/api2/json/parseNameBatch")
   .header("Content-Type", "application/json")
+  .header("X-API-KEY", "your-api-key")
   .header("Accept", "application/json")
   .body("[{\"id\":\"String\",\"name\":\"String\"}]")
   .asString();
@@ -2374,7 +2556,8 @@ payload = [
 ]
 headers = {
     "Content-Type": "application/json",
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
 }
 
 response = requests.request("POST", url, json=payload, headers=headers)
@@ -2387,7 +2570,8 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseNameBatch", {
   "method": "POST",
   "headers": {
     "Content-Type": "application/json",
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
   },
   "body": "[{\"id\":\"String\",\"name\":\"String\"}]"
 })
@@ -2488,11 +2672,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseNameBatch", {
 ```shell
 curl --request GET \
   --url https://v2.namsor.com/NamSorAPIv2/api2/json/parseName/{nameFull}/{countryIso2} \
-  --header 'Accept: application/json'
+  --header 'Accept: application/json' \
+  --header 'X-API-KEY: your-api-key'
 ```
 
 ```java
 HttpResponse<String> response = Unirest.get("https://v2.namsor.com/NamSorAPIv2/api2/json/parseName/{nameFull}/{countryIso2}")
+  .header("X-API-KEY", "your-api-key")
   .header("Accept", "application/json")
   .asString();
 ```
@@ -2502,7 +2688,10 @@ import requests
 
 url = "https://v2.namsor.com/NamSorAPIv2/api2/json/parseName/{nameFull}/{countryIso2}"
 
-headers = {"Accept": "application/json"}
+headers = {
+ "Accept": "application/json",
+ "X-API-KEY": "your-api-key"
+}
 
 response = requests.request("GET", url, headers=headers)
 
@@ -2513,7 +2702,8 @@ print(response.text)
 fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseName/{nameFull}/{countryIso2}", {
   "method": "GET",
   "headers": {
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
   }
 })
 .then(response => {
@@ -2600,6 +2790,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseName/{nameFull}/{country
 curl --request POST \
   --url https://v2.namsor.com/NamSorAPIv2/api2/json/parseNameGeoBatch \
   --header 'Accept: application/json' \
+  --header 'X-API-KEY: your-api-key' \
   --header 'Content-Type: application/json' \
   --data '[{"id":"String","name":"String","countryIso2":"String"}]'
 ```
@@ -2607,6 +2798,7 @@ curl --request POST \
 ```java
 HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/api2/json/parseNameGeoBatch")
   .header("Content-Type", "application/json")
+  .header("X-API-KEY", "your-api-key")
   .header("Accept", "application/json")
   .body("[{\"id\":\"String\",\"name\":\"String\",\"countryIso2\":\"String\"}]")
   .asString();
@@ -2626,7 +2818,8 @@ payload = [
 ]
 headers = {
     "Content-Type": "application/json",
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
 }
 
 response = requests.request("POST", url, json=payload, headers=headers)
@@ -2639,7 +2832,8 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseNameGeoBatch", {
   "method": "POST",
   "headers": {
     "Content-Type": "application/json",
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
   },
   "body": "[{\"id\":\"String\",\"name\":\"String\",\"countryIso2\":\"String\"}]"
 })
@@ -2742,11 +2936,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseNameGeoBatch", {
 ```shell
 curl --request GET \
   --url https://v2.namsor.com/NamSorAPIv2/api2/json/usRaceEthnicity/{firstName}/{lastName} \
-  --header 'Accept: application/json'
+  --header 'Accept: application/json' \
+  --header 'X-API-KEY: your-api-key'
 ```
 
 ```java
 HttpResponse<String> response = Unirest.get("https://v2.namsor.com/NamSorAPIv2/api2/json/usRaceEthnicity/{firstName}/{lastName}")
+  .header("X-API-KEY", "your-api-key")
   .header("Accept", "application/json")
   .asString();
 ```
@@ -2756,7 +2952,10 @@ import requests
 
 url = "https://v2.namsor.com/NamSorAPIv2/api2/json/usRaceEthnicity/{firstName}/{lastName}"
 
-headers = {"Accept": "application/json"}
+headers = {
+ "Accept": "application/json",
+ "X-API-KEY": "your-api-key"
+}
 
 response = requests.request("GET", url, headers=headers)
 
@@ -2767,7 +2966,8 @@ print(response.text)
 fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/usRaceEthnicity/{firstName}/{lastName}", {
   "method": "GET",
   "headers": {
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
   }
 })
 .then(response => {
@@ -2855,6 +3055,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/usRaceEthnicity/{firstName}/{
 curl --request POST \
   --url https://v2.namsor.com/NamSorAPIv2/api2/json/usRaceEthnicityBatch \
   --header 'Accept: application/json' \
+  --header 'X-API-KEY: your-api-key' \
   --header 'Content-Type: application/json' \
   --data '[{"id":"String","firstName":"String","lastName":"String","countryIso2":"String"}]'
 ```
@@ -2862,6 +3063,7 @@ curl --request POST \
 ```java
 HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/api2/json/usRaceEthnicityBatch")
   .header("Content-Type", "application/json")
+  .header("X-API-KEY", "your-api-key")
   .header("Accept", "application/json")
   .body("[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\",\"countryIso2\":\"String\"}]")
   .asString();
@@ -2882,7 +3084,8 @@ payload = [
 ]
 headers = {
     "Content-Type": "application/json",
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
 }
 
 response = requests.request("POST", url, json=payload, headers=headers)
@@ -2895,7 +3098,8 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/usRaceEthnicityBatch", {
   "method": "POST",
   "headers": {
     "Content-Type": "application/json",
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
   },
   "body": "[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\",\"countryIso2\":\"String\"}]"
 })
@@ -3001,11 +3205,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/usRaceEthnicityBatch", {
 ```shell
 curl --request GET \
   --url https://v2.namsor.com/NamSorAPIv2/api2/json/usRaceEthnicityZIP5/{firstName}/{lastName}/{zip5Code} \
-  --header 'Accept: application/json'
+  --header 'Accept: application/json' \
+  --header 'X-API-KEY: your-api-key'
 ```
 
 ```java
 HttpResponse<String> response = Unirest.get("https://v2.namsor.com/NamSorAPIv2/api2/json/usRaceEthnicityZIP5/{firstName}/{lastName}/{zip5Code}")
+  .header("X-API-KEY", "your-api-key")
   .header("Accept", "application/json")
   .asString();
 ```
@@ -3015,7 +3221,10 @@ import requests
 
 url = "https://v2.namsor.com/NamSorAPIv2/api2/json/usRaceEthnicityZIP5/{firstName}/{lastName}/{zip5Code}"
 
-headers = {"Accept": "application/json"}
+headers = {
+ "Accept": "application/json",
+ "X-API-KEY": "your-api-key"
+}
 
 response = requests.request("GET", url, headers=headers)
 
@@ -3026,7 +3235,8 @@ print(response.text)
 fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/usRaceEthnicityZIP5/{firstName}/{lastName}/{zip5Code}", {
   "method": "GET",
   "headers": {
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
   }
 })
 .then(response => {
@@ -3116,6 +3326,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/usRaceEthnicityZIP5/{firstNam
 curl --request POST \
   --url https://v2.namsor.com/NamSorAPIv2/api2/json/usZipRaceEthnicityBatch \
   --header 'Accept: application/json' \
+  --header 'X-API-KEY: your-api-key' \
   --header 'Content-Type: application/json' \
   --data '[{"id":"String","firstName":"String","lastName":"String","countryIso2":"String","zipCode":"String"}]'
 ```
@@ -3123,6 +3334,7 @@ curl --request POST \
 ```java
 HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/api2/json/usZipRaceEthnicityBatch")
   .header("Content-Type", "application/json")
+  .header("X-API-KEY", "your-api-key")
   .header("Accept", "application/json")
   .body("[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\",\"countryIso2\":\"String\",\"zipCode\":\"String\"}]")
   .asString();
@@ -3144,7 +3356,8 @@ payload = [
 ]
 headers = {
     "Content-Type": "application/json",
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
 }
 
 response = requests.request("POST", url, json=payload, headers=headers)
@@ -3157,7 +3370,8 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/usZipRaceEthnicityBatch", {
   "method": "POST",
   "headers": {
     "Content-Type": "application/json",
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
   },
   "body": "[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\",\"countryIso2\":\"String\",\"zipCode\":\"String\"}]"
 })
@@ -3269,11 +3483,13 @@ Social media and pseudonyms
 ```shell
 curl --request GET \
   --url https://v2.namsor.com/NamSorAPIv2/api2/json/phoneCode/{firstName}/{lastName}/{phoneNumber} \
-  --header 'Accept: application/json'
+  --header 'Accept: application/json' \
+  --header 'X-API-KEY: your-api-key'
 ```
 
 ```java
 HttpResponse<String> response = Unirest.get("https://v2.namsor.com/NamSorAPIv2/api2/json/phoneCode/{firstName}/{lastName}/{phoneNumber}")
+  .header("X-API-KEY", "your-api-key")
   .header("Accept", "application/json")
   .asString();
 ```
@@ -3283,7 +3499,10 @@ import requests
 
 url = "https://v2.namsor.com/NamSorAPIv2/api2/json/phoneCode/{firstName}/{lastName}/{phoneNumber}"
 
-headers = {"Accept": "application/json"}
+headers = {
+ "Accept": "application/json",
+ "X-API-KEY": "your-api-key"
+}
 
 response = requests.request("GET", url, headers=headers)
 
@@ -3294,7 +3513,8 @@ print(response.text)
 fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/phoneCode/{firstName}/{lastName}/{phoneNumber}", {
   "method": "GET",
   "headers": {
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
   }
 })
 .then(response => {
@@ -3396,6 +3616,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/phoneCode/{firstName}/{lastNa
 curl --request POST \
   --url https://v2.namsor.com/NamSorAPIv2/api2/json/phoneCodeBatch \
   --header 'Accept: application/json' \
+  --header 'X-API-KEY: your-api-key' \
   --header 'Content-Type: application/json' \
   --data '[{"id":"String","firstName":"String","lastName":"String","phoneNumber":"String","origin":{"script":"String","id":"String","firstName":"String","lastName":"String","countryOrigin":"String","countryOriginAlt":"String","countriesOriginTop":"Array","score":"Number","regionOrigin":"String","topRegionOrigin":"String","subRegionOrigin":"String","probabilityCalibrated":"Number","probabilityAltCalibrated":"Number"}}]'
 ```
@@ -3403,6 +3624,7 @@ curl --request POST \
 ```java
 HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/api2/json/phoneCodeBatch")
   .header("Content-Type", "application/json")
+  .header("X-API-KEY", "your-api-key")
   .header("Accept", "application/json")
   .body("[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\",\"phoneNumber\":\"String\",\"origin\":{\"script\":\"String\",\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\",\"countryOrigin\":\"String\",\"countryOriginAlt\":\"String\",\"countriesOriginTop\":\"Array\",\"score\":\"Number\",\"regionOrigin\":\"String\",\"topRegionOrigin\":\"String\",\"subRegionOrigin\":\"String\",\"probabilityCalibrated\":\"Number\",\"probabilityAltCalibrated\":\"Number\"}}]")
   .asString();
@@ -3438,7 +3660,8 @@ payload = [
 ]
 headers = {
     "Content-Type": "application/json",
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
 }
 
 response = requests.request("POST", url, json=payload, headers=headers)
@@ -3451,7 +3674,8 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/phoneCodeBatch", {
   "method": "POST",
   "headers": {
     "Content-Type": "application/json",
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
   },
   "body": "[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\",\"phoneNumber\":\"String\",\"origin\":{\"script\":\"String\",\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\",\"countryOrigin\":\"String\",\"countryOriginAlt\":\"String\",\"countriesOriginTop\":\"Array\",\"score\":\"Number\",\"regionOrigin\":\"String\",\"topRegionOrigin\":\"String\",\"subRegionOrigin\":\"String\",\"probabilityCalibrated\":\"Number\",\"probabilityAltCalibrated\":\"Number\"}}]"
 })
@@ -3585,11 +3809,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/phoneCodeBatch", {
 ```shell
 curl --request GET \
   --url https://v2.namsor.com/NamSorAPIv2/api2/json/phoneCodeGeo/{firstName}/{lastName}/{phoneNumber}/{countryIso2} \
-  --header 'Accept: application/json'
+  --header 'Accept: application/json' \
+  --header 'X-API-KEY: your-api-key'
 ```
 
 ```java
 HttpResponse<String> response = Unirest.get("https://v2.namsor.com/NamSorAPIv2/api2/json/phoneCodeGeo/{firstName}/{lastName}/{phoneNumber}/{countryIso2}")
+  .header("X-API-KEY", "your-api-key")
   .header("Accept", "application/json")
   .asString();
 ```
@@ -3599,7 +3825,10 @@ import requests
 
 url = "https://v2.namsor.com/NamSorAPIv2/api2/json/phoneCodeGeo/{firstName}/{lastName}/{phoneNumber}/{countryIso2}"
 
-headers = {"Accept": "application/json"}
+headers = {
+ "Accept": "application/json",
+ "X-API-KEY": "your-api-key"
+}
 
 response = requests.request("GET", url, headers=headers)
 
@@ -3610,7 +3839,8 @@ print(response.text)
 fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/phoneCodeGeo/{firstName}/{lastName}/{phoneNumber}/{countryIso2}", {
   "method": "GET",
   "headers": {
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
   }
 })
 .then(response => {
@@ -3714,6 +3944,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/phoneCodeGeo/{firstName}/{las
 curl --request POST \
   --url https://v2.namsor.com/NamSorAPIv2/api2/json/phoneCodeGeoBatch \
   --header 'Accept: application/json' \
+  --header 'X-API-KEY: your-api-key' \
   --header 'Content-Type: application/json' \
   --data '[{"id":"String","firstName":"String","lastName":"String","phoneNumber":"String","origin":{"script":"String","id":"String","firstName":"String","lastName":"String","countryOrigin":"String","countryOriginAlt":"String","countriesOriginTop":"Array","score":"Number","regionOrigin":"String","topRegionOrigin":"String","subRegionOrigin":"String","probabilityCalibrated":"Number","probabilityAltCalibrated":"Number"},"countryIso2":"String","countryIso2Alt":"String"}]'
 ```
@@ -3721,6 +3952,7 @@ curl --request POST \
 ```java
 HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/api2/json/phoneCodeGeoBatch")
   .header("Content-Type", "application/json")
+  .header("X-API-KEY", "your-api-key")
   .header("Accept", "application/json")
   .body("[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\",\"phoneNumber\":\"String\",\"origin\":{\"script\":\"String\",\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\",\"countryOrigin\":\"String\",\"countryOriginAlt\":\"String\",\"countriesOriginTop\":\"Array\",\"score\":\"Number\",\"regionOrigin\":\"String\",\"topRegionOrigin\":\"String\",\"subRegionOrigin\":\"String\",\"probabilityCalibrated\":\"Number\",\"probabilityAltCalibrated\":\"Number\"},\"countryIso2\":\"String\",\"countryIso2Alt\":\"String\"}]")
   .asString();
@@ -3758,7 +3990,8 @@ payload = [
 ]
 headers = {
     "Content-Type": "application/json",
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
 }
 
 response = requests.request("POST", url, json=payload, headers=headers)
@@ -3771,7 +4004,8 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/phoneCodeGeoBatch", {
   "method": "POST",
   "headers": {
     "Content-Type": "application/json",
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
   },
   "body": "[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\",\"phoneNumber\":\"String\",\"origin\":{\"script\":\"String\",\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\",\"countryOrigin\":\"String\",\"countryOriginAlt\":\"String\",\"countriesOriginTop\":\"Array\",\"score\":\"Number\",\"regionOrigin\":\"String\",\"topRegionOrigin\":\"String\",\"subRegionOrigin\":\"String\",\"probabilityCalibrated\":\"Number\",\"probabilityAltCalibrated\":\"Number\"},\"countryIso2\":\"String\",\"countryIso2Alt\":\"String\"}]"
 })
@@ -3909,11 +4143,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/phoneCodeGeoBatch", {
 ```shell
 curl --request GET \
   --url https://v2.namsor.com/NamSorAPIv2/api2/json/phoneCodeGeoFeedbackLoop/{firstName}/{lastName}/{phoneNumber}/{phoneNumberE164}/{countryIso2} \
-  --header 'Accept: application/json'
+  --header 'Accept: application/json' \
+  --header 'X-API-KEY: your-api-key'
 ```
 
 ```java
 HttpResponse<String> response = Unirest.get("https://v2.namsor.com/NamSorAPIv2/api2/json/phoneCodeGeoFeedbackLoop/{firstName}/{lastName}/{phoneNumber}/{phoneNumberE164}/{countryIso2}")
+  .header("X-API-KEY", "your-api-key")
   .header("Accept", "application/json")
   .asString();
 ```
@@ -3923,7 +4159,10 @@ import requests
 
 url = "https://v2.namsor.com/NamSorAPIv2/api2/json/phoneCodeGeoFeedbackLoop/{firstName}/{lastName}/{phoneNumber}/{phoneNumberE164}/{countryIso2}"
 
-headers = {"Accept": "application/json"}
+headers = {
+ "Accept": "application/json",
+ "X-API-KEY": "your-api-key"
+}
 
 response = requests.request("GET", url, headers=headers)
 
@@ -3934,7 +4173,8 @@ print(response.text)
 fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/phoneCodeGeoFeedbackLoop/{firstName}/{lastName}/{phoneNumber}/{phoneNumberE164}/{countryIso2}", {
   "method": "GET",
   "headers": {
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
   }
 })
 .then(response => {
@@ -4043,11 +4283,13 @@ CHINESE special features
 ```shell
 curl --request GET \
   --url https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameCandidates/{chineseSurnameLatin}/{chineseGivenNameLatin} \
-  --header 'Accept: application/json'
+  --header 'Accept: application/json' \
+  --header 'X-API-KEY: your-api-key'
 ```
 
 ```java
 HttpResponse<String> response = Unirest.get("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameCandidates/{chineseSurnameLatin}/{chineseGivenNameLatin}")
+  .header("X-API-KEY", "your-api-key")
   .header("Accept", "application/json")
   .asString();
 ```
@@ -4057,7 +4299,10 @@ import requests
 
 url = "https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameCandidates/{chineseSurnameLatin}/{chineseGivenNameLatin}"
 
-headers = {"Accept": "application/json"}
+headers = {
+ "Accept": "application/json",
+ "X-API-KEY": "your-api-key"
+}
 
 response = requests.request("GET", url, headers=headers)
 
@@ -4068,7 +4313,8 @@ print(response.text)
 fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameCandidates/{chineseSurnameLatin}/{chineseGivenNameLatin}", {
   "method": "GET",
   "headers": {
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
   }
 })
 .then(response => {
@@ -4148,6 +4394,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameCandidates/{chines
 curl --request POST \
   --url https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameCandidatesBatch \
   --header 'Accept: application/json' \
+  --header 'X-API-KEY: your-api-key' \
   --header 'Content-Type: application/json' \
   --data '[{"id":"String","firstName":"String","lastName":"String"}]'
 ```
@@ -4155,6 +4402,7 @@ curl --request POST \
 ```java
 HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameCandidatesBatch")
   .header("Content-Type", "application/json")
+  .header("X-API-KEY", "your-api-key")
   .header("Accept", "application/json")
   .body("[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\"}]")
   .asString();
@@ -4174,7 +4422,8 @@ payload = [
 ]
 headers = {
     "Content-Type": "application/json",
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
 }
 
 response = requests.request("POST", url, json=payload, headers=headers)
@@ -4187,7 +4436,8 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameCandidatesBatch", 
   "method": "POST",
   "headers": {
     "Content-Type": "application/json",
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
   },
   "body": "[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\"}]"
 })
@@ -4284,6 +4534,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameCandidatesBatch", 
 curl --request POST \
   --url https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameCandidatesGenderBatch \
   --header 'Accept: application/json' \
+  --header 'X-API-KEY: your-api-key' \
   --header 'Content-Type: application/json' \
   --data '[{"id":"String","firstName":"String","lastName":"String","gender":"String"}]'
 ```
@@ -4291,6 +4542,7 @@ curl --request POST \
 ```java
 HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameCandidatesGenderBatch")
   .header("Content-Type", "application/json")
+  .header("X-API-KEY", "your-api-key")
   .header("Accept", "application/json")
   .body("[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\",\"gender\":\"String\"}]")
   .asString();
@@ -4311,7 +4563,8 @@ payload = [
 ]
 headers = {
     "Content-Type": "application/json",
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
 }
 
 response = requests.request("POST", url, json=payload, headers=headers)
@@ -4324,7 +4577,8 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameCandidatesGenderBa
   "method": "POST",
   "headers": {
     "Content-Type": "application/json",
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
   },
   "body": "[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\",\"gender\":\"String\"}]"
 })
@@ -4422,11 +4676,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameCandidatesGenderBa
 ```shell
 curl --request GET \
   --url https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameGenderCandidates/{chineseSurnameLatin}/{chineseGivenNameLatin}/{knownGender} \
-  --header 'Accept: application/json'
+  --header 'Accept: application/json' \
+  --header 'X-API-KEY: your-api-key'
 ```
 
 ```java
 HttpResponse<String> response = Unirest.get("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameGenderCandidates/{chineseSurnameLatin}/{chineseGivenNameLatin}/{knownGender}")
+  .header("X-API-KEY", "your-api-key")
   .header("Accept", "application/json")
   .asString();
 ```
@@ -4436,7 +4692,10 @@ import requests
 
 url = "https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameGenderCandidates/{chineseSurnameLatin}/{chineseGivenNameLatin}/{knownGender}"
 
-headers = {"Accept": "application/json"}
+headers = {
+ "Accept": "application/json",
+ "X-API-KEY": "your-api-key"
+}
 
 response = requests.request("GET", url, headers=headers)
 
@@ -4447,7 +4706,8 @@ print(response.text)
 fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameGenderCandidates/{chineseSurnameLatin}/{chineseGivenNameLatin}/{knownGender}", {
   "method": "GET",
   "headers": {
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
   }
 })
 .then(response => {
@@ -4534,11 +4794,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameGenderCandidates/{
 ```shell
 curl --request GET \
   --url https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameMatch/{chineseSurnameLatin}/{chineseGivenNameLatin}/{chineseName} \
-  --header 'Accept: application/json'
+  --header 'Accept: application/json' \
+  --header 'X-API-KEY: your-api-key'
 ```
 
 ```java
 HttpResponse<String> response = Unirest.get("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameMatch/{chineseSurnameLatin}/{chineseGivenNameLatin}/{chineseName}")
+  .header("X-API-KEY", "your-api-key")
   .header("Accept", "application/json")
   .asString();
 ```
@@ -4548,7 +4810,10 @@ import requests
 
 url = "https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameMatch/{chineseSurnameLatin}/{chineseGivenNameLatin}/{chineseName}"
 
-headers = {"Accept": "application/json"}
+headers = {
+ "Accept": "application/json",
+ "X-API-KEY": "your-api-key"
+}
 
 response = requests.request("GET", url, headers=headers)
 
@@ -4559,7 +4824,8 @@ print(response.text)
 fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameMatch/{chineseSurnameLatin}/{chineseGivenNameLatin}/{chineseName}", {
   "method": "GET",
   "headers": {
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
   }
 })
 .then(response => {
@@ -4637,6 +4903,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameMatch/{chineseSurn
 curl --request POST \
   --url https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameMatchBatch \
   --header 'Accept: application/json' \
+  --header 'X-API-KEY: your-api-key' \
   --header 'Content-Type: application/json' \
   --data '[{"id":"String","name1":{"id":"String","firstName":"String","lastName":"String"},"name2":{"id":"String","name":"String"}}]'
 ```
@@ -4644,6 +4911,7 @@ curl --request POST \
 ```java
 HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameMatchBatch")
   .header("Content-Type", "application/json")
+  .header("X-API-KEY", "your-api-key")
   .header("Accept", "application/json")
   .body("[{\"id\":\"String\",\"name1\":{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\"},\"name2\":{\"id\":\"String\",\"name\":\"String\"}}]")
   .asString();
@@ -4670,7 +4938,8 @@ payload = [
 ]
 headers = {
     "Content-Type": "application/json",
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
 }
 
 response = requests.request("POST", url, json=payload, headers=headers)
@@ -4683,7 +4952,8 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameMatchBatch", {
   "method": "POST",
   "headers": {
     "Content-Type": "application/json",
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
   },
   "body": "[{\"id\":\"String\",\"name1\":{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\"},\"name2\":{\"id\":\"String\",\"name\":\"String\"}}]"
 })
@@ -4782,11 +5052,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameMatchBatch", {
 ```shell
 curl --request GET \
   --url https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseName/{chineseName} \
-  --header 'Accept: application/json'
+  --header 'Accept: application/json' \
+  --header 'X-API-KEY: your-api-key'
 ```
 
 ```java
 HttpResponse<String> response = Unirest.get("https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseName/{chineseName}")
+  .header("X-API-KEY", "your-api-key")
   .header("Accept", "application/json")
   .asString();
 ```
@@ -4796,7 +5068,10 @@ import requests
 
 url = "https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseName/{chineseName}"
 
-headers = {"Accept": "application/json"}
+headers = {
+ "Accept": "application/json",
+ "X-API-KEY": "your-api-key"
+}
 
 response = requests.request("GET", url, headers=headers)
 
@@ -4807,7 +5082,8 @@ print(response.text)
 fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseName/{chineseName}", {
   "method": "GET",
   "headers": {
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
   }
 })
 .then(response => {
@@ -4887,6 +5163,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseName/{chineseNam
 curl --request POST \
   --url https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseNameBatch \
   --header 'Accept: application/json' \
+  --header 'X-API-KEY: your-api-key' \
   --header 'Content-Type: application/json' \
   --data '[{"id":"String","name":"String"}]'
 ```
@@ -4894,6 +5171,7 @@ curl --request POST \
 ```java
 HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseNameBatch")
   .header("Content-Type", "application/json")
+  .header("X-API-KEY", "your-api-key")
   .header("Accept", "application/json")
   .body("[{\"id\":\"String\",\"name\":\"String\"}]")
   .asString();
@@ -4912,7 +5190,8 @@ payload = [
 ]
 headers = {
     "Content-Type": "application/json",
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
 }
 
 response = requests.request("POST", url, json=payload, headers=headers)
@@ -4925,7 +5204,8 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseNameBatch", {
   "method": "POST",
   "headers": {
     "Content-Type": "application/json",
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
   },
   "body": "[{\"id\":\"String\",\"name\":\"String\"}]"
 })
@@ -5021,11 +5301,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseNameBatch", {
 ```shell
 curl --request GET \
   --url https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseNamePinyin/{chineseSurnameLatin}/{chineseGivenNameLatin} \
-  --header 'Accept: application/json'
+  --header 'Accept: application/json' \
+  --header 'X-API-KEY: your-api-key'
 ```
 
 ```java
 HttpResponse<String> response = Unirest.get("https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseNamePinyin/{chineseSurnameLatin}/{chineseGivenNameLatin}")
+  .header("X-API-KEY", "your-api-key")
   .header("Accept", "application/json")
   .asString();
 ```
@@ -5035,7 +5317,10 @@ import requests
 
 url = "https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseNamePinyin/{chineseSurnameLatin}/{chineseGivenNameLatin}"
 
-headers = {"Accept": "application/json"}
+headers = {
+ "Accept": "application/json",
+ "X-API-KEY": "your-api-key"
+}
 
 response = requests.request("GET", url, headers=headers)
 
@@ -5046,7 +5331,8 @@ print(response.text)
 fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseNamePinyin/{chineseSurnameLatin}/{chineseGivenNameLatin}", {
   "method": "GET",
   "headers": {
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
   }
 })
 .then(response => {
@@ -5130,6 +5416,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseNamePinyin/{chin
 curl --request POST \
   --url https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseNamePinyinBatch \
   --header 'Accept: application/json' \
+  --header 'X-API-KEY: your-api-key' \
   --header 'Content-Type: application/json' \
   --data '[{"id":"String","firstName":"String","lastName":"String"}]'
 ```
@@ -5137,6 +5424,7 @@ curl --request POST \
 ```java
 HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseNamePinyinBatch")
   .header("Content-Type", "application/json")
+  .header("X-API-KEY", "your-api-key")
   .header("Accept", "application/json")
   .body("[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\"}]")
   .asString();
@@ -5156,7 +5444,8 @@ payload = [
 ]
 headers = {
     "Content-Type": "application/json",
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
 }
 
 response = requests.request("POST", url, json=payload, headers=headers)
@@ -5169,7 +5458,8 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseNamePinyinBatch"
   "method": "POST",
   "headers": {
     "Content-Type": "application/json",
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
   },
   "body": "[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\"}]"
 })
@@ -5269,11 +5559,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseNamePinyinBatch"
 ```shell
 curl --request GET \
   --url https://v2.namsor.com/NamSorAPIv2/api2/json/parseChineseName/{chineseName} \
-  --header 'Accept: application/json'
+  --header 'Accept: application/json' \
+  --header 'X-API-KEY: your-api-key'
 ```
 
 ```java
 HttpResponse<String> response = Unirest.get("https://v2.namsor.com/NamSorAPIv2/api2/json/parseChineseName/{chineseName}")
+  .header("X-API-KEY", "your-api-key")
   .header("Accept", "application/json")
   .asString();
 ```
@@ -5283,7 +5575,10 @@ import requests
 
 url = "https://v2.namsor.com/NamSorAPIv2/api2/json/parseChineseName/{chineseName}"
 
-headers = {"Accept": "application/json"}
+headers = {
+ "Accept": "application/json",
+ "X-API-KEY": "your-api-key"
+}
 
 response = requests.request("GET", url, headers=headers)
 
@@ -5294,7 +5589,8 @@ print(response.text)
 fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseChineseName/{chineseName}", {
   "method": "GET",
   "headers": {
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
   }
 })
 .then(response => {
@@ -5379,6 +5675,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseChineseName/{chineseName
 curl --request POST \
   --url https://v2.namsor.com/NamSorAPIv2/api2/json/parseChineseNameBatch \
   --header 'Accept: application/json' \
+  --header 'X-API-KEY: your-api-key' \
   --header 'Content-Type: application/json' \
   --data '[{"id":"String","name":"String"}]'
 ```
@@ -5386,6 +5683,7 @@ curl --request POST \
 ```java
 HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/api2/json/parseChineseNameBatch")
   .header("Content-Type", "application/json")
+  .header("X-API-KEY", "your-api-key")
   .header("Accept", "application/json")
   .body("[{\"id\":\"String\",\"name\":\"String\"}]")
   .asString();
@@ -5404,7 +5702,8 @@ payload = [
 ]
 headers = {
     "Content-Type": "application/json",
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
 }
 
 response = requests.request("POST", url, json=payload, headers=headers)
@@ -5417,7 +5716,8 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseChineseNameBatch", {
   "method": "POST",
   "headers": {
     "Content-Type": "application/json",
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
   },
   "body": "[{\"id\":\"String\",\"name\":\"String\"}]"
 })
@@ -5518,11 +5818,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseChineseNameBatch", {
 ```shell
 curl --request GET \
   --url https://v2.namsor.com/NamSorAPIv2/api2/json/pinyinChineseName/{chineseName} \
-  --header 'Accept: application/json'
+  --header 'Accept: application/json' \
+  --header 'X-API-KEY: your-api-key'
 ```
 
 ```java
 HttpResponse<String> response = Unirest.get("https://v2.namsor.com/NamSorAPIv2/api2/json/pinyinChineseName/{chineseName}")
+  .header("X-API-KEY", "your-api-key")
   .header("Accept", "application/json")
   .asString();
 ```
@@ -5532,7 +5834,10 @@ import requests
 
 url = "https://v2.namsor.com/NamSorAPIv2/api2/json/pinyinChineseName/{chineseName}"
 
-headers = {"Accept": "application/json"}
+headers = {
+ "Accept": "application/json",
+ "X-API-KEY": "your-api-key"
+}
 
 response = requests.request("GET", url, headers=headers)
 
@@ -5543,7 +5848,8 @@ print(response.text)
 fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/pinyinChineseName/{chineseName}", {
   "method": "GET",
   "headers": {
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
   }
 })
 .then(response => {
@@ -5628,6 +5934,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/pinyinChineseName/{chineseNam
 curl --request POST \
   --url https://v2.namsor.com/NamSorAPIv2/api2/json/pinyinChineseNameBatch \
   --header 'Accept: application/json' \
+  --header 'X-API-KEY: your-api-key' \
   --header 'Content-Type: application/json' \
   --data '[{"id":"String","name":"String"}]'
 ```
@@ -5635,6 +5942,7 @@ curl --request POST \
 ```java
 HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/api2/json/pinyinChineseNameBatch")
   .header("Content-Type", "application/json")
+  .header("X-API-KEY", "your-api-key")
   .header("Accept", "application/json")
   .body("[{\"id\":\"String\",\"name\":\"String\"}]")
   .asString();
@@ -5653,7 +5961,8 @@ payload = [
 ]
 headers = {
     "Content-Type": "application/json",
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
 }
 
 response = requests.request("POST", url, json=payload, headers=headers)
@@ -5666,7 +5975,8 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/pinyinChineseNameBatch", {
   "method": "POST",
   "headers": {
     "Content-Type": "application/json",
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
   },
   "body": "[{\"id\":\"String\",\"name\":\"String\"}]"
 })
@@ -5771,11 +6081,13 @@ JAPANESE special features
 ```shell
 curl --request GET \
   --url https://v2.namsor.com/NamSorAPIv2/api2/json/genderJapaneseNameFull/{japaneseName} \
-  --header 'Accept: application/json'
+  --header 'Accept: application/json' \
+  --header 'X-API-KEY: your-api-key'
 ```
 
 ```java
 HttpResponse<String> response = Unirest.get("https://v2.namsor.com/NamSorAPIv2/api2/json/genderJapaneseNameFull/{japaneseName}")
+  .header("X-API-KEY", "your-api-key")
   .header("Accept", "application/json")
   .asString();
 ```
@@ -5785,7 +6097,10 @@ import requests
 
 url = "https://v2.namsor.com/NamSorAPIv2/api2/json/genderJapaneseNameFull/{japaneseName}"
 
-headers = {"Accept": "application/json"}
+headers = {
+ "Accept": "application/json",
+ "X-API-KEY": "your-api-key"
+}
 
 response = requests.request("GET", url, headers=headers)
 
@@ -5796,7 +6111,8 @@ print(response.text)
 fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderJapaneseNameFull/{japaneseName}", {
   "method": "GET",
   "headers": {
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
   }
 })
 .then(response => {
@@ -5876,6 +6192,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderJapaneseNameFull/{japan
 curl --request POST \
   --url https://v2.namsor.com/NamSorAPIv2/api2/json/genderJapaneseNameFullBatch \
   --header 'Accept: application/json' \
+  --header 'X-API-KEY: your-api-key' \
   --header 'Content-Type: application/json' \
   --data '[{"id":"String","name":"String"}]'
 ```
@@ -5883,6 +6200,7 @@ curl --request POST \
 ```java
 HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/api2/json/genderJapaneseNameFullBatch")
   .header("Content-Type", "application/json")
+  .header("X-API-KEY", "your-api-key")
   .header("Accept", "application/json")
   .body("[{\"id\":\"String\",\"name\":\"String\"}]")
   .asString();
@@ -5901,7 +6219,8 @@ payload = [
 ]
 headers = {
     "Content-Type": "application/json",
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
 }
 
 response = requests.request("POST", url, json=payload, headers=headers)
@@ -5914,7 +6233,8 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderJapaneseNameFullBatch",
   "method": "POST",
   "headers": {
     "Content-Type": "application/json",
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
   },
   "body": "[{\"id\":\"String\",\"name\":\"String\"}]"
 })
@@ -6010,11 +6330,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderJapaneseNameFullBatch",
 ```shell
 curl --request GET \
   --url https://v2.namsor.com/NamSorAPIv2/api2/json/genderJapaneseName/{japaneseSurname}/{japaneseGivenName} \
-  --header 'Accept: application/json'
+  --header 'Accept: application/json' \
+  --header 'X-API-KEY: your-api-key'
 ```
 
 ```java
 HttpResponse<String> response = Unirest.get("https://v2.namsor.com/NamSorAPIv2/api2/json/genderJapaneseName/{japaneseSurname}/{japaneseGivenName}")
+  .header("X-API-KEY", "your-api-key")
   .header("Accept", "application/json")
   .asString();
 ```
@@ -6024,7 +6346,10 @@ import requests
 
 url = "https://v2.namsor.com/NamSorAPIv2/api2/json/genderJapaneseName/{japaneseSurname}/{japaneseGivenName}"
 
-headers = {"Accept": "application/json"}
+headers = {
+ "Accept": "application/json",
+ "X-API-KEY": "your-api-key"
+}
 
 response = requests.request("GET", url, headers=headers)
 
@@ -6035,7 +6360,8 @@ print(response.text)
 fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderJapaneseName/{japaneseSurname}/{japaneseGivenName}", {
   "method": "GET",
   "headers": {
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
   }
 })
 .then(response => {
@@ -6119,6 +6445,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderJapaneseName/{japaneseS
 curl --request POST \
   --url https://v2.namsor.com/NamSorAPIv2/api2/json/genderJapaneseNameBatch \
   --header 'Accept: application/json' \
+  --header 'X-API-KEY: your-api-key' \
   --header 'Content-Type: application/json' \
   --data '[{"id":"String","firstName":"String","lastName":"String"}]'
 ```
@@ -6126,6 +6453,7 @@ curl --request POST \
 ```java
 HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/api2/json/genderJapaneseNameBatch")
   .header("Content-Type", "application/json")
+  .header("X-API-KEY", "your-api-key")
   .header("Accept", "application/json")
   .body("[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\"}]")
   .asString();
@@ -6145,7 +6473,8 @@ payload = [
 ]
 headers = {
     "Content-Type": "application/json",
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
 }
 
 response = requests.request("POST", url, json=payload, headers=headers)
@@ -6158,7 +6487,8 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderJapaneseNameBatch", {
   "method": "POST",
   "headers": {
     "Content-Type": "application/json",
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
   },
   "body": "[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\"}]"
 })
@@ -6259,6 +6589,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderJapaneseNameBatch", {
 curl --request POST \
   --url https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameGenderKanjiCandidatesBatch \
   --header 'Accept: application/json' \
+  --header 'X-API-KEY: your-api-key' \
   --header 'Content-Type: application/json' \
   --data '[{"id":"String","firstName":"String","lastName":"String","gender":"String"}]'
 ```
@@ -6266,6 +6597,7 @@ curl --request POST \
 ```java
 HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameGenderKanjiCandidatesBatch")
   .header("Content-Type", "application/json")
+  .header("X-API-KEY", "your-api-key")
   .header("Accept", "application/json")
   .body("[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\",\"gender\":\"String\"}]")
   .asString();
@@ -6286,7 +6618,8 @@ payload = [
 ]
 headers = {
     "Content-Type": "application/json",
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
 }
 
 response = requests.request("POST", url, json=payload, headers=headers)
@@ -6299,7 +6632,8 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameGenderKanjiCandid
   "method": "POST",
   "headers": {
     "Content-Type": "application/json",
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
   },
   "body": "[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\",\"gender\":\"String\"}]"
 })
@@ -6397,11 +6731,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameGenderKanjiCandid
 ```shell
 curl --request GET \
   --url https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameKanjiCandidates/{japaneseSurnameLatin}/{japaneseGivenNameLatin} \
-  --header 'Accept: application/json'
+  --header 'Accept: application/json' \
+  --header 'X-API-KEY: your-api-key'
 ```
 
 ```java
 HttpResponse<String> response = Unirest.get("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameKanjiCandidates/{japaneseSurnameLatin}/{japaneseGivenNameLatin}")
+  .header("X-API-KEY", "your-api-key")
   .header("Accept", "application/json")
   .asString();
 ```
@@ -6411,7 +6747,10 @@ import requests
 
 url = "https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameKanjiCandidates/{japaneseSurnameLatin}/{japaneseGivenNameLatin}"
 
-headers = {"Accept": "application/json"}
+headers = {
+ "Accept": "application/json",
+ "X-API-KEY": "your-api-key"
+}
 
 response = requests.request("GET", url, headers=headers)
 
@@ -6422,7 +6761,8 @@ print(response.text)
 fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameKanjiCandidates/{japaneseSurnameLatin}/{japaneseGivenNameLatin}", {
   "method": "GET",
   "headers": {
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
   }
 })
 .then(response => {
@@ -6501,11 +6841,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameKanjiCandidates/{
 ```shell
 curl --request GET \
   --url https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameKanjiCandidates/{japaneseSurnameLatin}/{japaneseGivenNameLatin}/{knownGender} \
-  --header 'Accept: application/json'
+  --header 'Accept: application/json' \
+  --header 'X-API-KEY: your-api-key'
 ```
 
 ```java
 HttpResponse<String> response = Unirest.get("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameKanjiCandidates/{japaneseSurnameLatin}/{japaneseGivenNameLatin}/{knownGender}")
+  .header("X-API-KEY", "your-api-key")
   .header("Accept", "application/json")
   .asString();
 ```
@@ -6515,7 +6857,10 @@ import requests
 
 url = "https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameKanjiCandidates/{japaneseSurnameLatin}/{japaneseGivenNameLatin}/{knownGender}"
 
-headers = {"Accept": "application/json"}
+headers = {
+ "Accept": "application/json",
+ "X-API-KEY": "your-api-key"
+}
 
 response = requests.request("GET", url, headers=headers)
 
@@ -6526,7 +6871,8 @@ print(response.text)
 fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameKanjiCandidates/{japaneseSurnameLatin}/{japaneseGivenNameLatin}/{knownGender}", {
   "method": "GET",
   "headers": {
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
   }
 })
 .then(response => {
@@ -6608,6 +6954,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameKanjiCandidates/{
 curl --request POST \
   --url https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameKanjiCandidatesBatch \
   --header 'Accept: application/json' \
+  --header 'X-API-KEY: your-api-key' \
   --header 'Content-Type: application/json' \
   --data '[{"id":"String","firstName":"String","lastName":"String"}]'
 ```
@@ -6615,6 +6962,7 @@ curl --request POST \
 ```java
 HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameKanjiCandidatesBatch")
   .header("Content-Type", "application/json")
+  .header("X-API-KEY", "your-api-key")
   .header("Accept", "application/json")
   .body("[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\"}]")
   .asString();
@@ -6634,7 +6982,8 @@ payload = [
 ]
 headers = {
     "Content-Type": "application/json",
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
 }
 
 response = requests.request("POST", url, json=payload, headers=headers)
@@ -6647,7 +6996,8 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameKanjiCandidatesBa
   "method": "POST",
   "headers": {
     "Content-Type": "application/json",
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
   },
   "body": "[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\"}]"
 })
@@ -6743,11 +7093,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameKanjiCandidatesBa
 ```shell
 curl --request GET \
   --url https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameLatinCandidates/{japaneseSurnameKanji}/{japaneseGivenNameKanji} \
-  --header 'Accept: application/json'
+  --header 'Accept: application/json' \
+  --header 'X-API-KEY: your-api-key'
 ```
 
 ```java
 HttpResponse<String> response = Unirest.get("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameLatinCandidates/{japaneseSurnameKanji}/{japaneseGivenNameKanji}")
+  .header("X-API-KEY", "your-api-key")
   .header("Accept", "application/json")
   .asString();
 ```
@@ -6757,7 +7109,10 @@ import requests
 
 url = "https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameLatinCandidates/{japaneseSurnameKanji}/{japaneseGivenNameKanji}"
 
-headers = {"Accept": "application/json"}
+headers = {
+ "Accept": "application/json",
+ "X-API-KEY": "your-api-key"
+}
 
 response = requests.request("GET", url, headers=headers)
 
@@ -6768,7 +7123,8 @@ print(response.text)
 fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameLatinCandidates/{japaneseSurnameKanji}/{japaneseGivenNameKanji}", {
   "method": "GET",
   "headers": {
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
   }
 })
 .then(response => {
@@ -6848,6 +7204,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameLatinCandidates/{
 curl --request POST \
   --url https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameLatinCandidatesBatch \
   --header 'Accept: application/json' \
+  --header 'X-API-KEY: your-api-key' \
   --header 'Content-Type: application/json' \
   --data '[{"id":"String","firstName":"String","lastName":"String"}]'
 ```
@@ -6855,6 +7212,7 @@ curl --request POST \
 ```java
 HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameLatinCandidatesBatch")
   .header("Content-Type", "application/json")
+  .header("X-API-KEY", "your-api-key")
   .header("Accept", "application/json")
   .body("[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\"}]")
   .asString();
@@ -6874,7 +7232,8 @@ payload = [
 ]
 headers = {
     "Content-Type": "application/json",
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
 }
 
 response = requests.request("POST", url, json=payload, headers=headers)
@@ -6887,7 +7246,8 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameLatinCandidatesBa
   "method": "POST",
   "headers": {
     "Content-Type": "application/json",
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
   },
   "body": "[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\"}]"
 })
@@ -6983,11 +7343,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameLatinCandidatesBa
 ```shell
 curl --request GET \
   --url https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameMatch/{japaneseSurnameLatin}/{japaneseGivenNameLatin}/{japaneseName} \
-  --header 'Accept: application/json'
+  --header 'Accept: application/json' \
+  --header 'X-API-KEY: your-api-key'
 ```
 
 ```java
 HttpResponse<String> response = Unirest.get("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameMatch/{japaneseSurnameLatin}/{japaneseGivenNameLatin}/{japaneseName}")
+  .header("X-API-KEY", "your-api-key")
   .header("Accept", "application/json")
   .asString();
 ```
@@ -6997,7 +7359,10 @@ import requests
 
 url = "https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameMatch/{japaneseSurnameLatin}/{japaneseGivenNameLatin}/{japaneseName}"
 
-headers = {"Accept": "application/json"}
+headers = {
+ "Accept": "application/json",
+ "X-API-KEY": "your-api-key"
+}
 
 response = requests.request("GET", url, headers=headers)
 
@@ -7008,7 +7373,8 @@ print(response.text)
 fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameMatch/{japaneseSurnameLatin}/{japaneseGivenNameLatin}/{japaneseName}", {
   "method": "GET",
   "headers": {
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
   }
 })
 .then(response => {
@@ -7086,6 +7452,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameMatch/{japaneseSu
 curl --request POST \
   --url https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameMatchBatch \
   --header 'Accept: application/json' \
+  --header 'X-API-KEY: your-api-key' \
   --header 'Content-Type: application/json' \
   --data '[{"id":"String","name1":{"id":"String","firstName":"String","lastName":"String"},"name2":{"id":"String","name":"String"}}]'
 ```
@@ -7093,6 +7460,7 @@ curl --request POST \
 ```java
 HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameMatchBatch")
   .header("Content-Type", "application/json")
+  .header("X-API-KEY", "your-api-key")
   .header("Accept", "application/json")
   .body("[{\"id\":\"String\",\"name1\":{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\"},\"name2\":{\"id\":\"String\",\"name\":\"String\"}}]")
   .asString();
@@ -7119,7 +7487,8 @@ payload = [
 ]
 headers = {
     "Content-Type": "application/json",
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
 }
 
 response = requests.request("POST", url, json=payload, headers=headers)
@@ -7132,7 +7501,8 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameMatchBatch", {
   "method": "POST",
   "headers": {
     "Content-Type": "application/json",
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
   },
   "body": "[{\"id\":\"String\",\"name1\":{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\"},\"name2\":{\"id\":\"String\",\"name\":\"String\"}}]"
 })
@@ -7231,11 +7601,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameMatchBatch", {
 ```shell
 curl --request GET \
   --url https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameMatchFeedbackLoop/{japaneseSurnameLatin}/{japaneseGivenNameLatin}/{japaneseName} \
-  --header 'Accept: application/json'
+  --header 'Accept: application/json' \
+  --header 'X-API-KEY: your-api-key'
 ```
 
 ```java
 HttpResponse<String> response = Unirest.get("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameMatchFeedbackLoop/{japaneseSurnameLatin}/{japaneseGivenNameLatin}/{japaneseName}")
+  .header("X-API-KEY", "your-api-key")
   .header("Accept", "application/json")
   .asString();
 ```
@@ -7245,7 +7617,10 @@ import requests
 
 url = "https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameMatchFeedbackLoop/{japaneseSurnameLatin}/{japaneseGivenNameLatin}/{japaneseName}"
 
-headers = {"Accept": "application/json"}
+headers = {
+ "Accept": "application/json",
+ "X-API-KEY": "your-api-key"
+}
 
 response = requests.request("GET", url, headers=headers)
 
@@ -7256,7 +7631,8 @@ print(response.text)
 fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameMatchFeedbackLoop/{japaneseSurnameLatin}/{japaneseGivenNameLatin}/{japaneseName}", {
   "method": "GET",
   "headers": {
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
   }
 })
 .then(response => {
@@ -7327,11 +7703,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameMatchFeedbackLoop
 ```shell
 curl --request GET \
   --url https://v2.namsor.com/NamSorAPIv2/api2/json/parseJapaneseName/{japaneseName} \
-  --header 'Accept: application/json'
+  --header 'Accept: application/json' \
+  --header 'X-API-KEY: your-api-key'
 ```
 
 ```java
 HttpResponse<String> response = Unirest.get("https://v2.namsor.com/NamSorAPIv2/api2/json/parseJapaneseName/{japaneseName}")
+  .header("X-API-KEY", "your-api-key")
   .header("Accept", "application/json")
   .asString();
 ```
@@ -7341,7 +7719,10 @@ import requests
 
 url = "https://v2.namsor.com/NamSorAPIv2/api2/json/parseJapaneseName/{japaneseName}"
 
-headers = {"Accept": "application/json"}
+headers = {
+ "Accept": "application/json",
+ "X-API-KEY": "your-api-key"
+}
 
 response = requests.request("GET", url, headers=headers)
 
@@ -7352,7 +7733,8 @@ print(response.text)
 fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseJapaneseName/{japaneseName}", {
   "method": "GET",
   "headers": {
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
   }
 })
 .then(response => {
@@ -7437,6 +7819,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseJapaneseName/{japaneseNa
 curl --request POST \
   --url https://v2.namsor.com/NamSorAPIv2/api2/json/parseJapaneseNameBatch \
   --header 'Accept: application/json' \
+  --header 'X-API-KEY: your-api-key' \
   --header 'Content-Type: application/json' \
   --data '[{"id":"String","name":"String"}]'
 ```
@@ -7444,6 +7827,7 @@ curl --request POST \
 ```java
 HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/api2/json/parseJapaneseNameBatch")
   .header("Content-Type", "application/json")
+  .header("X-API-KEY", "your-api-key")
   .header("Accept", "application/json")
   .body("[{\"id\":\"String\",\"name\":\"String\"}]")
   .asString();
@@ -7462,7 +7846,8 @@ payload = [
 ]
 headers = {
     "Content-Type": "application/json",
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
 }
 
 response = requests.request("POST", url, json=payload, headers=headers)
@@ -7475,7 +7860,8 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseJapaneseNameBatch", {
   "method": "POST",
   "headers": {
     "Content-Type": "application/json",
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
   },
   "body": "[{\"id\":\"String\",\"name\":\"String\"}]"
 })
@@ -7651,11 +8037,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/anonymize/{source}/{anonymize
 ```shell
 curl --request GET \
   --url https://v2.namsor.com/NamSorAPIv2/api2/json/apiStatus \
-  --header 'Accept: application/json'
+  --header 'Accept: application/json' \
+  --header 'X-API-KEY: your-api-key'
 ```
 
 ```java
 HttpResponse<String> response = Unirest.get("https://v2.namsor.com/NamSorAPIv2/api2/json/apiStatus")
+  .header("X-API-KEY", "your-api-key")
   .header("Accept", "application/json")
   .asString();
 ```
@@ -7665,7 +8053,10 @@ import requests
 
 url = "https://v2.namsor.com/NamSorAPIv2/api2/json/apiStatus"
 
-headers = {"Accept": "application/json"}
+headers = {
+ "Accept": "application/json",
+ "X-API-KEY": "your-api-key"
+}
 
 response = requests.request("GET", url, headers=headers)
 
@@ -7676,7 +8067,8 @@ print(response.text)
 fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/apiStatus", {
   "method": "GET",
   "headers": {
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
   }
 })
 .then(response => {
@@ -7733,11 +8125,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/apiStatus", {
 ```shell
 curl --request GET \
   --url https://v2.namsor.com/NamSorAPIv2/api2/json/apiUsage \
-  --header 'Accept: application/json'
+  --header 'Accept: application/json' \
+  --header 'X-API-KEY: your-api-key'
 ```
 
 ```java
 HttpResponse<String> response = Unirest.get("https://v2.namsor.com/NamSorAPIv2/api2/json/apiUsage")
+  .header("X-API-KEY", "your-api-key")
   .header("Accept", "application/json")
   .asString();
 ```
@@ -7747,7 +8141,10 @@ import requests
 
 url = "https://v2.namsor.com/NamSorAPIv2/api2/json/apiUsage"
 
-headers = {"Accept": "application/json"}
+headers = {
+ "Accept": "application/json",
+ "X-API-KEY": "your-api-key"
+}
 
 response = requests.request("GET", url, headers=headers)
 
@@ -7758,7 +8155,8 @@ print(response.text)
 fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/apiUsage", {
   "method": "GET",
   "headers": {
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
   }
 })
 .then(response => {
@@ -7851,11 +8249,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/apiUsage", {
 ```shell
 curl --request GET \
   --url https://v2.namsor.com/NamSorAPIv2/api2/json/apiUsageHistory \
-  --header 'Accept: application/json'
+  --header 'Accept: application/json' \
+  --header 'X-API-KEY: your-api-key'
 ```
 
 ```java
 HttpResponse<String> response = Unirest.get("https://v2.namsor.com/NamSorAPIv2/api2/json/apiUsageHistory")
+  .header("X-API-KEY", "your-api-key")
   .header("Accept", "application/json")
   .asString();
 ```
@@ -7865,7 +8265,10 @@ import requests
 
 url = "https://v2.namsor.com/NamSorAPIv2/api2/json/apiUsageHistory"
 
-headers = {"Accept": "application/json"}
+headers = {
+ "Accept": "application/json",
+ "X-API-KEY": "your-api-key"
+}
 
 response = requests.request("GET", url, headers=headers)
 
@@ -7876,7 +8279,8 @@ print(response.text)
 fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/apiUsageHistory", {
   "method": "GET",
   "headers": {
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
   }
 })
 .then(response => {
@@ -7953,11 +8357,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/apiUsageHistory", {
 ```shell
 curl --request GET \
   --url https://v2.namsor.com/NamSorAPIv2/api2/json/apiUsageHistoryAggregate \
-  --header 'Accept: application/json'
+  --header 'Accept: application/json' \
+  --header 'X-API-KEY: your-api-key'
 ```
 
 ```java
 HttpResponse<String> response = Unirest.get("https://v2.namsor.com/NamSorAPIv2/api2/json/apiUsageHistoryAggregate")
+  .header("X-API-KEY", "your-api-key")
   .header("Accept", "application/json")
   .asString();
 ```
@@ -7967,7 +8373,10 @@ import requests
 
 url = "https://v2.namsor.com/NamSorAPIv2/api2/json/apiUsageHistoryAggregate"
 
-headers = {"Accept": "application/json"}
+headers = {
+ "Accept": "application/json",
+ "X-API-KEY": "your-api-key"
+}
 
 response = requests.request("GET", url, headers=headers)
 
@@ -7978,7 +8387,8 @@ print(response.text)
 fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/apiUsageHistoryAggregate", {
   "method": "GET",
   "headers": {
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
   }
 })
 .then(response => {
@@ -8071,11 +8481,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/apiUsageHistoryAggregate", {
 ```shell
 curl --request GET \
   --url https://v2.namsor.com/NamSorAPIv2/api2/json/apiServices \
-  --header 'Accept: application/json'
+  --header 'Accept: application/json' \
+  --header 'X-API-KEY: your-api-key'
 ```
 
 ```java
 HttpResponse<String> response = Unirest.get("https://v2.namsor.com/NamSorAPIv2/api2/json/apiServices")
+  .header("X-API-KEY", "your-api-key")
   .header("Accept", "application/json")
   .asString();
 ```
@@ -8085,7 +8497,10 @@ import requests
 
 url = "https://v2.namsor.com/NamSorAPIv2/api2/json/apiServices"
 
-headers = {"Accept": "application/json"}
+headers = {
+ "Accept": "application/json",
+ "X-API-KEY": "your-api-key"
+}
 
 response = requests.request("GET", url, headers=headers)
 
@@ -8096,7 +8511,8 @@ print(response.text)
 fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/apiServices", {
   "method": "GET",
   "headers": {
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
   }
 })
 .then(response => {
@@ -8225,11 +8641,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/learnable/{source}/{learnable
 ```shell
 curl --request GET \
   --url https://v2.namsor.com/NamSorAPIv2/api2/json/softwareVersion \
-  --header 'Accept: application/json'
+  --header 'Accept: application/json' \
+  --header 'X-API-KEY: your-api-key'
 ```
 
 ```java
 HttpResponse<String> response = Unirest.get("https://v2.namsor.com/NamSorAPIv2/api2/json/softwareVersion")
+  .header("X-API-KEY", "your-api-key")
   .header("Accept", "application/json")
   .asString();
 ```
@@ -8239,7 +8657,10 @@ import requests
 
 url = "https://v2.namsor.com/NamSorAPIv2/api2/json/softwareVersion"
 
-headers = {"Accept": "application/json"}
+headers = {
+ "Accept": "application/json",
+ "X-API-KEY": "your-api-key"
+}
 
 response = requests.request("GET", url, headers=headers)
 
@@ -8250,7 +8671,8 @@ print(response.text)
 fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/softwareVersion", {
   "method": "GET",
   "headers": {
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
   }
 })
 .then(response => {
@@ -8304,11 +8726,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/softwareVersion", {
 ```shell
 curl --request GET \
   --url https://v2.namsor.com/NamSorAPIv2/api2/json/taxonomyClasses/{classifierName} \
-  --header 'Accept: application/json'
+  --header 'Accept: application/json' \
+  --header 'X-API-KEY: your-api-key'
 ```
 
 ```java
 HttpResponse<String> response = Unirest.get("https://v2.namsor.com/NamSorAPIv2/api2/json/taxonomyClasses/{classifierName}")
+  .header("X-API-KEY", "your-api-key")
   .header("Accept", "application/json")
   .asString();
 ```
@@ -8318,7 +8742,10 @@ import requests
 
 url = "https://v2.namsor.com/NamSorAPIv2/api2/json/taxonomyClasses/{classifierName}"
 
-headers = {"Accept": "application/json"}
+headers = {
+ "Accept": "application/json",
+ "X-API-KEY": "your-api-key"
+}
 
 response = requests.request("GET", url, headers=headers)
 
@@ -8329,7 +8756,8 @@ print(response.text)
 fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/taxonomyClasses/{classifierName}", {
   "method": "GET",
   "headers": {
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
   }
 })
 .then(response => {
@@ -8400,11 +8828,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/taxonomyClasses/{classifierNa
 ```shell
 curl --request GET \
   --url https://v2.namsor.com/NamSorAPIv2/api2/json/nameType/{properNoun} \
-  --header 'Accept: application/json'
+  --header 'Accept: application/json' \
+  --header 'X-API-KEY: your-api-key'
 ```
 
 ```java
 HttpResponse<String> response = Unirest.get("https://v2.namsor.com/NamSorAPIv2/api2/json/nameType/{properNoun}")
+  .header("X-API-KEY", "your-api-key")
   .header("Accept", "application/json")
   .asString();
 ```
@@ -8414,7 +8844,10 @@ import requests
 
 url = "https://v2.namsor.com/NamSorAPIv2/api2/json/nameType/{properNoun}"
 
-headers = {"Accept": "application/json"}
+headers = {
+ "Accept": "application/json",
+ "X-API-KEY": "your-api-key"
+}
 
 response = requests.request("GET", url, headers=headers)
 
@@ -8425,7 +8858,8 @@ print(response.text)
 fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/nameType/{properNoun}", {
   "method": "GET",
   "headers": {
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
   }
 })
 .then(response => {
@@ -8503,6 +8937,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/nameType/{properNoun}", {
 curl --request POST \
   --url https://v2.namsor.com/NamSorAPIv2/api2/json/nameTypeBatch \
   --header 'Accept: application/json' \
+  --header 'X-API-KEY: your-api-key' \
   --header 'Content-Type: application/json' \
   --data '[{"id":"String","name":"String"}]'
 ```
@@ -8510,6 +8945,7 @@ curl --request POST \
 ```java
 HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/api2/json/nameTypeBatch")
   .header("Content-Type", "application/json")
+  .header("X-API-KEY", "your-api-key")
   .header("Accept", "application/json")
   .body("[{\"id\":\"String\",\"name\":\"String\"}]")
   .asString();
@@ -8528,7 +8964,8 @@ payload = [
 ]
 headers = {
     "Content-Type": "application/json",
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
 }
 
 response = requests.request("POST", url, json=payload, headers=headers)
@@ -8541,7 +8978,8 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/nameTypeBatch", {
   "method": "POST",
   "headers": {
     "Content-Type": "application/json",
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
   },
   "body": "[{\"id\":\"String\",\"name\":\"String\"}]"
 })
@@ -8635,11 +9073,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/nameTypeBatch", {
 ```shell
 curl --request GET \
   --url https://v2.namsor.com/NamSorAPIv2/api2/json/nameTypeGeo/{properNoun}/{countryIso2} \
-  --header 'Accept: application/json'
+  --header 'Accept: application/json' \
+  --header 'X-API-KEY: your-api-key'
 ```
 
 ```java
 HttpResponse<String> response = Unirest.get("https://v2.namsor.com/NamSorAPIv2/api2/json/nameTypeGeo/{properNoun}/{countryIso2}")
+  .header("X-API-KEY", "your-api-key")
   .header("Accept", "application/json")
   .asString();
 ```
@@ -8649,7 +9089,10 @@ import requests
 
 url = "https://v2.namsor.com/NamSorAPIv2/api2/json/nameTypeGeo/{properNoun}/{countryIso2}"
 
-headers = {"Accept": "application/json"}
+headers = {
+ "Accept": "application/json",
+ "X-API-KEY": "your-api-key"
+}
 
 response = requests.request("GET", url, headers=headers)
 
@@ -8660,7 +9103,8 @@ print(response.text)
 fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/nameTypeGeo/{properNoun}/{countryIso2}", {
   "method": "GET",
   "headers": {
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
   }
 })
 .then(response => {
@@ -8740,6 +9184,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/nameTypeGeo/{properNoun}/{cou
 curl --request POST \
   --url https://v2.namsor.com/NamSorAPIv2/api2/json/nameTypeGeoBatch \
   --header 'Accept: application/json' \
+  --header 'X-API-KEY: your-api-key' \
   --header 'Content-Type: application/json' \
   --data '[{"id":"String","name":"String","countryIso2":"String"}]'
 ```
@@ -8747,6 +9192,7 @@ curl --request POST \
 ```java
 HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/api2/json/nameTypeGeoBatch")
   .header("Content-Type", "application/json")
+  .header("X-API-KEY", "your-api-key")
   .header("Accept", "application/json")
   .body("[{\"id\":\"String\",\"name\":\"String\",\"countryIso2\":\"String\"}]")
   .asString();
@@ -8766,7 +9212,8 @@ payload = [
 ]
 headers = {
     "Content-Type": "application/json",
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
 }
 
 response = requests.request("POST", url, json=payload, headers=headers)
@@ -8779,7 +9226,8 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/nameTypeGeoBatch", {
   "method": "POST",
   "headers": {
     "Content-Type": "application/json",
-    "Accept": "application/json"
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
   },
   "body": "[{\"id\":\"String\",\"name\":\"String\",\"countryIso2\":\"String\"}]"
 })
