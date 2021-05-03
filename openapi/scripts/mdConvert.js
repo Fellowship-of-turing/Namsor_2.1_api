@@ -11,6 +11,8 @@ const widdershins = require('widdershins');
 /**************** MD Conversion ****************/
 /**********************************************/
 
+let nestedObjects = []
+
 let mdConvert = (swaggerFile, wsOptions, store, log) => {
 
   let routeMethods = store.routeMethods;
@@ -177,6 +179,11 @@ let mdConvert = (swaggerFile, wsOptions, store, log) => {
               prm = routeRequests[route].schema[param];
               prm.name = param;
               prm.type = prm.type ? capitalize(prm.type) : 'Object';
+              if (prm.type == 'Object') nestedObjects.push({
+                route: route,
+                key: param,
+                schema: prm
+              })
               prm.required = prm.required === true ? 'true' : 'false';
               prm.desc = prm.description ? prm.description : '';
               mdRouteReplace(reqTag, `|${prm.name}|${prm.type}|${prm.required}|${prm.desc}|\n${reqTag}`, routeStart(), routeEnd(), route);
@@ -227,11 +234,28 @@ let mdConvert = (swaggerFile, wsOptions, store, log) => {
             prm = routeResponses[route].schema[param];
             prm.name = param;
             prm.type = prm.type ? capitalize(prm.type) : 'Object';
-            // if (prm.type == 'Object') console.log('----------------------------res obj:', route,);
             // if (prm.type == 'Object') console.log('res obj:', routeResponses[route].schema);
             prm.enum = prm.enum ? listEnums(prm.enum, route) : '';
             prm.desc = prm.description ? prm.description : '';
             mdRouteReplace(resTag, `|${prm.name}|${prm.type}|${prm.desc}|${prm.enum}|\n${resTag}`, routeStart(), routeEnd(), route);
+            // if (prm.type == 'Object') {
+            //   console.log('prm: ', prm);
+            //   Object.keys(prm).forEach(subKey => {
+            //     if (
+            //       prm[subKey].type &&
+            //       subKey !== 'name' &&
+            //       subKey !== 'type' &&
+            //       subKey !== 'enum' &&
+            //       subKey !== 'description'
+            //     ) {
+            //       subPrm = prm[subKey];
+            //       subPrm.type = subPrm.type ? capitalize(subPrm.type) : '';
+            //       subPrm.enum = subPrm.enum ? listEnums(subPrm.enum, route) : '';
+            //       subPrm.desc = subPrm.description ? subPrm.description : '';
+            //       mdRouteReplace(resTag, `|{...}.${subKey}|${subPrm.type}|${subPrm.desc}|${subPrm.enum}|\n${resTag}`, routeStart(), routeEnd(), route);
+            //     };
+            //   });
+            // };
           });
 
           mdRouteReplace(resTag, '', routeStart(), routeEnd(), route);
@@ -268,6 +292,8 @@ let mdConvert = (swaggerFile, wsOptions, store, log) => {
 
       mdReplace('dec1', '{');
       mdReplace('dec2', '}');
+      let escapeResponseTarget = 'console.log(response)'.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      mdReplace(escapeResponseTarget, 'console.log(response.json())');
       mdReplace('Responses</h3>', 'Response</h3>');
       mdReplace('> 200 Response', '');
       let responseTitle = '> The above command returns JSON structured like this:';
@@ -279,7 +305,7 @@ let mdConvert = (swaggerFile, wsOptions, store, log) => {
         'errors.md',
       ];
 
-      let contentToInject = '# General Info\n\n';
+      let contentToInject = '# Introduction\n\n';
       includeFiles.forEach(subFile => {
         let getFile = fs.readFileSync(`source/_includes/${subFile}`, 'utf8');
         contentToInject = `${contentToInject}\n\n${getFile}`;
@@ -287,6 +313,7 @@ let mdConvert = (swaggerFile, wsOptions, store, log) => {
 
       dirtyMD = dirtyMD.replace('<h1 id="namsor-api-v2-', `${contentToInject}\n\n<h1 id="namsor-api-v2-`);
 
+      // Insert API keys in examples
       let apiKeyTags = {
         shell: {
           target: "--header 'Accept: application/json'",
@@ -312,19 +339,19 @@ let mdConvert = (swaggerFile, wsOptions, store, log) => {
         if (lang == 'python') {
           let targetLength = keyParam.target.length;
           mdReplace(escapedExpression, `{\n ${keyParam.target.slice(1, targetLength)},\n${keyParam.header}\n`);
-          console.log('keyParam.target.slice(1, targetLength): ', keyParam.target.slice(1, targetLength));
         }
         else if (lang == 'javascript') {
           mdReplace(escapedExpression, `${keyParam.target},\n${keyParam.header}`);
         }
         else if (lang == 'java') {
-          mdReplace(escapedExpression, `${keyParam.header}\n  ${keyParam.target}`);
+          mdReplace(escapedExpression, `${keyParam.target}\n  ${keyParam.header}`);
         }
         else if (lang == 'shell') {
-          mdReplace(escapedExpression, `${keyParam.target} \\\n  ${keyParam.header}`);
+          mdReplace(escapedExpression, `${keyParam.header} \\\n  ${keyParam.target}`);
         };
       });
 
+      // fs.writeFileSync('openapi/genNotMD/nestedObjects.js', `let vars = ${JSON.stringify(nestedObjects)}`, 'utf8');
       // dirtyMD contains the clean converted markdown
       fs.writeFileSync('source/index.md', dirtyMD, 'utf8');
       console.log('\u001b[32m--> Generation Completed\u001b[0m');
@@ -334,5 +361,6 @@ let mdConvert = (swaggerFile, wsOptions, store, log) => {
       console.log('MD Convert Catch Error: ', err);
     });
 };
+
 
 module.exports = mdConvert;

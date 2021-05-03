@@ -2,6 +2,8 @@
 let helpers = require('./helpers');
 let capitalize = helpers.capitalize;
 
+const fetch = require('node-fetch');
+
 // Imports
 const fs = require('fs');
 let routeNames = require('../config/routeNames');
@@ -11,12 +13,14 @@ let routeNames = require('../config/routeNames');
 /*************************************************/
 // Prefix Lengh of schemas
 let prefixLenght = '#/components/schemas/'.length;
+let prefixLenghtRoute = '/api2/json/'.length;
 
 // Stores the method of each route
 let routeMethods = {};
 let routeCosts = {};
 let routeRequests = {};
 let routeResponses = {};
+let apiExamples = {};
 let STRUCT = {};
 
 let formatOpenapi = (swaggerFile, log) => {
@@ -147,6 +151,7 @@ let formatOpenapi = (swaggerFile, log) => {
 
                 Object.keys(requestSubSchema.properties).forEach(key => {
 
+                  // Nested object
                   if (requestSubSchema.properties[key].$ref) {
                     let requestNestedSubSchemaPath = requestSubSchema.properties[key].$ref;
                     let requestNestedSubSchemaName = requestNestedSubSchemaPath.slice(prefixLenght, requestNestedSubSchemaPath.length);
@@ -196,6 +201,7 @@ let formatOpenapi = (swaggerFile, log) => {
 
               Object.keys(schemas[requestSchemaName].properties).forEach(key => {
 
+                // Nested object
                 if (schemas[requestSchemaName].properties[key].$ref) {
                   let requestNestedSchemaPath = schemas[requestSchemaName].properties[key].$ref;
                   let requestNestedSchemaName = requestNestedSchemaPath.slice(prefixLenght, requestNestedSchemaPath.length);
@@ -304,6 +310,7 @@ let formatOpenapi = (swaggerFile, log) => {
 
             Object.keys(responseSubSchema.properties).forEach(key => {
 
+              // Nested object
               if (responseSubSchema.properties[key].$ref) {
                 let responseNestedSubSchemaPath = responseSubSchema.properties[key].$ref;
                 let responseNestedSubSchemaName = responseNestedSubSchemaPath.slice(prefixLenght, responseNestedSubSchemaPath.length);
@@ -352,6 +359,7 @@ let formatOpenapi = (swaggerFile, log) => {
 
           Object.keys(schemas[responseSchemaName].properties).forEach(key => {
 
+            // Nested object
             if (schemas[responseSchemaName].properties[key].$ref) {
               let responseNestedSchemaPath = schemas[responseSchemaName].properties[key].$ref;
               let responseNestedSchemaName = responseNestedSchemaPath.slice(prefixLenght, responseNestedSchemaPath.length);
@@ -391,14 +399,96 @@ let formatOpenapi = (swaggerFile, log) => {
           console.log(`\u001b[31mError\u001b[m\nRoute ${routes[i]} - Unexpected $ref response structure must be either an object or an array`);
         };
       };
-    }
-  };
 
+      // let formatedRouteName
+      // if (routes[i]) {
+      //   formatedRouteName = routes[i].slice(prefixLenghtRoute, routes[i].length);
+      //   let isGetRequest = formatedRouteName.indexOf('{');
+      //   if (isGetRequest !== -1) formatedRouteName = formatedRouteName.slice(0, isGetRequest - 1);
+      //   let isBatchRequest = formatedRouteName.indexOf('Batch');
+      //   if (isBatchRequest !== -1) formatedRouteName = formatedRouteName.replace('Batch', '');
+      //   route.exampleName = formatedRouteName;
+      // };
+
+      // List all possible INPUT keys
+      if (!apiExamples[routes[i]]) {
+        apiExamples[routes[i]] = {};
+
+        if (!apiExamples[routes[i]].input) {
+          let inputTarget = apiExamples[routes[i]].input = {};
+
+          if (routeRequests[routes[i]]) {
+            Object.keys(routeRequests[routes[i]].schema).forEach(field => {
+              let targetField = routeRequests[routes[i]].schema[field];
+
+              if (targetField.type) {
+                inputTarget[field] = targetField.type;
+              }
+              else {
+                inputTarget[field] = {};
+                Object.keys(targetField).forEach(subfield => {
+                  if (targetField[subfield].type) {
+                    inputTarget[field][subfield] = targetField[subfield].type;
+                  }
+                  else {
+                    console.log('subfield: ', subfield);
+                  };
+                });
+              };
+            });
+          };
+        };
+      };
+
+      // List all possible OUTPUT keys
+      if (!apiExamples[routes[i]].output) {
+        let outputTarget = apiExamples[routes[i]].output = {};
+
+        if (routeResponses[routes[i]]) {
+          Object.keys(routeResponses[routes[i]].schema).forEach(field => {
+            let targetField = routeResponses[routes[i]].schema[field];
+
+            if (targetField.type) {
+              outputTarget[field] = targetField.type;
+            }
+            else {
+              outputTarget[field] = {};
+              Object.keys(targetField).forEach(subfield => {
+                if (targetField[subfield].type) {
+                  outputTarget[field][subfield] = targetField[subfield].type;
+                }
+                else {
+                  console.log('subfield: ', subfield);
+                };
+              });
+            };
+          });
+        };
+      };
+
+      // console.log('routes[i]: ', routes[i]);
+      // // Get example values
+      // if(routeResponses[routes[i]])
+      // let testFetch = fetch(`https://v2.namsor.com/NamSorAPIv2${}`, {
+      //   method: 'get',
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //     'X-API-KEY': 'b214894824e1c4762fb650866fea8f3c'
+      //   },
+      // })
+      //   .then(res => res.json());
+
+
+    };
+  };
   // Delete Schemas
   delete swaggerFile.components;
 
   // Save intermidiate files
   fs.writeFileSync('openapi/genNotMD/premarkdown.json', JSON.stringify(swaggerFile), 'utf8');
+  fs.writeFileSync('openapi/genNotMD/routeRequests.json', JSON.stringify(routeRequests), 'utf8');
+  fs.writeFileSync('openapi/genNotMD/routeResponses.json', JSON.stringify(routeResponses), 'utf8');
+  fs.writeFileSync('openapi/genNotMD/apiExamples.json', JSON.stringify(apiExamples), 'utf8');
   fs.writeFileSync('openapi/genNotMD/210422_strucure_ex.json', JSON.stringify(STRUCT), 'utf8');
 
   // Return stored values

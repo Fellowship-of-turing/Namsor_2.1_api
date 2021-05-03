@@ -56,4 +56,4 @@ TODO 26/04
 - firebase export db
 - gmail + templates mail
 - facture pdf
-- doc API (modèles obj nested)
+- doc API (modèles obj nested, remove unused !{response-table-tag})
