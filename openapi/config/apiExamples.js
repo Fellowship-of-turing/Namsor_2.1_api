@@ -1044,41 +1044,87 @@ let examples = {
                 ]
             }
         },
-        ////////////////////////////////////////////////////////////////////////////////////////////
+        //////////////////////////////////////////////////////////////////////////////////////////// OK2
         // - - - POST 
         "/api2/json/japaneseNameGenderKanjiCandidatesBatch": {
             "input": {
-                "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
-                "firstName": "*** string ***",
-                "lastName": "*** string ***",
-                "gender": "*** string ***"
+                "personalNames": [
+                    {
+                        "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
+                        "firstName": "Takashi",
+                        "lastName": "Murakami",
+                        "gender": "male"
+                    }
+                ]
             },
             "output": {
-                "script": "*** string ***",
-                "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
-                "firstName": "*** string ***",
-                "lastName": "*** string ***",
-                "orderOption": "*** string ***",
-                "matchCandidates": "*** array ***"
+                "namesAndMatchCandidates": [
+                    {
+                        "script": "LATIN",
+                        "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
+                        "firstName": "Takashi",
+                        "lastName": "Murakami",
+                        "orderOption": "OrderScoreSquareFNLN",
+                        "matchCandidates": [
+                            {
+                                "candidateName": "村上 隆",
+                                "probability": 0.5000000000000001,
+                                "predScoreGivenName": -2.249242067337036,
+                                "predScoreFamilyName": -0.0006758159724995494
+                            },
+                            {
+                                "candidateName": "村上 崇",
+                                "probability": 0.25000000000000006,
+                                "predScoreGivenName": -2.572237014770508,
+                                "predScoreFamilyName": -0.0006758159724995494
+                            },
+                            {
+                                "candidateName": "村上 隆司",
+                                "probability": 0.12500000000000003,
+                                "predScoreGivenName": -2.591414213180542,
+                                "predScoreFamilyName": -0.0006758159724995494
+                            }
+                        ]
+                    }
+                ]
             }
         },
         ////////////////////////////////////////////////////////////////////////////////////////////
         // - - - GET
         "/api2/json/japaneseNameKanjiCandidates/{japaneseSurnameLatin}/{japaneseGivenNameLatin}": {
             "input": {
-                "japaneseSurnameLatin": "*** string ***",
-                "japaneseGivenNameLatin": "*** string ***"
+                "japaneseSurnameLatin": "Yamamoto",
+                "japaneseGivenNameLatin": "Sanae"
             },
             "output": {
-                "script": "*** string ***",
-                "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
-                "firstName": "*** string ***",
-                "lastName": "*** string ***",
-                "orderOption": "*** string ***",
-                "matchCandidates": "*** array ***"
+                "script": "LATIN",
+                "id": null,
+                "firstName": "Sanae",
+                "lastName": "Yamamoto",
+                "orderOption": "OrderScoreSquareFNLN",
+                "matchCandidates": [
+                    {
+                        "candidateName": "山本 早苗",
+                        "probability": 0.5000000000000001,
+                        "predScoreGivenName": -0.03954087197780609,
+                        "predScoreFamilyName": -0.014371121302247047
+                    },
+                    {
+                        "candidateName": "山本 沙苗",
+                        "probability": 0.25000000000000006,
+                        "predScoreGivenName": -5.180787086486816,
+                        "predScoreFamilyName": -0.014371121302247047
+                    },
+                    {
+                        "candidateName": "山本 小苗",
+                        "probability": 0.12500000000000003,
+                        "predScoreGivenName": -5.442291259765625,
+                        "predScoreFamilyName": -0.014371121302247047
+                    }
+                ]
             }
         },
-        ////////////////////////////////////////////////////////////////////////////////////////////
+        //////////////////////////////////////////////////////////////////////////////////////////// OK
         // - - - GET
         "/api2/json/japaneseNameKanjiCandidates/{japaneseSurnameLatin}/{japaneseGivenNameLatin}/{knownGender}": {
             "input": {

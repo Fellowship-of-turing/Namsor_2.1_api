@@ -1,29 +1,9 @@
 # C2T
 
-## TODO
-
--   Integrate pricing in doc
--   Determine required fields
--   Write up commands for java, python, bash and js
--   Write up query titles and descriptions for missing ones
--   Build script for translating to format compatible with Slate model (titles, desc, params)
-
 ## Notes
 
 a. To change code synthax highlighting theme change the CSS file in slate.ejs "<head>"
 Current theme : "<link href="slate/css/vscodedark.css" rel="stylesheet">"
-
-# Slate v3 POC
-
-![Build](https://github.com/Mermade/reslate/workflows/Build/badge.svg)
-
-Proof-of-concept Slate v3 using [eleventy](https://www.11ty.dev/) as the static site generator.
-
-<!-- ![screenshot](https://github.com/Mermade/reslate/blob/main/docs/screenshot.jpg?raw=true) -->
-
-## Features
-
--   **Out-of-the-box syntax highlighting** for [over 200 languages](https://prismjs.com/#supported-languages), no configuration required.
 
 ## Install
 
@@ -45,14 +25,3 @@ or
 -   To serve: `npm run serve` and browse to http://localhost:3001
 
 (If installed as a dependency, use `npx reslate [build|debug|serve]`)
-
-## TODO
-
--   [ ] [Watch](https://www.belter.io/eleventy-sass-workflow/) scss files
--   [ ] Option to use lunr server-side / across multiple files [#1006](https://github.com/slatedocs/slate/discussions/1006)
--   [ ] GitHub emoji shortcuts (as in Shins), yea or nay?
--   [ ] Specify additional CSS includes in header?
-
-## Additional plugin possibilities
-
--   https://www.11ty.dev/docs/config/#transforms-example-minify-html-output
