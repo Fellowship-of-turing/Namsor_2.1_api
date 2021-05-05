@@ -57,3 +57,7 @@ TODO 26/04
 - gmail + templates mail
 - facture pdf
 - doc API (modèles obj nested, remove unused !{response-table-tag})
+
+- in chinese names first name / given name
+- batch operations need and return arrays behind key
+- explain given name vs surname for chinese / japanese names

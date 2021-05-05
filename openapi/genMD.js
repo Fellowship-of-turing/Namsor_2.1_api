@@ -1,5 +1,7 @@
 const fs = require('fs');
 
+// API key 996048c58adca6c217609e6c46288dc1
+
 let inputExamples = require('./config/inputExamples');
 
 // Main scripts
