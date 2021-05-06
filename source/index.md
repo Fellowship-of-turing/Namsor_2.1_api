@@ -263,12 +263,74 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/corridor/{countryIso2From}/{f
 |Name|Type|Description|Enumerators|
 |---|---|---|---|
 |id|String|||
-|firstLastNameGeoFromGender|Object|||
-|firstLastNameGeoToGender|Object|||
-|firstLastNameGeoFromOrigin|Object|||
-|firstLastNameGeoToOrigin|Object|||
-|firstLastNameGeoFromDiaspora|Object|||
-|firstLastNameGeoToDiaspora|Object|||
+|**firstLastNameGeoFromGender**|**Object**|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.likelyGender*|String|Most likely gender|male, female or unknown|
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.genderScale*|Number|Compatibility to NamSor_v1 Gender Scale M[-1..U..+1]F value||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.score*|Number|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.probabilityCalibrated*|Number|||
+|**firstLastNameGeoToGender**|**Object**|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.likelyGender*|String|Most likely gender|male, female or unknown|
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.genderScale*|Number|Compatibility to NamSor_v1 Gender Scale M[-1..U..+1]F value||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.score*|Number|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.probabilityCalibrated*|Number|||
+|**firstLastNameGeoFromOrigin**|**Object**|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.countryOrigin*|String|Most likely country of Origin||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.countryOriginAlt*|String|Second best alternative : country of Origin||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.countriesOriginTop*|Array|List countries of Origin (top 10)||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.score*|Number|Compatibility to NamSor_v1 Origin score value||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.regionOrigin*|String|Most likely region of Origin (based on countryOrigin ISO2 code)||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.topRegionOrigin*|String|Most likely region of Origin (based on countryOrigin ISO2 code)||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.subRegionOrigin*|String|Most likely region of Origin (based on countryOrigin ISO2 code)||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.probabilityCalibrated*|Number|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.probabilityAltCalibrated*|Number|||
+|**firstLastNameGeoToOrigin**|**Object**|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.countryOrigin*|String|Most likely country of Origin||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.countryOriginAlt*|String|Second best alternative : country of Origin||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.countriesOriginTop*|Array|List countries of Origin (top 10)||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.score*|Number|Compatibility to NamSor_v1 Origin score value||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.regionOrigin*|String|Most likely region of Origin (based on countryOrigin ISO2 code)||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.topRegionOrigin*|String|Most likely region of Origin (based on countryOrigin ISO2 code)||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.subRegionOrigin*|String|Most likely region of Origin (based on countryOrigin ISO2 code)||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.probabilityCalibrated*|Number|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.probabilityAltCalibrated*|Number|||
+|**firstLastNameGeoFromDiaspora**|**Object**|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.score*|Number|Compatibility to NamSor_v1 Origin score value||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.ethnicityAlt*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.ethnicity*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lifted*|Boolean|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.countryIso2*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.ethnicitiesTop*|Array|List ethnicities (top 10)||
+|**firstLastNameGeoToDiaspora**|**Object**|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.score*|Number|Compatibility to NamSor_v1 Origin score value||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.ethnicityAlt*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.ethnicity*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lifted*|Boolean|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.countryIso2*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.ethnicitiesTop*|Array|List ethnicities (top 10)||
 |script|String|||
 
 
@@ -495,12 +557,74 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/corridorBatch", {
 |Name|Type|Description|Enumerators|
 |---|---|---|---|
 |id|String|||
-|firstLastNameGeoFromGender|Object|||
-|firstLastNameGeoToGender|Object|||
-|firstLastNameGeoFromOrigin|Object|||
-|firstLastNameGeoToOrigin|Object|||
-|firstLastNameGeoFromDiaspora|Object|||
-|firstLastNameGeoToDiaspora|Object|||
+|**firstLastNameGeoFromGender**|**Object**|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.likelyGender*|String|Most likely gender|male, female or unknown|
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.genderScale*|Number|Compatibility to NamSor_v1 Gender Scale M[-1..U..+1]F value||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.score*|Number|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.probabilityCalibrated*|Number|||
+|**firstLastNameGeoToGender**|**Object**|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.likelyGender*|String|Most likely gender|male, female or unknown|
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.genderScale*|Number|Compatibility to NamSor_v1 Gender Scale M[-1..U..+1]F value||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.score*|Number|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.probabilityCalibrated*|Number|||
+|**firstLastNameGeoFromOrigin**|**Object**|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.countryOrigin*|String|Most likely country of Origin||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.countryOriginAlt*|String|Second best alternative : country of Origin||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.countriesOriginTop*|Array|List countries of Origin (top 10)||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.score*|Number|Compatibility to NamSor_v1 Origin score value||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.regionOrigin*|String|Most likely region of Origin (based on countryOrigin ISO2 code)||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.topRegionOrigin*|String|Most likely region of Origin (based on countryOrigin ISO2 code)||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.subRegionOrigin*|String|Most likely region of Origin (based on countryOrigin ISO2 code)||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.probabilityCalibrated*|Number|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.probabilityAltCalibrated*|Number|||
+|**firstLastNameGeoToOrigin**|**Object**|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.countryOrigin*|String|Most likely country of Origin||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.countryOriginAlt*|String|Second best alternative : country of Origin||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.countriesOriginTop*|Array|List countries of Origin (top 10)||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.score*|Number|Compatibility to NamSor_v1 Origin score value||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.regionOrigin*|String|Most likely region of Origin (based on countryOrigin ISO2 code)||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.topRegionOrigin*|String|Most likely region of Origin (based on countryOrigin ISO2 code)||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.subRegionOrigin*|String|Most likely region of Origin (based on countryOrigin ISO2 code)||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.probabilityCalibrated*|Number|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.probabilityAltCalibrated*|Number|||
+|**firstLastNameGeoFromDiaspora**|**Object**|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.score*|Number|Compatibility to NamSor_v1 Origin score value||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.ethnicityAlt*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.ethnicity*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lifted*|Boolean|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.countryIso2*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.ethnicitiesTop*|Array|List ethnicities (top 10)||
+|**firstLastNameGeoToDiaspora**|**Object**|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.score*|Number|Compatibility to NamSor_v1 Origin score value||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.ethnicityAlt*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.ethnicity*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lifted*|Boolean|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.countryIso2*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.ethnicitiesTop*|Array|List ethnicities (top 10)||
 |script|String|||
 
 
@@ -2457,7 +2581,11 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseName/{nameFull}", {
 |name|String|||
 |nameParserType|String|||
 |nameParserTypeAlt|String|||
-|firstLastName|Object|||
+|**firstLastName**|**Object**|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|||
 |score|Number|||
 
 
@@ -2601,7 +2729,11 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseNameBatch", {
 |name|String|||
 |nameParserType|String|||
 |nameParserTypeAlt|String|||
-|firstLastName|Object|||
+|**firstLastName**|**Object**|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|||
 |score|Number|||
 
 
@@ -2718,7 +2850,11 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseName/{nameFull}/{country
 |name|String|||
 |nameParserType|String|||
 |nameParserTypeAlt|String|||
-|firstLastName|Object|||
+|**firstLastName**|**Object**|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|||
 |score|Number|||
 
 
@@ -2865,7 +3001,11 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseNameGeoBatch", {
 |name|String|||
 |nameParserType|String|||
 |nameParserTypeAlt|String|||
-|firstLastName|Object|||
+|**firstLastName**|**Object**|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|||
 |score|Number|||
 
 
@@ -4308,7 +4448,14 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameCandidates/{chines
   "firstName": "String",
   "lastName": "String",
   "orderOption": "String",
-  "matchCandidates": "Array"
+  "matchCandidates": [
+    {
+      "candidateName": "String",
+      "probability": "Number",
+      "predScoreGivenName": "Number",
+      "predScoreFamilyName": "Number"
+    }
+  ]
 }
 ```
 
@@ -4323,7 +4470,11 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameCandidates/{chines
 |firstName|String|||
 |lastName|String|||
 |orderOption|String|||
-|matchCandidates|Array|||
+|**matchCandidates**|**Array of Objects**|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].candidateName*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].probability*|Number|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].predScoreGivenName*|Number|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].predScoreFamilyName*|Number|||
 
 
 
@@ -4447,7 +4598,14 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameCandidatesBatch", 
     "firstName": "String",
     "lastName": "String",
     "orderOption": "String",
-    "matchCandidates": "Array"
+    "matchCandidates": [
+      {
+        "candidateName": "String",
+        "probability": "Number",
+        "predScoreGivenName": "Number",
+        "predScoreFamilyName": "Number"
+      }
+    ]
   }
 ]
 ```
@@ -4463,7 +4621,11 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameCandidatesBatch", 
 |firstName|String|||
 |lastName|String|||
 |orderOption|String|||
-|matchCandidates|Array|||
+|**matchCandidates**|**Array of Objects**|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].candidateName*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].probability*|Number|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].predScoreGivenName*|Number|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].predScoreFamilyName*|Number|||
 
 
 
@@ -4590,7 +4752,14 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameCandidatesGenderBa
     "firstName": "String",
     "lastName": "String",
     "orderOption": "String",
-    "matchCandidates": "Array"
+    "matchCandidates": [
+      {
+        "candidateName": "String",
+        "probability": "Number",
+        "predScoreGivenName": "Number",
+        "predScoreFamilyName": "Number"
+      }
+    ]
   }
 ]
 ```
@@ -4606,7 +4775,11 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameCandidatesGenderBa
 |firstName|String|||
 |lastName|String|||
 |orderOption|String|||
-|matchCandidates|Array|||
+|**matchCandidates**|**Array of Objects**|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].candidateName*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].probability*|Number|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].predScoreGivenName*|Number|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].predScoreFamilyName*|Number|||
 
 
 
@@ -5603,7 +5776,11 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseChineseName/{chineseName
 |name|String|||
 |nameParserType|String|||
 |nameParserTypeAlt|String|||
-|firstLastName|Object|||
+|**firstLastName**|**Object**|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|||
 |score|Number|||
 
 
@@ -5747,7 +5924,11 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseChineseNameBatch", {
 |name|String|||
 |nameParserType|String|||
 |nameParserTypeAlt|String|||
-|firstLastName|Object|||
+|**firstLastName**|**Object**|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|||
 |score|Number|||
 
 
@@ -5862,7 +6043,11 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/pinyinChineseName/{chineseNam
 |name|String|||
 |nameParserType|String|||
 |nameParserTypeAlt|String|||
-|firstLastName|Object|||
+|**firstLastName**|**Object**|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|||
 |score|Number|||
 
 
@@ -6006,7 +6191,11 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/pinyinChineseNameBatch", {
 |name|String|||
 |nameParserType|String|||
 |nameParserTypeAlt|String|||
-|firstLastName|Object|||
+|**firstLastName**|**Object**|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|||
 |score|Number|||
 
 
@@ -6645,7 +6834,14 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameGenderKanjiCandid
     "firstName": "String",
     "lastName": "String",
     "orderOption": "String",
-    "matchCandidates": "Array"
+    "matchCandidates": [
+      {
+        "candidateName": "String",
+        "probability": "Number",
+        "predScoreGivenName": "Number",
+        "predScoreFamilyName": "Number"
+      }
+    ]
   }
 ]
 ```
@@ -6661,7 +6857,11 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameGenderKanjiCandid
 |firstName|String|||
 |lastName|String|||
 |orderOption|String|||
-|matchCandidates|Array|||
+|**matchCandidates**|**Array of Objects**|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].candidateName*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].probability*|Number|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].predScoreGivenName*|Number|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].predScoreFamilyName*|Number|||
 
 
 
@@ -6756,7 +6956,14 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameKanjiCandidates/{
   "firstName": "String",
   "lastName": "String",
   "orderOption": "String",
-  "matchCandidates": "Array"
+  "matchCandidates": [
+    {
+      "candidateName": "String",
+      "probability": "Number",
+      "predScoreGivenName": "Number",
+      "predScoreFamilyName": "Number"
+    }
+  ]
 }
 ```
 
@@ -6771,7 +6978,11 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameKanjiCandidates/{
 |firstName|String|||
 |lastName|String|||
 |orderOption|String|||
-|matchCandidates|Array|||
+|**matchCandidates**|**Array of Objects**|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].candidateName*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].probability*|Number|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].predScoreGivenName*|Number|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].predScoreFamilyName*|Number|||
 
 
 
@@ -6868,7 +7079,14 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameKanjiCandidates/{
   "firstName": "String",
   "lastName": "String",
   "orderOption": "String",
-  "matchCandidates": "Array"
+  "matchCandidates": [
+    {
+      "candidateName": "String",
+      "probability": "Number",
+      "predScoreGivenName": "Number",
+      "predScoreFamilyName": "Number"
+    }
+  ]
 }
 ```
 
@@ -6883,7 +7101,11 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameKanjiCandidates/{
 |firstName|String|||
 |lastName|String|||
 |orderOption|String|||
-|matchCandidates|Array|||
+|**matchCandidates**|**Array of Objects**|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].candidateName*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].probability*|Number|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].predScoreGivenName*|Number|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].predScoreFamilyName*|Number|||
 
 
 
@@ -7007,7 +7229,14 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameKanjiCandidatesBa
     "firstName": "String",
     "lastName": "String",
     "orderOption": "String",
-    "matchCandidates": "Array"
+    "matchCandidates": [
+      {
+        "candidateName": "String",
+        "probability": "Number",
+        "predScoreGivenName": "Number",
+        "predScoreFamilyName": "Number"
+      }
+    ]
   }
 ]
 ```
@@ -7023,7 +7252,11 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameKanjiCandidatesBa
 |firstName|String|||
 |lastName|String|||
 |orderOption|String|||
-|matchCandidates|Array|||
+|**matchCandidates**|**Array of Objects**|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].candidateName*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].probability*|Number|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].predScoreGivenName*|Number|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].predScoreFamilyName*|Number|||
 
 
 
@@ -7118,7 +7351,14 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameLatinCandidates/{
   "firstName": "String",
   "lastName": "String",
   "orderOption": "String",
-  "matchCandidates": "Array"
+  "matchCandidates": [
+    {
+      "candidateName": "String",
+      "probability": "Number",
+      "predScoreGivenName": "Number",
+      "predScoreFamilyName": "Number"
+    }
+  ]
 }
 ```
 
@@ -7133,7 +7373,11 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameLatinCandidates/{
 |firstName|String|||
 |lastName|String|||
 |orderOption|String|||
-|matchCandidates|Array|||
+|**matchCandidates**|**Array of Objects**|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].candidateName*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].probability*|Number|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].predScoreGivenName*|Number|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].predScoreFamilyName*|Number|||
 
 
 
@@ -7257,7 +7501,14 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameLatinCandidatesBa
     "firstName": "String",
     "lastName": "String",
     "orderOption": "String",
-    "matchCandidates": "Array"
+    "matchCandidates": [
+      {
+        "candidateName": "String",
+        "probability": "Number",
+        "predScoreGivenName": "Number",
+        "predScoreFamilyName": "Number"
+      }
+    ]
   }
 ]
 ```
@@ -7273,7 +7524,11 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameLatinCandidatesBa
 |firstName|String|||
 |lastName|String|||
 |orderOption|String|||
-|matchCandidates|Array|||
+|**matchCandidates**|**Array of Objects**|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].candidateName*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].probability*|Number|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].predScoreGivenName*|Number|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].predScoreFamilyName*|Number|||
 
 
 
@@ -7747,7 +8002,11 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseJapaneseName/{japaneseNa
 |name|String|||
 |nameParserType|String|||
 |nameParserTypeAlt|String|||
-|firstLastName|Object|||
+|**firstLastName**|**Object**|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|||
 |score|Number|||
 
 
@@ -7891,7 +8150,11 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseJapaneseNameBatch", {
 |name|String|||
 |nameParserType|String|||
 |nameParserTypeAlt|String|||
-|firstLastName|Object|||
+|**firstLastName**|**Object**|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|||
 |score|Number|||
 
 
@@ -8044,7 +8307,15 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/apiStatus", {
     "softwareNameAndVersion": "String",
     "softwareVersion": "Array"
   },
-  "classifiers": "Array"
+  "classifiers": [
+    {
+      "classifierName": "String",
+      "serving": "Boolean",
+      "learning": "Boolean",
+      "shuttingDown": "Boolean",
+      "probabilityCalibrated": "Boolean"
+    }
+  ]
 }
 ```
 
@@ -8054,8 +8325,15 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/apiStatus", {
 
 |Name|Type|Description|Enumerators|
 |---|---|---|---|
-|softwareVersion|Object|||
-|classifiers|Array|||
+|**softwareVersion**|**Object**|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.softwareNameAndVersion*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.softwareVersion*|Array|||
+|**classifiers**|**Array of Objects**|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].classifierName*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].serving*|Boolean|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].learning*|Boolean|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].shuttingDown*|Boolean|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].probabilityCalibrated*|Boolean|||
 
 
 
@@ -8174,8 +8452,37 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/apiUsage", {
 
 |Name|Type|Description|Enumerators|
 |---|---|---|---|
-|subscription|Object|||
-|billingPeriod|Object|||
+|**subscription**|**Object**|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.apiKey*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.planStarted*|Integer|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.priorPlanStarted*|Integer|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.planEnded*|Integer|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.taxRate*|Number|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.planName*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.planBaseFeesKey*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.planStatus*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.planQuota*|Integer|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.priceUSD*|Number|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.priceOverageUSD*|Number|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.price*|Number|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.priceOverage*|Number|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.currency*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.currencyFactor*|Number|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.stripeCustomerId*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.stripeStatus*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.stripeSubscription*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.userId*|String|||
+|**billingPeriod**|**Object**|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.apiKey*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.subscriptionStarted*|Integer|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.periodStarted*|Integer|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.periodEnded*|Integer|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.stripeCurrentPeriodEnd*|Integer|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.stripeCurrentPeriodStart*|Integer|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.billingStatus*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.usage*|Integer|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.softLimit*|Integer|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.hardLimit*|Integer|||
 |overageExclTax|Number|||
 |overageInclTax|Number|||
 |overageCurrency|String|||
@@ -8281,7 +8588,17 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/apiUsageHistory", {
 
 |Name|Type|Description|Enumerators|
 |---|---|---|---|
-|apiKey|Object|||
+|**apiKey**|**Object**|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.apiKey*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.userId*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.admin*|Boolean|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.vetted*|Boolean|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.learnable*|Boolean|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.anonymized*|Boolean|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.partner*|Boolean|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.striped*|Boolean|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.corporate*|Boolean|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.disabled*|Boolean|||
 |apiService|String|||
 |createdDateTime|Integer|||
 |totalUsage|Integer|||
@@ -8406,8 +8723,37 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/apiUsageHistoryAggregate", {
 
 |Name|Type|Description|Enumerators|
 |---|---|---|---|
-|subscription|Object|||
-|billingPeriod|Object|||
+|**subscription**|**Object**|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.apiKey*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.planStarted*|Integer|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.priorPlanStarted*|Integer|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.planEnded*|Integer|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.taxRate*|Number|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.planName*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.planBaseFeesKey*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.planStatus*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.planQuota*|Integer|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.priceUSD*|Number|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.priceOverageUSD*|Number|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.price*|Number|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.priceOverage*|Number|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.currency*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.currencyFactor*|Number|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.stripeCustomerId*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.stripeStatus*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.stripeSubscription*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.userId*|String|||
+|**billingPeriod**|**Object**|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.apiKey*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.subscriptionStarted*|Integer|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.periodStarted*|Integer|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.periodEnded*|Integer|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.stripeCurrentPeriodEnd*|Integer|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.stripeCurrentPeriodStart*|Integer|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.billingStatus*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.usage*|Integer|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.softLimit*|Integer|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.hardLimit*|Integer|||
 |overageExclTax|Number|||
 |overageInclTax|Number|||
 |overageCurrency|String|||

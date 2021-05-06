@@ -11,7 +11,9 @@ const widdershins = require('widdershins');
 /**************** MD Conversion ****************/
 /**********************************************/
 
-let nestedObjects = []
+let nestedObjects = [];
+
+let nbspMulti = '&nbsp;&nbsp;&nbsp;&nbsp;';
 
 let mdConvert = (swaggerFile, wsOptions, store, log) => {
 
@@ -233,29 +235,31 @@ let mdConvert = (swaggerFile, wsOptions, store, log) => {
           Object.keys(routeResponses[route].schema).forEach(param => {
             prm = routeResponses[route].schema[param];
             prm.name = param;
-            prm.type = prm.type ? capitalize(prm.type) : 'Object';
-            // if (prm.type == 'Object') console.log('res obj:', routeResponses[route].schema);
+            prm.type = prm.type ? capitalize(prm.type) : '**Object**';
+            if (Array.isArray(prm) && prm.length) prm.type = '**Array of Objects**';
+            if (prm.type === '**Object**' || prm.type === '**Array of Objects**') prm.name = `**${prm.name}**`;
             prm.enum = prm.enum ? listEnums(prm.enum, route) : '';
             prm.desc = prm.description ? prm.description : '';
             mdRouteReplace(resTag, `|${prm.name}|${prm.type}|${prm.desc}|${prm.enum}|\n${resTag}`, routeStart(), routeEnd(), route);
-            // if (prm.type == 'Object') {
-            //   console.log('prm: ', prm);
-            //   Object.keys(prm).forEach(subKey => {
-            //     if (
-            //       prm[subKey].type &&
-            //       subKey !== 'name' &&
-            //       subKey !== 'type' &&
-            //       subKey !== 'enum' &&
-            //       subKey !== 'description'
-            //     ) {
-            //       subPrm = prm[subKey];
-            //       subPrm.type = subPrm.type ? capitalize(subPrm.type) : '';
-            //       subPrm.enum = subPrm.enum ? listEnums(subPrm.enum, route) : '';
-            //       subPrm.desc = subPrm.description ? subPrm.description : '';
-            //       mdRouteReplace(resTag, `|{...}.${subKey}|${subPrm.type}|${subPrm.desc}|${subPrm.enum}|\n${resTag}`, routeStart(), routeEnd(), route);
-            //     };
-            //   });
-            // };
+            if (prm.type === '**Object**' || prm.type === '**Array of Objects**') {
+              let indicator = prm.type === '**Object**' ? `${nbspMulti}{...}` : `${nbspMulti}[ {...} ]`;
+              if (prm.type == '**Array of Objects**') prm = prm[0];
+              Object.keys(prm).forEach(subKey => {
+                if (
+                  prm[subKey].type &&
+                  subKey !== 'name' &&
+                  subKey !== 'type' &&
+                  subKey !== 'enum' &&
+                  subKey !== 'description'
+                ) {
+                  subPrm = prm[subKey];
+                  subPrm.type = subPrm.type ? capitalize(subPrm.type) : '';
+                  subPrm.enum = subPrm.enum ? listEnums(subPrm.enum, route) : '';
+                  subPrm.desc = subPrm.description ? subPrm.description : '';
+                  mdRouteReplace(resTag, `|*${indicator}.${subKey}*|${subPrm.type}|${subPrm.desc}|${subPrm.enum}|\n${resTag}`, routeStart(), routeEnd(), route);
+                };
+              });
+            };
           });
 
           mdRouteReplace(resTag, '', routeStart(), routeEnd(), route);

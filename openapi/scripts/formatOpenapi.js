@@ -21,7 +21,7 @@ let routeCosts = {};
 let routeRequests = {};
 let routeResponses = {};
 let apiExamples = {};
-let STRUCT = {};
+// let STRUCT = {};
 
 let formatOpenapi = (swaggerFile, log) => {
   let routes = Object.keys(swaggerFile.paths);
@@ -43,7 +43,6 @@ let formatOpenapi = (swaggerFile, log) => {
     }
     else {
       let route = methodPath[method];
-      STRUCT[routes[i]] = { http: method };
       routeMethods[routes[i]] = method;
 
       // Capitalize tag names
@@ -77,11 +76,7 @@ let formatOpenapi = (swaggerFile, log) => {
         route.summary = route.summary.slice(costEnd + 2, route.summary.length);
       };
 
-      STRUCT[routes[i]].summary = route.summary;
-      STRUCT[routes[i]].tag = route.tags[0];
 
-      STRUCT[routes[i]].request = {};
-      STRUCT[routes[i]].response = {};
 
       if (method === 'get') {
 
@@ -103,7 +98,6 @@ let formatOpenapi = (swaggerFile, log) => {
             if (param.schema) {
               param.type = param.schema.type ? capitalize(param.schema.type) : 'Any';
               param.schema = `dec1${param.name}dec2`;
-              STRUCT[routes[i]].request[param.name] = param.type;
             };
           });
         };
@@ -121,12 +115,11 @@ let formatOpenapi = (swaggerFile, log) => {
         else {
           let requestSchemaPath = route.requestBody.content[requestAccept[0]].schema;
 
-          // $ref 1/2 - The schema hold a reference to sub schema
+          // The schema hold a reference to sub schema
           if (requestSchemaPath.$ref) {
 
             let requestSchemaName = requestSchemaPath.$ref.slice(prefixLenght, requestSchemaPath.$ref.length);
             let schemaNameInPath = Object.keys(schemas[requestSchemaName].properties);
-            STRUCT[routes[i]].requestSchemaName = requestSchemaName;
 
             // type 1/2 - Case of $ref to an array to an object
             if (
@@ -138,7 +131,6 @@ let formatOpenapi = (swaggerFile, log) => {
               let REQ_STRUCT = [];
               let requestSubSchemaPath = schemas[requestSchemaName].properties[schemaNameInPath[0]].items.$ref;
               let requestSubSchemaName = requestSubSchemaPath.slice(prefixLenght, requestSubSchemaPath.length);
-              STRUCT[routes[i]].requestSchemaName = requestSubSchemaName;
               let requestSubSchema = schemas[requestSubSchemaName];
 
               if (!requestSubSchema.type === 'object') {
@@ -159,18 +151,15 @@ let formatOpenapi = (swaggerFile, log) => {
 
                     passRefNested[key] = requestNestedSubSchema.properties;
 
-                    STRUCT[routes[i]].request[key] = {};
                     requestSubStructure[key] = {};
 
                     Object.keys(requestNestedSubSchema.properties).forEach(subKey => {
                       if (requestNestedSubSchema.properties[subKey].type) {
-                        STRUCT[routes[i]].request[key][subKey] = capitalize(requestNestedSubSchema.properties[subKey].type);
                         requestSubStructure[key][subKey] = capitalize(requestNestedSubSchema.properties[subKey].type);
                       };
                     });
                   }
                   else if (requestSubSchema.properties[key].type) {
-                    STRUCT[routes[i]].request[key] = capitalize(requestSubSchema.properties[key].type);
                     requestSubStructure[key] = capitalize(requestSubSchema.properties[key].type);
                   };
                 });
@@ -209,18 +198,15 @@ let formatOpenapi = (swaggerFile, log) => {
 
                   passRefNested[key] = requestNestedSchema.properties;
 
-                  STRUCT[routes[i]].request[key] = {};
                   RES_STRUCT[key] = {};
 
                   Object.keys(requestNestedSchema.properties).forEach(subKey => {
                     if (requestNestedSchema.properties[subKey].type) {
-                      STRUCT[routes[i]].request[key][subKey] = capitalize(requestNestedSchema.properties[subKey].type);
                       RES_STRUCT[key][subKey] = capitalize(requestNestedSchema.properties[subKey].type);
                     };
                   });
                 }
                 else if (schemas[requestSchemaName].properties[key].type) {
-                  STRUCT[routes[i]].request[key] = capitalize(schemas[requestSchemaName].properties[key].type);
                   REQ_STRUCT[key] = capitalize(schemas[requestSchemaName].properties[key].type);
                 };
               });
@@ -239,33 +225,11 @@ let formatOpenapi = (swaggerFile, log) => {
               route.requestBody.content[requestAccept[0]].schema = REQ_STRUCT;
             }
             else {
-              console.log(`\u001b[31mError\u001b[m\nRoute ${routes[i]} - Unexpected $ref request structure must be either an object or an array`);
+              // console.log(`\u001b[31mError\u001b[m\nRoute ${routes[i]} - Unexpected $ref request structure must be either an object or an array`);
             };
-          }
-          // $ref 1/2 - The schema is an object (*/*)
-          else if (
-            requestSchemaPath.type === 'object' &&
-            !!requestSchemaPath.properties
-          ) {
-            let REQ_STRUCT = {};
-
-            Object.keys(requestSchemaPath.properties).forEach(key => {
-              if (requestSchemaPath.properties[key].type) {
-                STRUCT[routes[i]].request[key] = capitalize(requestSchemaPath.properties[key].type);
-                REQ_STRUCT[key] = capitalize(requestSchemaPath.properties[key].type);
-              };
-            });
-
-            routeRequests[routes[i]] = {
-              http: 'post',
-              type: 'object',
-              description: route.requestBody.description,
-              schema: requestSchemaPath.properties,
-            };
-            route.requestBody.content[requestAccept[0]].schema = REQ_STRUCT;
           }
           else {
-            console.log(`\u001b[31mError\u001b[m\nRoute ${routes[i]} - Unexpected request structure must be either an object or an array`);
+            // console.log(`\u001b[31mError\u001b[m\nRoute ${routes[i]} - Unexpected request structure must be either an object or an array`);
           };
         };
       };
@@ -286,7 +250,6 @@ let formatOpenapi = (swaggerFile, log) => {
         let responseSchemaPath = route.responses['200'].content['application/json'].schema.$ref;
         let responseSchemaName = responseSchemaPath.slice(prefixLenght, responseSchemaPath.length);
         let schemaNameInPath = Object.keys(schemas[responseSchemaName].properties);
-        STRUCT[routes[i]].responseSchemaName = responseSchemaName;
 
         // type 1/2 - Case of $ref to an array to an object
         if (
@@ -297,7 +260,6 @@ let formatOpenapi = (swaggerFile, log) => {
           let RES_STRUCT = [];
           let responseSubSchemaPath = schemas[responseSchemaName].properties[schemaNameInPath[0]].items.$ref;
           let responseSubSchemaName = responseSubSchemaPath.slice(prefixLenght, responseSubSchemaPath.length);
-          STRUCT[routes[i]].responseSchemaName = responseSubSchemaName;
           let responseSubSchema = schemas[responseSubSchemaName];
 
           if (!responseSubSchema.type === 'object') {
@@ -318,18 +280,35 @@ let formatOpenapi = (swaggerFile, log) => {
 
                 passRefNested[key] = responseNestedSubSchema.properties;
 
-                STRUCT[routes[i]].response[key] = {};
                 responseSubStructure[key] = {};
 
                 Object.keys(responseNestedSubSchema.properties).forEach(subKey => {
                   if (responseNestedSubSchema.properties[subKey].type) {
-                    STRUCT[routes[i]].response[key][subKey] = capitalize(responseNestedSubSchema.properties[subKey].type);
                     responseSubStructure[key][subKey] = capitalize(responseNestedSubSchema.properties[subKey].type);
                   };
                 });
               }
+              // Nested array of objects
+              else if (
+                responseSubSchema.properties[key].type === 'array' &&
+                responseSubSchema.properties[key].items &&
+                responseSubSchema.properties[key].items.$ref
+              ) {
+                let responseNestedSubSchemaPath = responseSubSchema.properties[key].items.$ref;
+                let responseNestedSubSchemaName = responseNestedSubSchemaPath.slice(prefixLenght, responseNestedSubSchemaPath.length);
+                let responseNestedSubSchema = schemas[responseNestedSubSchemaName];
+
+                passRefNested[key] = [responseNestedSubSchema.properties];
+
+                responseSubStructure[key] = [{}];
+
+                Object.keys(responseNestedSubSchema.properties).forEach(subKey => {
+                  if (responseNestedSubSchema.properties[subKey].type) {
+                    responseSubStructure[key][0][subKey] = capitalize(responseNestedSubSchema.properties[subKey].type);
+                  };
+                });
+              }
               else if (responseSubSchema.properties[key].type) {
-                STRUCT[routes[i]].response[key] = capitalize(responseSubSchema.properties[key].type);
                 responseSubStructure[key] = capitalize(responseSubSchema.properties[key].type);
               };
             });
@@ -367,18 +346,35 @@ let formatOpenapi = (swaggerFile, log) => {
 
               passRefNested[key] = responseNestedSchema.properties;
 
-              STRUCT[routes[i]].response[key] = {};
               RES_STRUCT[key] = {};
 
               Object.keys(responseNestedSchema.properties).forEach(subKey => {
                 if (responseNestedSchema.properties[subKey].type) {
-                  STRUCT[routes[i]].response[key][subKey] = capitalize(responseNestedSchema.properties[subKey].type);
                   RES_STRUCT[key][subKey] = capitalize(responseNestedSchema.properties[subKey].type);
                 };
               });
             }
+            // Nested array of objects
+            else if (
+              schemas[responseSchemaName].properties[key].type === 'array' &&
+              schemas[responseSchemaName].properties[key].items &&
+              schemas[responseSchemaName].properties[key].items.$ref
+            ) {
+              let responseNestedSchemaPath = schemas[responseSchemaName].properties[key].items.$ref;
+              let responseNestedSchemaName = responseNestedSchemaPath.slice(prefixLenght, responseNestedSchemaPath.length);
+              let responseNestedSchema = schemas[responseNestedSchemaName];
+
+              passRefNested[key] = [responseNestedSchema.properties];
+
+              RES_STRUCT[key] = [{}];
+
+              Object.keys(responseNestedSchema.properties).forEach(subKey => {
+                if (responseNestedSchema.properties[subKey].type) {
+                  RES_STRUCT[key][0][subKey] = capitalize(responseNestedSchema.properties[subKey].type);
+                };
+              });
+            }
             else if (schemas[responseSchemaName].properties[key].type) {
-              STRUCT[routes[i]].response[key] = capitalize(schemas[responseSchemaName].properties[key].type);
               RES_STRUCT[key] = capitalize(schemas[responseSchemaName].properties[key].type);
             };
           });
@@ -396,75 +392,65 @@ let formatOpenapi = (swaggerFile, log) => {
           route.responses['200'].content['application/json'].schema = RES_STRUCT;
         }
         else {
-          console.log(`\u001b[31mError\u001b[m\nRoute ${routes[i]} - Unexpected $ref response structure must be either an object or an array`);
+          // console.log(`\u001b[31mError\u001b[m\nRoute ${routes[i]} - Unexpected $ref response structure must be either an object or an array`);
         };
       };
 
-      // let formatedRouteName
-      // if (routes[i]) {
-      //   formatedRouteName = routes[i].slice(prefixLenghtRoute, routes[i].length);
-      //   let isGetRequest = formatedRouteName.indexOf('{');
-      //   if (isGetRequest !== -1) formatedRouteName = formatedRouteName.slice(0, isGetRequest - 1);
-      //   let isBatchRequest = formatedRouteName.indexOf('Batch');
-      //   if (isBatchRequest !== -1) formatedRouteName = formatedRouteName.replace('Batch', '');
-      //   route.exampleName = formatedRouteName;
+      // // List all possible INPUT keys
+      // if (!apiExamples[routes[i]]) {
+      //   apiExamples[routes[i]] = {};
+
+      //   if (!apiExamples[routes[i]].input) {
+      //     let inputTarget = apiExamples[routes[i]].input = {};
+
+      //     if (routeRequests[routes[i]]) {
+      //       Object.keys(routeRequests[routes[i]].schema).forEach(field => {
+      //         let targetField = routeRequests[routes[i]].schema[field];
+
+      //         if (targetField.type) {
+      //           inputTarget[field] = targetField.type;
+      //         }
+      //         else {
+      //           inputTarget[field] = {};
+      //           Object.keys(targetField).forEach(subfield => {
+      //             if (targetField[subfield].type) {
+      //               inputTarget[field][subfield] = targetField[subfield].type;
+      //             }
+      //             else {
+      //               console.log('subfield 1: ', subfield);
+      //             };
+      //           });
+      //         };
+      //       });
+      //     };
+      //   };
       // };
 
-      // List all possible INPUT keys
-      if (!apiExamples[routes[i]]) {
-        apiExamples[routes[i]] = {};
+      // // List all possible OUTPUT keys
+      // if (!apiExamples[routes[i]].output) {
+      //   let outputTarget = apiExamples[routes[i]].output = {};
 
-        if (!apiExamples[routes[i]].input) {
-          let inputTarget = apiExamples[routes[i]].input = {};
+      //   if (routeResponses[routes[i]]) {
+      //     Object.keys(routeResponses[routes[i]].schema).forEach(field => {
+      //       let targetField = routeResponses[routes[i]].schema[field];
 
-          if (routeRequests[routes[i]]) {
-            Object.keys(routeRequests[routes[i]].schema).forEach(field => {
-              let targetField = routeRequests[routes[i]].schema[field];
-
-              if (targetField.type) {
-                inputTarget[field] = targetField.type;
-              }
-              else {
-                inputTarget[field] = {};
-                Object.keys(targetField).forEach(subfield => {
-                  if (targetField[subfield].type) {
-                    inputTarget[field][subfield] = targetField[subfield].type;
-                  }
-                  else {
-                    console.log('subfield: ', subfield);
-                  };
-                });
-              };
-            });
-          };
-        };
-      };
-
-      // List all possible OUTPUT keys
-      if (!apiExamples[routes[i]].output) {
-        let outputTarget = apiExamples[routes[i]].output = {};
-
-        if (routeResponses[routes[i]]) {
-          Object.keys(routeResponses[routes[i]].schema).forEach(field => {
-            let targetField = routeResponses[routes[i]].schema[field];
-
-            if (targetField.type) {
-              outputTarget[field] = targetField.type;
-            }
-            else {
-              outputTarget[field] = {};
-              Object.keys(targetField).forEach(subfield => {
-                if (targetField[subfield].type) {
-                  outputTarget[field][subfield] = targetField[subfield].type;
-                }
-                else {
-                  console.log('subfield: ', subfield);
-                };
-              });
-            };
-          });
-        };
-      };
+      //       if (targetField.type) {
+      //         outputTarget[field] = targetField.type;
+      //       }
+      //       else {
+      //         outputTarget[field] = {};
+      //         Object.keys(targetField).forEach(subfield => {
+      //           if (targetField[subfield].type) {
+      //             outputTarget[field][subfield] = targetField[subfield].type;
+      //           }
+      //           else {
+      //             console.log('subfield 2: ', subfield);
+      //           };
+      //         });
+      //       };
+      //     });
+      //   };
+      // };
 
       // console.log('routes[i]: ', routes[i]);
       // // Get example values
@@ -488,8 +474,7 @@ let formatOpenapi = (swaggerFile, log) => {
   fs.writeFileSync('openapi/genNotMD/premarkdown.json', JSON.stringify(swaggerFile), 'utf8');
   fs.writeFileSync('openapi/genNotMD/routeRequests.json', JSON.stringify(routeRequests), 'utf8');
   fs.writeFileSync('openapi/genNotMD/routeResponses.json', JSON.stringify(routeResponses), 'utf8');
-  fs.writeFileSync('openapi/genNotMD/apiExamples.json', JSON.stringify(apiExamples), 'utf8');
-  fs.writeFileSync('openapi/genNotMD/210422_strucure_ex.json', JSON.stringify(STRUCT), 'utf8');
+  // fs.writeFileSync('openapi/genNotMD/apiExamples.json', JSON.stringify(apiExamples), 'utf8');
 
   // Return stored values
   let formatedResult = {
