@@ -5,6 +5,7 @@ helpers.capitalize = input => input.charAt(0).toUpperCase() + input.slice(1);
 helpers.listEnums = (enumList) => {
   let listString = '';
   enumList.forEach((elem, i) => {
+    if (typeof elem === 'string') elem = `"${elem}"`;
     if (i === 0) {
       listString = `${elem}`;
     }

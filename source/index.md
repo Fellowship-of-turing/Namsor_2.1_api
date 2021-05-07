@@ -268,7 +268,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/corridor/{countryIso2From}/{f
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.likelyGender*|String|Most likely gender|male, female or unknown|
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.likelyGender*|String|Most likely gender|"male", "female" or "unknown"|
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.genderScale*|Number|Compatibility to NamSor_v1 Gender Scale M[-1..U..+1]F value||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.score*|Number|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.probabilityCalibrated*|Number|||
@@ -277,7 +277,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/corridor/{countryIso2From}/{f
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.likelyGender*|String|Most likely gender|male, female or unknown|
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.likelyGender*|String|Most likely gender|"male", "female" or "unknown"|
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.genderScale*|Number|Compatibility to NamSor_v1 Gender Scale M[-1..U..+1]F value||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.score*|Number|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.probabilityCalibrated*|Number|||
@@ -562,7 +562,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/corridorBatch", {
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.likelyGender*|String|Most likely gender|male, female or unknown|
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.likelyGender*|String|Most likely gender|"male", "female" or "unknown"|
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.genderScale*|Number|Compatibility to NamSor_v1 Gender Scale M[-1..U..+1]F value||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.score*|Number|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.probabilityCalibrated*|Number|||
@@ -571,7 +571,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/corridorBatch", {
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.likelyGender*|String|Most likely gender|male, female or unknown|
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.likelyGender*|String|Most likely gender|"male", "female" or "unknown"|
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.genderScale*|Number|Compatibility to NamSor_v1 Gender Scale M[-1..U..+1]F value||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.score*|Number|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.probabilityCalibrated*|Number|||
@@ -1276,7 +1276,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/gender/{firstName}/{lastName}
 |id|String|||
 |firstName|String|||
 |lastName|String|||
-|likelyGender|String|Most likely gender|male, female or unknown|
+|likelyGender|String|Most likely gender|"male", "female" or "unknown"|
 |genderScale|Number|Compatibility to NamSor_v1 Gender Scale M[-1..U..+1]F value||
 |score|Number|||
 |probabilityCalibrated|Number|||
@@ -1420,7 +1420,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderBatch", {
 |id|String|||
 |firstName|String|||
 |lastName|String|||
-|likelyGender|String|Most likely gender|male, female or unknown|
+|likelyGender|String|Most likely gender|"male", "female" or "unknown"|
 |genderScale|Number|Compatibility to NamSor_v1 Gender Scale M[-1..U..+1]F value||
 |score|Number|||
 |probabilityCalibrated|Number|||
@@ -1530,7 +1530,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderFull/{fullName}", {
 |script|String|||
 |id|String|||
 |name|String|||
-|likelyGender|String|Most likely gender|male, female or unknown|
+|likelyGender|String|Most likely gender|"male", "female" or "unknown"|
 |genderScale|Number|Compatibility to NamSor_v1 Gender Scale M[-1..U..+1]F value||
 |score|Number|||
 |probabilityCalibrated|Number|||
@@ -1669,7 +1669,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderFullBatch", {
 |script|String|||
 |id|String|||
 |name|String|||
-|likelyGender|String|Most likely gender|male, female or unknown|
+|likelyGender|String|Most likely gender|"male", "female" or "unknown"|
 |genderScale|Number|Compatibility to NamSor_v1 Gender Scale M[-1..U..+1]F value||
 |score|Number|||
 |probabilityCalibrated|Number|||
@@ -1781,7 +1781,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderFullGeo/{fullName}/{cou
 |script|String|||
 |id|String|||
 |name|String|||
-|likelyGender|String|Most likely gender|male, female or unknown|
+|likelyGender|String|Most likely gender|"male", "female" or "unknown"|
 |genderScale|Number|Compatibility to NamSor_v1 Gender Scale M[-1..U..+1]F value||
 |score|Number|||
 |probabilityCalibrated|Number|||
@@ -1923,7 +1923,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderFullGeoBatch", {
 |script|String|||
 |id|String|||
 |name|String|||
-|likelyGender|String|Most likely gender|male, female or unknown|
+|likelyGender|String|Most likely gender|"male", "female" or "unknown"|
 |genderScale|Number|Compatibility to NamSor_v1 Gender Scale M[-1..U..+1]F value||
 |score|Number|||
 |probabilityCalibrated|Number|||
@@ -2039,7 +2039,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderGeo/{firstName}/{lastNa
 |id|String|||
 |firstName|String|||
 |lastName|String|||
-|likelyGender|String|Most likely gender|male, female or unknown|
+|likelyGender|String|Most likely gender|"male", "female" or "unknown"|
 |genderScale|Number|Compatibility to NamSor_v1 Gender Scale M[-1..U..+1]F value||
 |score|Number|||
 |probabilityCalibrated|Number|||
@@ -2186,7 +2186,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderGeoBatch", {
 |id|String|||
 |firstName|String|||
 |lastName|String|||
-|likelyGender|String|Most likely gender|male, female or unknown|
+|likelyGender|String|Most likely gender|"male", "female" or "unknown"|
 |genderScale|Number|Compatibility to NamSor_v1 Gender Scale M[-1..U..+1]F value||
 |score|Number|||
 |probabilityCalibrated|Number|||
@@ -3119,8 +3119,8 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/usRaceEthnicity/{firstName}/{
 |id|String|||
 |firstName|String|||
 |lastName|String|||
-|raceEthnicityAlt|String|Second most likely US 'race'/ethnicity|W_NL, HL, A, B_NL, AI_AN or PI|
-|raceEthnicity|String|Most likely US 'race'/ethnicity|W_NL, HL, A, B_NL, AI_AN or PI|
+|raceEthnicityAlt|String|Second most likely US 'race'/ethnicity|"W_NL", "HL", "A", "B_NL", "AI_AN" or "PI"|
+|raceEthnicity|String|Most likely US 'race'/ethnicity|"W_NL", "HL", "A", "B_NL", "AI_AN" or "PI"|
 |score|Number|Compatibility to NamSor_v1 Origin score value||
 |raceEthnicitiesTop|Array|List 'race'/ethnicities||
 |probabilityCalibrated|Number|||
@@ -3270,8 +3270,8 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/usRaceEthnicityBatch", {
 |id|String|||
 |firstName|String|||
 |lastName|String|||
-|raceEthnicityAlt|String|Second most likely US 'race'/ethnicity|W_NL, HL, A, B_NL, AI_AN or PI|
-|raceEthnicity|String|Most likely US 'race'/ethnicity|W_NL, HL, A, B_NL, AI_AN or PI|
+|raceEthnicityAlt|String|Second most likely US 'race'/ethnicity|"W_NL", "HL", "A", "B_NL", "AI_AN" or "PI"|
+|raceEthnicity|String|Most likely US 'race'/ethnicity|"W_NL", "HL", "A", "B_NL", "AI_AN" or "PI"|
 |score|Number|Compatibility to NamSor_v1 Origin score value||
 |raceEthnicitiesTop|Array|List 'race'/ethnicities||
 |probabilityCalibrated|Number|||
@@ -3390,8 +3390,8 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/usRaceEthnicityZIP5/{firstNam
 |id|String|||
 |firstName|String|||
 |lastName|String|||
-|raceEthnicityAlt|String|Second most likely US 'race'/ethnicity|W_NL, HL, A, B_NL, AI_AN or PI|
-|raceEthnicity|String|Most likely US 'race'/ethnicity|W_NL, HL, A, B_NL, AI_AN or PI|
+|raceEthnicityAlt|String|Second most likely US 'race'/ethnicity|"W_NL", "HL", "A", "B_NL", "AI_AN" or "PI"|
+|raceEthnicity|String|Most likely US 'race'/ethnicity|"W_NL", "HL", "A", "B_NL", "AI_AN" or "PI"|
 |score|Number|Compatibility to NamSor_v1 Origin score value||
 |raceEthnicitiesTop|Array|List 'race'/ethnicities||
 |probabilityCalibrated|Number|||
@@ -3544,8 +3544,8 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/usZipRaceEthnicityBatch", {
 |id|String|||
 |firstName|String|||
 |lastName|String|||
-|raceEthnicityAlt|String|Second most likely US 'race'/ethnicity|W_NL, HL, A, B_NL, AI_AN or PI|
-|raceEthnicity|String|Most likely US 'race'/ethnicity|W_NL, HL, A, B_NL, AI_AN or PI|
+|raceEthnicityAlt|String|Second most likely US 'race'/ethnicity|"W_NL", "HL", "A", "B_NL", "AI_AN" or "PI"|
+|raceEthnicity|String|Most likely US 'race'/ethnicity|"W_NL", "HL", "A", "B_NL", "AI_AN" or "PI"|
 |score|Number|Compatibility to NamSor_v1 Origin score value||
 |raceEthnicitiesTop|Array|List 'race'/ethnicities||
 |probabilityCalibrated|Number|||
@@ -5262,7 +5262,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseName/{chineseNam
 |script|String|||
 |id|String|||
 |name|String|||
-|likelyGender|String|Most likely gender|male, female or unknown|
+|likelyGender|String|Most likely gender|"male", "female" or "unknown"|
 |genderScale|Number|Compatibility to NamSor_v1 Gender Scale M[-1..U..+1]F value||
 |score|Number|||
 |probabilityCalibrated|Number|||
@@ -5401,7 +5401,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseNameBatch", {
 |script|String|||
 |id|String|||
 |name|String|||
-|likelyGender|String|Most likely gender|male, female or unknown|
+|likelyGender|String|Most likely gender|"male", "female" or "unknown"|
 |genderScale|Number|Compatibility to NamSor_v1 Gender Scale M[-1..U..+1]F value||
 |score|Number|||
 |probabilityCalibrated|Number|||
@@ -5515,7 +5515,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseNamePinyin/{chin
 |id|String|||
 |firstName|String|||
 |lastName|String|||
-|likelyGender|String|Most likely gender|male, female or unknown|
+|likelyGender|String|Most likely gender|"male", "female" or "unknown"|
 |genderScale|Number|Compatibility to NamSor_v1 Gender Scale M[-1..U..+1]F value||
 |score|Number|||
 |probabilityCalibrated|Number|||
@@ -5659,7 +5659,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseNamePinyinBatch"
 |id|String|||
 |firstName|String|||
 |lastName|String|||
-|likelyGender|String|Most likely gender|male, female or unknown|
+|likelyGender|String|Most likely gender|"male", "female" or "unknown"|
 |genderScale|Number|Compatibility to NamSor_v1 Gender Scale M[-1..U..+1]F value||
 |score|Number|||
 |probabilityCalibrated|Number|||
@@ -6307,7 +6307,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderJapaneseNameFull/{japan
 |script|String|||
 |id|String|||
 |name|String|||
-|likelyGender|String|Most likely gender|male, female or unknown|
+|likelyGender|String|Most likely gender|"male", "female" or "unknown"|
 |genderScale|Number|Compatibility to NamSor_v1 Gender Scale M[-1..U..+1]F value||
 |score|Number|||
 |probabilityCalibrated|Number|||
@@ -6446,7 +6446,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderJapaneseNameFullBatch",
 |script|String|||
 |id|String|||
 |name|String|||
-|likelyGender|String|Most likely gender|male, female or unknown|
+|likelyGender|String|Most likely gender|"male", "female" or "unknown"|
 |genderScale|Number|Compatibility to NamSor_v1 Gender Scale M[-1..U..+1]F value||
 |score|Number|||
 |probabilityCalibrated|Number|||
@@ -6560,7 +6560,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderJapaneseName/{japaneseS
 |id|String|||
 |firstName|String|||
 |lastName|String|||
-|likelyGender|String|Most likely gender|male, female or unknown|
+|likelyGender|String|Most likely gender|"male", "female" or "unknown"|
 |genderScale|Number|Compatibility to NamSor_v1 Gender Scale M[-1..U..+1]F value||
 |score|Number|||
 |probabilityCalibrated|Number|||
@@ -6704,7 +6704,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderJapaneseNameBatch", {
 |id|String|||
 |firstName|String|||
 |lastName|String|||
-|likelyGender|String|Most likely gender|male, female or unknown|
+|likelyGender|String|Most likely gender|"male", "female" or "unknown"|
 |genderScale|Number|Compatibility to NamSor_v1 Gender Scale M[-1..U..+1]F value||
 |score|Number|||
 |probabilityCalibrated|Number|||

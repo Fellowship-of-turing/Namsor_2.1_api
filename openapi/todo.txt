@@ -61,3 +61,8 @@ TODO 26/04
 - in chinese names first name / given name
 - batch operations need and return arrays behind key
 - explain given name vs surname for chinese / japanese names
+------------------------------------------------------------------------------------------------------
+
+07/05/2021
+
+- What do feedbackloop routes do ?
