@@ -128,7 +128,8 @@ let formatOpenapi = (swaggerFile, log) => {
               schemas[requestSchemaName].properties[schemaNameInPath[0]].items.$ref
             ) {
 
-              let REQ_STRUCT = [];
+              let REQ_STRUCT = { [schemaNameInPath[0]]: [] }
+              let REQ_STRUCT_ARRAY = REQ_STRUCT[schemaNameInPath[0]];
               let requestSubSchemaPath = schemas[requestSchemaName].properties[schemaNameInPath[0]].items.$ref;
               let requestSubSchemaName = requestSubSchemaPath.slice(prefixLenght, requestSubSchemaPath.length);
               let requestSubSchema = schemas[requestSubSchemaName];
@@ -175,7 +176,7 @@ let formatOpenapi = (swaggerFile, log) => {
                   description: route.requestBody.description,
                   schema: cleanSchema,
                 };
-                REQ_STRUCT.push(requestSubStructure);
+                REQ_STRUCT_ARRAY.push(requestSubStructure);
                 route.requestBody.content[requestAccept[0]].schema = REQ_STRUCT;
               };
             }
@@ -257,7 +258,9 @@ let formatOpenapi = (swaggerFile, log) => {
           schemas[responseSchemaName].properties[schemaNameInPath[0]].type === 'array' &&
           schemas[responseSchemaName].properties[schemaNameInPath[0]].items.$ref
         ) {
-          let RES_STRUCT = [];
+
+          let RES_STRUCT = { [schemaNameInPath[0]]: [] }
+          let RES_STRUCT_ARRAY = RES_STRUCT[schemaNameInPath[0]];
           let responseSubSchemaPath = schemas[responseSchemaName].properties[schemaNameInPath[0]].items.$ref;
           let responseSubSchemaName = responseSubSchemaPath.slice(prefixLenght, responseSubSchemaPath.length);
           let responseSubSchema = schemas[responseSubSchemaName];
@@ -312,7 +315,7 @@ let formatOpenapi = (swaggerFile, log) => {
                 responseSubStructure[key] = capitalize(responseSubSchema.properties[key].type);
               };
             });
-            RES_STRUCT.push(responseSubStructure);
+            RES_STRUCT_ARRAY.push(responseSubStructure);
 
             let cleanSchema = JSON.parse(JSON.stringify(responseSubSchema.properties));
             Object.keys(passRefNested).forEach(nested => {

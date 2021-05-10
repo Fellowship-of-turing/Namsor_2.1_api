@@ -49,11 +49,12 @@ License: <a href="https://v2.namsor.com/NamSorAPIv2/assets/pdf/201803_NamSor_API
 ## General Information
 
 -   The base endpoint URL is: https://v2.namsor.com/NamSorAPIv2
--   All endpoints return either a JSON object or an array.
--   Batch processing returns the data in the same order as it was sent.
+-   All endpoints return JSON containing either an object or a nested array of objects.
+-   Batch processing returns the data sorted in the same order as it was sent.
 -   **All endpoints require an API Key.**
 -   Never share your API key to ANYONE.
--   Currently certain NamSor API endpoints use nested object structures in their query body and / or responses.
+-   Currently certain NamSor API endpoints use nested object structures in their query body and / or responses, please refer yourself to the corresponding code example.
+-   Certain API response code examples have been truncated in order to improve readability. For example the countriesOriginTop, ethnicitiesTop and matchCandidates Array fields have been reduced to 2 elements in length.
 
 
 ## Authentication
@@ -355,7 +356,7 @@ curl --request POST \
   --header 'X-API-KEY: your-api-key' \
   --header 'Accept: application/json' \
   --header 'Content-Type: application/json' \
-  --data '[{"id":"String","firstLastNameGeoFrom":{"id":"String","firstName":"String","lastName":"String","countryIso2":"String"},"firstLastNameGeoTo":{"id":"String","firstName":"String","lastName":"String","countryIso2":"String"}}]'
+  --data '{"corridorFromTo":[{"id":"String","firstLastNameGeoFrom":{"id":"String","firstName":"String","lastName":"String","countryIso2":"String"},"firstLastNameGeoTo":{"id":"String","firstName":"String","lastName":"String","countryIso2":"String"}}]}'
 ```
 
 ```java
@@ -363,7 +364,7 @@ HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/
   .header("Content-Type", "application/json")
   .header("Accept", "application/json")
   .header("X-API-KEY", "your-api-key")
-  .body("[{\"id\":\"String\",\"firstLastNameGeoFrom\":{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\",\"countryIso2\":\"String\"},\"firstLastNameGeoTo\":{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\",\"countryIso2\":\"String\"}}]")
+  .body("{\"corridorFromTo\":[{\"id\":\"String\",\"firstLastNameGeoFrom\":{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\",\"countryIso2\":\"String\"},\"firstLastNameGeoTo\":{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\",\"countryIso2\":\"String\"}}]}")
   .asString();
 ```
 
@@ -372,23 +373,23 @@ import requests
 
 url = "https://v2.namsor.com/NamSorAPIv2/api2/json/corridorBatch"
 
-payload = [
-    {
-        "id": "String",
-        "firstLastNameGeoFrom": {
+payload = {"corridorFromTo": [
+        {
             "id": "String",
-            "firstName": "String",
-            "lastName": "String",
-            "countryIso2": "String"
-        },
-        "firstLastNameGeoTo": {
-            "id": "String",
-            "firstName": "String",
-            "lastName": "String",
-            "countryIso2": "String"
+            "firstLastNameGeoFrom": {
+                "id": "String",
+                "firstName": "String",
+                "lastName": "String",
+                "countryIso2": "String"
+            },
+            "firstLastNameGeoTo": {
+                "id": "String",
+                "firstName": "String",
+                "lastName": "String",
+                "countryIso2": "String"
+            }
         }
-    }
-]
+    ]}
 headers = {
     "Content-Type": "application/json",
     "Accept": "application/json",
@@ -408,7 +409,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/corridorBatch", {
     "Accept": "application/json",
     "X-API-KEY": "your-api-key"
   },
-  "body": "[{\"id\":\"String\",\"firstLastNameGeoFrom\":{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\",\"countryIso2\":\"String\"},\"firstLastNameGeoTo\":{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\",\"countryIso2\":\"String\"}}]"
+  "body": "{\"corridorFromTo\":[{\"id\":\"String\",\"firstLastNameGeoFrom\":{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\",\"countryIso2\":\"String\"},\"firstLastNameGeoTo\":{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\",\"countryIso2\":\"String\"}}]}"
 })
 .then(response => {
   console.log(response.json());
@@ -425,23 +426,25 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/corridorBatch", {
 > Body parameter
 
 ```json
-[
-  {
-    "id": "String",
-    "firstLastNameGeoFrom": {
+{
+  "corridorFromTo": [
+    {
       "id": "String",
-      "firstName": "String",
-      "lastName": "String",
-      "countryIso2": "String"
-    },
-    "firstLastNameGeoTo": {
-      "id": "String",
-      "firstName": "String",
-      "lastName": "String",
-      "countryIso2": "String"
+      "firstLastNameGeoFrom": {
+        "id": "String",
+        "firstName": "String",
+        "lastName": "String",
+        "countryIso2": "String"
+      },
+      "firstLastNameGeoTo": {
+        "id": "String",
+        "firstName": "String",
+        "lastName": "String",
+        "countryIso2": "String"
+      }
     }
-  }
-]
+  ]
+}
 ```
 
 *<u>Cost :</u> The processing of each name requires **20** credits.*
@@ -468,86 +471,88 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/corridorBatch", {
 
 
 ```json
-[
-  {
-    "id": "String",
-    "firstLastNameGeoFromGender": {
-      "script": "String",
+{
+  "corridorFromTo": [
+    {
       "id": "String",
-      "firstName": "String",
-      "lastName": "String",
-      "likelyGender": "String",
-      "genderScale": "Number",
-      "score": "Number",
-      "probabilityCalibrated": "Number"
-    },
-    "firstLastNameGeoToGender": {
-      "script": "String",
-      "id": "String",
-      "firstName": "String",
-      "lastName": "String",
-      "likelyGender": "String",
-      "genderScale": "Number",
-      "score": "Number",
-      "probabilityCalibrated": "Number"
-    },
-    "firstLastNameGeoFromOrigin": {
-      "script": "String",
-      "id": "String",
-      "firstName": "String",
-      "lastName": "String",
-      "countryOrigin": "String",
-      "countryOriginAlt": "String",
-      "countriesOriginTop": "Array",
-      "score": "Number",
-      "regionOrigin": "String",
-      "topRegionOrigin": "String",
-      "subRegionOrigin": "String",
-      "probabilityCalibrated": "Number",
-      "probabilityAltCalibrated": "Number"
-    },
-    "firstLastNameGeoToOrigin": {
-      "script": "String",
-      "id": "String",
-      "firstName": "String",
-      "lastName": "String",
-      "countryOrigin": "String",
-      "countryOriginAlt": "String",
-      "countriesOriginTop": "Array",
-      "score": "Number",
-      "regionOrigin": "String",
-      "topRegionOrigin": "String",
-      "subRegionOrigin": "String",
-      "probabilityCalibrated": "Number",
-      "probabilityAltCalibrated": "Number"
-    },
-    "firstLastNameGeoFromDiaspora": {
-      "script": "String",
-      "id": "String",
-      "firstName": "String",
-      "lastName": "String",
-      "score": "Number",
-      "ethnicityAlt": "String",
-      "ethnicity": "String",
-      "lifted": "Boolean",
-      "countryIso2": "String",
-      "ethnicitiesTop": "Array"
-    },
-    "firstLastNameGeoToDiaspora": {
-      "script": "String",
-      "id": "String",
-      "firstName": "String",
-      "lastName": "String",
-      "score": "Number",
-      "ethnicityAlt": "String",
-      "ethnicity": "String",
-      "lifted": "Boolean",
-      "countryIso2": "String",
-      "ethnicitiesTop": "Array"
-    },
-    "script": "String"
-  }
-]
+      "firstLastNameGeoFromGender": {
+        "script": "String",
+        "id": "String",
+        "firstName": "String",
+        "lastName": "String",
+        "likelyGender": "String",
+        "genderScale": "Number",
+        "score": "Number",
+        "probabilityCalibrated": "Number"
+      },
+      "firstLastNameGeoToGender": {
+        "script": "String",
+        "id": "String",
+        "firstName": "String",
+        "lastName": "String",
+        "likelyGender": "String",
+        "genderScale": "Number",
+        "score": "Number",
+        "probabilityCalibrated": "Number"
+      },
+      "firstLastNameGeoFromOrigin": {
+        "script": "String",
+        "id": "String",
+        "firstName": "String",
+        "lastName": "String",
+        "countryOrigin": "String",
+        "countryOriginAlt": "String",
+        "countriesOriginTop": "Array",
+        "score": "Number",
+        "regionOrigin": "String",
+        "topRegionOrigin": "String",
+        "subRegionOrigin": "String",
+        "probabilityCalibrated": "Number",
+        "probabilityAltCalibrated": "Number"
+      },
+      "firstLastNameGeoToOrigin": {
+        "script": "String",
+        "id": "String",
+        "firstName": "String",
+        "lastName": "String",
+        "countryOrigin": "String",
+        "countryOriginAlt": "String",
+        "countriesOriginTop": "Array",
+        "score": "Number",
+        "regionOrigin": "String",
+        "topRegionOrigin": "String",
+        "subRegionOrigin": "String",
+        "probabilityCalibrated": "Number",
+        "probabilityAltCalibrated": "Number"
+      },
+      "firstLastNameGeoFromDiaspora": {
+        "script": "String",
+        "id": "String",
+        "firstName": "String",
+        "lastName": "String",
+        "score": "Number",
+        "ethnicityAlt": "String",
+        "ethnicity": "String",
+        "lifted": "Boolean",
+        "countryIso2": "String",
+        "ethnicitiesTop": "Array"
+      },
+      "firstLastNameGeoToDiaspora": {
+        "script": "String",
+        "id": "String",
+        "firstName": "String",
+        "lastName": "String",
+        "score": "Number",
+        "ethnicityAlt": "String",
+        "ethnicity": "String",
+        "lifted": "Boolean",
+        "countryIso2": "String",
+        "ethnicitiesTop": "Array"
+      },
+      "script": "String"
+    }
+  ]
+}
 ```
 
 <h3 id="corridor-batch-responses">Response</h3>
@@ -769,7 +774,7 @@ curl --request POST \
   --header 'X-API-KEY: your-api-key' \
   --header 'Accept: application/json' \
   --header 'Content-Type: application/json' \
-  --data '[{"id":"String","name":"String"}]'
+  --data '{"personalNames":[{"id":"String","name":"String"}]}'
 ```
 
 ```java
@@ -777,7 +782,7 @@ HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/
   .header("Content-Type", "application/json")
   .header("Accept", "application/json")
   .header("X-API-KEY", "your-api-key")
-  .body("[{\"id\":\"String\",\"name\":\"String\"}]")
+  .body("{\"personalNames\":[{\"id\":\"String\",\"name\":\"String\"}]}")
   .asString();
 ```
 
@@ -786,12 +791,12 @@ import requests
 
 url = "https://v2.namsor.com/NamSorAPIv2/api2/json/countryBatch"
 
-payload = [
-    {
-        "id": "String",
-        "name": "String"
-    }
-]
+payload = {"personalNames": [
+        {
+            "id": "String",
+            "name": "String"
+        }
+    ]}
 headers = {
     "Content-Type": "application/json",
     "Accept": "application/json",
@@ -811,7 +816,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/countryBatch", {
     "Accept": "application/json",
     "X-API-KEY": "your-api-key"
   },
-  "body": "[{\"id\":\"String\",\"name\":\"String\"}]"
+  "body": "{\"personalNames\":[{\"id\":\"String\",\"name\":\"String\"}]}"
 })
 .then(response => {
   console.log(response.json());
@@ -828,12 +833,14 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/countryBatch", {
 > Body parameter
 
 ```json
-[
-  {
-    "id": "String",
-    "name": "String"
-  }
-]
+{
+  "personalNames": [
+    {
+      "id": "String",
+      "name": "String"
+    }
+  ]
+}
 ```
 
 *<u>Cost :</u> The processing of each name requires **10** credits.*
@@ -859,22 +866,24 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/countryBatch", {
 
 
 ```json
-[
-  {
-    "script": "String",
-    "id": "String",
-    "name": "String",
-    "score": "Number",
-    "country": "String",
-    "countryAlt": "String",
-    "region": "String",
-    "topRegion": "String",
-    "subRegion": "String",
-    "countriesTop": "Array",
-    "probabilityCalibrated": "Number",
-    "probabilityAltCalibrated": "Number"
-  }
-]
+{
+  "personalNames": [
+    {
+      "script": "String",
+      "id": "String",
+      "name": "String",
+      "score": "Number",
+      "country": "String",
+      "countryAlt": "String",
+      "region": "String",
+      "topRegion": "String",
+      "subRegion": "String",
+      "countriesTop": "Array",
+      "probabilityCalibrated": "Number",
+      "probabilityAltCalibrated": "Number"
+    }
+  ]
+}
 ```
 
 <h3 id="country-batch-responses">Response</h3>
@@ -1038,7 +1047,7 @@ curl --request POST \
   --header 'X-API-KEY: your-api-key' \
   --header 'Accept: application/json' \
   --header 'Content-Type: application/json' \
-  --data '[{"id":"String","firstName":"String","lastName":"String","countryIso2":"String"}]'
+  --data '{"personalNames":[{"id":"String","firstName":"String","lastName":"String","countryIso2":"String"}]}'
 ```
 
 ```java
@@ -1046,7 +1055,7 @@ HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/
   .header("Content-Type", "application/json")
   .header("Accept", "application/json")
   .header("X-API-KEY", "your-api-key")
-  .body("[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\",\"countryIso2\":\"String\"}]")
+  .body("{\"personalNames\":[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\",\"countryIso2\":\"String\"}]}")
   .asString();
 ```
 
@@ -1055,14 +1064,14 @@ import requests
 
 url = "https://v2.namsor.com/NamSorAPIv2/api2/json/diasporaBatch"
 
-payload = [
-    {
-        "id": "String",
-        "firstName": "String",
-        "lastName": "String",
-        "countryIso2": "String"
-    }
-]
+payload = {"personalNames": [
+        {
+            "id": "String",
+            "firstName": "String",
+            "lastName": "String",
+            "countryIso2": "String"
+        }
+    ]}
 headers = {
     "Content-Type": "application/json",
     "Accept": "application/json",
@@ -1082,7 +1091,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/diasporaBatch", {
     "Accept": "application/json",
     "X-API-KEY": "your-api-key"
   },
-  "body": "[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\",\"countryIso2\":\"String\"}]"
+  "body": "{\"personalNames\":[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\",\"countryIso2\":\"String\"}]}"
 })
 .then(response => {
   console.log(response.json());
@@ -1099,14 +1108,16 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/diasporaBatch", {
 > Body parameter
 
 ```json
-[
-  {
-    "id": "String",
-    "firstName": "String",
-    "lastName": "String",
-    "countryIso2": "String"
-  }
-]
+{
+  "personalNames": [
+    {
+      "id": "String",
+      "firstName": "String",
+      "lastName": "String",
+      "countryIso2": "String"
+    }
+  ]
+}
 ```
 
 *<u>Cost :</u> The processing of each name requires **20** credits.*
@@ -1134,20 +1145,22 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/diasporaBatch", {
 
 
 ```json
-[
-  {
-    "script": "String",
-    "id": "String",
-    "firstName": "String",
-    "lastName": "String",
-    "score": "Number",
-    "ethnicityAlt": "String",
-    "ethnicity": "String",
-    "lifted": "Boolean",
-    "countryIso2": "String",
-    "ethnicitiesTop": "Array"
-  }
-]
+{
+  "personalNames": [
+    {
+      "script": "String",
+      "id": "String",
+      "firstName": "String",
+      "lastName": "String",
+      "score": "Number",
+      "ethnicityAlt": "String",
+      "ethnicity": "String",
+      "lifted": "Boolean",
+      "countryIso2": "String",
+      "ethnicitiesTop": "Array"
+    }
+  ]
+}
 ```
 
 <h3 id="diaspora-batch-responses">Response</h3>
@@ -1303,7 +1316,7 @@ curl --request POST \
   --header 'X-API-KEY: your-api-key' \
   --header 'Accept: application/json' \
   --header 'Content-Type: application/json' \
-  --data '[{"id":"String","firstName":"String","lastName":"String"}]'
+  --data '{"personalNames":[{"id":"String","firstName":"String","lastName":"String"}]}'
 ```
 
 ```java
@@ -1311,7 +1324,7 @@ HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/
   .header("Content-Type", "application/json")
   .header("Accept", "application/json")
   .header("X-API-KEY", "your-api-key")
-  .body("[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\"}]")
+  .body("{\"personalNames\":[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\"}]}")
   .asString();
 ```
 
@@ -1320,13 +1333,13 @@ import requests
 
 url = "https://v2.namsor.com/NamSorAPIv2/api2/json/genderBatch"
 
-payload = [
-    {
-        "id": "String",
-        "firstName": "String",
-        "lastName": "String"
-    }
-]
+payload = {"personalNames": [
+        {
+            "id": "String",
+            "firstName": "String",
+            "lastName": "String"
+        }
+    ]}
 headers = {
     "Content-Type": "application/json",
     "Accept": "application/json",
@@ -1346,7 +1359,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderBatch", {
     "Accept": "application/json",
     "X-API-KEY": "your-api-key"
   },
-  "body": "[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\"}]"
+  "body": "{\"personalNames\":[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\"}]}"
 })
 .then(response => {
   console.log(response.json());
@@ -1363,13 +1376,15 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderBatch", {
 > Body parameter
 
 ```json
-[
-  {
-    "id": "String",
-    "firstName": "String",
-    "lastName": "String"
-  }
-]
+{
+  "personalNames": [
+    {
+      "id": "String",
+      "firstName": "String",
+      "lastName": "String"
+    }
+  ]
+}
 ```
 
 *<u>Cost :</u> The processing of each name requires **1** credit.*
@@ -1396,18 +1411,20 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderBatch", {
 
 
 ```json
-[
-  {
-    "script": "String",
-    "id": "String",
-    "firstName": "String",
-    "lastName": "String",
-    "likelyGender": "String",
-    "genderScale": "Number",
-    "score": "Number",
-    "probabilityCalibrated": "Number"
-  }
-]
+{
+  "personalNames": [
+    {
+      "script": "String",
+      "id": "String",
+      "firstName": "String",
+      "lastName": "String",
+      "likelyGender": "String",
+      "genderScale": "Number",
+      "score": "Number",
+      "probabilityCalibrated": "Number"
+    }
+  ]
+}
 ```
 
 <h3 id="gender-batch-responses">Response</h3>
@@ -1557,7 +1574,7 @@ curl --request POST \
   --header 'X-API-KEY: your-api-key' \
   --header 'Accept: application/json' \
   --header 'Content-Type: application/json' \
-  --data '[{"id":"String","name":"String"}]'
+  --data '{"personalNames":[{"id":"String","name":"String"}]}'
 ```
 
 ```java
@@ -1565,7 +1582,7 @@ HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/
   .header("Content-Type", "application/json")
   .header("Accept", "application/json")
   .header("X-API-KEY", "your-api-key")
-  .body("[{\"id\":\"String\",\"name\":\"String\"}]")
+  .body("{\"personalNames\":[{\"id\":\"String\",\"name\":\"String\"}]}")
   .asString();
 ```
 
@@ -1574,12 +1591,12 @@ import requests
 
 url = "https://v2.namsor.com/NamSorAPIv2/api2/json/genderFullBatch"
 
-payload = [
-    {
-        "id": "String",
-        "name": "String"
-    }
-]
+payload = {"personalNames": [
+        {
+            "id": "String",
+            "name": "String"
+        }
+    ]}
 headers = {
     "Content-Type": "application/json",
     "Accept": "application/json",
@@ -1599,7 +1616,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderFullBatch", {
     "Accept": "application/json",
     "X-API-KEY": "your-api-key"
   },
-  "body": "[{\"id\":\"String\",\"name\":\"String\"}]"
+  "body": "{\"personalNames\":[{\"id\":\"String\",\"name\":\"String\"}]}"
 })
 .then(response => {
   console.log(response.json());
@@ -1616,12 +1633,14 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderFullBatch", {
 > Body parameter
 
 ```json
-[
-  {
-    "id": "String",
-    "name": "String"
-  }
-]
+{
+  "personalNames": [
+    {
+      "id": "String",
+      "name": "String"
+    }
+  ]
+}
 ```
 
 *<u>Cost :</u> The processing of each name requires **1** credit.*
@@ -1647,17 +1666,19 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderFullBatch", {
 
 
 ```json
-[
-  {
-    "script": "String",
-    "id": "String",
-    "name": "String",
-    "likelyGender": "String",
-    "genderScale": "Number",
-    "score": "Number",
-    "probabilityCalibrated": "Number"
-  }
-]
+{
+  "personalNames": [
+    {
+      "script": "String",
+      "id": "String",
+      "name": "String",
+      "likelyGender": "String",
+      "genderScale": "Number",
+      "score": "Number",
+      "probabilityCalibrated": "Number"
+    }
+  ]
+}
 ```
 
 <h3 id="gender-full-batch-responses">Response</h3>
@@ -1808,7 +1829,7 @@ curl --request POST \
   --header 'X-API-KEY: your-api-key' \
   --header 'Accept: application/json' \
   --header 'Content-Type: application/json' \
-  --data '[{"id":"String","name":"String","countryIso2":"String"}]'
+  --data '{"personalNames":[{"id":"String","name":"String","countryIso2":"String"}]}'
 ```
 
 ```java
@@ -1816,7 +1837,7 @@ HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/
   .header("Content-Type", "application/json")
   .header("Accept", "application/json")
   .header("X-API-KEY", "your-api-key")
-  .body("[{\"id\":\"String\",\"name\":\"String\",\"countryIso2\":\"String\"}]")
+  .body("{\"personalNames\":[{\"id\":\"String\",\"name\":\"String\",\"countryIso2\":\"String\"}]}")
   .asString();
 ```
 
@@ -1825,13 +1846,13 @@ import requests
 
 url = "https://v2.namsor.com/NamSorAPIv2/api2/json/genderFullGeoBatch"
 
-payload = [
-    {
-        "id": "String",
-        "name": "String",
-        "countryIso2": "String"
-    }
-]
+payload = {"personalNames": [
+        {
+            "id": "String",
+            "name": "String",
+            "countryIso2": "String"
+        }
+    ]}
 headers = {
     "Content-Type": "application/json",
     "Accept": "application/json",
@@ -1851,7 +1872,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderFullGeoBatch", {
     "Accept": "application/json",
     "X-API-KEY": "your-api-key"
   },
-  "body": "[{\"id\":\"String\",\"name\":\"String\",\"countryIso2\":\"String\"}]"
+  "body": "{\"personalNames\":[{\"id\":\"String\",\"name\":\"String\",\"countryIso2\":\"String\"}]}"
 })
 .then(response => {
   console.log(response.json());
@@ -1868,13 +1889,15 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderFullGeoBatch", {
 > Body parameter
 
 ```json
-[
-  {
-    "id": "String",
-    "name": "String",
-    "countryIso2": "String"
-  }
-]
+{
+  "personalNames": [
+    {
+      "id": "String",
+      "name": "String",
+      "countryIso2": "String"
+    }
+  ]
+}
 ```
 
 *<u>Cost :</u> The processing of each name requires **1** credit.*
@@ -1901,17 +1924,19 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderFullGeoBatch", {
 
 
 ```json
-[
-  {
-    "script": "String",
-    "id": "String",
-    "name": "String",
-    "likelyGender": "String",
-    "genderScale": "Number",
-    "score": "Number",
-    "probabilityCalibrated": "Number"
-  }
-]
+{
+  "personalNames": [
+    {
+      "script": "String",
+      "id": "String",
+      "name": "String",
+      "likelyGender": "String",
+      "genderScale": "Number",
+      "score": "Number",
+      "probabilityCalibrated": "Number"
+    }
+  ]
+}
 ```
 
 <h3 id="gender-full-geo-batch-responses">Response</h3>
@@ -2066,7 +2091,7 @@ curl --request POST \
   --header 'X-API-KEY: your-api-key' \
   --header 'Accept: application/json' \
   --header 'Content-Type: application/json' \
-  --data '[{"id":"String","firstName":"String","lastName":"String","countryIso2":"String"}]'
+  --data '{"personalNames":[{"id":"String","firstName":"String","lastName":"String","countryIso2":"String"}]}'
 ```
 
 ```java
@@ -2074,7 +2099,7 @@ HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/
   .header("Content-Type", "application/json")
   .header("Accept", "application/json")
   .header("X-API-KEY", "your-api-key")
-  .body("[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\",\"countryIso2\":\"String\"}]")
+  .body("{\"personalNames\":[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\",\"countryIso2\":\"String\"}]}")
   .asString();
 ```
 
@@ -2083,14 +2108,14 @@ import requests
 
 url = "https://v2.namsor.com/NamSorAPIv2/api2/json/genderGeoBatch"
 
-payload = [
-    {
-        "id": "String",
-        "firstName": "String",
-        "lastName": "String",
-        "countryIso2": "String"
-    }
-]
+payload = {"personalNames": [
+        {
+            "id": "String",
+            "firstName": "String",
+            "lastName": "String",
+            "countryIso2": "String"
+        }
+    ]}
 headers = {
     "Content-Type": "application/json",
     "Accept": "application/json",
@@ -2110,7 +2135,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderGeoBatch", {
     "Accept": "application/json",
     "X-API-KEY": "your-api-key"
   },
-  "body": "[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\",\"countryIso2\":\"String\"}]"
+  "body": "{\"personalNames\":[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\",\"countryIso2\":\"String\"}]}"
 })
 .then(response => {
   console.log(response.json());
@@ -2127,14 +2152,16 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderGeoBatch", {
 > Body parameter
 
 ```json
-[
-  {
-    "id": "String",
-    "firstName": "String",
-    "lastName": "String",
-    "countryIso2": "String"
-  }
-]
+{
+  "personalNames": [
+    {
+      "id": "String",
+      "firstName": "String",
+      "lastName": "String",
+      "countryIso2": "String"
+    }
+  ]
+}
 ```
 
 *<u>Cost :</u> The processing of each name requires **1** credit.*
@@ -2162,18 +2189,20 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderGeoBatch", {
 
 
 ```json
-[
-  {
-    "script": "String",
-    "id": "String",
-    "firstName": "String",
-    "lastName": "String",
-    "likelyGender": "String",
-    "genderScale": "Number",
-    "score": "Number",
-    "probabilityCalibrated": "Number"
-  }
-]
+{
+  "personalNames": [
+    {
+      "script": "String",
+      "id": "String",
+      "firstName": "String",
+      "lastName": "String",
+      "likelyGender": "String",
+      "genderScale": "Number",
+      "score": "Number",
+      "probabilityCalibrated": "Number"
+    }
+  ]
+}
 ```
 
 <h3 id="gender-geo-batch-responses">Response</h3>
@@ -2337,7 +2366,7 @@ curl --request POST \
   --header 'X-API-KEY: your-api-key' \
   --header 'Accept: application/json' \
   --header 'Content-Type: application/json' \
-  --data '[{"id":"String","firstName":"String","lastName":"String"}]'
+  --data '{"personalNames":[{"id":"String","firstName":"String","lastName":"String"}]}'
 ```
 
 ```java
@@ -2345,7 +2374,7 @@ HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/
   .header("Content-Type", "application/json")
   .header("Accept", "application/json")
   .header("X-API-KEY", "your-api-key")
-  .body("[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\"}]")
+  .body("{\"personalNames\":[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\"}]}")
   .asString();
 ```
 
@@ -2354,13 +2383,13 @@ import requests
 
 url = "https://v2.namsor.com/NamSorAPIv2/api2/json/originBatch"
 
-payload = [
-    {
-        "id": "String",
-        "firstName": "String",
-        "lastName": "String"
-    }
-]
+payload = {"personalNames": [
+        {
+            "id": "String",
+            "firstName": "String",
+            "lastName": "String"
+        }
+    ]}
 headers = {
     "Content-Type": "application/json",
     "Accept": "application/json",
@@ -2380,7 +2409,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/originBatch", {
     "Accept": "application/json",
     "X-API-KEY": "your-api-key"
   },
-  "body": "[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\"}]"
+  "body": "{\"personalNames\":[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\"}]}"
 })
 .then(response => {
   console.log(response.json());
@@ -2397,13 +2426,15 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/originBatch", {
 > Body parameter
 
 ```json
-[
-  {
-    "id": "String",
-    "firstName": "String",
-    "lastName": "String"
-  }
-]
+{
+  "personalNames": [
+    {
+      "id": "String",
+      "firstName": "String",
+      "lastName": "String"
+    }
+  ]
+}
 ```
 
 *<u>Cost :</u> The processing of each name requires **10** credits.*
@@ -2430,23 +2461,25 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/originBatch", {
 
 
 ```json
-[
-  {
-    "script": "String",
-    "id": "String",
-    "firstName": "String",
-    "lastName": "String",
-    "countryOrigin": "String",
-    "countryOriginAlt": "String",
-    "countriesOriginTop": "Array",
-    "score": "Number",
-    "regionOrigin": "String",
-    "topRegionOrigin": "String",
-    "subRegionOrigin": "String",
-    "probabilityCalibrated": "Number",
-    "probabilityAltCalibrated": "Number"
-  }
-]
+{
+  "personalNames": [
+    {
+      "script": "String",
+      "id": "String",
+      "firstName": "String",
+      "lastName": "String",
+      "countryOrigin": "String",
+      "countryOriginAlt": "String",
+      "countriesOriginTop": "Array",
+      "score": "Number",
+      "regionOrigin": "String",
+      "topRegionOrigin": "String",
+      "subRegionOrigin": "String",
+      "probabilityCalibrated": "Number",
+      "probabilityAltCalibrated": "Number"
+    }
+  ]
+}
 ```
 
 <h3 id="origin-batch-responses">Response</h3>
@@ -2610,7 +2643,7 @@ curl --request POST \
   --header 'X-API-KEY: your-api-key' \
   --header 'Accept: application/json' \
   --header 'Content-Type: application/json' \
-  --data '[{"id":"String","name":"String"}]'
+  --data '{"personalNames":[{"id":"String","name":"String"}]}'
 ```
 
 ```java
@@ -2618,7 +2651,7 @@ HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/
   .header("Content-Type", "application/json")
   .header("Accept", "application/json")
   .header("X-API-KEY", "your-api-key")
-  .body("[{\"id\":\"String\",\"name\":\"String\"}]")
+  .body("{\"personalNames\":[{\"id\":\"String\",\"name\":\"String\"}]}")
   .asString();
 ```
 
@@ -2627,12 +2660,12 @@ import requests
 
 url = "https://v2.namsor.com/NamSorAPIv2/api2/json/parseNameBatch"
 
-payload = [
-    {
-        "id": "String",
-        "name": "String"
-    }
-]
+payload = {"personalNames": [
+        {
+            "id": "String",
+            "name": "String"
+        }
+    ]}
 headers = {
     "Content-Type": "application/json",
     "Accept": "application/json",
@@ -2652,7 +2685,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseNameBatch", {
     "Accept": "application/json",
     "X-API-KEY": "your-api-key"
   },
-  "body": "[{\"id\":\"String\",\"name\":\"String\"}]"
+  "body": "{\"personalNames\":[{\"id\":\"String\",\"name\":\"String\"}]}"
 })
 .then(response => {
   console.log(response.json());
@@ -2669,12 +2702,14 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseNameBatch", {
 > Body parameter
 
 ```json
-[
-  {
-    "id": "String",
-    "name": "String"
-  }
-]
+{
+  "personalNames": [
+    {
+      "id": "String",
+      "name": "String"
+    }
+  ]
+}
 ```
 
 *<u>Cost :</u> The processing of each name requires **1** credit.*
@@ -2700,22 +2735,24 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseNameBatch", {
 
 
 ```json
-[
-  {
-    "script": "String",
-    "id": "String",
-    "name": "String",
-    "nameParserType": "String",
-    "nameParserTypeAlt": "String",
-    "firstLastName": {
+{
+  "personalNames": [
+    {
       "script": "String",
       "id": "String",
-      "firstName": "String",
-      "lastName": "String"
-    },
-    "score": "Number"
-  }
-]
+      "name": "String",
+      "nameParserType": "String",
+      "nameParserTypeAlt": "String",
+      "firstLastName": {
+        "script": "String",
+        "id": "String",
+        "firstName": "String",
+        "lastName": "String"
+      },
+      "score": "Number"
+    }
+  ]
+}
 ```
 
 <h3 id="parse-name-batch-responses">Response</h3>
@@ -2879,7 +2916,7 @@ curl --request POST \
   --header 'X-API-KEY: your-api-key' \
   --header 'Accept: application/json' \
   --header 'Content-Type: application/json' \
-  --data '[{"id":"String","name":"String","countryIso2":"String"}]'
+  --data '{"personalNames":[{"id":"String","name":"String","countryIso2":"String"}]}'
 ```
 
 ```java
@@ -2887,7 +2924,7 @@ HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/
   .header("Content-Type", "application/json")
   .header("Accept", "application/json")
   .header("X-API-KEY", "your-api-key")
-  .body("[{\"id\":\"String\",\"name\":\"String\",\"countryIso2\":\"String\"}]")
+  .body("{\"personalNames\":[{\"id\":\"String\",\"name\":\"String\",\"countryIso2\":\"String\"}]}")
   .asString();
 ```
 
@@ -2896,13 +2933,13 @@ import requests
 
 url = "https://v2.namsor.com/NamSorAPIv2/api2/json/parseNameGeoBatch"
 
-payload = [
-    {
-        "id": "String",
-        "name": "String",
-        "countryIso2": "String"
-    }
-]
+payload = {"personalNames": [
+        {
+            "id": "String",
+            "name": "String",
+            "countryIso2": "String"
+        }
+    ]}
 headers = {
     "Content-Type": "application/json",
     "Accept": "application/json",
@@ -2922,7 +2959,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseNameGeoBatch", {
     "Accept": "application/json",
     "X-API-KEY": "your-api-key"
   },
-  "body": "[{\"id\":\"String\",\"name\":\"String\",\"countryIso2\":\"String\"}]"
+  "body": "{\"personalNames\":[{\"id\":\"String\",\"name\":\"String\",\"countryIso2\":\"String\"}]}"
 })
 .then(response => {
   console.log(response.json());
@@ -2939,13 +2976,15 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseNameGeoBatch", {
 > Body parameter
 
 ```json
-[
-  {
-    "id": "String",
-    "name": "String",
-    "countryIso2": "String"
-  }
-]
+{
+  "personalNames": [
+    {
+      "id": "String",
+      "name": "String",
+      "countryIso2": "String"
+    }
+  ]
+}
 ```
 
 *<u>Cost :</u> The processing of each name requires **1** credit.*
@@ -2972,22 +3011,24 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseNameGeoBatch", {
 
 
 ```json
-[
-  {
-    "script": "String",
-    "id": "String",
-    "name": "String",
-    "nameParserType": "String",
-    "nameParserTypeAlt": "String",
-    "firstLastName": {
+{
+  "personalNames": [
+    {
       "script": "String",
       "id": "String",
-      "firstName": "String",
-      "lastName": "String"
-    },
-    "score": "Number"
-  }
-]
+      "name": "String",
+      "nameParserType": "String",
+      "nameParserTypeAlt": "String",
+      "firstLastName": {
+        "script": "String",
+        "id": "String",
+        "firstName": "String",
+        "lastName": "String"
+      },
+      "score": "Number"
+    }
+  ]
+}
 ```
 
 <h3 id="parse-name-geo-batch-responses">Response</h3>
@@ -3148,7 +3189,7 @@ curl --request POST \
   --header 'X-API-KEY: your-api-key' \
   --header 'Accept: application/json' \
   --header 'Content-Type: application/json' \
-  --data '[{"id":"String","firstName":"String","lastName":"String","countryIso2":"String"}]'
+  --data '{"personalNames":[{"id":"String","firstName":"String","lastName":"String","countryIso2":"String"}]}'
 ```
 
 ```java
@@ -3156,7 +3197,7 @@ HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/
   .header("Content-Type", "application/json")
   .header("Accept", "application/json")
   .header("X-API-KEY", "your-api-key")
-  .body("[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\",\"countryIso2\":\"String\"}]")
+  .body("{\"personalNames\":[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\",\"countryIso2\":\"String\"}]}")
   .asString();
 ```
 
@@ -3165,14 +3206,14 @@ import requests
 
 url = "https://v2.namsor.com/NamSorAPIv2/api2/json/usRaceEthnicityBatch"
 
-payload = [
-    {
-        "id": "String",
-        "firstName": "String",
-        "lastName": "String",
-        "countryIso2": "String"
-    }
-]
+payload = {"personalNames": [
+        {
+            "id": "String",
+            "firstName": "String",
+            "lastName": "String",
+            "countryIso2": "String"
+        }
+    ]}
 headers = {
     "Content-Type": "application/json",
     "Accept": "application/json",
@@ -3192,7 +3233,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/usRaceEthnicityBatch", {
     "Accept": "application/json",
     "X-API-KEY": "your-api-key"
   },
-  "body": "[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\",\"countryIso2\":\"String\"}]"
+  "body": "{\"personalNames\":[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\",\"countryIso2\":\"String\"}]}"
 })
 .then(response => {
   console.log(response.json());
@@ -3209,14 +3250,16 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/usRaceEthnicityBatch", {
 > Body parameter
 
 ```json
-[
-  {
-    "id": "String",
-    "firstName": "String",
-    "lastName": "String",
-    "countryIso2": "String"
-  }
-]
+{
+  "personalNames": [
+    {
+      "id": "String",
+      "firstName": "String",
+      "lastName": "String",
+      "countryIso2": "String"
+    }
+  ]
+}
 ```
 
 *<u>Cost :</u> The processing of each name requires **10** credits.*
@@ -3244,20 +3287,22 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/usRaceEthnicityBatch", {
 
 
 ```json
-[
-  {
-    "script": "String",
-    "id": "String",
-    "firstName": "String",
-    "lastName": "String",
-    "raceEthnicityAlt": "String",
-    "raceEthnicity": "String",
-    "score": "Number",
-    "raceEthnicitiesTop": "Array",
-    "probabilityCalibrated": "Number",
-    "probabilityAltCalibrated": "Number"
-  }
-]
+{
+  "personalNames": [
+    {
+      "script": "String",
+      "id": "String",
+      "firstName": "String",
+      "lastName": "String",
+      "raceEthnicityAlt": "String",
+      "raceEthnicity": "String",
+      "score": "Number",
+      "raceEthnicitiesTop": "Array",
+      "probabilityCalibrated": "Number",
+      "probabilityAltCalibrated": "Number"
+    }
+  ]
+}
 ```
 
 <h3 id="us-race-and-ethnicity-batch-responses">Response</h3>
@@ -3419,7 +3464,7 @@ curl --request POST \
   --header 'X-API-KEY: your-api-key' \
   --header 'Accept: application/json' \
   --header 'Content-Type: application/json' \
-  --data '[{"id":"String","firstName":"String","lastName":"String","countryIso2":"String","zipCode":"String"}]'
+  --data '{"personalNames":[{"id":"String","firstName":"String","lastName":"String","countryIso2":"String","zipCode":"String"}]}'
 ```
 
 ```java
@@ -3427,7 +3472,7 @@ HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/
   .header("Content-Type", "application/json")
   .header("Accept", "application/json")
   .header("X-API-KEY", "your-api-key")
-  .body("[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\",\"countryIso2\":\"String\",\"zipCode\":\"String\"}]")
+  .body("{\"personalNames\":[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\",\"countryIso2\":\"String\",\"zipCode\":\"String\"}]}")
   .asString();
 ```
 
@@ -3436,15 +3481,15 @@ import requests
 
 url = "https://v2.namsor.com/NamSorAPIv2/api2/json/usZipRaceEthnicityBatch"
 
-payload = [
-    {
-        "id": "String",
-        "firstName": "String",
-        "lastName": "String",
-        "countryIso2": "String",
-        "zipCode": "String"
-    }
-]
+payload = {"personalNames": [
+        {
+            "id": "String",
+            "firstName": "String",
+            "lastName": "String",
+            "countryIso2": "String",
+            "zipCode": "String"
+        }
+    ]}
 headers = {
     "Content-Type": "application/json",
     "Accept": "application/json",
@@ -3464,7 +3509,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/usZipRaceEthnicityBatch", {
     "Accept": "application/json",
     "X-API-KEY": "your-api-key"
   },
-  "body": "[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\",\"countryIso2\":\"String\",\"zipCode\":\"String\"}]"
+  "body": "{\"personalNames\":[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\",\"countryIso2\":\"String\",\"zipCode\":\"String\"}]}"
 })
 .then(response => {
   console.log(response.json());
@@ -3481,15 +3526,17 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/usZipRaceEthnicityBatch", {
 > Body parameter
 
 ```json
-[
-  {
-    "id": "String",
-    "firstName": "String",
-    "lastName": "String",
-    "countryIso2": "String",
-    "zipCode": "String"
-  }
-]
+{
+  "personalNames": [
+    {
+      "id": "String",
+      "firstName": "String",
+      "lastName": "String",
+      "countryIso2": "String",
+      "zipCode": "String"
+    }
+  ]
+}
 ```
 
 *<u>Cost :</u> The processing of each name requires **10** credits.*
@@ -3518,20 +3565,22 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/usZipRaceEthnicityBatch", {
 
 
 ```json
-[
-  {
-    "script": "String",
-    "id": "String",
-    "firstName": "String",
-    "lastName": "String",
-    "raceEthnicityAlt": "String",
-    "raceEthnicity": "String",
-    "score": "Number",
-    "raceEthnicitiesTop": "Array",
-    "probabilityCalibrated": "Number",
-    "probabilityAltCalibrated": "Number"
-  }
-]
+{
+  "personalNames": [
+    {
+      "script": "String",
+      "id": "String",
+      "firstName": "String",
+      "lastName": "String",
+      "raceEthnicityAlt": "String",
+      "raceEthnicity": "String",
+      "score": "Number",
+      "raceEthnicitiesTop": "Array",
+      "probabilityCalibrated": "Number",
+      "probabilityAltCalibrated": "Number"
+    }
+  ]
+}
 ```
 
 <h3 id="us-zip-race-and-ethnicity-batch-responses">Response</h3>
@@ -3709,7 +3758,7 @@ curl --request POST \
   --header 'X-API-KEY: your-api-key' \
   --header 'Accept: application/json' \
   --header 'Content-Type: application/json' \
-  --data '[{"id":"String","firstName":"String","lastName":"String","phoneNumber":"String","origin":{"script":"String","id":"String","firstName":"String","lastName":"String","countryOrigin":"String","countryOriginAlt":"String","countriesOriginTop":"Array","score":"Number","regionOrigin":"String","topRegionOrigin":"String","subRegionOrigin":"String","probabilityCalibrated":"Number","probabilityAltCalibrated":"Number"}}]'
+  --data '{"personalNamesWithPhoneNumbers":[{"id":"String","firstName":"String","lastName":"String","phoneNumber":"String","origin":{"script":"String","id":"String","firstName":"String","lastName":"String","countryOrigin":"String","countryOriginAlt":"String","countriesOriginTop":"Array","score":"Number","regionOrigin":"String","topRegionOrigin":"String","subRegionOrigin":"String","probabilityCalibrated":"Number","probabilityAltCalibrated":"Number"}}]}'
 ```
 
 ```java
@@ -3717,7 +3766,7 @@ HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/
   .header("Content-Type", "application/json")
   .header("Accept", "application/json")
   .header("X-API-KEY", "your-api-key")
-  .body("[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\",\"phoneNumber\":\"String\",\"origin\":{\"script\":\"String\",\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\",\"countryOrigin\":\"String\",\"countryOriginAlt\":\"String\",\"countriesOriginTop\":\"Array\",\"score\":\"Number\",\"regionOrigin\":\"String\",\"topRegionOrigin\":\"String\",\"subRegionOrigin\":\"String\",\"probabilityCalibrated\":\"Number\",\"probabilityAltCalibrated\":\"Number\"}}]")
+  .body("{\"personalNamesWithPhoneNumbers\":[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\",\"phoneNumber\":\"String\",\"origin\":{\"script\":\"String\",\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\",\"countryOrigin\":\"String\",\"countryOriginAlt\":\"String\",\"countriesOriginTop\":\"Array\",\"score\":\"Number\",\"regionOrigin\":\"String\",\"topRegionOrigin\":\"String\",\"subRegionOrigin\":\"String\",\"probabilityCalibrated\":\"Number\",\"probabilityAltCalibrated\":\"Number\"}}]}")
   .asString();
 ```
 
@@ -3726,29 +3775,29 @@ import requests
 
 url = "https://v2.namsor.com/NamSorAPIv2/api2/json/phoneCodeBatch"
 
-payload = [
-    {
-        "id": "String",
-        "firstName": "String",
-        "lastName": "String",
-        "phoneNumber": "String",
-        "origin": {
-            "script": "String",
+payload = {"personalNamesWithPhoneNumbers": [
+        {
             "id": "String",
             "firstName": "String",
             "lastName": "String",
-            "countryOrigin": "String",
-            "countryOriginAlt": "String",
-            "countriesOriginTop": "Array",
-            "score": "Number",
-            "regionOrigin": "String",
-            "topRegionOrigin": "String",
-            "subRegionOrigin": "String",
-            "probabilityCalibrated": "Number",
-            "probabilityAltCalibrated": "Number"
+            "phoneNumber": "String",
+            "origin": {
+                "script": "String",
+                "id": "String",
+                "firstName": "String",
+                "lastName": "String",
+                "countryOrigin": "String",
+                "countryOriginAlt": "String",
+                "countriesOriginTop": "Array",
+                "score": "Number",
+                "regionOrigin": "String",
+                "topRegionOrigin": "String",
+                "subRegionOrigin": "String",
+                "probabilityCalibrated": "Number",
+                "probabilityAltCalibrated": "Number"
+            }
         }
-    }
-]
+    ]}
 headers = {
     "Content-Type": "application/json",
     "Accept": "application/json",
@@ -3768,7 +3817,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/phoneCodeBatch", {
     "Accept": "application/json",
     "X-API-KEY": "your-api-key"
   },
-  "body": "[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\",\"phoneNumber\":\"String\",\"origin\":{\"script\":\"String\",\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\",\"countryOrigin\":\"String\",\"countryOriginAlt\":\"String\",\"countriesOriginTop\":\"Array\",\"score\":\"Number\",\"regionOrigin\":\"String\",\"topRegionOrigin\":\"String\",\"subRegionOrigin\":\"String\",\"probabilityCalibrated\":\"Number\",\"probabilityAltCalibrated\":\"Number\"}}]"
+  "body": "{\"personalNamesWithPhoneNumbers\":[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\",\"phoneNumber\":\"String\",\"origin\":{\"script\":\"String\",\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\",\"countryOrigin\":\"String\",\"countryOriginAlt\":\"String\",\"countriesOriginTop\":\"Array\",\"score\":\"Number\",\"regionOrigin\":\"String\",\"topRegionOrigin\":\"String\",\"subRegionOrigin\":\"String\",\"probabilityCalibrated\":\"Number\",\"probabilityAltCalibrated\":\"Number\"}}]}"
 })
 .then(response => {
   console.log(response.json());
@@ -3785,29 +3834,31 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/phoneCodeBatch", {
 > Body parameter
 
 ```json
-[
-  {
-    "id": "String",
-    "firstName": "String",
-    "lastName": "String",
-    "phoneNumber": "String",
-    "origin": {
-      "script": "String",
+{
+  "personalNamesWithPhoneNumbers": [
+    {
       "id": "String",
       "firstName": "String",
       "lastName": "String",
-      "countryOrigin": "String",
-      "countryOriginAlt": "String",
-      "countriesOriginTop": "Array",
-      "score": "Number",
-      "regionOrigin": "String",
-      "topRegionOrigin": "String",
-      "subRegionOrigin": "String",
-      "probabilityCalibrated": "Number",
-      "probabilityAltCalibrated": "Number"
+      "phoneNumber": "String",
+      "origin": {
+        "script": "String",
+        "id": "String",
+        "firstName": "String",
+        "lastName": "String",
+        "countryOrigin": "String",
+        "countryOriginAlt": "String",
+        "countriesOriginTop": "Array",
+        "score": "Number",
+        "regionOrigin": "String",
+        "topRegionOrigin": "String",
+        "subRegionOrigin": "String",
+        "probabilityCalibrated": "Number",
+        "probabilityAltCalibrated": "Number"
+      }
     }
-  }
-]
+  ]
+}
 ```
 
 *<u>Cost :</u> The processing of each name requires **11** credits.*
@@ -3836,26 +3887,28 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/phoneCodeBatch", {
 
 
 ```json
-[
-  {
-    "script": "String",
-    "id": "String",
-    "firstName": "String",
-    "lastName": "String",
-    "internationalPhoneNumberVerified": "String",
-    "phoneCountryIso2Verified": "String",
-    "phoneCountryCode": "Integer",
-    "phoneCountryCodeAlt": "Integer",
-    "phoneCountryIso2": "String",
-    "phoneCountryIso2Alt": "String",
-    "originCountryIso2": "String",
-    "originCountryIso2Alt": "String",
-    "phoneNumber": "String",
-    "verified": "Boolean",
-    "score": "Number",
-    "countryIso2": "String"
-  }
-]
+{
+  "personalNamesWithPhoneNumbers": [
+    {
+      "script": "String",
+      "id": "String",
+      "firstName": "String",
+      "lastName": "String",
+      "internationalPhoneNumberVerified": "String",
+      "phoneCountryIso2Verified": "String",
+      "phoneCountryCode": "Integer",
+      "phoneCountryCodeAlt": "Integer",
+      "phoneCountryIso2": "String",
+      "phoneCountryIso2Alt": "String",
+      "originCountryIso2": "String",
+      "originCountryIso2Alt": "String",
+      "phoneNumber": "String",
+      "verified": "Boolean",
+      "score": "Number",
+      "countryIso2": "String"
+    }
+  ]
+}
 ```
 
 <h3 id="phone-code-batch-responses">Response</h3>
@@ -4037,7 +4090,7 @@ curl --request POST \
   --header 'X-API-KEY: your-api-key' \
   --header 'Accept: application/json' \
   --header 'Content-Type: application/json' \
-  --data '[{"id":"String","firstName":"String","lastName":"String","phoneNumber":"String","origin":{"script":"String","id":"String","firstName":"String","lastName":"String","countryOrigin":"String","countryOriginAlt":"String","countriesOriginTop":"Array","score":"Number","regionOrigin":"String","topRegionOrigin":"String","subRegionOrigin":"String","probabilityCalibrated":"Number","probabilityAltCalibrated":"Number"},"countryIso2":"String","countryIso2Alt":"String"}]'
+  --data '{"personalNamesWithPhoneNumbers":[{"id":"String","firstName":"String","lastName":"String","phoneNumber":"String","origin":{"script":"String","id":"String","firstName":"String","lastName":"String","countryOrigin":"String","countryOriginAlt":"String","countriesOriginTop":"Array","score":"Number","regionOrigin":"String","topRegionOrigin":"String","subRegionOrigin":"String","probabilityCalibrated":"Number","probabilityAltCalibrated":"Number"},"countryIso2":"String","countryIso2Alt":"String"}]}'
 ```
 
 ```java
@@ -4045,7 +4098,7 @@ HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/
   .header("Content-Type", "application/json")
   .header("Accept", "application/json")
   .header("X-API-KEY", "your-api-key")
-  .body("[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\",\"phoneNumber\":\"String\",\"origin\":{\"script\":\"String\",\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\",\"countryOrigin\":\"String\",\"countryOriginAlt\":\"String\",\"countriesOriginTop\":\"Array\",\"score\":\"Number\",\"regionOrigin\":\"String\",\"topRegionOrigin\":\"String\",\"subRegionOrigin\":\"String\",\"probabilityCalibrated\":\"Number\",\"probabilityAltCalibrated\":\"Number\"},\"countryIso2\":\"String\",\"countryIso2Alt\":\"String\"}]")
+  .body("{\"personalNamesWithPhoneNumbers\":[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\",\"phoneNumber\":\"String\",\"origin\":{\"script\":\"String\",\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\",\"countryOrigin\":\"String\",\"countryOriginAlt\":\"String\",\"countriesOriginTop\":\"Array\",\"score\":\"Number\",\"regionOrigin\":\"String\",\"topRegionOrigin\":\"String\",\"subRegionOrigin\":\"String\",\"probabilityCalibrated\":\"Number\",\"probabilityAltCalibrated\":\"Number\"},\"countryIso2\":\"String\",\"countryIso2Alt\":\"String\"}]}")
   .asString();
 ```
 
@@ -4054,31 +4107,31 @@ import requests
 
 url = "https://v2.namsor.com/NamSorAPIv2/api2/json/phoneCodeGeoBatch"
 
-payload = [
-    {
-        "id": "String",
-        "firstName": "String",
-        "lastName": "String",
-        "phoneNumber": "String",
-        "origin": {
-            "script": "String",
+payload = {"personalNamesWithPhoneNumbers": [
+        {
             "id": "String",
             "firstName": "String",
             "lastName": "String",
-            "countryOrigin": "String",
-            "countryOriginAlt": "String",
-            "countriesOriginTop": "Array",
-            "score": "Number",
-            "regionOrigin": "String",
-            "topRegionOrigin": "String",
-            "subRegionOrigin": "String",
-            "probabilityCalibrated": "Number",
-            "probabilityAltCalibrated": "Number"
-        },
-        "countryIso2": "String",
-        "countryIso2Alt": "String"
-    }
-]
+            "phoneNumber": "String",
+            "origin": {
+                "script": "String",
+                "id": "String",
+                "firstName": "String",
+                "lastName": "String",
+                "countryOrigin": "String",
+                "countryOriginAlt": "String",
+                "countriesOriginTop": "Array",
+                "score": "Number",
+                "regionOrigin": "String",
+                "topRegionOrigin": "String",
+                "subRegionOrigin": "String",
+                "probabilityCalibrated": "Number",
+                "probabilityAltCalibrated": "Number"
+            },
+            "countryIso2": "String",
+            "countryIso2Alt": "String"
+        }
+    ]}
 headers = {
     "Content-Type": "application/json",
     "Accept": "application/json",
@@ -4098,7 +4151,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/phoneCodeGeoBatch", {
     "Accept": "application/json",
     "X-API-KEY": "your-api-key"
   },
-  "body": "[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\",\"phoneNumber\":\"String\",\"origin\":{\"script\":\"String\",\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\",\"countryOrigin\":\"String\",\"countryOriginAlt\":\"String\",\"countriesOriginTop\":\"Array\",\"score\":\"Number\",\"regionOrigin\":\"String\",\"topRegionOrigin\":\"String\",\"subRegionOrigin\":\"String\",\"probabilityCalibrated\":\"Number\",\"probabilityAltCalibrated\":\"Number\"},\"countryIso2\":\"String\",\"countryIso2Alt\":\"String\"}]"
+  "body": "{\"personalNamesWithPhoneNumbers\":[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\",\"phoneNumber\":\"String\",\"origin\":{\"script\":\"String\",\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\",\"countryOrigin\":\"String\",\"countryOriginAlt\":\"String\",\"countriesOriginTop\":\"Array\",\"score\":\"Number\",\"regionOrigin\":\"String\",\"topRegionOrigin\":\"String\",\"subRegionOrigin\":\"String\",\"probabilityCalibrated\":\"Number\",\"probabilityAltCalibrated\":\"Number\"},\"countryIso2\":\"String\",\"countryIso2Alt\":\"String\"}]}"
 })
 .then(response => {
   console.log(response.json());
@@ -4115,31 +4168,33 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/phoneCodeGeoBatch", {
 > Body parameter
 
 ```json
-[
-  {
-    "id": "String",
-    "firstName": "String",
-    "lastName": "String",
-    "phoneNumber": "String",
-    "origin": {
-      "script": "String",
+{
+  "personalNamesWithPhoneNumbers": [
+    {
       "id": "String",
       "firstName": "String",
       "lastName": "String",
-      "countryOrigin": "String",
-      "countryOriginAlt": "String",
-      "countriesOriginTop": "Array",
-      "score": "Number",
-      "regionOrigin": "String",
-      "topRegionOrigin": "String",
-      "subRegionOrigin": "String",
-      "probabilityCalibrated": "Number",
-      "probabilityAltCalibrated": "Number"
-    },
-    "countryIso2": "String",
-    "countryIso2Alt": "String"
-  }
-]
+      "phoneNumber": "String",
+      "origin": {
+        "script": "String",
+        "id": "String",
+        "firstName": "String",
+        "lastName": "String",
+        "countryOrigin": "String",
+        "countryOriginAlt": "String",
+        "countriesOriginTop": "Array",
+        "score": "Number",
+        "regionOrigin": "String",
+        "topRegionOrigin": "String",
+        "subRegionOrigin": "String",
+        "probabilityCalibrated": "Number",
+        "probabilityAltCalibrated": "Number"
+      },
+      "countryIso2": "String",
+      "countryIso2Alt": "String"
+    }
+  ]
+}
 ```
 
 *<u>Cost :</u> The processing of each name requires **11** credits.*
@@ -4170,26 +4225,28 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/phoneCodeGeoBatch", {
 
 
 ```json
-[
-  {
-    "script": "String",
-    "id": "String",
-    "firstName": "String",
-    "lastName": "String",
-    "internationalPhoneNumberVerified": "String",
-    "phoneCountryIso2Verified": "String",
-    "phoneCountryCode": "Integer",
-    "phoneCountryCodeAlt": "Integer",
-    "phoneCountryIso2": "String",
-    "phoneCountryIso2Alt": "String",
-    "originCountryIso2": "String",
-    "originCountryIso2Alt": "String",
-    "phoneNumber": "String",
-    "verified": "Boolean",
-    "score": "Number",
-    "countryIso2": "String"
-  }
-]
+{
+  "personalNamesWithPhoneNumbers": [
+    {
+      "script": "String",
+      "id": "String",
+      "firstName": "String",
+      "lastName": "String",
+      "internationalPhoneNumberVerified": "String",
+      "phoneCountryIso2Verified": "String",
+      "phoneCountryCode": "Integer",
+      "phoneCountryCodeAlt": "Integer",
+      "phoneCountryIso2": "String",
+      "phoneCountryIso2Alt": "String",
+      "originCountryIso2": "String",
+      "originCountryIso2Alt": "String",
+      "phoneNumber": "String",
+      "verified": "Boolean",
+      "score": "Number",
+      "countryIso2": "String"
+    }
+  ]
+}
 ```
 
 <h3 id="phone-code-geo-batch-responses">Response</h3>
@@ -4498,7 +4555,7 @@ curl --request POST \
   --header 'X-API-KEY: your-api-key' \
   --header 'Accept: application/json' \
   --header 'Content-Type: application/json' \
-  --data '[{"id":"String","firstName":"String","lastName":"String"}]'
+  --data '{"personalNames":[{"id":"String","firstName":"String","lastName":"String"}]}'
 ```
 
 ```java
@@ -4506,7 +4563,7 @@ HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/
   .header("Content-Type", "application/json")
   .header("Accept", "application/json")
   .header("X-API-KEY", "your-api-key")
-  .body("[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\"}]")
+  .body("{\"personalNames\":[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\"}]}")
   .asString();
 ```
 
@@ -4515,13 +4572,13 @@ import requests
 
 url = "https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameCandidatesBatch"
 
-payload = [
-    {
-        "id": "String",
-        "firstName": "String",
-        "lastName": "String"
-    }
-]
+payload = {"personalNames": [
+        {
+            "id": "String",
+            "firstName": "String",
+            "lastName": "String"
+        }
+    ]}
 headers = {
     "Content-Type": "application/json",
     "Accept": "application/json",
@@ -4541,7 +4598,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameCandidatesBatch", 
     "Accept": "application/json",
     "X-API-KEY": "your-api-key"
   },
-  "body": "[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\"}]"
+  "body": "{\"personalNames\":[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\"}]}"
 })
 .then(response => {
   console.log(response.json());
@@ -4558,13 +4615,15 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameCandidatesBatch", 
 > Body parameter
 
 ```json
-[
-  {
-    "id": "String",
-    "firstName": "String",
-    "lastName": "String"
-  }
-]
+{
+  "personalNames": [
+    {
+      "id": "String",
+      "firstName": "String",
+      "lastName": "String"
+    }
+  ]
+}
 ```
 
 *<u>Cost :</u> The processing of each name requires **1** credit.*
@@ -4591,23 +4650,25 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameCandidatesBatch", 
 
 
 ```json
-[
-  {
-    "script": "String",
-    "id": "String",
-    "firstName": "String",
-    "lastName": "String",
-    "orderOption": "String",
-    "matchCandidates": [
-      {
-        "candidateName": "String",
-        "probability": "Number",
-        "predScoreGivenName": "Number",
-        "predScoreFamilyName": "Number"
-      }
-    ]
-  }
-]
+{
+  "namesAndMatchCandidates": [
+    {
+      "script": "String",
+      "id": "String",
+      "firstName": "String",
+      "lastName": "String",
+      "orderOption": "String",
+      "matchCandidates": [
+        {
+          "candidateName": "String",
+          "probability": "Number",
+          "predScoreGivenName": "Number",
+          "predScoreFamilyName": "Number"
+        }
+      ]
+    }
+  ]
+}
 ```
 
 <h3 id="chinese-name-candidates-batch-responses">Response</h3>
@@ -4649,7 +4710,7 @@ curl --request POST \
   --header 'X-API-KEY: your-api-key' \
   --header 'Accept: application/json' \
   --header 'Content-Type: application/json' \
-  --data '[{"id":"String","firstName":"String","lastName":"String","gender":"String"}]'
+  --data '{"personalNames":[{"id":"String","firstName":"String","lastName":"String","gender":"String"}]}'
 ```
 
 ```java
@@ -4657,7 +4718,7 @@ HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/
   .header("Content-Type", "application/json")
   .header("Accept", "application/json")
   .header("X-API-KEY", "your-api-key")
-  .body("[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\",\"gender\":\"String\"}]")
+  .body("{\"personalNames\":[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\",\"gender\":\"String\"}]}")
   .asString();
 ```
 
@@ -4666,14 +4727,14 @@ import requests
 
 url = "https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameCandidatesGenderBatch"
 
-payload = [
-    {
-        "id": "String",
-        "firstName": "String",
-        "lastName": "String",
-        "gender": "String"
-    }
-]
+payload = {"personalNames": [
+        {
+            "id": "String",
+            "firstName": "String",
+            "lastName": "String",
+            "gender": "String"
+        }
+    ]}
 headers = {
     "Content-Type": "application/json",
     "Accept": "application/json",
@@ -4693,7 +4754,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameCandidatesGenderBa
     "Accept": "application/json",
     "X-API-KEY": "your-api-key"
   },
-  "body": "[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\",\"gender\":\"String\"}]"
+  "body": "{\"personalNames\":[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\",\"gender\":\"String\"}]}"
 })
 .then(response => {
   console.log(response.json());
@@ -4710,14 +4771,16 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameCandidatesGenderBa
 > Body parameter
 
 ```json
-[
-  {
-    "id": "String",
-    "firstName": "String",
-    "lastName": "String",
-    "gender": "String"
-  }
-]
+{
+  "personalNames": [
+    {
+      "id": "String",
+      "firstName": "String",
+      "lastName": "String",
+      "gender": "String"
+    }
+  ]
+}
 ```
 
 *<u>Cost :</u> The processing of each name requires **1** credit.*
@@ -4745,23 +4808,25 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameCandidatesGenderBa
 
 
 ```json
-[
-  {
-    "script": "String",
-    "id": "String",
-    "firstName": "String",
-    "lastName": "String",
-    "orderOption": "String",
-    "matchCandidates": [
-      {
-        "candidateName": "String",
-        "probability": "Number",
-        "predScoreGivenName": "Number",
-        "predScoreFamilyName": "Number"
-      }
-    ]
-  }
-]
+{
+  "namesAndMatchCandidates": [
+    {
+      "script": "String",
+      "id": "String",
+      "firstName": "String",
+      "lastName": "String",
+      "orderOption": "String",
+      "matchCandidates": [
+        {
+          "candidateName": "String",
+          "probability": "Number",
+          "predScoreGivenName": "Number",
+          "predScoreFamilyName": "Number"
+        }
+      ]
+    }
+  ]
+}
 ```
 
 <h3 id="chinese-name-candidates-gender-batch-responses">Response</h3>
@@ -5029,7 +5094,7 @@ curl --request POST \
   --header 'X-API-KEY: your-api-key' \
   --header 'Accept: application/json' \
   --header 'Content-Type: application/json' \
-  --data '[{"id":"String","name1":{"id":"String","firstName":"String","lastName":"String"},"name2":{"id":"String","name":"String"}}]'
+  --data '{"personalNames":[{"id":"String","name1":{"id":"String","firstName":"String","lastName":"String"},"name2":{"id":"String","name":"String"}}]}'
 ```
 
 ```java
@@ -5037,7 +5102,7 @@ HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/
   .header("Content-Type", "application/json")
   .header("Accept", "application/json")
   .header("X-API-KEY", "your-api-key")
-  .body("[{\"id\":\"String\",\"name1\":{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\"},\"name2\":{\"id\":\"String\",\"name\":\"String\"}}]")
+  .body("{\"personalNames\":[{\"id\":\"String\",\"name1\":{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\"},\"name2\":{\"id\":\"String\",\"name\":\"String\"}}]}")
   .asString();
 ```
 
@@ -5046,20 +5111,20 @@ import requests
 
 url = "https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameMatchBatch"
 
-payload = [
-    {
-        "id": "String",
-        "name1": {
+payload = {"personalNames": [
+        {
             "id": "String",
-            "firstName": "String",
-            "lastName": "String"
-        },
-        "name2": {
-            "id": "String",
-            "name": "String"
+            "name1": {
+                "id": "String",
+                "firstName": "String",
+                "lastName": "String"
+            },
+            "name2": {
+                "id": "String",
+                "name": "String"
+            }
         }
-    }
-]
+    ]}
 headers = {
     "Content-Type": "application/json",
     "Accept": "application/json",
@@ -5079,7 +5144,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameMatchBatch", {
     "Accept": "application/json",
     "X-API-KEY": "your-api-key"
   },
-  "body": "[{\"id\":\"String\",\"name1\":{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\"},\"name2\":{\"id\":\"String\",\"name\":\"String\"}}]"
+  "body": "{\"personalNames\":[{\"id\":\"String\",\"name1\":{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\"},\"name2\":{\"id\":\"String\",\"name\":\"String\"}}]}"
 })
 .then(response => {
   console.log(response.json());
@@ -5096,20 +5161,22 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameMatchBatch", {
 > Body parameter
 
 ```json
-[
-  {
-    "id": "String",
-    "name1": {
+{
+  "personalNames": [
+    {
       "id": "String",
-      "firstName": "String",
-      "lastName": "String"
-    },
-    "name2": {
-      "id": "String",
-      "name": "String"
+      "name1": {
+        "id": "String",
+        "firstName": "String",
+        "lastName": "String"
+      },
+      "name2": {
+        "id": "String",
+        "name": "String"
+      }
     }
-  }
-]
+  ]
+}
 ```
 
 *<u>Cost :</u> The processing of each name requires **1** credit.*
@@ -5136,14 +5203,16 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameMatchBatch", {
 
 
 ```json
-[
-  {
-    "script": "String",
-    "id": "String",
-    "matchStatus": "String",
-    "score": "Number"
-  }
-]
+{
+  "matchedNames": [
+    {
+      "script": "String",
+      "id": "String",
+      "matchStatus": "String",
+      "score": "Number"
+    }
+  ]
+}
 ```
 
 <h3 id="chinese-name-match-batch-responses">Response</h3>
@@ -5289,7 +5358,7 @@ curl --request POST \
   --header 'X-API-KEY: your-api-key' \
   --header 'Accept: application/json' \
   --header 'Content-Type: application/json' \
-  --data '[{"id":"String","name":"String"}]'
+  --data '{"personalNames":[{"id":"String","name":"String"}]}'
 ```
 
 ```java
@@ -5297,7 +5366,7 @@ HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/
   .header("Content-Type", "application/json")
   .header("Accept", "application/json")
   .header("X-API-KEY", "your-api-key")
-  .body("[{\"id\":\"String\",\"name\":\"String\"}]")
+  .body("{\"personalNames\":[{\"id\":\"String\",\"name\":\"String\"}]}")
   .asString();
 ```
 
@@ -5306,12 +5375,12 @@ import requests
 
 url = "https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseNameBatch"
 
-payload = [
-    {
-        "id": "String",
-        "name": "String"
-    }
-]
+payload = {"personalNames": [
+        {
+            "id": "String",
+            "name": "String"
+        }
+    ]}
 headers = {
     "Content-Type": "application/json",
     "Accept": "application/json",
@@ -5331,7 +5400,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseNameBatch", {
     "Accept": "application/json",
     "X-API-KEY": "your-api-key"
   },
-  "body": "[{\"id\":\"String\",\"name\":\"String\"}]"
+  "body": "{\"personalNames\":[{\"id\":\"String\",\"name\":\"String\"}]}"
 })
 .then(response => {
   console.log(response.json());
@@ -5348,12 +5417,14 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseNameBatch", {
 > Body parameter
 
 ```json
-[
-  {
-    "id": "String",
-    "name": "String"
-  }
-]
+{
+  "personalNames": [
+    {
+      "id": "String",
+      "name": "String"
+    }
+  ]
+}
 ```
 
 *<u>Cost :</u> The processing of each name requires **1** credit.*
@@ -5379,17 +5450,19 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseNameBatch", {
 
 
 ```json
-[
-  {
-    "script": "String",
-    "id": "String",
-    "name": "String",
-    "likelyGender": "String",
-    "genderScale": "Number",
-    "score": "Number",
-    "probabilityCalibrated": "Number"
-  }
-]
+{
+  "personalNames": [
+    {
+      "script": "String",
+      "id": "String",
+      "name": "String",
+      "likelyGender": "String",
+      "genderScale": "Number",
+      "score": "Number",
+      "probabilityCalibrated": "Number"
+    }
+  ]
+}
 ```
 
 <h3 id="gender-chinese-name-batch-responses">Response</h3>
@@ -5542,7 +5615,7 @@ curl --request POST \
   --header 'X-API-KEY: your-api-key' \
   --header 'Accept: application/json' \
   --header 'Content-Type: application/json' \
-  --data '[{"id":"String","firstName":"String","lastName":"String"}]'
+  --data '{"personalNames":[{"id":"String","firstName":"String","lastName":"String"}]}'
 ```
 
 ```java
@@ -5550,7 +5623,7 @@ HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/
   .header("Content-Type", "application/json")
   .header("Accept", "application/json")
   .header("X-API-KEY", "your-api-key")
-  .body("[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\"}]")
+  .body("{\"personalNames\":[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\"}]}")
   .asString();
 ```
 
@@ -5559,13 +5632,13 @@ import requests
 
 url = "https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseNamePinyinBatch"
 
-payload = [
-    {
-        "id": "String",
-        "firstName": "String",
-        "lastName": "String"
-    }
-]
+payload = {"personalNames": [
+        {
+            "id": "String",
+            "firstName": "String",
+            "lastName": "String"
+        }
+    ]}
 headers = {
     "Content-Type": "application/json",
     "Accept": "application/json",
@@ -5585,7 +5658,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseNamePinyinBatch"
     "Accept": "application/json",
     "X-API-KEY": "your-api-key"
   },
-  "body": "[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\"}]"
+  "body": "{\"personalNames\":[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\"}]}"
 })
 .then(response => {
   console.log(response.json());
@@ -5602,13 +5675,15 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseNamePinyinBatch"
 > Body parameter
 
 ```json
-[
-  {
-    "id": "String",
-    "firstName": "String",
-    "lastName": "String"
-  }
-]
+{
+  "personalNames": [
+    {
+      "id": "String",
+      "firstName": "String",
+      "lastName": "String"
+    }
+  ]
+}
 ```
 
 *<u>Cost :</u> The processing of each name requires **1** credit.*
@@ -5635,18 +5710,20 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseNamePinyinBatch"
 
 
 ```json
-[
-  {
-    "script": "String",
-    "id": "String",
-    "firstName": "String",
-    "lastName": "String",
-    "likelyGender": "String",
-    "genderScale": "Number",
-    "score": "Number",
-    "probabilityCalibrated": "Number"
-  }
-]
+{
+  "personalNames": [
+    {
+      "script": "String",
+      "id": "String",
+      "firstName": "String",
+      "lastName": "String",
+      "likelyGender": "String",
+      "genderScale": "Number",
+      "score": "Number",
+      "probabilityCalibrated": "Number"
+    }
+  ]
+}
 ```
 
 <h3 id="gender-chinese-name-pinyin-batch-responses">Response</h3>
@@ -5805,7 +5882,7 @@ curl --request POST \
   --header 'X-API-KEY: your-api-key' \
   --header 'Accept: application/json' \
   --header 'Content-Type: application/json' \
-  --data '[{"id":"String","name":"String"}]'
+  --data '{"personalNames":[{"id":"String","name":"String"}]}'
 ```
 
 ```java
@@ -5813,7 +5890,7 @@ HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/
   .header("Content-Type", "application/json")
   .header("Accept", "application/json")
   .header("X-API-KEY", "your-api-key")
-  .body("[{\"id\":\"String\",\"name\":\"String\"}]")
+  .body("{\"personalNames\":[{\"id\":\"String\",\"name\":\"String\"}]}")
   .asString();
 ```
 
@@ -5822,12 +5899,12 @@ import requests
 
 url = "https://v2.namsor.com/NamSorAPIv2/api2/json/parseChineseNameBatch"
 
-payload = [
-    {
-        "id": "String",
-        "name": "String"
-    }
-]
+payload = {"personalNames": [
+        {
+            "id": "String",
+            "name": "String"
+        }
+    ]}
 headers = {
     "Content-Type": "application/json",
     "Accept": "application/json",
@@ -5847,7 +5924,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseChineseNameBatch", {
     "Accept": "application/json",
     "X-API-KEY": "your-api-key"
   },
-  "body": "[{\"id\":\"String\",\"name\":\"String\"}]"
+  "body": "{\"personalNames\":[{\"id\":\"String\",\"name\":\"String\"}]}"
 })
 .then(response => {
   console.log(response.json());
@@ -5864,12 +5941,14 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseChineseNameBatch", {
 > Body parameter
 
 ```json
-[
-  {
-    "id": "String",
-    "name": "String"
-  }
-]
+{
+  "personalNames": [
+    {
+      "id": "String",
+      "name": "String"
+    }
+  ]
+}
 ```
 
 *<u>Cost :</u> The processing of each name requires **1** credit.*
@@ -5895,22 +5974,24 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseChineseNameBatch", {
 
 
 ```json
-[
-  {
-    "script": "String",
-    "id": "String",
-    "name": "String",
-    "nameParserType": "String",
-    "nameParserTypeAlt": "String",
-    "firstLastName": {
+{
+  "personalNames": [
+    {
       "script": "String",
       "id": "String",
-      "firstName": "String",
-      "lastName": "String"
-    },
-    "score": "Number"
-  }
-]
+      "name": "String",
+      "nameParserType": "String",
+      "nameParserTypeAlt": "String",
+      "firstLastName": {
+        "script": "String",
+        "id": "String",
+        "firstName": "String",
+        "lastName": "String"
+      },
+      "score": "Number"
+    }
+  ]
+}
 ```
 
 <h3 id="parse-chinese-name-batch-responses">Response</h3>
@@ -6072,7 +6153,7 @@ curl --request POST \
   --header 'X-API-KEY: your-api-key' \
   --header 'Accept: application/json' \
   --header 'Content-Type: application/json' \
-  --data '[{"id":"String","name":"String"}]'
+  --data '{"personalNames":[{"id":"String","name":"String"}]}'
 ```
 
 ```java
@@ -6080,7 +6161,7 @@ HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/
   .header("Content-Type", "application/json")
   .header("Accept", "application/json")
   .header("X-API-KEY", "your-api-key")
-  .body("[{\"id\":\"String\",\"name\":\"String\"}]")
+  .body("{\"personalNames\":[{\"id\":\"String\",\"name\":\"String\"}]}")
   .asString();
 ```
 
@@ -6089,12 +6170,12 @@ import requests
 
 url = "https://v2.namsor.com/NamSorAPIv2/api2/json/pinyinChineseNameBatch"
 
-payload = [
-    {
-        "id": "String",
-        "name": "String"
-    }
-]
+payload = {"personalNames": [
+        {
+            "id": "String",
+            "name": "String"
+        }
+    ]}
 headers = {
     "Content-Type": "application/json",
     "Accept": "application/json",
@@ -6114,7 +6195,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/pinyinChineseNameBatch", {
     "Accept": "application/json",
     "X-API-KEY": "your-api-key"
   },
-  "body": "[{\"id\":\"String\",\"name\":\"String\"}]"
+  "body": "{\"personalNames\":[{\"id\":\"String\",\"name\":\"String\"}]}"
 })
 .then(response => {
   console.log(response.json());
@@ -6131,12 +6212,14 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/pinyinChineseNameBatch", {
 > Body parameter
 
 ```json
-[
-  {
-    "id": "String",
-    "name": "String"
-  }
-]
+{
+  "personalNames": [
+    {
+      "id": "String",
+      "name": "String"
+    }
+  ]
+}
 ```
 
 *<u>Cost :</u> The processing of each name requires **1** credit.*
@@ -6162,22 +6245,24 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/pinyinChineseNameBatch", {
 
 
 ```json
-[
-  {
-    "script": "String",
-    "id": "String",
-    "name": "String",
-    "nameParserType": "String",
-    "nameParserTypeAlt": "String",
-    "firstLastName": {
+{
+  "personalNames": [
+    {
       "script": "String",
       "id": "String",
-      "firstName": "String",
-      "lastName": "String"
-    },
-    "score": "Number"
-  }
-]
+      "name": "String",
+      "nameParserType": "String",
+      "nameParserTypeAlt": "String",
+      "firstLastName": {
+        "script": "String",
+        "id": "String",
+        "firstName": "String",
+        "lastName": "String"
+      },
+      "score": "Number"
+    }
+  ]
+}
 ```
 
 <h3 id="pinyin-chinese-name-batch-responses">Response</h3>
@@ -6334,7 +6419,7 @@ curl --request POST \
   --header 'X-API-KEY: your-api-key' \
   --header 'Accept: application/json' \
   --header 'Content-Type: application/json' \
-  --data '[{"id":"String","name":"String"}]'
+  --data '{"personalNames":[{"id":"String","name":"String"}]}'
 ```
 
 ```java
@@ -6342,7 +6427,7 @@ HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/
   .header("Content-Type", "application/json")
   .header("Accept", "application/json")
   .header("X-API-KEY", "your-api-key")
-  .body("[{\"id\":\"String\",\"name\":\"String\"}]")
+  .body("{\"personalNames\":[{\"id\":\"String\",\"name\":\"String\"}]}")
   .asString();
 ```
 
@@ -6351,12 +6436,12 @@ import requests
 
 url = "https://v2.namsor.com/NamSorAPIv2/api2/json/genderJapaneseNameFullBatch"
 
-payload = [
-    {
-        "id": "String",
-        "name": "String"
-    }
-]
+payload = {"personalNames": [
+        {
+            "id": "String",
+            "name": "String"
+        }
+    ]}
 headers = {
     "Content-Type": "application/json",
     "Accept": "application/json",
@@ -6376,7 +6461,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderJapaneseNameFullBatch",
     "Accept": "application/json",
     "X-API-KEY": "your-api-key"
   },
-  "body": "[{\"id\":\"String\",\"name\":\"String\"}]"
+  "body": "{\"personalNames\":[{\"id\":\"String\",\"name\":\"String\"}]}"
 })
 .then(response => {
   console.log(response.json());
@@ -6393,12 +6478,14 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderJapaneseNameFullBatch",
 > Body parameter
 
 ```json
-[
-  {
-    "id": "String",
-    "name": "String"
-  }
-]
+{
+  "personalNames": [
+    {
+      "id": "String",
+      "name": "String"
+    }
+  ]
+}
 ```
 
 *<u>Cost :</u> The processing of each name requires **1** credit.*
@@ -6424,17 +6511,19 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderJapaneseNameFullBatch",
 
 
 ```json
-[
-  {
-    "script": "String",
-    "id": "String",
-    "name": "String",
-    "likelyGender": "String",
-    "genderScale": "Number",
-    "score": "Number",
-    "probabilityCalibrated": "Number"
-  }
-]
+{
+  "personalNames": [
+    {
+      "script": "String",
+      "id": "String",
+      "name": "String",
+      "likelyGender": "String",
+      "genderScale": "Number",
+      "score": "Number",
+      "probabilityCalibrated": "Number"
+    }
+  ]
+}
 ```
 
 <h3 id="gender-japanese-name-full-batch-responses">Response</h3>
@@ -6587,7 +6676,7 @@ curl --request POST \
   --header 'X-API-KEY: your-api-key' \
   --header 'Accept: application/json' \
   --header 'Content-Type: application/json' \
-  --data '[{"id":"String","firstName":"String","lastName":"String"}]'
+  --data '{"personalNames":[{"id":"String","firstName":"String","lastName":"String"}]}'
 ```
 
 ```java
@@ -6595,7 +6684,7 @@ HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/
   .header("Content-Type", "application/json")
   .header("Accept", "application/json")
   .header("X-API-KEY", "your-api-key")
-  .body("[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\"}]")
+  .body("{\"personalNames\":[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\"}]}")
   .asString();
 ```
 
@@ -6604,13 +6693,13 @@ import requests
 
 url = "https://v2.namsor.com/NamSorAPIv2/api2/json/genderJapaneseNameBatch"
 
-payload = [
-    {
-        "id": "String",
-        "firstName": "String",
-        "lastName": "String"
-    }
-]
+payload = {"personalNames": [
+        {
+            "id": "String",
+            "firstName": "String",
+            "lastName": "String"
+        }
+    ]}
 headers = {
     "Content-Type": "application/json",
     "Accept": "application/json",
@@ -6630,7 +6719,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderJapaneseNameBatch", {
     "Accept": "application/json",
     "X-API-KEY": "your-api-key"
   },
-  "body": "[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\"}]"
+  "body": "{\"personalNames\":[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\"}]}"
 })
 .then(response => {
   console.log(response.json());
@@ -6647,13 +6736,15 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderJapaneseNameBatch", {
 > Body parameter
 
 ```json
-[
-  {
-    "id": "String",
-    "firstName": "String",
-    "lastName": "String"
-  }
-]
+{
+  "personalNames": [
+    {
+      "id": "String",
+      "firstName": "String",
+      "lastName": "String"
+    }
+  ]
+}
 ```
 
 *<u>Cost :</u> The processing of each name requires **1** credit.*
@@ -6680,18 +6771,20 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderJapaneseNameBatch", {
 
 
 ```json
-[
-  {
-    "script": "String",
-    "id": "String",
-    "firstName": "String",
-    "lastName": "String",
-    "likelyGender": "String",
-    "genderScale": "Number",
-    "score": "Number",
-    "probabilityCalibrated": "Number"
-  }
-]
+{
+  "personalNames": [
+    {
+      "script": "String",
+      "id": "String",
+      "firstName": "String",
+      "lastName": "String",
+      "likelyGender": "String",
+      "genderScale": "Number",
+      "score": "Number",
+      "probabilityCalibrated": "Number"
+    }
+  ]
+}
 ```
 
 <h3 id="gender-japanese-name-pinyin-batch-responses">Response</h3>
@@ -6731,7 +6824,7 @@ curl --request POST \
   --header 'X-API-KEY: your-api-key' \
   --header 'Accept: application/json' \
   --header 'Content-Type: application/json' \
-  --data '[{"id":"String","firstName":"String","lastName":"String","gender":"String"}]'
+  --data '{"personalNames":[{"id":"String","firstName":"String","lastName":"String","gender":"String"}]}'
 ```
 
 ```java
@@ -6739,7 +6832,7 @@ HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/
   .header("Content-Type", "application/json")
   .header("Accept", "application/json")
   .header("X-API-KEY", "your-api-key")
-  .body("[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\",\"gender\":\"String\"}]")
+  .body("{\"personalNames\":[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\",\"gender\":\"String\"}]}")
   .asString();
 ```
 
@@ -6748,14 +6841,14 @@ import requests
 
 url = "https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameGenderKanjiCandidatesBatch"
 
-payload = [
-    {
-        "id": "String",
-        "firstName": "String",
-        "lastName": "String",
-        "gender": "String"
-    }
-]
+payload = {"personalNames": [
+        {
+            "id": "String",
+            "firstName": "String",
+            "lastName": "String",
+            "gender": "String"
+        }
+    ]}
 headers = {
     "Content-Type": "application/json",
     "Accept": "application/json",
@@ -6775,7 +6868,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameGenderKanjiCandid
     "Accept": "application/json",
     "X-API-KEY": "your-api-key"
   },
-  "body": "[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\",\"gender\":\"String\"}]"
+  "body": "{\"personalNames\":[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\",\"gender\":\"String\"}]}"
 })
 .then(response => {
   console.log(response.json());
@@ -6792,14 +6885,16 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameGenderKanjiCandid
 > Body parameter
 
 ```json
-[
-  {
-    "id": "String",
-    "firstName": "String",
-    "lastName": "String",
-    "gender": "String"
-  }
-]
+{
+  "personalNames": [
+    {
+      "id": "String",
+      "firstName": "String",
+      "lastName": "String",
+      "gender": "String"
+    }
+  ]
+}
 ```
 
 *<u>Cost :</u> The processing of each name requires **1** credit.*
@@ -6827,23 +6922,25 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameGenderKanjiCandid
 
 
 ```json
-[
-  {
-    "script": "String",
-    "id": "String",
-    "firstName": "String",
-    "lastName": "String",
-    "orderOption": "String",
-    "matchCandidates": [
-      {
-        "candidateName": "String",
-        "probability": "Number",
-        "predScoreGivenName": "Number",
-        "predScoreFamilyName": "Number"
-      }
-    ]
-  }
-]
+{
+  "namesAndMatchCandidates": [
+    {
+      "script": "String",
+      "id": "String",
+      "firstName": "String",
+      "lastName": "String",
+      "orderOption": "String",
+      "matchCandidates": [
+        {
+          "candidateName": "String",
+          "probability": "Number",
+          "predScoreGivenName": "Number",
+          "predScoreFamilyName": "Number"
+        }
+      ]
+    }
+  ]
+}
 ```
 
 <h3 id="japanese-name-gender-kanji-candidates-batch-responses">Response</h3>
@@ -7129,7 +7226,7 @@ curl --request POST \
   --header 'X-API-KEY: your-api-key' \
   --header 'Accept: application/json' \
   --header 'Content-Type: application/json' \
-  --data '[{"id":"String","firstName":"String","lastName":"String"}]'
+  --data '{"personalNames":[{"id":"String","firstName":"String","lastName":"String"}]}'
 ```
 
 ```java
@@ -7137,7 +7234,7 @@ HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/
   .header("Content-Type", "application/json")
   .header("Accept", "application/json")
   .header("X-API-KEY", "your-api-key")
-  .body("[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\"}]")
+  .body("{\"personalNames\":[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\"}]}")
   .asString();
 ```
 
@@ -7146,13 +7243,13 @@ import requests
 
 url = "https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameKanjiCandidatesBatch"
 
-payload = [
-    {
-        "id": "String",
-        "firstName": "String",
-        "lastName": "String"
-    }
-]
+payload = {"personalNames": [
+        {
+            "id": "String",
+            "firstName": "String",
+            "lastName": "String"
+        }
+    ]}
 headers = {
     "Content-Type": "application/json",
     "Accept": "application/json",
@@ -7172,7 +7269,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameKanjiCandidatesBa
     "Accept": "application/json",
     "X-API-KEY": "your-api-key"
   },
-  "body": "[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\"}]"
+  "body": "{\"personalNames\":[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\"}]}"
 })
 .then(response => {
   console.log(response.json());
@@ -7189,13 +7286,15 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameKanjiCandidatesBa
 > Body parameter
 
 ```json
-[
-  {
-    "id": "String",
-    "firstName": "String",
-    "lastName": "String"
-  }
-]
+{
+  "personalNames": [
+    {
+      "id": "String",
+      "firstName": "String",
+      "lastName": "String"
+    }
+  ]
+}
 ```
 
 *<u>Cost :</u> The processing of each name requires **1** credit.*
@@ -7222,23 +7321,25 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameKanjiCandidatesBa
 
 
 ```json
-[
-  {
-    "script": "String",
-    "id": "String",
-    "firstName": "String",
-    "lastName": "String",
-    "orderOption": "String",
-    "matchCandidates": [
-      {
-        "candidateName": "String",
-        "probability": "Number",
-        "predScoreGivenName": "Number",
-        "predScoreFamilyName": "Number"
-      }
-    ]
-  }
-]
+{
+  "namesAndMatchCandidates": [
+    {
+      "script": "String",
+      "id": "String",
+      "firstName": "String",
+      "lastName": "String",
+      "orderOption": "String",
+      "matchCandidates": [
+        {
+          "candidateName": "String",
+          "probability": "Number",
+          "predScoreGivenName": "Number",
+          "predScoreFamilyName": "Number"
+        }
+      ]
+    }
+  ]
+}
 ```
 
 <h3 id="japanese-name-kanji-candidates-batch-responses">Response</h3>
@@ -7401,7 +7502,7 @@ curl --request POST \
   --header 'X-API-KEY: your-api-key' \
   --header 'Accept: application/json' \
   --header 'Content-Type: application/json' \
-  --data '[{"id":"String","firstName":"String","lastName":"String"}]'
+  --data '{"personalNames":[{"id":"String","firstName":"String","lastName":"String"}]}'
 ```
 
 ```java
@@ -7409,7 +7510,7 @@ HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/
   .header("Content-Type", "application/json")
   .header("Accept", "application/json")
   .header("X-API-KEY", "your-api-key")
-  .body("[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\"}]")
+  .body("{\"personalNames\":[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\"}]}")
   .asString();
 ```
 
@@ -7418,13 +7519,13 @@ import requests
 
 url = "https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameLatinCandidatesBatch"
 
-payload = [
-    {
-        "id": "String",
-        "firstName": "String",
-        "lastName": "String"
-    }
-]
+payload = {"personalNames": [
+        {
+            "id": "String",
+            "firstName": "String",
+            "lastName": "String"
+        }
+    ]}
 headers = {
     "Content-Type": "application/json",
     "Accept": "application/json",
@@ -7444,7 +7545,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameLatinCandidatesBa
     "Accept": "application/json",
     "X-API-KEY": "your-api-key"
   },
-  "body": "[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\"}]"
+  "body": "{\"personalNames\":[{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\"}]}"
 })
 .then(response => {
   console.log(response.json());
@@ -7461,13 +7562,15 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameLatinCandidatesBa
 > Body parameter
 
 ```json
-[
-  {
-    "id": "String",
-    "firstName": "String",
-    "lastName": "String"
-  }
-]
+{
+  "personalNames": [
+    {
+      "id": "String",
+      "firstName": "String",
+      "lastName": "String"
+    }
+  ]
+}
 ```
 
 *<u>Cost :</u> The processing of each name requires **1** credit.*
@@ -7494,23 +7597,25 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameLatinCandidatesBa
 
 
 ```json
-[
-  {
-    "script": "String",
-    "id": "String",
-    "firstName": "String",
-    "lastName": "String",
-    "orderOption": "String",
-    "matchCandidates": [
-      {
-        "candidateName": "String",
-        "probability": "Number",
-        "predScoreGivenName": "Number",
-        "predScoreFamilyName": "Number"
-      }
-    ]
-  }
-]
+{
+  "namesAndMatchCandidates": [
+    {
+      "script": "String",
+      "id": "String",
+      "firstName": "String",
+      "lastName": "String",
+      "orderOption": "String",
+      "matchCandidates": [
+        {
+          "candidateName": "String",
+          "probability": "Number",
+          "predScoreGivenName": "Number",
+          "predScoreFamilyName": "Number"
+        }
+      ]
+    }
+  ]
+}
 ```
 
 <h3 id="japanese-name-latin-candidates-batch-responses">Response</h3>
@@ -7660,7 +7765,7 @@ curl --request POST \
   --header 'X-API-KEY: your-api-key' \
   --header 'Accept: application/json' \
   --header 'Content-Type: application/json' \
-  --data '[{"id":"String","name1":{"id":"String","firstName":"String","lastName":"String"},"name2":{"id":"String","name":"String"}}]'
+  --data '{"personalNames":[{"id":"String","name1":{"id":"String","firstName":"String","lastName":"String"},"name2":{"id":"String","name":"String"}}]}'
 ```
 
 ```java
@@ -7668,7 +7773,7 @@ HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/
   .header("Content-Type", "application/json")
   .header("Accept", "application/json")
   .header("X-API-KEY", "your-api-key")
-  .body("[{\"id\":\"String\",\"name1\":{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\"},\"name2\":{\"id\":\"String\",\"name\":\"String\"}}]")
+  .body("{\"personalNames\":[{\"id\":\"String\",\"name1\":{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\"},\"name2\":{\"id\":\"String\",\"name\":\"String\"}}]}")
   .asString();
 ```
 
@@ -7677,20 +7782,20 @@ import requests
 
 url = "https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameMatchBatch"
 
-payload = [
-    {
-        "id": "String",
-        "name1": {
+payload = {"personalNames": [
+        {
             "id": "String",
-            "firstName": "String",
-            "lastName": "String"
-        },
-        "name2": {
-            "id": "String",
-            "name": "String"
+            "name1": {
+                "id": "String",
+                "firstName": "String",
+                "lastName": "String"
+            },
+            "name2": {
+                "id": "String",
+                "name": "String"
+            }
         }
-    }
-]
+    ]}
 headers = {
     "Content-Type": "application/json",
     "Accept": "application/json",
@@ -7710,7 +7815,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameMatchBatch", {
     "Accept": "application/json",
     "X-API-KEY": "your-api-key"
   },
-  "body": "[{\"id\":\"String\",\"name1\":{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\"},\"name2\":{\"id\":\"String\",\"name\":\"String\"}}]"
+  "body": "{\"personalNames\":[{\"id\":\"String\",\"name1\":{\"id\":\"String\",\"firstName\":\"String\",\"lastName\":\"String\"},\"name2\":{\"id\":\"String\",\"name\":\"String\"}}]}"
 })
 .then(response => {
   console.log(response.json());
@@ -7727,20 +7832,22 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameMatchBatch", {
 > Body parameter
 
 ```json
-[
-  {
-    "id": "String",
-    "name1": {
+{
+  "personalNames": [
+    {
       "id": "String",
-      "firstName": "String",
-      "lastName": "String"
-    },
-    "name2": {
-      "id": "String",
-      "name": "String"
+      "name1": {
+        "id": "String",
+        "firstName": "String",
+        "lastName": "String"
+      },
+      "name2": {
+        "id": "String",
+        "name": "String"
+      }
     }
-  }
-]
+  ]
+}
 ```
 
 *<u>Cost :</u> The processing of each name requires **1** credit.*
@@ -7767,14 +7874,16 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameMatchBatch", {
 
 
 ```json
-[
-  {
-    "script": "String",
-    "id": "String",
-    "matchStatus": "String",
-    "score": "Number"
-  }
-]
+{
+  "matchedNames": [
+    {
+      "script": "String",
+      "id": "String",
+      "matchStatus": "String",
+      "score": "Number"
+    }
+  ]
+}
 ```
 
 <h3 id="japanese-name-match-batch-responses">Response</h3>
@@ -8031,7 +8140,7 @@ curl --request POST \
   --header 'X-API-KEY: your-api-key' \
   --header 'Accept: application/json' \
   --header 'Content-Type: application/json' \
-  --data '[{"id":"String","name":"String"}]'
+  --data '{"personalNames":[{"id":"String","name":"String"}]}'
 ```
 
 ```java
@@ -8039,7 +8148,7 @@ HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/
   .header("Content-Type", "application/json")
   .header("Accept", "application/json")
   .header("X-API-KEY", "your-api-key")
-  .body("[{\"id\":\"String\",\"name\":\"String\"}]")
+  .body("{\"personalNames\":[{\"id\":\"String\",\"name\":\"String\"}]}")
   .asString();
 ```
 
@@ -8048,12 +8157,12 @@ import requests
 
 url = "https://v2.namsor.com/NamSorAPIv2/api2/json/parseJapaneseNameBatch"
 
-payload = [
-    {
-        "id": "String",
-        "name": "String"
-    }
-]
+payload = {"personalNames": [
+        {
+            "id": "String",
+            "name": "String"
+        }
+    ]}
 headers = {
     "Content-Type": "application/json",
     "Accept": "application/json",
@@ -8073,7 +8182,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseJapaneseNameBatch", {
     "Accept": "application/json",
     "X-API-KEY": "your-api-key"
   },
-  "body": "[{\"id\":\"String\",\"name\":\"String\"}]"
+  "body": "{\"personalNames\":[{\"id\":\"String\",\"name\":\"String\"}]}"
 })
 .then(response => {
   console.log(response.json());
@@ -8090,12 +8199,14 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseJapaneseNameBatch", {
 > Body parameter
 
 ```json
-[
-  {
-    "id": "String",
-    "name": "String"
-  }
-]
+{
+  "personalNames": [
+    {
+      "id": "String",
+      "name": "String"
+    }
+  ]
+}
 ```
 
 *<u>Cost :</u> The processing of each name requires **1** credit.*
@@ -8121,22 +8232,24 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseJapaneseNameBatch", {
 
 
 ```json
-[
-  {
-    "script": "String",
-    "id": "String",
-    "name": "String",
-    "nameParserType": "String",
-    "nameParserTypeAlt": "String",
-    "firstLastName": {
+{
+  "personalNames": [
+    {
       "script": "String",
       "id": "String",
-      "firstName": "String",
-      "lastName": "String"
-    },
-    "score": "Number"
-  }
-]
+      "name": "String",
+      "nameParserType": "String",
+      "nameParserTypeAlt": "String",
+      "firstLastName": {
+        "script": "String",
+        "id": "String",
+        "firstName": "String",
+        "lastName": "String"
+      },
+      "score": "Number"
+    }
+  ]
+}
 ```
 
 <h3 id="parse-japanese-name-batch-responses">Response</h3>
@@ -8558,28 +8671,30 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/apiUsageHistory", {
 
 
 ```json
-[
-  {
-    "apiKey": {
-      "apiKey": "String",
-      "userId": "String",
-      "admin": "Boolean",
-      "vetted": "Boolean",
-      "learnable": "Boolean",
-      "anonymized": "Boolean",
-      "partner": "Boolean",
-      "striped": "Boolean",
-      "corporate": "Boolean",
-      "disabled": "Boolean"
-    },
-    "apiService": "String",
-    "createdDateTime": "Integer",
-    "totalUsage": "Integer",
-    "lastFlushedDateTime": "Integer",
-    "lastUsedDateTime": "Integer",
-    "serviceFeaturesUsage": "Object"
-  }
-]
+{
+  "detailedUsage": [
+    {
+      "apiKey": {
+        "apiKey": "String",
+        "userId": "String",
+        "admin": "Boolean",
+        "vetted": "Boolean",
+        "learnable": "Boolean",
+        "anonymized": "Boolean",
+        "partner": "Boolean",
+        "striped": "Boolean",
+        "corporate": "Boolean",
+        "disabled": "Boolean"
+      },
+      "apiService": "String",
+      "createdDateTime": "Integer",
+      "totalUsage": "Integer",
+      "lastFlushedDateTime": "Integer",
+      "lastUsedDateTime": "Integer",
+      "serviceFeaturesUsage": "Object"
+    }
+  ]
+}
 ```
 
 <h3 id="api-usage-history-responses">Response</h3>
@@ -8829,13 +8944,15 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/apiServices", {
 
 
 ```json
-[
-  {
-    "serviceName": "String",
-    "serviceGroup": "String",
-    "costInUnits": "Integer"
-  }
-]
+{
+  "apiServices": [
+    {
+      "serviceName": "String",
+      "serviceGroup": "String",
+      "costInUnits": "Integer"
+    }
+  ]
+}
 ```
 
 <h3 id="available-services-responses">Response</h3>
@@ -9236,7 +9353,7 @@ curl --request POST \
   --header 'X-API-KEY: your-api-key' \
   --header 'Accept: application/json' \
   --header 'Content-Type: application/json' \
-  --data '[{"id":"String","name":"String"}]'
+  --data '{"properNouns":[{"id":"String","name":"String"}]}'
 ```
 
 ```java
@@ -9244,7 +9361,7 @@ HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/
   .header("Content-Type", "application/json")
   .header("Accept", "application/json")
   .header("X-API-KEY", "your-api-key")
-  .body("[{\"id\":\"String\",\"name\":\"String\"}]")
+  .body("{\"properNouns\":[{\"id\":\"String\",\"name\":\"String\"}]}")
   .asString();
 ```
 
@@ -9253,12 +9370,12 @@ import requests
 
 url = "https://v2.namsor.com/NamSorAPIv2/api2/json/nameTypeBatch"
 
-payload = [
-    {
-        "id": "String",
-        "name": "String"
-    }
-]
+payload = {"properNouns": [
+        {
+            "id": "String",
+            "name": "String"
+        }
+    ]}
 headers = {
     "Content-Type": "application/json",
     "Accept": "application/json",
@@ -9278,7 +9395,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/nameTypeBatch", {
     "Accept": "application/json",
     "X-API-KEY": "your-api-key"
   },
-  "body": "[{\"id\":\"String\",\"name\":\"String\"}]"
+  "body": "{\"properNouns\":[{\"id\":\"String\",\"name\":\"String\"}]}"
 })
 .then(response => {
   console.log(response.json());
@@ -9295,12 +9412,14 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/nameTypeBatch", {
 > Body parameter
 
 ```json
-[
-  {
-    "id": "String",
-    "name": "String"
-  }
-]
+{
+  "properNouns": [
+    {
+      "id": "String",
+      "name": "String"
+    }
+  ]
+}
 ```
 
 *<u>Cost :</u> The processing of each name requires **1** credit.*
@@ -9326,16 +9445,18 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/nameTypeBatch", {
 
 
 ```json
-[
-  {
-    "script": "String",
-    "id": "String",
-    "name": "String",
-    "commonType": "String",
-    "commonTypeAlt": "String",
-    "score": "Number"
-  }
-]
+{
+  "properNouns": [
+    {
+      "script": "String",
+      "id": "String",
+      "name": "String",
+      "commonType": "String",
+      "commonTypeAlt": "String",
+      "score": "Number"
+    }
+  ]
+}
 ```
 
 <h3 id="name-type-batch-responses">Response</h3>
@@ -9483,7 +9604,7 @@ curl --request POST \
   --header 'X-API-KEY: your-api-key' \
   --header 'Accept: application/json' \
   --header 'Content-Type: application/json' \
-  --data '[{"id":"String","name":"String","countryIso2":"String"}]'
+  --data '{"properNouns":[{"id":"String","name":"String","countryIso2":"String"}]}'
 ```
 
 ```java
@@ -9491,7 +9612,7 @@ HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/
   .header("Content-Type", "application/json")
   .header("Accept", "application/json")
   .header("X-API-KEY", "your-api-key")
-  .body("[{\"id\":\"String\",\"name\":\"String\",\"countryIso2\":\"String\"}]")
+  .body("{\"properNouns\":[{\"id\":\"String\",\"name\":\"String\",\"countryIso2\":\"String\"}]}")
   .asString();
 ```
 
@@ -9500,13 +9621,13 @@ import requests
 
 url = "https://v2.namsor.com/NamSorAPIv2/api2/json/nameTypeGeoBatch"
 
-payload = [
-    {
-        "id": "String",
-        "name": "String",
-        "countryIso2": "String"
-    }
-]
+payload = {"properNouns": [
+        {
+            "id": "String",
+            "name": "String",
+            "countryIso2": "String"
+        }
+    ]}
 headers = {
     "Content-Type": "application/json",
     "Accept": "application/json",
@@ -9526,7 +9647,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/nameTypeGeoBatch", {
     "Accept": "application/json",
     "X-API-KEY": "your-api-key"
   },
-  "body": "[{\"id\":\"String\",\"name\":\"String\",\"countryIso2\":\"String\"}]"
+  "body": "{\"properNouns\":[{\"id\":\"String\",\"name\":\"String\",\"countryIso2\":\"String\"}]}"
 })
 .then(response => {
   console.log(response.json());
@@ -9543,13 +9664,15 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/nameTypeGeoBatch", {
 > Body parameter
 
 ```json
-[
-  {
-    "id": "String",
-    "name": "String",
-    "countryIso2": "String"
-  }
-]
+{
+  "properNouns": [
+    {
+      "id": "String",
+      "name": "String",
+      "countryIso2": "String"
+    }
+  ]
+}
 ```
 
 *<u>Cost :</u> The processing of each name requires **1** credit.*
@@ -9576,16 +9699,18 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/nameTypeGeoBatch", {
 
 
 ```json
-[
-  {
-    "script": "String",
-    "id": "String",
-    "name": "String",
-    "commonType": "String",
-    "commonTypeAlt": "String",
-    "score": "Number"
-  }
-]
+{
+  "properNouns": [
+    {
+      "script": "String",
+      "id": "String",
+      "name": "String",
+      "commonType": "String",
+      "commonTypeAlt": "String",
+      "score": "Number"
+    }
+  ]
+}
 ```
 
 <h3 id="name-type-geo-batch-responses">Response</h3>
