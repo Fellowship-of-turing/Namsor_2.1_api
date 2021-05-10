@@ -8,13 +8,21 @@ let formatOpenapi = require('./scripts/formatOpenapi');
 let mdConvert = require('./scripts/mdConvert');
 
 /////////////////////////////
-// Log levels
+// Func Options
 /////////////////////////////
-let log = {
+let opt = {
+  // Log options
   req_no_params: false,
   res_no_schema: false,
   replace_outofbounds: false,
   replace_notarget: false,
+  // Inject examples
+  inject_ex: true,
+  intro_includes: [
+    'information.md',
+    'authentication.md',
+    'errors.md',
+  ],
 }
 
 /////////////////////////////
@@ -26,7 +34,7 @@ let targetFile = 'openapi/openapi.json';
 const fileData = fs.readFileSync(targetFile, 'utf8');
 const swaggerFile = JSON.parse(fileData);
 
-let format = formatOpenapi(swaggerFile, log)
+let format = formatOpenapi(swaggerFile, opt)
 
 let store = format.store;
 let swagFile = format.swaggerFile;
@@ -37,10 +45,6 @@ let swagFile = format.swaggerFile;
 
 // Widdershins Options
 const wsOptions = {
-  includes: [
-    'errors.md',
-    'authentication.md',
-  ],
   language_tabs: [
     { 'shell': "Shell" },
     { 'java': "Java" },
@@ -71,5 +75,5 @@ const wsOptions = {
   ]
 };
 
-mdConvert(swagFile, wsOptions, store, log)
+mdConvert(swagFile, wsOptions, store, opt)
 

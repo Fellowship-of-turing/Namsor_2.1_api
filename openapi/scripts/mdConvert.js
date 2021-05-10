@@ -15,7 +15,7 @@ let nestedObjects = [];
 
 let nbspMulti = '&nbsp;&nbsp;&nbsp;&nbsp;';
 
-let mdConvert = (swaggerFile, wsOptions, store, log) => {
+let mdConvert = (swaggerFile, wsOptions, store, opt) => {
 
   let routeMethods = store.routeMethods;
   let routeCosts = store.routeCosts;
@@ -69,16 +69,10 @@ let mdConvert = (swaggerFile, wsOptions, store, log) => {
           target.length &&
           (indexTarget + target.length) > endIndex
         ) {
-          // console.log('input: ', input);
-          // console.log('indexTarget: ', indexTarget);
-          // console.log('target.length: ', target.length);
-          // console.log('(indexTarget + target.length): ', (indexTarget + target.length));
-          // console.log('startIndex: ', startIndex);
-          // console.log('endIndex: ', endIndex);
-          if (log.replace_outofbounds) console.log(`\u001b[31mError\u001b[m\nRoute Replace - target "${target}" in ${route} is out of bounds`);
+          if (opt.replace_outofbounds) console.log(`\u001b[31mError\u001b[m\nRoute Replace - target "${target}" in ${route} is out of bounds`);
         }
         else if (indexTarget === -1) {
-          if (log.replace_notarget) console.log(`\u001b[31mError\u001b[m\nRoute Replace - unable to find target "${target}" in ${route}`);
+          if (opt.replace_notarget) console.log(`\u001b[31mError\u001b[m\nRoute Replace - unable to find target "${target}" in ${route}`);
         }
         else {
           dirtyMD = `${dirtyMD.slice(0, indexTarget)}${input}${dirtyMD.slice(indexTarget + target.length, dirtyMD.length)}`
@@ -102,9 +96,9 @@ let mdConvert = (swaggerFile, wsOptions, store, log) => {
 
       let reqTag = '!{request-table-tag}';
       let resTag = '!{response-table-tag}';
-      let reqBodyArray = '*The HTTP request body is required to be an array of objects.*';
+      let reqBodyArray = '*The HTTP request body is required to be a nested array of objects.*';
       let reqBodyObject = '*The HTTP request body is required to be an object.*';
-      let resBodyArray = '*The HTTP response body is an array of objects.*';
+      let resBodyArray = '*The HTTP response body is a nested array of objects.*';
       let resBodyObject = '*The HTTP response body is an object.*';
 
       let routes = Object.keys(swaggerFile.paths);
@@ -303,14 +297,9 @@ let mdConvert = (swaggerFile, wsOptions, store, log) => {
       let responseTitle = '> The above command returns JSON structured like this:';
       mdReplace('> Example responses', responseTitle);
 
-      let includeFiles = [
-        'information.md',
-        'authentication.md',
-        'errors.md',
-      ];
-
+      // Insert include files into document
       let contentToInject = '# Introduction\n\n';
-      includeFiles.forEach(subFile => {
+      opt.intro_includes.forEach(subFile => {
         let getFile = fs.readFileSync(`source/_includes/${subFile}`, 'utf8');
         contentToInject = `${contentToInject}\n\n${getFile}`;
       });
@@ -337,9 +326,10 @@ let mdConvert = (swaggerFile, wsOptions, store, log) => {
         },
       };
 
+      // Insert key authentication in code examples
       Object.keys(apiKeyTags).forEach(lang => {
         let keyParam = apiKeyTags[lang];
-        let escapedExpression = keyParam.target.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+        let escapedExpression = keyParam.target.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
         if (lang == 'python') {
           let targetLength = keyParam.target.length;
           mdReplace(escapedExpression, `{\n ${keyParam.target.slice(1, targetLength)},\n${keyParam.header}\n`);

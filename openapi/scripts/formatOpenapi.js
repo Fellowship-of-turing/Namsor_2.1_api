@@ -2,11 +2,11 @@
 let helpers = require('./helpers');
 let capitalize = helpers.capitalize;
 
-const fetch = require('node-fetch');
 
 // Imports
 const fs = require('fs');
 let routeNames = require('../config/routeNames');
+let apiExamples = require('../config/apiExamples');
 
 /***************************************************/
 /**************** Openapi.json Mod ****************/
@@ -20,10 +20,8 @@ let routeMethods = {};
 let routeCosts = {};
 let routeRequests = {};
 let routeResponses = {};
-let apiExamples = {};
-// let STRUCT = {};
 
-let formatOpenapi = (swaggerFile, log) => {
+let formatOpenapi = (swaggerFile, opt) => {
   let routes = Object.keys(swaggerFile.paths);
 
   // Capitalize tag names
@@ -35,7 +33,6 @@ let formatOpenapi = (swaggerFile, log) => {
   let schemas = swaggerFile.components.schemas;
 
   for (let i = 0; i < routes.length; i++) {
-    // console.log('routes[i]: ', routes[i]);
     let methodPath = swaggerFile.paths[routes[i]];
     let method = methodPath.get ? 'get' : methodPath.post ? 'post' : 'err';
     if (method === "err") {
@@ -84,7 +81,7 @@ let formatOpenapi = (swaggerFile, log) => {
         // GET REQUEST //
         ////////////////
         if (!route.parameters) {
-          if (log.req_no_params) console.log(`\u001b[34mWarning\u001b[m\nRoute ${routes[i]} - No request parameters where found`);
+          if (opt.req_no_params) console.log(`\u001b[34mWarning\u001b[m\nRoute ${routes[i]} - No request parameters where found`);
         }
         else {
           routeRequests[routes[i]] = {
@@ -97,7 +94,17 @@ let formatOpenapi = (swaggerFile, log) => {
             routeRequests[routes[i]].schema[param.name] = param;
             if (param.schema) {
               param.type = param.schema.type ? capitalize(param.schema.type) : 'Any';
-              param.schema = `dec1${param.name}dec2`;
+
+              // Replace typed examples with value examples
+              if (
+                opt.inject_ex === true &&
+                Object.keys(apiExamples[routes[i]].input).length
+              ) {
+                param.schema = apiExamples[routes[i]].input[param.name];
+              }
+              else {
+                param.schema = `dec1${param.name}dec2`;
+              };
             };
           });
         };
@@ -177,7 +184,17 @@ let formatOpenapi = (swaggerFile, log) => {
                   schema: cleanSchema,
                 };
                 REQ_STRUCT_ARRAY.push(requestSubStructure);
-                route.requestBody.content[requestAccept[0]].schema = REQ_STRUCT;
+
+                // Replace typed examples with value examples
+                if (
+                  opt.inject_ex === true &&
+                  Object.keys(apiExamples[routes[i]].input).length
+                ) {
+                  route.requestBody.content[requestAccept[0]].schema = apiExamples[routes[i]].input;
+                }
+                else {
+                  route.requestBody.content[requestAccept[0]].schema = REQ_STRUCT;
+                };
               };
             }
             // type 2/2 - Case of $ref to an object
@@ -223,7 +240,17 @@ let formatOpenapi = (swaggerFile, log) => {
                 description: route.requestBody.description,
                 schema: cleanSchema,
               };
-              route.requestBody.content[requestAccept[0]].schema = REQ_STRUCT;
+
+              // Replace typed examples with value examples
+              if (
+                opt.inject_ex === true &&
+                Object.keys(apiExamples[routes[i]].input).length
+              ) {
+                route.requestBody.content[requestAccept[0]].schema = apiExamples[routes[i]].input;
+              }
+              else {
+                route.requestBody.content[requestAccept[0]].schema = REQ_STRUCT;
+              };
             }
             else {
               // console.log(`\u001b[31mError\u001b[m\nRoute ${routes[i]} - Unexpected $ref request structure must be either an object or an array`);
@@ -245,7 +272,7 @@ let formatOpenapi = (swaggerFile, log) => {
         !route.responses['200'].content['application/json'].schema ||
         !route.responses['200'].content['application/json'].schema.$ref
       ) {
-        if (log.res_no_schema) console.log(`\u001b[31mError\u001b[m\nRoute ${routes[i]} - Unable to find response schema`);
+        if (opt.res_no_schema) console.log(`\u001b[31mError\u001b[m\nRoute ${routes[i]} - Unable to find response schema`);
       }
       else {
         let responseSchemaPath = route.responses['200'].content['application/json'].schema.$ref;
@@ -327,7 +354,17 @@ let formatOpenapi = (swaggerFile, log) => {
               description: route.responses['200'].description,
               schema: cleanSchema,
             };
-            route.responses['200'].content['application/json'].schema = RES_STRUCT;
+
+            // Replace typed examples with value examples
+            if (
+              opt.inject_ex === true &&
+              Object.keys(apiExamples[routes[i]].output).length
+            ) {
+              route.responses['200'].content['application/json'].schema = apiExamples[routes[i]].output;
+            }
+            else {
+              route.responses['200'].content['application/json'].schema = RES_STRUCT;
+            };
           };
         }
         // type 2/2 - Case of $ref to an object
@@ -392,82 +429,22 @@ let formatOpenapi = (swaggerFile, log) => {
             description: route.responses['200'].description,
             schema: cleanSchema,
           };
-          route.responses['200'].content['application/json'].schema = RES_STRUCT;
+
+          // Replace typed examples with value examples
+          if (
+            opt.inject_ex === true &&
+            Object.keys(apiExamples[routes[i]].output).length
+          ) {
+            route.responses['200'].content['application/json'].schema = apiExamples[routes[i]].output;
+          }
+          else {
+            route.responses['200'].content['application/json'].schema = RES_STRUCT;
+          };
         }
         else {
           // console.log(`\u001b[31mError\u001b[m\nRoute ${routes[i]} - Unexpected $ref response structure must be either an object or an array`);
         };
       };
-
-      // // List all possible INPUT keys
-      // if (!apiExamples[routes[i]]) {
-      //   apiExamples[routes[i]] = {};
-
-      //   if (!apiExamples[routes[i]].input) {
-      //     let inputTarget = apiExamples[routes[i]].input = {};
-
-      //     if (routeRequests[routes[i]]) {
-      //       Object.keys(routeRequests[routes[i]].schema).forEach(field => {
-      //         let targetField = routeRequests[routes[i]].schema[field];
-
-      //         if (targetField.type) {
-      //           inputTarget[field] = targetField.type;
-      //         }
-      //         else {
-      //           inputTarget[field] = {};
-      //           Object.keys(targetField).forEach(subfield => {
-      //             if (targetField[subfield].type) {
-      //               inputTarget[field][subfield] = targetField[subfield].type;
-      //             }
-      //             else {
-      //               console.log('subfield 1: ', subfield);
-      //             };
-      //           });
-      //         };
-      //       });
-      //     };
-      //   };
-      // };
-
-      // // List all possible OUTPUT keys
-      // if (!apiExamples[routes[i]].output) {
-      //   let outputTarget = apiExamples[routes[i]].output = {};
-
-      //   if (routeResponses[routes[i]]) {
-      //     Object.keys(routeResponses[routes[i]].schema).forEach(field => {
-      //       let targetField = routeResponses[routes[i]].schema[field];
-
-      //       if (targetField.type) {
-      //         outputTarget[field] = targetField.type;
-      //       }
-      //       else {
-      //         outputTarget[field] = {};
-      //         Object.keys(targetField).forEach(subfield => {
-      //           if (targetField[subfield].type) {
-      //             outputTarget[field][subfield] = targetField[subfield].type;
-      //           }
-      //           else {
-      //             console.log('subfield 2: ', subfield);
-      //           };
-      //         });
-      //       };
-      //     });
-      //   };
-      // };
-
-      // console.log('routes[i]: ', routes[i]);
-      // // Get example values
-      // if(routeResponses[routes[i]])
-      // let testFetch = fetch(`https://v2.namsor.com/NamSorAPIv2${}`, {
-      //   method: 'get',
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //     'X-API-KEY': 'b214894824e1c4762fb650866fea8f3c'
-      //   },
-      // })
-      //   .then(res => res.json());
-
-
     };
   };
   // Delete Schemas
@@ -477,7 +454,6 @@ let formatOpenapi = (swaggerFile, log) => {
   fs.writeFileSync('openapi/genNotMD/premarkdown.json', JSON.stringify(swaggerFile), 'utf8');
   fs.writeFileSync('openapi/genNotMD/routeRequests.json', JSON.stringify(routeRequests), 'utf8');
   fs.writeFileSync('openapi/genNotMD/routeResponses.json', JSON.stringify(routeResponses), 'utf8');
-  // fs.writeFileSync('openapi/genNotMD/apiExamples.json', JSON.stringify(apiExamples), 'utf8');
 
   // Return stored values
   let formatedResult = {
