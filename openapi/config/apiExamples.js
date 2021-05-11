@@ -3,8 +3,8 @@ let apiExamples = {
     // - - - GET
     "/api2/json/anonymize/{source}/{anonymized}": {
         "input": {
-            "source": "*** string ***",
-            "anonymized": "*** boolean ***"
+            "source": "77afd518a85798fa3723f5ec8120adb7",
+            "anonymized": true
         }
     },
     //////////////////////////////////////////////////////////////////////////////////////////// OK2
@@ -1280,7 +1280,10 @@ let apiExamples = {
     //////////////////////////////////////////////////////////////////////////////////////////// what is route ??? 
     // - - - GET
     "/api2/json/learnable/{source}/{learnable}": {
-        "input": { "source": "*** string ***", "learnable": "*** boolean ***" }
+        "input": {
+            "source": "77afd518a85798fa3723f5ec8120adb7",
+            "learnable": true
+        }
     },
     //////////////////////////////////////////////////////////////////////////////////////////// OK2
     // - - - GET
@@ -1756,22 +1759,7 @@ let apiExamples = {
             "countryIso2": "MX"
         },
         "output": {
-            "script": "*** string ***",
-            "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
-            "firstName": "*** string ***",
-            "lastName": "*** string ***",
-            "internationalPhoneNumberVerified": "*** string ***",
-            "phoneCountryIso2Verified": "*** string ***",
-            "phoneCountryCode": "*** integer ***",
-            "phoneCountryCodeAlt": "*** integer ***",
-            "phoneCountryIso2": "*** string ***",
-            "phoneCountryIso2Alt": "*** string ***",
-            "originCountryIso2": "*** string ***",
-            "originCountryIso2Alt": "*** string ***",
-            "phoneNumber": "*** string ***",
-            "verified": "*** boolean ***",
-            "score": "*** number ***",
-            "countryIso2": "*** string ***"
+            "feedbackCredits": 1
         }
     },
     //////////////////////////////////////////////////////////////////////////////////////////// OK2
@@ -1807,7 +1795,7 @@ let apiExamples = {
         "output": {
             "personalNames": [
                 {
-                    "script": "*** string ***",
+                    "script": "HAN",
                     "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
                     "name": "赵丽颖",
                     "nameParserType": "LN1FN1",
