@@ -21,6 +21,104 @@ let routeMethods = {};
 let routeCosts = {};
 let routeRequests = {};
 let routeResponses = {};
+let DESCR = {};
+
+let descr_gen = (io, route, type, key, subkey) => {
+  let DESCR_RES = DESCR[route].response;
+  let DESCR_REQ = DESCR[route].request;
+  // REQUEST
+  if (io === 'req') {
+
+    // Key exists in descriptions
+    if (
+      descr[route] &&
+      descr[route].request &&
+      descr[route].request[key]
+    ) {
+
+      // IS a subkeyed element
+      if (subkey) {
+
+        // Key is an object
+        if (
+          DESCR_REQ[key][subkey] === null ||
+          typeof DESCR_REQ[key][subkey] !== 'object' ||
+          Object.prototype.toString.call(DESCR_REQ[key][subkey]) !== '[object Object]'
+        ) {
+          DESCR_REQ[key][subkey] = {};
+        };
+
+        // Subkey has a description
+        if (
+          descr[route].request[key][subkey] &&
+          descr[route].request[key][subkey].description
+        ) {
+          DESCR_REQ[key][subkey] = descr[route].request[key][subkey].description;
+        }
+        else {
+          DESCR_REQ[key][subkey] = `*** ${type} ***`;
+        };
+      }
+      // Key has a description
+      else if (descr[route].request[key].description) {
+        DESCR_REQ[key] = descr[route].request[key].description;
+      }
+      else {
+        DESCR_REQ[key] = `*** ${type} ***`
+      }
+    }
+    else {
+      DESCR_REQ[key] = `*** ${type} ***`
+    };
+
+  }
+  // RESPONSE
+  else if (io === 'res') {
+
+    // Key exists in descriptions
+    if (
+      descr[route] &&
+      descr[route].response &&
+      descr[route].response[key]
+    ) {
+
+      // IS a subkeyed element
+      if (subkey) {
+
+        // Key is an object
+        if (
+          DESCR_RES[key][subkey] === null ||
+          typeof DESCR_RES[key][subkey] !== 'object' ||
+          Object.prototype.toString.call(DESCR_RES[key][subkey]) !== '[object Object]'
+        ) {
+          DESCR_RES[key][subkey] = {};
+        };
+
+        // Subkey has a description
+        if (
+          descr[route].response[key][subkey] &&
+          descr[route].response[key][subkey].description
+        ) {
+          DESCR_RES[key][subkey] = descr[route].response[key][subkey].description;
+        }
+        else {
+          DESCR_RES[key][subkey] = `*** ${type} ***`;
+        };
+      }
+      // Key has a description
+      else if (descr[route].response[key].description) {
+        DESCR_RES[key] = descr[route].response[key].description;
+      }
+      else {
+        DESCR_RES[key] = `*** ${type} ***`
+      }
+    }
+    else {
+      DESCR_RES[key] = `*** ${type} ***`
+    };
+
+  };
+};
 
 let formatOpenapi = (swaggerFile, opt) => {
   let routes = Object.keys(swaggerFile.paths);
@@ -42,6 +140,25 @@ let formatOpenapi = (swaggerFile, opt) => {
     else {
       let route = methodPath[method];
       routeMethods[routes[i]] = method;
+
+
+
+      DESCR[routes[i]] = {
+        request: {},
+        response: {}
+      };
+
+      if (
+        descr[routes[i]] &&
+        descr[routes[i]].summary
+      ) {
+        DESCR[routes[i]].summary = descr[routes[i]].summary;
+      }
+      else {
+        DESCR[routes[i]].summary = "*** string ***";
+      };
+      let DESCR_RES = DESCR[routes[i]].response;
+      let DESCR_REQ = DESCR[routes[i]].request;
 
       // Capitalize tag names
       route.tags = route.tags.map(tag => capitalize(tag));
@@ -80,7 +197,6 @@ let formatOpenapi = (swaggerFile, opt) => {
         descr[routes[i]].summary
       ) {
         route.summary = descr[routes[i]].summary;
-        console.log('route.summary: ', route.summary);
       };
 
       if (method === 'get') {
@@ -104,6 +220,20 @@ let formatOpenapi = (swaggerFile, opt) => {
             if (param.schema) {
               param.type = param.schema.type ? capitalize(param.schema.type) : 'Any';
 
+              // Get description 
+              // descr_gen(io, route, type, key, subkey)
+              descr_gen('req', routes[i], param.type, param.name);
+              // if (
+              //   descr[routes[i]] &&
+              //   descr[routes[i]].request &&
+              //   descr[routes[i]].request[param.name] &&
+              //   descr[routes[i]].request[param.name].description
+              // ) {
+              //   DESCR_REQ[param.name] = descr[routes[i]].request[param.name].description;
+              // }
+              // else {
+              //   DESCR_REQ[param.name] = `*** ${param.type} ***`
+              // };
               // Replace typed examples with value examples
               if (
                 opt.inject_ex === true &&
@@ -463,10 +593,13 @@ let formatOpenapi = (swaggerFile, opt) => {
   // Delete Schemas
   delete swaggerFile.components;
 
+  console.log('DESCR: ', DESCR);
+
   // Save intermidiate files
   fs.writeFileSync('openapi/genNotMD/premarkdown.json', JSON.stringify(swaggerFile), 'utf8');
   fs.writeFileSync('openapi/genNotMD/routeRequests.json', JSON.stringify(routeRequests), 'utf8');
   fs.writeFileSync('openapi/genNotMD/routeResponses.json', JSON.stringify(routeResponses), 'utf8');
+  fs.writeFileSync('openapi/genNotMD/descr_ex_v2.json', JSON.stringify(DESCR), 'utf8');
 
   // Return stored values
   let formatedResult = {

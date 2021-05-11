@@ -1,0 +1,462 @@
+{
+    "/api2/json/anonymize/{source}/{anonymized}": {
+        "request": {
+            "source": "*** String ***",
+            "anonymized": "*** Boolean ***"
+        },
+        "response": {},
+        "summary": "Activate/deactivate anonymization for a source."
+    },
+    "/api2/json/apiStatus": {
+        "request": {},
+        "response": {},
+        "summary": "Prints the current status of the classifiers. A classifier name in apiStatus corresponds to a service name in apiServices. "
+    },
+    "/api2/json/apiUsage": {
+        "request": {},
+        "response": {},
+        "summary": "Receive information on your subscription plan and current API usage."
+    },
+    "/api2/json/apiUsageHistory": {
+        "request": {},
+        "response": {},
+        "summary": "Print your API usage history."
+    },
+    "/api2/json/apiUsageHistoryAggregate": {
+        "request": {},
+        "response": {},
+        "summary": "Print your API usage history in an aggregated view (by service, by day/hour/min)."
+    },
+    "/api2/json/apiServices": {
+        "request": {},
+        "response": {},
+        "summary": "Receive a list of the API services and usage costs in Units."
+    },
+    "/api2/json/chineseNameCandidates/{chineseSurnameLatin}/{chineseGivenNameLatin}": {
+        "request": {
+            "chineseSurnameLatin": "A Chinese last name written in Pinyin",
+            "chineseGivenNameLatin": "A Chinese first name written in Pinyin"
+        },
+        "response": {},
+        "summary": "Find the most likely Mandarin transcriptions for a Chinese first name and last name, written in Pinyin"
+    },
+    "/api2/json/chineseNameCandidatesBatch": {
+        "request": {},
+        "response": {},
+        "summary": "Find the most likely Mandarin transcriptions for up to 100 Chinese first and last names, written in Pinyin"
+    },
+    "/api2/json/chineseNameCandidatesGenderBatch": {
+        "request": {},
+        "response": {},
+        "summary": "Find the most likely transcriptions for a romanized Chinese first name and last name"
+    },
+    "/api2/json/chineseNameGenderCandidates/{chineseSurnameLatin}/{chineseGivenNameLatin}/{knownGender}": {
+        "request": {
+            "chineseSurnameLatin": "A Chinese last name written in Pinyin",
+            "chineseGivenNameLatin": "A Chinese first name written in Pinyin",
+            "knownGender": "The gender of the name"
+        },
+        "response": {},
+        "summary": "Determine the most likely Mandarin transcriptions for a romanized Chinese first name and last name, accrding to the known gender of the name"
+    },
+    "/api2/json/chineseNameMatch/{chineseSurnameLatin}/{chineseGivenNameLatin}/{chineseName}": {
+        "request": {
+            "chineseSurnameLatin": "A Chinese last name written in Pinyin",
+            "chineseGivenNameLatin": "A Chinese first name written in Pinyin",
+            "chineseName": "A Chinese name written in Standard Mandarin"
+        },
+        "response": {},
+        "summary": "Receive a score for matching a romanized Chinese name with its Mandarin writing."
+    },
+    "/api2/json/chineseNameMatchBatch": {
+        "request": {},
+        "response": {},
+        "summary": "Identify Chinese name candidates, based on the romanized name (firstName = chineseGivenName; lastName=chineseSurname), ex. Wang Xiaoming"
+    },
+    "/api2/json/corridor/{countryIso2From}/{firstNameFrom}/{lastNameFrom}/{countryIso2To}/{firstNameTo}/{lastNameTo}": {
+        "request": {
+            "countryIso2From": "The ISO country code from which the interaction starts",
+            "firstNameFrom": "The first name of the person from whom the interaction starts",
+            "lastNameFrom": "The last name of the person from whom the interaction starts",
+            "countryIso2To": "The ISO country code to which the interaction goes",
+            "firstNameTo": "The first name of the person to whom the interaction goes",
+            "lastNameTo": "The last name of the person to whom the interaction goes"
+        },
+        "response": {},
+        "summary": "Infer several classifications for a cross border interaction between names (ex. remit, travel, intl com)"
+    },
+    "/api2/json/corridorBatch": {
+        "request": {},
+        "response": {},
+        "summary": "Infer several classifications for up to 100 cross border interaction between names (ex. remit, travel, intl com)"
+    },
+    "/api2/json/country/{personalNameFull}": {
+        "request": { "personalNameFull": "*** String ***" },
+        "response": {},
+        "summary": "*** string ***"
+    },
+    "/api2/json/countryBatch": {
+        "request": {},
+        "response": {},
+        "summary": "Infer the likely country of residence of up to 100 full names or last names."
+    },
+    "/api2/json/diaspora/{countryIso2}/{firstName}/{lastName}": {
+        "request": {
+            "countryIso2": "The country code, in ISO 2 format",
+            "firstName": "The personal name given to someone at birth, or baptism",
+            "lastName": "The family name"
+        },
+        "response": {},
+        "summary": "Find out the likely ethnicity or diaspora of a first name and last name, according to the country of residence"
+    },
+    "/api2/json/diasporaBatch": {
+        "request": {},
+        "response": {},
+        "summary": "Infer the likely ethnicity or diaspora of up to 100 names, according to their country of residence"
+    },
+    "/api2/json/gender/{firstName}/{lastName}": {
+        "request": {
+            "firstName": "The personal name given to someone at birth, or baptism",
+            "lastName": "The family name"
+        },
+        "response": {},
+        "summary": "Find the likely gender of a first name and last name structure."
+    },
+    "/api2/json/genderBatch": {
+        "request": {},
+        "response": {},
+        "summary": "Find the likely gender of up to 100 names."
+    },
+    "/api2/json/genderChineseName/{chineseName}": {
+        "request": {
+            "chineseName": "A Chinese name written in Standard Mandarin"
+        },
+        "response": {},
+        "summary": "Determine the gender of a Chinese full name, written in Mandarin"
+    },
+    "/api2/json/genderChineseNameBatch": {
+        "request": {},
+        "response": {},
+        "summary": "Infer the likely gender of up to 100 Chinese full names, written in Mandarin"
+    },
+    "/api2/json/genderChineseNamePinyin/{chineseSurnameLatin}/{chineseGivenNameLatin}": {
+        "request": {
+            "chineseSurnameLatin": "A Chinese last name written in Pinyin",
+            "chineseGivenNameLatin": "A Chinese first name written in Pinyin"
+        },
+        "response": {},
+        "summary": "Find the likely gender of a romanized Chinese first name and last name"
+    },
+    "/api2/json/genderChineseNamePinyinBatch": {
+        "request": {},
+        "response": {},
+        "summary": "Find out the likely gender of up to 100 Chinese first and last names, written in Pinyin."
+    },
+    "/api2/json/genderFull/{fullName}": {
+        "request": { "fullName": "A complete personal name" },
+        "response": {},
+        "summary": "Find the likely gender of a full name"
+    },
+    "/api2/json/genderFullBatch": {
+        "request": {},
+        "response": {},
+        "summary": "Detect the likely gender of up to 100 full names."
+    },
+    "/api2/json/genderFullGeo/{fullName}/{countryIso2}": {
+        "request": {
+            "fullName": "A complete personal name",
+            "countryIso2": "The country code, in ISO 2 format"
+        },
+        "response": {},
+        "summary": "Infer the likely gender of a full name, according to a local context."
+    },
+    "/api2/json/genderFullGeoBatch": {
+        "request": {},
+        "response": {},
+        "summary": "Detect the likely gender of up to 100 full names, according to their local context."
+    },
+    "/api2/json/genderGeo/{firstName}/{lastName}/{countryIso2}": {
+        "request": {
+            "firstName": "The personal name given to someone at birth, or baptism",
+            "lastName": "The family name",
+            "countryIso2": "The country code, in ISO 2 format"
+        },
+        "response": {},
+        "summary": "Find the likely gender of a first and last name structure, according to its local context."
+    },
+    "/api2/json/genderGeoBatch": {
+        "request": {},
+        "response": {},
+        "summary": "Detect the likely gender of up to 100 names, according to their local context."
+    },
+    "/api2/json/genderJapaneseNameFull/{japaneseName}": {
+        "request": {
+            "japaneseName": "A Japanese full name in Kanji characters"
+        },
+        "response": {},
+        "summary": "Find the likely gender of a Japanese full name, written in Kanji."
+    },
+    "/api2/json/genderJapaneseNameFullBatch": {
+        "request": {},
+        "response": {},
+        "summary": "Find the likely gender of up to 100 Japanese full names, written in Kanji."
+    },
+    "/api2/json/genderJapaneseName/{japaneseSurname}/{japaneseGivenName}": {
+        "request": {
+            "japaneseSurname": "*** String ***",
+            "japaneseGivenName": "*** String ***"
+        },
+        "response": {},
+        "summary": "Discover the likely gender of a Japanese first name and last name written in Latin alphabet."
+    },
+    "/api2/json/genderJapaneseNameBatch": {
+        "request": {},
+        "response": {},
+        "summary": "Discover the likely gender of a up to 100 Japanese first and last names written in Latin alphabet."
+    },
+    "/api2/json/japaneseNameGenderKanjiCandidatesBatch": {
+        "request": {},
+        "response": {},
+        "summary": "Find the likely transcriptions to Kanji, for up to 100 Japanese romanized first and last names, according to a known gender."
+    },
+    "/api2/json/japaneseNameKanjiCandidates/{japaneseSurnameLatin}/{japaneseGivenNameLatin}": {
+        "request": {
+            "japaneseSurnameLatin": "A romanized Japanese last name",
+            "japaneseGivenNameLatin": "A romanized Japanese first name"
+        },
+        "response": {},
+        "summary": "Find the likely transcriptions to Kanji, for a romanized Japanese first name and last name."
+    },
+    "/api2/json/japaneseNameKanjiCandidates/{japaneseSurnameLatin}/{japaneseGivenNameLatin}/{knownGender}": {
+        "request": {
+            "japaneseSurnameLatin": "A romanized Japanese last name",
+            "japaneseGivenNameLatin": "A romanized Japanese first name",
+            "knownGender": "The gender of the name"
+        },
+        "response": {},
+        "summary": "Find the likely transcriptions to Kanji, for a Japanese first name and last name, according to a known gender."
+    },
+    "/api2/json/japaneseNameKanjiCandidatesBatch": {
+        "request": {},
+        "response": {},
+        "summary": "Find the likely transcriptions to Kanji, for up to 100 Japanese romanized first and last names."
+    },
+    "/api2/json/japaneseNameLatinCandidates/{japaneseSurnameKanji}/{japaneseGivenNameKanji}": {
+        "request": {
+            "japaneseSurnameKanji": "A Japanese last name in Kanji characters",
+            "japaneseGivenNameKanji": "A Japanese first name in Kanji characters"
+        },
+        "response": {},
+        "summary": "Receive the most likely Latin transcriptions for a Japanese name written in Kanji characters."
+    },
+    "/api2/json/japaneseNameLatinCandidatesBatch": {
+        "request": {},
+        "response": {},
+        "summary": "Romanize up to 100 japanese names written in Kanji"
+    },
+    "/api2/json/japaneseNameMatch/{japaneseSurnameLatin}/{japaneseGivenNameLatin}/{japaneseName}": {
+        "request": {
+            "japaneseSurnameLatin": "A romanized Japanese last name",
+            "japaneseGivenNameLatin": "A romanized Japanese first name",
+            "japaneseName": "A Japanese full name in Kanji characters"
+        },
+        "response": {},
+        "summary": "Receive a score for matching a romanized Japanese name with a Kanji transcription."
+    },
+    "/api2/json/japaneseNameMatchBatch": {
+        "request": {},
+        "response": {},
+        "summary": "Return a score for matching a list of Japanese names in KANJI ex. 山本 早苗 with romanized names ex. Yamamoto Sanae"
+    },
+    "/api2/json/japaneseNameMatchFeedbackLoop/{japaneseSurnameLatin}/{japaneseGivenNameLatin}/{japaneseName}": {
+        "request": {
+            "japaneseSurnameLatin": "A romanized Japanese last name",
+            "japaneseGivenNameLatin": "A romanized Japanese first name",
+            "japaneseName": "A Japanese full name in Kanji characters"
+        },
+        "response": {},
+        "summary": "Suggest a transcription of a Japanese name between Kanji characters and Latin alphabet to help us improve our name matching tool."
+    },
+    "/api2/json/learnable/{source}/{learnable}": {
+        "request": {
+            "source": "*** String ***",
+            "learnable": "*** Boolean ***"
+        },
+        "response": {},
+        "summary": "Activate/deactivate learning from a source."
+    },
+    "/api2/json/nameType/{properNoun}": {
+        "request": {
+            "properNoun": "The name of a person, a brand or object that is spelled with a capital letter"
+        },
+        "response": {},
+        "summary": "Detect if a proper noun is a personal name or a public name"
+    },
+    "/api2/json/nameTypeBatch": {
+        "request": {},
+        "response": {},
+        "summary": "Detect if proper nouns are personal names or public names (ex: John Smith : personal name, Namsor: brand name). You can inspect up to a 100 names"
+    },
+    "/api2/json/nameTypeGeo/{properNoun}/{countryIso2}": {
+        "request": {
+            "properNoun": "The name of a person, a brand or object that is spelled with a capital letter",
+            "countryIso2": "The country code, in ISO 2 format"
+        },
+        "response": {},
+        "summary": "Detect if a proper noun is a personal name or a public name, according to its local context (ex: John Smith : personal name, Namsor: brand name)"
+    },
+    "/api2/json/nameTypeGeoBatch": {
+        "request": {},
+        "response": {},
+        "summary": "Detect if proper nouns are personal names or a public names, according to their local context (ex: John Smith : personal name, Namsor: brand name). You can inspect up to 100 names."
+    },
+    "/api2/json/origin/{firstName}/{lastName}": {
+        "request": {
+            "firstName": "The personal name given to someone at birth, or baptism",
+            "lastName": "The family name"
+        },
+        "response": {},
+        "summary": "Detect the likely country of origin of a first name and last name structure. For countries like U.S.A, Canada, Australia or New-Zealand and other melting-pots, refer to 'diaspora'."
+    },
+    "/api2/json/originBatch": {
+        "request": {},
+        "response": {},
+        "summary": "Detect the likely country of origin of up to 100 first and last names."
+    },
+    "/api2/json/parseChineseName/{chineseName}": {
+        "request": {
+            "chineseName": "A Chinese full name, written in Mandarin"
+        },
+        "response": {},
+        "summary": "Determine the likely first and last name structure of a Chinese name, written in Mandarin"
+    },
+    "/api2/json/parseChineseNameBatch": {
+        "request": {},
+        "response": {},
+        "summary": "Detect the likely first and last name structure of up to 100 a Chinese names, written in Mandarin, ex. 王晓明 -> 王(lastname) 晓明(first name)."
+    },
+    "/api2/json/parseJapaneseName/{japaneseName}": {
+        "request": {
+            "japaneseName": "A Japanese full name in Kanji characters or Latin alphabet"
+        },
+        "response": {},
+        "summary": "Split a Japanese full name, in Kanji or Latin writing, into a first name and last name structure"
+    },
+    "/api2/json/parseJapaneseNameBatch": {
+        "request": {},
+        "response": {},
+        "summary": "Split up to 100 Japanese full names, in Kanji or Latin writing, into first name and last name structures"
+    },
+    "/api2/json/parseName/{nameFull}": {
+        "request": { "nameFull": "A complete personal name" },
+        "response": {},
+        "summary": "Split a full name into a likely first and last name structure. "
+    },
+    "/api2/json/parseNameBatch": {
+        "request": {},
+        "response": {},
+        "summary": "Detect the likely first and last name structure of up to 100 full names."
+    },
+    "/api2/json/parseName/{nameFull}/{countryIso2}": {
+        "request": {
+            "nameFull": "A complete personal name",
+            "countryIso2": "The country code, in ISO 2 format"
+        },
+        "response": {},
+        "summary": "Split a full name into a likely first and last name structure. For better accuracy, provide a local context."
+    },
+    "/api2/json/parseNameGeoBatch": {
+        "request": {},
+        "response": {},
+        "summary": "Detect the likely first and last name structure of up to 100 full names. For better accuracy, provide a local context."
+    },
+    "/api2/json/phoneCode/{firstName}/{lastName}/{phoneNumber}": {
+        "request": {
+            "firstName": "The personal name given to someone at birth, or baptism",
+            "lastName": "The family name",
+            "phoneNumber": "A phone number, formatted or unformatted"
+        },
+        "response": {},
+        "summary": "Identify the likely country and phone prefix of a name and phone number."
+    },
+    "/api2/json/phoneCodeBatch": {
+        "request": {},
+        "response": {},
+        "summary": "Identify the likely country and phone prefix of up to 100 names and phone numbers (formatted or unformatted)"
+    },
+    "/api2/json/phoneCodeGeo/{firstName}/{lastName}/{phoneNumber}/{countryIso2}": {
+        "request": {
+            "firstName": "The personal name given to someone at birth, or baptism",
+            "lastName": "The family name",
+            "phoneNumber": "A phone number, formatted or unformatted",
+            "countryIso2": "The country code, in ISO 2 format"
+        },
+        "response": {},
+        "summary": "Identify the likely phone prefix of a name and phone number (formatted or unformatted) according to local context."
+    },
+    "/api2/json/phoneCodeGeoBatch": {
+        "request": {},
+        "response": {},
+        "summary": "Identify the likely phone prefix of up to 100 names and phone numbers (formatted or unformatted) according to local context."
+    },
+    "/api2/json/phoneCodeGeoFeedbackLoop/{firstName}/{lastName}/{phoneNumber}/{phoneNumberE164}/{countryIso2}": {
+        "request": {
+            "firstName": "The personal name given to someone at birth, or baptism",
+            "lastName": "The family name",
+            "phoneNumber": "A phone number, formatted or unformatted",
+            "phoneNumberE164": "A phone number on the E164 format",
+            "countryIso2": "The country code, in ISO 2 format"
+        },
+        "response": {},
+        "summary": "Suggest a phone prefix, according to a name, phone number (formatted or unformatted) and local context, to help us improve our technology."
+    },
+    "/api2/json/pinyinChineseName/{chineseName}": {
+        "request": {
+            "chineseName": "A Chinese name written in Standard Mandarin"
+        },
+        "response": {},
+        "summary": "Romanize a Chinese name to Pinyin."
+    },
+    "/api2/json/pinyinChineseNameBatch": {
+        "request": {},
+        "response": {},
+        "summary": "Romanize a list of up to 100 Chinese names to Pinyin."
+    },
+    "/api2/json/softwareVersion": {
+        "request": {},
+        "response": {},
+        "summary": "Get the current version of the Namsor software"
+    },
+    "/api2/json/taxonomyClasses/{classifierName}": {
+        "request": { "classifierName": "*** String ***" },
+        "response": {},
+        "summary": "Receive a list of the valid taxonomy classes for a given classifier."
+    },
+    "/api2/json/usRaceEthnicity/{firstName}/{lastName}": {
+        "request": {
+            "firstName": "The personal name given to someone at birth, or baptism",
+            "lastName": "The family name"
+        },
+        "response": {},
+        "summary": "Determine the most likely U.S. race or ethnicity of a U.S. resident's first and last name"
+    },
+    "/api2/json/usRaceEthnicityBatch": {
+        "request": {},
+        "response": {},
+        "summary": "Detect the most likely U.S. race or ethnicity of a up to 100 U.S. residents' first and last names."
+    },
+    "/api2/json/usRaceEthnicityZIP5/{firstName}/{lastName}/{zip5Code}": {
+        "request": {
+            "firstName": "The personal name given to someone at birth, or baptism",
+            "lastName": "The family name",
+            "zip5Code": "A 5 digits zip code"
+        },
+        "response": {},
+        "summary": "Determine the most likely U.S. race or ethnicity of a U.S. resident's first and last name, using their ZIP code"
+    },
+    "/api2/json/usZipRaceEthnicityBatch": {
+        "request": {},
+        "response": {},
+        "summary": "Determine the most likely U.S. race or ethnicity of up to 100 U.S. residents' first and last names, using their ZIP code."
+    }
+}

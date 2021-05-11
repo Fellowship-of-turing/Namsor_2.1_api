@@ -27,7 +27,7 @@ let mdConvert = (swaggerFile, wsOptions, store, opt) => {
     .then(dirtyMD => {
 
       ///////////////
-      //FINCTIONS//
+      //FUNCTIONS//
       /////////////
       let findNone = (routeStart, routeEnd) => {
         let foundNone;
