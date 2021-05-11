@@ -6,6 +6,7 @@ let listEnums = helpers.listEnums;
 // Imports
 const fs = require('fs');
 const widdershins = require('widdershins');
+const descr = require('../config/structure_ex_modified');
 
 /************************************************/
 /**************** MD Conversion ****************/
@@ -53,15 +54,6 @@ let mdConvert = (swaggerFile, wsOptions, store, opt) => {
 
       let mdRouteReplace = (target, input, startIndex, endIndex, route) => {
         let indexTarget = dirtyMD.indexOf(target, startIndex);
-        if (target == 'To perform this operation, you must be authenticated by means of one of the following methods:') {
-          // console.log('startIndex: ', startIndex);
-          if (!(startIndex < indexTarget) || !(endIndex > indexTarget)) {
-            console.log('route: ', route);
-            console.log('startIndex: ', startIndex);
-            console.log('indexTarget: ', indexTarget);
-            console.log('endIndex: ', endIndex);
-          }
-        }
         if (
           startIndex &&
           endIndex &&
@@ -166,7 +158,19 @@ let mdConvert = (swaggerFile, wsOptions, store, opt) => {
             Object.keys(routeRequests[route].schema).forEach(param => {
               prm = routeRequests[route].schema[param];
               prm.required = prm.required === true ? 'true' : 'false';
-              prm.desc = prm.description ? prm.description : '';
+
+              // Get description 
+              if (
+                descr[route] &&
+                descr[route].request &&
+                descr[route].request[param] &&
+                descr[route].request[param].description
+              ) {
+                prm.desc = descr[route].request[param].description;
+              }
+              else {
+                prm.desc = prm.description ? prm.description : '';
+              };
               mdRouteReplace(reqTag, `|${prm.name}|${prm.type}|${prm.required}|${prm.desc}|\n${reqTag}`, routeStart(), routeEnd(), route);
             });
           }
@@ -181,7 +185,19 @@ let mdConvert = (swaggerFile, wsOptions, store, opt) => {
                 schema: prm
               })
               prm.required = prm.required === true ? 'true' : 'false';
-              prm.desc = prm.description ? prm.description : '';
+
+              // Get description 
+              if (
+                descr[route] &&
+                descr[route].request &&
+                descr[route].request[param] &&
+                descr[route].request[param].description
+              ) {
+                prm.desc = descr[route].request[param].description;
+              }
+              else {
+                prm.desc = prm.description ? prm.description : '';
+              };
               mdRouteReplace(reqTag, `|${prm.name}|${prm.type}|${prm.required}|${prm.desc}|\n${reqTag}`, routeStart(), routeEnd(), route);
             });
           };
@@ -233,8 +249,22 @@ let mdConvert = (swaggerFile, wsOptions, store, opt) => {
             if (Array.isArray(prm) && prm.length) prm.type = '**Array of Objects**';
             if (prm.type === '**Object**' || prm.type === '**Array of Objects**') prm.name = `**${prm.name}**`;
             prm.enum = prm.enum ? listEnums(prm.enum, route) : '';
-            prm.desc = prm.description ? prm.description : '';
+
+            // Get description 
+            if (
+              descr[route] &&
+              descr[route].response &&
+              descr[route].response[param] &&
+              descr[route].response[param].description
+            ) {
+              prm.desc = descr[route].response[param].description;
+            }
+            else {
+              prm.desc = prm.description ? prm.description : '';
+            };
             mdRouteReplace(resTag, `|${prm.name}|${prm.type}|${prm.desc}|${prm.enum}|\n${resTag}`, routeStart(), routeEnd(), route);
+
+            // Handle nested structures
             if (prm.type === '**Object**' || prm.type === '**Array of Objects**') {
               let indicator = prm.type === '**Object**' ? `${nbspMulti}{...}` : `${nbspMulti}[ {...} ]`;
               if (prm.type == '**Array of Objects**') prm = prm[0];
@@ -250,6 +280,20 @@ let mdConvert = (swaggerFile, wsOptions, store, opt) => {
                   subPrm.type = subPrm.type ? capitalize(subPrm.type) : '';
                   subPrm.enum = subPrm.enum ? listEnums(subPrm.enum, route) : '';
                   subPrm.desc = subPrm.description ? subPrm.description : '';
+
+                  // Get description 
+                  if (
+                    descr[route] &&
+                    descr[route].response &&
+                    descr[route].response[param] &&
+                    descr[route].response[param][subPrm] &&
+                    descr[route].response[param][subPrm].description
+                  ) {
+                    subPrm.desc = descr[route].response[param].description;
+                  }
+                  else {
+                    subPrm.desc = subPrm.description ? subPrm.description : '';
+                  };
                   mdRouteReplace(resTag, `|*${indicator}.${subKey}*|${subPrm.type}|${subPrm.desc}|${subPrm.enum}|\n${resTag}`, routeStart(), routeEnd(), route);
                 };
               });

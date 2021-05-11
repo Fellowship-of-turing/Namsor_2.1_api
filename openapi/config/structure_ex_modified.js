@@ -1,12 +1,11 @@
-let ex = {
+module.exports = {
   "/api2/json/nameType/{properNoun}": {
     http: "get",
     summary: "Detect if a proper noun is a personal name or a public name",
     tag: "General",
     request: {
       properNoun: {
-        description:
-          "The name of a person, a brand or object that is spelled with a capital letter",
+        description: "The name of a person, a brand or object that is spelled with a capital letter",
         example: "John Smith, Namsor, the White House",
       },
     },
@@ -27,8 +26,7 @@ let ex = {
   },
   "/api2/json/country/{PersonalNameFull}": {
     http: "get",
-    summary:
-      "Detect the likely country of residence of a full name, or a last name.",
+    summary: "Detect the likely country of residence of a full name, or a last name.",
     tag: "Personal",
     request: {
       PersonalNameFull: {
@@ -73,16 +71,14 @@ let ex = {
         description: "The probability of the result, on a scale from 0 to 1",
       },
       probabilityAltCalibrated: {
-        description:
-          "The alternative probability of the result, on a scale from 0 to 1",
+        description: "The alternative probability of the result, on a scale from 0 to 1",
       },
     },
     responseSchemaName: "PersonalNameGeoOut",
   },
   "/api2/json/origin/{firstName}/{lastName}": {
     http: "get",
-    summary:
-      "Detect the likely country of origin of a first name and last name structure. For countries like U.S.A, Canada, Australia or New-Zealand and other melting-pots, refer to 'diaspora'.",
+    summary: "Detect the likely country of origin of a first name and last name structure. For countries like U.S.A, Canada, Australia or New-Zealand and other melting-pots, refer to 'diaspora'.",
     tag: "Personal",
     request: {
       firstName: {
@@ -107,13 +103,11 @@ let ex = {
         example: "US; FR",
       },
       countryOriginAlt: {
-        description:
-          "The code of the alternative country of origin, in ISO 2 format",
+        description: "The code of the alternative country of origin, in ISO 2 format",
         example: "US; FR",
       },
       countriesOriginTop: {
-        description:
-          "The codes of the 10 most likely countries of origin, in ISO 2 format",
+        description: "The codes of the 10 most likely countries of origin, in ISO 2 format",
         example: "US; FR",
       },
       score: { description: "The coefficient of accuracy of the result" },
@@ -133,8 +127,7 @@ let ex = {
         description: "The probability of the result, on a scale from 0 to 1",
       },
       probabilityAltCalibrated: {
-        description:
-          "The alternative probability of the result, on a scale from 0 to 1",
+        description: "The alternative probability of the result, on a scale from 0 to 1",
       },
     },
     responseSchemaName: "FirstLastNameOriginedOut",
@@ -154,8 +147,7 @@ let ex = {
   },
   "/api2/json/apiStatus": {
     http: "get",
-    summary:
-      "Prints the current status of the classifiers. A classifier name in apiStatus corresponds to a service name in apiServices. ",
+    summary: "Prints the current status of the classifiers. A classifier name in apiStatus corresponds to a service name in apiServices. ",
     tag: "Admin",
     request: {},
     response: {
@@ -185,8 +177,7 @@ let ex = {
   },
   "/api2/json/taxonomyClasses/{classifierName}": {
     http: "get",
-    summary:
-      "Receive a list of the valid taxonomy classes for a given classifier.",
+    summary: "Receive a list of the valid taxonomy classes for a given classifier.",
     tag: "Admin",
     request: {
       classifierName: "String",
@@ -201,8 +192,7 @@ let ex = {
   },
   "/api2/json/apiUsage": {
     http: "get",
-    summary:
-      "Receive information on your subscription plan and current API usage.",
+    summary: "Receive information on your subscription plan and current API usage.",
     tag: "Admin",
     request: {},
     response: {
@@ -297,8 +287,7 @@ let ex = {
   },
   "/api2/json/apiUsageHistoryAggregate": {
     http: "get",
-    summary:
-      "Print your API usage history in an aggregated view (by service, by day/hour/min).",
+    summary: "Print your API usage history in an aggregated view (by service, by day/hour/min).",
     tag: "Admin",
     request: {},
     response: {
@@ -376,13 +365,11 @@ let ex = {
   },
   "/api2/json/nameTypeGeo/{properNoun}/{countryIso2}": {
     http: "get",
-    summary:
-      "Detect if a proper noun is a personal name or a public name, according to its local context (ex: John Smith : personal name, Namsor: brand name)",
+    summary: "Detect if a proper noun is a personal name or a public name, according to its local context (ex: John Smith : personal name, Namsor: brand name)",
     tag: "General",
     request: {
       properNoun: {
-        description:
-          "The name of a person, a brand or object that is spelled with a capital letter",
+        description: "The name of a person, a brand or object that is spelled with a capital letter",
         example: "John Smith, Namsor, the White House",
       },
       countryIso2: {
@@ -411,14 +398,12 @@ let ex = {
   },
   "/api2/json/nameTypeBatch": {
     http: "post",
-    summary:
-      "Detect if proper nouns are personal names or public names (ex: John Smith : personal name, Namsor: brand name). You can inspect up to a 100 names",
+    summary: "Detect if proper nouns are personal names or public names (ex: John Smith : personal name, Namsor: brand name). You can inspect up to a 100 names",
     tag: "General",
     request: {
       id: { description: "A unique processing identifier" },
       name: {
-        description:
-          "The name of a person, a brand or object that is spelled with a capital letter",
+        description: "The name of a person, a brand or object that is spelled with a capital letter",
         example: "John Smith, Namsor, the White House",
       },
     },
@@ -440,8 +425,7 @@ let ex = {
   },
   "/api2/json/nameTypeGeoBatch": {
     http: "post",
-    summary:
-      "Detect if proper nouns are personal names or a public names, according to their local context (ex: John Smith : personal name, Namsor: brand name). You can inspect up to 100 names.",
+    summary: "Detect if proper nouns are personal names or a public names, according to their local context (ex: John Smith : personal name, Namsor: brand name). You can inspect up to 100 names.",
     tag: "General",
     request: {
       id: { description: "A unique processing identifier" },
@@ -472,8 +456,7 @@ let ex = {
   },
   "/api2/json/corridor/{countryIso2From}/{firstNameFrom}/{lastNameFrom}/{countryIso2To}/{firstNameTo}/{lastNameTo}": {
     http: "get",
-    summary:
-      "Infer several classifications for a cross border interaction between names (ex. remit, travel, intl com)",
+    summary: "Infer several classifications for a cross border interaction between names (ex. remit, travel, intl com)",
     tag: "Personal",
     request: {
       countryIso2From: {
@@ -481,13 +464,11 @@ let ex = {
         example: "US",
       },
       firstNameFrom: {
-        description:
-          "The first name of the person from whom the interaction starts",
+        description: "The first name of the person from whom the interaction starts",
         example: "John",
       },
       lastNameFrom: {
-        description:
-          "The last name of the person from whom the interaction starts",
+        description: "The last name of the person from whom the interaction starts",
         example: "Smith",
       },
       countryIso2To: {
@@ -495,8 +476,7 @@ let ex = {
         example: "FR",
       },
       firstNameTo: {
-        description:
-          "The first name of the person to whom the interaction goes",
+        description: "The first name of the person to whom the interaction goes",
         example: "Jean",
       },
       lastNameTo: {
@@ -513,8 +493,7 @@ let ex = {
         },
         id: { description: "A unique processing identifier" },
         firstName: {
-          description:
-            "The first name of the person from whom the interaction starts, as it was given for analysis",
+          description: "The first name of the person from whom the interaction starts, as it was given for analysis",
           example: "John",
         },
         lastName: { description: "The last name of the person from whom the interaction starts, as it was given for analysis", example: "Smith" },
@@ -523,8 +502,7 @@ let ex = {
           example: "male, female",
         },
         genderScale: {
-          description:
-            "The accuracy of the gender result, on a scale from 0 to 1",
+          description: "The accuracy of the gender result, on a scale from 0 to 1",
         },
         score: { description: "The coefficient of accuracy of the result" },
         probabilityCalibrated: {
@@ -538,17 +516,15 @@ let ex = {
         },
         id: { description: "A unique processing identifier" },
         firstName: {
-          description:
-            "The first name of the person to whom the interaction goes, as it was given for analysis",
+          description: "The first name of the person to whom the interaction goes, as it was given for analysis",
           example: "John",
         },
-        lastName: { description: "The last name of the person to whom the interaction goes, as it was given for analysis", example: "Smith" },        likelyGender: {
+        lastName: { description: "The last name of the person to whom the interaction goes, as it was given for analysis", example: "Smith" }, likelyGender: {
           description: "The most likely gender of the name",
           example: "male, female",
         },
         genderScale: {
-          description:
-            "The accuracy of the gender result, on a scale from 0 to 1",
+          description: "The accuracy of the gender result, on a scale from 0 to 1",
         },
         score: { description: "The coefficient of accuracy of the result" },
         probabilityCalibrated: {
@@ -562,27 +538,23 @@ let ex = {
         },
         id: { description: "A unique processing identifier" },
         firstName: {
-          description:
-            "The first name of the person from whom the interaction starts, as it was given for analysis",
+          description: "The first name of the person from whom the interaction starts, as it was given for analysis",
           example: "John",
         },
-        lastName: { description: "The last name of the person from whom the interaction starts, as it was given for analysis", example: "Smith" },        countryOrigin: {
+        lastName: { description: "The last name of the person from whom the interaction starts, as it was given for analysis", example: "Smith" }, countryOrigin: {
           description: "The code of the country of origin, in ISO 2 format",
           example: "US; FR",
         },
         countryOrigin: {
-          description:
-            "The code of the country of origin, in ISO 2 format",
+          description: "The code of the country of origin, in ISO 2 format",
           example: "US; FR",
         },
         countryOriginAlt: {
-          description:
-            "The code of the alternative country of origin, in ISO 2 format",
+          description: "The code of the alternative country of origin, in ISO 2 format",
           example: "US; FR",
         },
         countriesOriginTop: {
-          description:
-            "The codes of the 10 most likely countries of origin, in ISO 2 format",
+          description: "The codes of the 10 most likely countries of origin, in ISO 2 format",
         },
         score: { description: "The coefficient of accuracy of the result" },
         regionOrigin: {
@@ -601,8 +573,7 @@ let ex = {
           description: "The probability of the result, on a scale from 0 to 1",
         },
         probabilityAltCalibrated: {
-          description:
-            "The alternative probability of the result, on a scale from 0 to 1",
+          description: "The alternative probability of the result, on a scale from 0 to 1",
         },
       },
       firstLastNameGeoToOrigin: {
@@ -612,27 +583,23 @@ let ex = {
         },
         id: { description: "A unique processing identifier" },
         firstName: {
-          description:
-            "The first name of the person to whom the interaction goes, as it was given for analysis",
+          description: "The first name of the person to whom the interaction goes, as it was given for analysis",
           example: "John",
         },
-        lastName: { description: "The last name of the person to whom the interaction goes, as it was given for analysis", example: "Smith" },        countryOrigin: {
+        lastName: { description: "The last name of the person to whom the interaction goes, as it was given for analysis", example: "Smith" }, countryOrigin: {
           description: "The code of the country of origin, in ISO 2 format",
           example: "US; FR",
         },
         countryOrigin: {
-          description:
-            "The code of the country of origin, in ISO 2 format",
+          description: "The code of the country of origin, in ISO 2 format",
           example: "US; FR",
         },
         countryOriginAlt: {
-          description:
-            "The code of the alternative country of origin, in ISO 2 format",
+          description: "The code of the alternative country of origin, in ISO 2 format",
           example: "US; FR",
         },
         countriesOriginTop: {
-          description:
-            "The codes of the 10 most likely countries of origin, in ISO 2 format",
+          description: "The codes of the 10 most likely countries of origin, in ISO 2 format",
           example: "",
         },
         score: { description: "The coefficient of accuracy of the result" },
@@ -652,8 +619,7 @@ let ex = {
           description: "The probability of the result, on a scale from 0 to 1",
         },
         probabilityAltCalibrated: {
-          description:
-            "The alternative probability of the result, on a scale from 0 to 1",
+          description: "The alternative probability of the result, on a scale from 0 to 1",
         },
       },
       firstLastNameGeoFromDiaspora: {
@@ -663,11 +629,10 @@ let ex = {
         },
         id: { description: "A unique processing identifier" },
         firstName: {
-          description:
-            "The first name of the person from whom the interaction starts, as it was given for analysis",
+          description: "The first name of the person from whom the interaction starts, as it was given for analysis",
           example: "John",
         },
-        lastName: { description: "The last name of the person from whom the interaction starts, as it was given for analysis", example: "Smith" },        score: { description: "The coefficient of accuracy of the result" },
+        lastName: { description: "The last name of the person from whom the interaction starts, as it was given for analysis", example: "Smith" }, score: { description: "The coefficient of accuracy of the result" },
         ethnicityAlt: { description: "The alternativeethnicity of the name" },
         ethnicity: { description: "The ethnicity of the name" },
         lifted: "Boolean",
@@ -676,8 +641,7 @@ let ex = {
           example: "US",
         },
         ethnicitiesTop: {
-          description:
-            "An array of the top ten most likely ethnicities of the name",
+          description: "An array of the top ten most likely ethnicities of the name",
         },
       },
       firstLastNameGeoToDiaspora: {
@@ -687,11 +651,10 @@ let ex = {
         },
         id: { description: "A unique processing identifier" },
         firstName: {
-          description:
-            "The first name of the person to whom the interaction goes, as it was given for analysis",
+          description: "The first name of the person to whom the interaction goes, as it was given for analysis",
           example: "John",
         },
-        lastName: { description: "The last name of the person to whom the interaction goes, as it was given for analysis", example: "Smith" },        score: { description: "The coefficient of accuracy of the result" },
+        lastName: { description: "The last name of the person to whom the interaction goes, as it was given for analysis", example: "Smith" }, score: { description: "The coefficient of accuracy of the result" },
         ethnicityAlt: { description: "The alternativeethnicity of the name" },
         ethnicity: { description: "The ethnicity of the name" },
         lifted: "Boolean",
@@ -700,8 +663,7 @@ let ex = {
           example: "US",
         },
         ethnicitiesTop: {
-          description:
-            "An array of the top ten most likely ethnicities of the name",
+          description: "An array of the top ten most likely ethnicities of the name",
         },
       },
     },
@@ -709,8 +671,7 @@ let ex = {
   },
   "/api2/json/corridorBatch": {
     http: "post",
-    summary:
-      "Infer several classifications for up to 100 cross border interaction between names (ex. remit, travel, intl com)",
+    summary: "Infer several classifications for up to 100 cross border interaction between names (ex. remit, travel, intl com)",
     tag: "Personal",
     request: {
       id: { description: "A unique processing identifier" },
@@ -724,8 +685,7 @@ let ex = {
         },
         id: { description: "A unique processing identifier" },
         firstName: {
-          description:
-            "The personal name given to someone at birth, or baptism",
+          description: "The personal name given to someone at birth, or baptism",
           example: "John",
         },
         lastName: { description: "The family name", example: "Smith" },
@@ -734,8 +694,7 @@ let ex = {
           example: "male, female",
         },
         genderScale: {
-          description:
-            "The accuracy of the gender result, on a scale from 0 to 1",
+          description: "The accuracy of the gender result, on a scale from 0 to 1",
         },
         score: { description: "The coefficient of accuracy of the result" },
         probabilityCalibrated: {
@@ -749,8 +708,7 @@ let ex = {
         },
         id: { description: "A unique processing identifier" },
         firstName: {
-          description:
-            "The personal name given to someone at birth, or baptism",
+          description: "The personal name given to someone at birth, or baptism",
           example: "John",
         },
         lastName: { description: "The family name", example: "Smith" },
@@ -759,8 +717,7 @@ let ex = {
           example: "male, female",
         },
         genderScale: {
-          description:
-            "The accuracy of the gender result, on a scale from 0 to 1",
+          description: "The accuracy of the gender result, on a scale from 0 to 1",
         },
         score: { description: "The coefficient of accuracy of the result" },
         probabilityCalibrated: {
@@ -774,8 +731,7 @@ let ex = {
         },
         id: { description: "A unique processing identifier" },
         firstName: {
-          description:
-            "The personal name given to someone at birth, or baptism",
+          description: "The personal name given to someone at birth, or baptism",
           example: "John",
         },
         lastName: { description: "The family name", example: "Smith" },
@@ -784,13 +740,11 @@ let ex = {
           example: "US; FR",
         },
         countryOriginAlt: {
-          description:
-            "The code of the alternative country of origin, in ISO 2 format",
+          description: "The code of the alternative country of origin, in ISO 2 format",
           example: "US; FR",
         },
         countriesOriginTop: {
-          description:
-            "The codes of the 10 most likely countries of origin, in ISO 2 format",
+          description: "The codes of the 10 most likely countries of origin, in ISO 2 format",
           example: "",
         },
         score: { description: "The coefficient of accuracy of the result" },
@@ -810,8 +764,7 @@ let ex = {
           description: "The probability of the result, on a scale from 0 to 1",
         },
         probabilityAltCalibrated: {
-          description:
-            "The alternative probability of the result, on a scale from 0 to 1",
+          description: "The alternative probability of the result, on a scale from 0 to 1",
         },
       },
       firstLastNameGeoToOrigin: {
@@ -821,8 +774,7 @@ let ex = {
         },
         id: { description: "A unique processing identifier" },
         firstName: {
-          description:
-            "The personal name given to someone at birth, or baptism",
+          description: "The personal name given to someone at birth, or baptism",
           example: "John",
         },
         lastName: { description: "The family name", example: "Smith" },
@@ -831,13 +783,11 @@ let ex = {
           example: "US; FR",
         },
         countryOriginAlt: {
-          description:
-            "The code of the alternative country of origin, in ISO 2 format",
+          description: "The code of the alternative country of origin, in ISO 2 format",
           example: "US; FR",
         },
         countriesOriginTop: {
-          description:
-            "The codes of the 10 most likely countries of origin, in ISO 2 format",
+          description: "The codes of the 10 most likely countries of origin, in ISO 2 format",
           example: "",
         },
         score: { description: "The coefficient of accuracy of the result" },
@@ -857,8 +807,7 @@ let ex = {
           description: "The probability of the result, on a scale from 0 to 1",
         },
         probabilityAltCalibrated: {
-          description:
-            "The alternative probability of the result, on a scale from 0 to 1",
+          description: "The alternative probability of the result, on a scale from 0 to 1",
         },
       },
       firstLastNameGeoFromDiaspora: {
@@ -868,8 +817,7 @@ let ex = {
         },
         id: { description: "A unique processing identifier" },
         firstName: {
-          description:
-            "The personal name given to someone at birth, or baptism",
+          description: "The personal name given to someone at birth, or baptism",
           example: "John",
         },
         lastName: { description: "The family name", example: "Smith" },
@@ -882,8 +830,7 @@ let ex = {
           example: "US",
         },
         ethnicitiesTop: {
-          description:
-            "An array of the top ten most likely ethnicities of the name",
+          description: "An array of the top ten most likely ethnicities of the name",
         },
       },
       firstLastNameGeoToDiaspora: {
@@ -893,8 +840,7 @@ let ex = {
         },
         id: { description: "A unique processing identifier" },
         firstName: {
-          description:
-            "The personal name given to someone at birth, or baptism",
+          description: "The personal name given to someone at birth, or baptism",
           example: "John",
         },
         lastName: { description: "The family name", example: "Smith" },
@@ -907,8 +853,7 @@ let ex = {
           example: "US",
         },
         ethnicitiesTop: {
-          description:
-            "An array of the top ten most likely ethnicities of the name",
+          description: "An array of the top ten most likely ethnicities of the name",
         },
       },
       script: {
@@ -946,8 +891,7 @@ let ex = {
         example: "male, female",
       },
       genderScale: {
-        description:
-          "The accuracy of the gender result, on a scale from 0 to 1",
+        description: "The accuracy of the gender result, on a scale from 0 to 1",
       },
       score: { description: "The coefficient of accuracy of the result" },
       probabilityCalibrated: {
@@ -958,8 +902,7 @@ let ex = {
   },
   "/api2/json/genderGeo/{firstName}/{lastName}/{countryIso2}": {
     http: "get",
-    summary:
-      "Find the likely gender of a first and last name structure, according to its local context.",
+    summary: "Find the likely gender of a first and last name structure, according to its local context.",
     tag: "Personal",
     request: {
       firstName: {
@@ -988,8 +931,7 @@ let ex = {
         example: "male, female",
       },
       genderScale: {
-        description:
-          "The accuracy of the gender result, on a scale from 0 to 1",
+        description: "The accuracy of the gender result, on a scale from 0 to 1",
       },
       score: { description: "The coefficient of accuracy of the result" },
       probabilityCalibrated: {
@@ -1000,8 +942,7 @@ let ex = {
   },
   "/api2/json/genderGeoBatch": {
     http: "post",
-    summary:
-      "Detect the likely gender of up to 100 names, according to their local context.",
+    summary: "Detect the likely gender of up to 100 names, according to their local context.",
     tag: "Personal",
     request: {
       id: { description: "A unique processing identifier" },
@@ -1031,8 +972,7 @@ let ex = {
         example: "male, female",
       },
       genderScale: {
-        description:
-          "The accuracy of the gender result, on a scale from 0 to 1",
+        description: "The accuracy of the gender result, on a scale from 0 to 1",
       },
       score: { description: "The coefficient of accuracy of the result" },
       probabilityCalibrated: {
@@ -1070,8 +1010,7 @@ let ex = {
         example: "male, female",
       },
       genderScale: {
-        description:
-          "The accuracy of the gender result, on a scale from 0 to 1",
+        description: "The accuracy of the gender result, on a scale from 0 to 1",
       },
       score: { description: "The coefficient of accuracy of the result" },
       probabilityCalibrated: {
@@ -1083,8 +1022,7 @@ let ex = {
   },
   "/api2/json/parsedGenderBatch": {
     http: "post",
-    summary:
-      "Detect the likely gender to 100 parsed names, with prefix, suffix, and middle name.",
+    summary: "Detect the likely gender to 100 parsed names, with prefix, suffix, and middle name.",
     tag: "Personal",
     request: {
       id: { description: "A unique processing identifier" },
@@ -1110,8 +1048,7 @@ let ex = {
         example: "male, female",
       },
       genderScale: {
-        description:
-          "The accuracy of the gender result, on a scale from 0 to 1",
+        description: "The accuracy of the gender result, on a scale from 0 to 1",
       },
       score: { description: "The coefficient of accuracy of the result" },
       probabilityCalibrated: {
@@ -1123,8 +1060,7 @@ let ex = {
   },
   "/api2/json/genderFullGeo/{fullName}/{countryIso2}": {
     http: "get",
-    summary:
-      "Infer the likely gender of a full name, according to a local context.",
+    summary: "Infer the likely gender of a full name, according to a local context.",
     tag: "Personal",
     request: {
       fullName: {
@@ -1148,8 +1084,7 @@ let ex = {
         example: "male, female",
       },
       genderScale: {
-        description:
-          "The accuracy of the gender result, on a scale from 0 to 1",
+        description: "The accuracy of the gender result, on a scale from 0 to 1",
       },
       score: { description: "The coefficient of accuracy of the result" },
       probabilityCalibrated: {
@@ -1180,8 +1115,7 @@ let ex = {
         example: "male, female",
       },
       genderScale: {
-        description:
-          "The accuracy of the gender result, on a scale from 0 to 1",
+        description: "The accuracy of the gender result, on a scale from 0 to 1",
       },
       score: { description: "The coefficient of accuracy of the result" },
       probabilityCalibrated: {
@@ -1213,8 +1147,7 @@ let ex = {
         example: "male, female",
       },
       genderScale: {
-        description:
-          "The accuracy of the gender result, on a scale from 0 to 1",
+        description: "The accuracy of the gender result, on a scale from 0 to 1",
       },
       score: { description: "The coefficient of accuracy of the result" },
       probabilityCalibrated: {
@@ -1226,8 +1159,7 @@ let ex = {
   },
   "/api2/json/genderFullGeoBatch": {
     http: "post",
-    summary:
-      "Detect the likely gender of up to 100 full names, according to their local context.",
+    summary: "Detect the likely gender of up to 100 full names, according to their local context.",
     tag: "Personal",
     request: {
       id: { description: "A unique processing identifier" },
@@ -1252,8 +1184,7 @@ let ex = {
         example: "male, female",
       },
       genderScale: {
-        description:
-          "The accuracy of the gender result, on a scale from 0 to 1",
+        description: "The accuracy of the gender result, on a scale from 0 to 1",
       },
       score: { description: "The coefficient of accuracy of the result" },
       probabilityCalibrated: {
@@ -1265,8 +1196,7 @@ let ex = {
   },
   "/api2/json/originBatch": {
     http: "post",
-    summary:
-      "Detect the likely country of origin of up to 100 first and last names.",
+    summary: "Detect the likely country of origin of up to 100 first and last names.",
     tag: "Personal",
     request: {
       id: { description: "A unique processing identifier" },
@@ -1292,13 +1222,11 @@ let ex = {
         example: "US; FR",
       },
       countryOriginAlt: {
-        description:
-          "The code of the alternative country of origin, in ISO 2 format",
+        description: "The code of the alternative country of origin, in ISO 2 format",
         example: "US; FR",
       },
       countriesOriginTop: {
-        description:
-          "The codes of the 10 most likely countries of origin, in ISO 2 format",
+        description: "The codes of the 10 most likely countries of origin, in ISO 2 format",
         example: "",
       },
       score: { description: "The coefficient of accuracy of the result" },
@@ -1318,8 +1246,7 @@ let ex = {
         description: "The probability of the result, on a scale from 0 to 1",
       },
       probabilityAltCalibrated: {
-        description:
-          "The alternative probability of the result, on a scale from 0 to 1",
+        description: "The alternative probability of the result, on a scale from 0 to 1",
       },
     },
     requestSchemaName: "FirstLastNameIn",
@@ -1327,8 +1254,7 @@ let ex = {
   },
   "/api2/json/countryBatch": {
     http: "post",
-    summary:
-      "Infer the likely country of residence of up to 100 full names or last names.",
+    summary: "Infer the likely country of residence of up to 100 full names or last names.",
     tag: "Personal",
     request: {
       id: { description: "A unique processing identifier" },
@@ -1357,7 +1283,7 @@ let ex = {
         description: "The continent of the name",
         example: "Africa, Europe",
       },
-     topRegion: {
+      topRegion: {
         description: "The continent of the name",
         example: "Africa, Europe",
       },
@@ -1373,8 +1299,7 @@ let ex = {
         description: "The probability of the result, on a scale from 0 to 1",
       },
       probabilityAltCalibrated: {
-        description:
-          "The alternative probability of the result, on a scale from 0 to 1",
+        description: "The alternative probability of the result, on a scale from 0 to 1",
       },
     },
     requestSchemaName: "PersonalNameIn",
@@ -1382,8 +1307,7 @@ let ex = {
   },
   "/api2/json/usRaceEthnicity/{firstName}/{lastName}": {
     http: "get",
-    summary:
-      "Determine the most likely U.S. race or ethnicity of a U.S. resident's first and last name",
+    summary: "Determine the most likely U.S. race or ethnicity of a U.S. resident's first and last name",
     tag: "Personal",
     request: {
       firstName: {
@@ -1420,16 +1344,14 @@ let ex = {
         description: "The probability of the result, on a scale from 0 to 1",
       },
       probabilityAltCalibrated: {
-        description:
-          "The alternative probability of the result, on a scale from 0 to 1",
+        description: "The alternative probability of the result, on a scale from 0 to 1",
       },
     },
     responseSchemaName: "FirstLastNameUSRaceEthnicityOut",
   },
   "/api2/json/usRaceEthnicityZIP5/{firstName}/{lastName}/{zip5Code}": {
     http: "get",
-    summary:
-      "Determine the most likely U.S. race or ethnicity of a U.S. resident's first and last name, using their ZIP code",
+    summary: "Determine the most likely U.S. race or ethnicity of a U.S. resident's first and last name, using their ZIP code",
     tag: "Personal",
     request: {
       firstName: {
@@ -1467,16 +1389,14 @@ let ex = {
         description: "The probability of the result, on a scale from 0 to 1",
       },
       probabilityAltCalibrated: {
-        description:
-          "The alternative probability of the result, on a scale from 0 to 1",
+        description: "The alternative probability of the result, on a scale from 0 to 1",
       },
     },
     responseSchemaName: "FirstLastNameUSRaceEthnicityOut",
   },
   "/api2/json/usRaceEthnicityBatch": {
     http: "post",
-    summary:
-      "Detect the most likely U.S. race or ethnicity of a up to 100 U.S. residents' first and last names.",
+    summary: "Detect the most likely U.S. race or ethnicity of a up to 100 U.S. residents' first and last names.",
     tag: "Personal",
     request: {
       id: { description: "A unique processing identifier" },
@@ -1518,8 +1438,7 @@ let ex = {
         description: "The probability of the result, on a scale from 0 to 1",
       },
       probabilityAltCalibrated: {
-        description:
-          "The alternative probability of the result, on a scale from 0 to 1",
+        description: "The alternative probability of the result, on a scale from 0 to 1",
       },
     },
     requestSchemaName: "FirstLastNameGeoIn",
@@ -1527,8 +1446,7 @@ let ex = {
   },
   "/api2/json/usZipRaceEthnicityBatch": {
     http: "post",
-    summary:
-      "Determine the most likely U.S. race or ethnicity of up to 100 U.S. residents' first and last names, using their ZIP code.",
+    summary: "Determine the most likely U.S. race or ethnicity of up to 100 U.S. residents' first and last names, using their ZIP code.",
     tag: "Personal",
     request: {
       id: { description: "A unique processing identifier" },
@@ -1571,8 +1489,7 @@ let ex = {
         description: "The probability of the result, on a scale from 0 to 1",
       },
       probabilityAltCalibrated: {
-        description:
-          "The alternative probability of the result, on a scale from 0 to 1",
+        description: "The alternative probability of the result, on a scale from 0 to 1",
       },
     },
     requestSchemaName: "FirstLastNameGeoZippedIn",
@@ -1580,8 +1497,7 @@ let ex = {
   },
   "/api2/json/diaspora/{countryIso2}/{firstName}/{lastName}": {
     http: "get",
-    summary:
-      "Find out the likely ethnicity or diaspora of a first name and last name, according to the country of residence",
+    summary: "Find out the likely ethnicity or diaspora of a first name and last name, according to the country of residence",
     tag: "Personal",
     request: {
       countryIso2: {
@@ -1614,16 +1530,14 @@ let ex = {
         example: "US",
       },
       ethnicitiesTop: {
-        description:
-          "An array of the top ten most likely ethnicities of the name",
+        description: "An array of the top ten most likely ethnicities of the name",
       },
     },
     responseSchemaName: "FirstLastNameDiasporaedOut",
   },
   "/api2/json/diasporaBatch": {
     http: "post",
-    summary:
-      "Infer the likely ethnicity or diaspora of up to 100 names, according to their country of residence",
+    summary: "Infer the likely ethnicity or diaspora of up to 100 names, according to their country of residence",
     tag: "Personal",
     request: {
       id: { description: "A unique processing identifier" },
@@ -1647,7 +1561,7 @@ let ex = {
         description: "The first name, as it was given for analysis",
         example: "John",
       },
-      lastName: { description: "The last name, as it was given for analysis", example: "Smith" },      
+      lastName: { description: "The last name, as it was given for analysis", example: "Smith" },
       score: { description: "The coefficient of accuracy of the result" },
       ethnicityAlt: { description: "The alternativeethnicity of the name" },
       ethnicity: { description: "The ethnicity of the name" },
@@ -1657,8 +1571,7 @@ let ex = {
         example: "US",
       },
       ethnicitiesTop: {
-        description:
-          "An array of the top ten most likely ethnicities of the name",
+        description: "An array of the top ten most likely ethnicities of the name",
       },
     },
     requestSchemaName: "FirstLastNameGeoIn",
@@ -1666,8 +1579,7 @@ let ex = {
   },
   "/api2/json/parseName/{nameFull}/{countryIso2}": {
     http: "get",
-    summary:
-      "Split a full name into a likely first and last name structure. For better accuracy, provide a local context.",
+    summary: "Split a full name into a likely first and last name structure. For better accuracy, provide a local context.",
     tag: "Personal",
     request: {
       nameFull: {
@@ -1693,11 +1605,11 @@ let ex = {
           description: "The alphabet or characters used in the parameters",
           example: "LATIN, HAN, CYRILLIC",
         },
-        id: { 
-          description: "A unique processing identifier" },
+        id: {
+          description: "A unique processing identifier"
+        },
         firstName: {
-          description:
-            "The personal name given to someone at birth, or baptism",
+          description: "The personal name given to someone at birth, or baptism",
           example: "John",
         },
         lastName: { description: "The family name", example: "Smith" },
@@ -1708,8 +1620,7 @@ let ex = {
   },
   "/api2/json/parseNameBatch": {
     http: "post",
-    summary:
-      "Detect the likely first and last name structure of up to 100 full names.",
+    summary: "Detect the likely first and last name structure of up to 100 full names.",
     tag: "Personal",
     request: {
       id: { description: "A unique processing identifier" },
@@ -1734,8 +1645,7 @@ let ex = {
         },
         id: { description: "A unique processing identifier" },
         firstName: {
-          description:
-            "The personal name given to someone at birth, or baptism",
+          description: "The personal name given to someone at birth, or baptism",
           example: "John",
         },
         lastName: { description: "The family name", example: "Smith" },
@@ -1747,8 +1657,7 @@ let ex = {
   },
   "/api2/json/parseNameGeoBatch": {
     http: "post",
-    summary:
-      "Detect the likely first and last name structure of up to 100 full names. For better accuracy, provide a local context.",
+    summary: "Detect the likely first and last name structure of up to 100 full names. For better accuracy, provide a local context.",
     tag: "Personal",
     request: {
       id: { description: "A unique processing identifier" },
@@ -1777,8 +1686,7 @@ let ex = {
         },
         id: { description: "A unique processing identifier" },
         firstName: {
-          description:
-          "The personal name given to someone at birth, or baptism",
+          description: "The personal name given to someone at birth, or baptism",
           example: "John",
         },
         lastName: { description: "The family name", example: "Smith" },
@@ -1790,8 +1698,7 @@ let ex = {
   },
   "/api2/json/parseChineseName/{chineseName}": {
     http: "get",
-    summary:
-      "Determine the likely first and last name structure of a Chinese name, written in Mandarin",
+    summary: "Determine the likely first and last name structure of a Chinese name, written in Mandarin",
     tag: "Chinese",
     request: {
       chineseName: {
@@ -1815,8 +1722,7 @@ let ex = {
         },
         id: { description: "A unique processing identifier" },
         firstName: {
-          description:
-            "The personal name given to someone at birth, or baptism",
+          description: "The personal name given to someone at birth, or baptism",
           example: "晓明",
         },
         lastName: { description: "The family name", example: "王" },
@@ -1827,8 +1733,7 @@ let ex = {
   },
   "/api2/json/parseChineseNameBatch": {
     http: "post",
-    summary:
-      "Detect the likely first and last name structure of up to 100 a Chinese names, written in Mandarin, ex. 王晓明 -> 王(lastname) 晓明(first name).",
+    summary: "Detect the likely first and last name structure of up to 100 a Chinese names, written in Mandarin, ex. 王晓明 -> 王(lastname) 晓明(first name).",
     tag: "Chinese",
     request: {
       id: { description: "A unique processing identifier" },
@@ -1853,8 +1758,7 @@ let ex = {
         },
         id: { description: "A unique processing identifier" },
         firstName: {
-          description:
-            "The personal name given to someone at birth, or baptism",
+          description: "The personal name given to someone at birth, or baptism",
           example: "晓明",
         },
         lastName: { description: "The family name", example: "王" },
@@ -1888,10 +1792,9 @@ let ex = {
           description: "The alphabet or characters used in the parameters",
           example: "LATIN, HAN, CYRILLIC",
         },
-        id: { description: "A unique processing identifier" },        
+        id: { description: "A unique processing identifier" },
         firstName: {
-          description:
-          "The most likely romanized transcription of the firstname",
+          description: "The most likely romanized transcription of the firstname",
           example: "Xiaoming",
         },
         lastName: { description: "The most likely romanized transcription of the lastname", example: "Wang" },
@@ -1921,14 +1824,13 @@ let ex = {
       nameParserType: "String",
       nameParserTypeAlt: "String",
       script: {
-         firstLastName: {
-         description: "The alphabet or characters used in the parameters",
+        firstLastName: {
+          description: "The alphabet or characters used in the parameters",
           example: "LATIN, HAN, CYRILLIC",
         },
         id: { description: "A unique processing identifier" },
         firstName: {
-          description:
-          "The most likely romanized transcription of the firstname",
+          description: "The most likely romanized transcription of the firstname",
           example: "Xiaoming",
         },
         lastName: { description: "The most likely romanized transcription of the lastname", example: "Wang" },
@@ -1940,8 +1842,7 @@ let ex = {
   },
   "/api2/json/chineseNameMatch/{chineseSurnameLatin}/{chineseGivenNameLatin}/{chineseName}": {
     http: "get",
-    summary:
-      "Receive a score for matching a romanized Chinese name with its Mandarin writing.",
+    summary: "Receive a score for matching a romanized Chinese name with its Mandarin writing.",
     tag: "Chinese",
     request: {
       chineseSurnameLatin: {
@@ -1962,7 +1863,7 @@ let ex = {
         description: "The alphabet or characters used in the parameters",
         example: "LATIN, HAN, CYRILLIC",
       },
-      id: { description: "A unique processing identifier" },      
+      id: { description: "A unique processing identifier" },
       matchStatus: {
         description: "The status of the success of the match",
         example: "Match; Mismatch",
@@ -1973,8 +1874,7 @@ let ex = {
   },
   "/api2/json/chineseNameMatchBatch": {
     http: "post",
-    summary:
-      "Identify Chinese name candidates, based on the romanized name (firstName = chineseGivenName; lastName=chineseSurname), ex. Wang Xiaoming",
+    summary: "Identify Chinese name candidates, based on the romanized name (firstName = chineseGivenName; lastName=chineseSurname), ex. Wang Xiaoming",
     tag: "Chinese",
     request: {
       id: { description: "A unique processing identifier" },
@@ -2005,8 +1905,7 @@ let ex = {
   },
   "/api2/json/genderChineseNamePinyin/{chineseSurnameLatin}/{chineseGivenNameLatin}": {
     http: "get",
-    summary:
-      "Find the likely gender of a romanized Chinese first name and last name",
+    summary: "Find the likely gender of a romanized Chinese first name and last name",
     tag: "Chinese",
     request: {
       chineseSurnameLatin: {
@@ -2023,7 +1922,7 @@ let ex = {
         description: "The alphabet or characters used in the parameters",
         example: "LATIN, HAN, CYRILLIC",
       },
-      id: { description: "A unique processing identifier" },      
+      id: { description: "A unique processing identifier" },
       firstName: {
         description: "The first name, as it was provided for analysis",
         example: "Xiaoming",
@@ -2034,8 +1933,7 @@ let ex = {
         example: "male, female",
       },
       genderScale: {
-        description:
-          "The accuracy of the gender result, on a scale from 0 to 1",
+        description: "The accuracy of the gender result, on a scale from 0 to 1",
       },
       score: { description: "The coefficient of accuracy of the result" },
       probabilityCalibrated: {
@@ -2046,8 +1944,7 @@ let ex = {
   },
   "/api2/json/genderChineseNamePinyinBatch": {
     http: "post",
-    summary:
-      "Find out the likely gender of up to 100 Chinese first and last names, written in Pinyin.",
+    summary: "Find out the likely gender of up to 100 Chinese first and last names, written in Pinyin.",
     tag: "Chinese",
     request: {
       id: { description: "A unique processing identifier" },
@@ -2076,8 +1973,7 @@ let ex = {
         example: "male, female",
       },
       genderScale: {
-        description:
-          "The accuracy of the gender result, on a scale from 0 to 1",
+        description: "The accuracy of the gender result, on a scale from 0 to 1",
       },
       score: { description: "The coefficient of accuracy of the result" },
       probabilityCalibrated: {
@@ -2102,15 +1998,14 @@ let ex = {
         description: "The alphabet or characters used in the parameters",
         example: "LATIN, HAN, CYRILLIC",
       },
-      id: { description: "A unique processing identifier" },      
+      id: { description: "A unique processing identifier" },
       name: { description: "The name, as it was given for analysis" },
       likelyGender: {
         description: "The most likely gender of the name",
         example: "male, female",
       },
       genderScale: {
-        description:
-          "The accuracy of the gender result, on a scale from 0 to 1",
+        description: "The accuracy of the gender result, on a scale from 0 to 1",
       },
       score: { description: "The coefficient of accuracy of the result" },
       probabilityCalibrated: {
@@ -2121,12 +2016,11 @@ let ex = {
   },
   "/api2/json/genderChineseNameBatch": {
     http: "post",
-    summary:
-      "Infer the likely gender of up to 100 Chinese full names, written in Mandarin",
+    summary: "Infer the likely gender of up to 100 Chinese full names, written in Mandarin",
     tag: "Chinese",
     request: {
       id: { description: "A unique processing identifier" },
-      name: {  
+      name: {
         description: "A Chinese name written in Standard Mandarin",
         example: "王晓明"
       },
@@ -2143,8 +2037,7 @@ let ex = {
         example: "male, female",
       },
       genderScale: {
-        description:
-          "The accuracy of the gender result, on a scale from 0 to 1",
+        description: "The accuracy of the gender result, on a scale from 0 to 1",
       },
       score: { description: "The coefficient of accuracy of the result" },
       probabilityCalibrated: {
@@ -2156,8 +2049,7 @@ let ex = {
   },
   "/api2/json/chineseNameCandidates/{chineseSurnameLatin}/{chineseGivenNameLatin}": {
     http: "get",
-    summary:
-      "Find the most likely Mandarin transcriptions for a Chinese first name and last name, written in Pinyin",
+    summary: "Find the most likely Mandarin transcriptions for a Chinese first name and last name, written in Pinyin",
     tag: "Chinese",
     request: {
       chineseSurnameLatin: {
@@ -2174,7 +2066,7 @@ let ex = {
         description: "The alphabet or characters used in the parameters",
         example: "LATIN, HAN, CYRILLIC",
       },
-      id: { description: "A unique processing identifier" },      
+      id: { description: "A unique processing identifier" },
       firstName: {
         description: "The first name, as it was given for analysis",
         example: "John",
@@ -2189,8 +2081,7 @@ let ex = {
   },
   "/api2/json/chineseNameCandidatesBatch": {
     http: "post",
-    summary:
-      "Find the most likely Mandarin transcriptions for up to 100 Chinese first and last names, written in Pinyin",
+    summary: "Find the most likely Mandarin transcriptions for up to 100 Chinese first and last names, written in Pinyin",
     tag: "Chinese",
     request: {
       id: { description: "A unique processing identifier" },
@@ -2208,8 +2099,8 @@ let ex = {
         description: "The alphabet or characters used in the parameters",
         example: "LATIN, HAN, CYRILLIC",
       },
-      id: { 
-        description: "The processing identifier, as it was given for analysis" 
+      id: {
+        description: "The processing identifier, as it was given for analysis"
       },
       firstName: {
         description: "The first name, as it was given for analysis",
@@ -2226,8 +2117,7 @@ let ex = {
   },
   "/api2/json/chineseNameGenderCandidates/{chineseSurnameLatin}/{chineseGivenNameLatin}/{knownGender}": {
     http: "get",
-    summary:
-      "Determine the most likely Mandarin transcriptions for a romanized Chinese first name and last name, accrding to the known gender of the name",
+    summary: "Determine the most likely Mandarin transcriptions for a romanized Chinese first name and last name, accrding to the known gender of the name",
     tag: "Chinese",
     request: {
       chineseSurnameLatin: {
@@ -2264,8 +2154,7 @@ let ex = {
   },
   "/api2/json/chineseNameCandidatesGenderBatch": {
     http: "post",
-    summary:
-      "Find the most likely transcriptions for a romanized Chinese first name and last name",
+    summary: "Find the most likely transcriptions for a romanized Chinese first name and last name",
     tag: "Chinese",
     request: {
       id: { description: "A unique processing identifier" },
@@ -2274,8 +2163,8 @@ let ex = {
         example: "Xiaoming",
       },
       lastName: { description: "A romanized Chinese last name", example: "Wang" },
-      gender: { 
-        description: "The gender of the name" 
+      gender: {
+        description: "The gender of the name"
       },
     },
     response: {
@@ -2299,8 +2188,7 @@ let ex = {
   },
   "/api2/json/parseJapaneseName/{japaneseName}": {
     http: "get",
-    summary:
-      "Split a Japanese full name, in Kanji or Latin writing, into a first name and last name structure",
+    summary: "Split a Japanese full name, in Kanji or Latin writing, into a first name and last name structure",
     tag: "Japanese",
     request: {
       japaneseName: {
@@ -2322,21 +2210,20 @@ let ex = {
           description: "The alphabet or characters used in the parameters",
           example: "LATIN, HAN, CYRILLIC",
         },
-        id: { description: "A unique processing identifier" },        
+        id: { description: "A unique processing identifier" },
         firstName: {
-          description:
-            "The personal name given to someone at birth, or baptism",
+          description: "The personal name given to someone at birth, or baptism",
           example: "早苗; Sanae",
         },
-        lastName: { description: "The family name", example: "山本; Yamamoto" },      },
+        lastName: { description: "The family name", example: "山本; Yamamoto" },
+      },
       score: { description: "The coefficient of accuracy of the result" },
     },
     responseSchemaName: "PersonalNameParsedOut",
   },
   "/api2/json/parseJapaneseNameBatch": {
     http: "post",
-    summary:
-      "Split up to 100 Japanese full names, in Kanji or Latin writing, into first name and last name structures",
+    summary: "Split up to 100 Japanese full names, in Kanji or Latin writing, into first name and last name structures",
     request: {
       id: { description: "A unique processing identifier" },
       name: {
@@ -2360,8 +2247,7 @@ let ex = {
         },
         id: { description: "A unique processing identifier" },
         firstName: {
-          description:
-            "The personal name given to someone at birth, or baptism",
+          description: "The personal name given to someone at birth, or baptism",
           example: "早苗; Sanae",
         },
         lastName: { description: "The family name", example: "山本; Yamamoto" },
@@ -2373,8 +2259,7 @@ let ex = {
   },
   "/api2/json/japaneseNameKanjiCandidates/{japaneseSurnameLatin}/{japaneseGivenNameLatin}/{knownGender}": {
     http: "get",
-    summary:
-      "Find the likely transcriptions to Kanji, for a Japanese first name and last name, according to a known gender.",
+    summary: "Find the likely transcriptions to Kanji, for a Japanese first name and last name, according to a known gender.",
     tag: "Japanese",
     request: {
       japaneseSurnameLatin: {
@@ -2392,7 +2277,7 @@ let ex = {
         description: "The alphabet or characters used in the parameters",
         example: "LATIN, HAN, CYRILLIC",
       },
-      id: { description: "A unique processing identifier" },      
+      id: { description: "A unique processing identifier" },
       firstName: {
         description: "The first name, as it was given for analysis",
         example: "Sanae",
@@ -2407,8 +2292,7 @@ let ex = {
   },
   "/api2/json/japaneseNameKanjiCandidates/{japaneseSurnameLatin}/{japaneseGivenNameLatin}": {
     http: "get",
-    summary:
-      "Find the likely transcriptions to Kanji, for a romanized Japanese first name and last name.",
+    summary: "Find the likely transcriptions to Kanji, for a romanized Japanese first name and last name.",
     tag: "Japanese",
     request: {
       japaneseSurnameLatin: {
@@ -2425,7 +2309,7 @@ let ex = {
         description: "The alphabet or characters used in the parameters",
         example: "LATIN, HAN, CYRILLIC",
       },
-      id: { description: "A unique processing identifier" },      
+      id: { description: "A unique processing identifier" },
       firstName: {
         description: "The first name, as it was given for analysis",
         example: "Sanae",
@@ -2440,8 +2324,7 @@ let ex = {
   },
   "/api2/json/japaneseNameLatinCandidates/{japaneseSurnameKanji}/{japaneseGivenNameKanji}": {
     http: "get",
-    summary:
-      "Receive the most likely Latin transcriptions for a Japanese name written in Kanji characters.",
+    summary: "Receive the most likely Latin transcriptions for a Japanese name written in Kanji characters.",
     tag: "Japanese",
     request: {
       japaneseSurnameKanji: {
@@ -2458,7 +2341,7 @@ let ex = {
         description: "The alphabet or characters used in the parameters",
         example: "LATIN, HAN, CYRILLIC",
       },
-      id: { description: "A unique processing identifier" },      
+      id: { description: "A unique processing identifier" },
       firstName: {
         description: "The first name, as it was given for analysis",
         example: "早苗",
@@ -2473,8 +2356,7 @@ let ex = {
   },
   "/api2/json/japaneseNameKanjiCandidatesBatch": {
     http: "post",
-    summary:
-      "Find the likely transcriptions to Kanji, for up to 100 Japanese romanized first and last names.",
+    summary: "Find the likely transcriptions to Kanji, for up to 100 Japanese romanized first and last names.",
     tag: "Japanese",
     request: {
       id: { description: "A unique processing identifier" },
@@ -2508,8 +2390,7 @@ let ex = {
   },
   "/api2/json/japaneseNameGenderKanjiCandidatesBatch": {
     http: "post",
-    summary:
-      "Find the likely transcriptions to Kanji, for up to 100 Japanese romanized first and last names, according to a known gender.",
+    summary: "Find the likely transcriptions to Kanji, for up to 100 Japanese romanized first and last names, according to a known gender.",
     tag: "Japanese",
     request: {
       id: { description: "A unique processing identifier" },
@@ -2578,8 +2459,7 @@ let ex = {
   },
   "/api2/json/japaneseNameMatch/{japaneseSurnameLatin}/{japaneseGivenNameLatin}/{japaneseName}": {
     http: "get",
-    summary:
-      "Receive a score for matching a romanized Japanese name with a Kanji transcription.",
+    summary: "Receive a score for matching a romanized Japanese name with a Kanji transcription.",
     tag: "Japanese",
     request: {
       japaneseSurnameLatin: {
@@ -2611,8 +2491,7 @@ let ex = {
   },
   "/api2/json/japaneseNameMatchFeedbackLoop/{japaneseSurnameLatin}/{japaneseGivenNameLatin}/{japaneseName}": {
     http: "get",
-    summary:
-      "Suggest a transcription of a Japanese name between Kanji characters and Latin alphabet to help us improve our name matching tool.",
+    summary: "Suggest a transcription of a Japanese name between Kanji characters and Latin alphabet to help us improve our name matching tool.",
     tag: "Japanese",
     request: {
       japaneseSurnameLatin: {
@@ -2637,8 +2516,7 @@ let ex = {
   },
   "/api2/json/japaneseNameMatchBatch": {
     http: "post",
-    summary:
-      "Return a score for matching a list of Japanese names in KANJI ex. 山本 早苗 with romanized names ex. Yamamoto Sanae",
+    summary: "Return a score for matching a list of Japanese names in KANJI ex. 山本 早苗 with romanized names ex. Yamamoto Sanae",
     tag: "Japanese",
     request: {
       id: { description: "A unique processing identifier" },
@@ -2672,8 +2550,7 @@ let ex = {
   },
   "/api2/json/genderJapaneseName/{japaneseSurname}/{japaneseGivenName}": {
     http: "get",
-    summary:
-      "Discover the likely gender of a Japanese first name and last name written in Latin alphabet.",
+    summary: "Discover the likely gender of a Japanese first name and last name written in Latin alphabet.",
     tag: "Japanese",
     request: {
       japaneseSurnameLatin: {
@@ -2701,8 +2578,7 @@ let ex = {
         example: "male, female",
       },
       genderScale: {
-        description:
-          "The accuracy of the gender result, on a scale from 0 to 1",
+        description: "The accuracy of the gender result, on a scale from 0 to 1",
       },
       score: { description: "The coefficient of accuracy of the result" },
       probabilityCalibrated: {
@@ -2713,8 +2589,7 @@ let ex = {
   },
   "/api2/json/genderJapaneseNameBatch": {
     http: "post",
-    summary:
-      "Discover the likely gender of a up to 100 Japanese first and last names written in Latin alphabet.",
+    summary: "Discover the likely gender of a up to 100 Japanese first and last names written in Latin alphabet.",
     tag: "Japanese",
     request: {
       id: { description: "A unique processing identifier" },
@@ -2743,8 +2618,7 @@ let ex = {
         example: "male, female",
       },
       genderScale: {
-        description:
-          "The accuracy of the gender result, on a scale from 0 to 1",
+        description: "The accuracy of the gender result, on a scale from 0 to 1",
       },
       score: { description: "The coefficient of accuracy of the result" },
       probabilityCalibrated: {
@@ -2756,8 +2630,7 @@ let ex = {
   },
   "/api2/json/genderJapaneseNameFull/{japaneseName}": {
     http: "get",
-    summary:
-      "Find the likely gender of a Japanese full name, written in Kanji.",
+    summary: "Find the likely gender of a Japanese full name, written in Kanji.",
     tag: "Japanese",
     request: {
       japaneseName: {
@@ -2777,8 +2650,7 @@ let ex = {
         example: "male, female",
       },
       genderScale: {
-        description:
-          "The accuracy of the gender result, on a scale from 0 to 1",
+        description: "The accuracy of the gender result, on a scale from 0 to 1",
       },
       score: { description: "The coefficient of accuracy of the result" },
       probabilityCalibrated: {
@@ -2789,8 +2661,7 @@ let ex = {
   },
   "/api2/json/genderJapaneseNameFullBatch": {
     http: "post",
-    summary:
-      "Find the likely gender of up to 100 Japanese full names, written in Kanji.",
+    summary: "Find the likely gender of up to 100 Japanese full names, written in Kanji.",
     tag: "Japanese",
     request: {
       id: { description: "A unique processing identifier" },
@@ -2811,8 +2682,7 @@ let ex = {
         example: "male, female",
       },
       genderScale: {
-        description:
-          "The accuracy of the gender result, on a scale from 0 to 1",
+        description: "The accuracy of the gender result, on a scale from 0 to 1",
       },
       score: { description: "The coefficient of accuracy of the result" },
       probabilityCalibrated: {
@@ -2824,8 +2694,7 @@ let ex = {
   },
   "/api2/json/phoneCode/{firstName}/{lastName}/{phoneNumber}": {
     http: "get",
-    summary:
-      "Identify the likely country and phone prefix of a name and phone number.",
+    summary: "Identify the likely country and phone prefix of a name and phone number.",
     tag: "social",
     request: {
       firstName: {
@@ -2848,10 +2717,10 @@ let ex = {
         description: "The first name, as it was given for analysis",
         example: "John",
       },
-      lastName: { 
-        description: "The last name, as it was given for analysis", 
-        example: "Smith" 
-      },      
+      lastName: {
+        description: "The last name, as it was given for analysis",
+        example: "Smith"
+      },
       internationalPhoneNumberVerified: {
         description: "The formatted phone number for international calls",
       },
@@ -2859,9 +2728,9 @@ let ex = {
         description: "The country code of the number, in ISO 2 format",
         example: "+1-541-754-3010",
       },
-      phoneCountryCode: { 
+      phoneCountryCode: {
         description: "The phone prefix of the number",
-        example: "1" 
+        example: "1"
       },
       phoneCountryCodeAlt: {
         description: "The alternative phone prefix of the number",
@@ -2872,7 +2741,7 @@ let ex = {
         example: "US"
       },
       phoneCountryIso2Alt: {
-        description:"The altervative country origin of the phone number, in ISO 2 format",
+        description: "The altervative country origin of the phone number, in ISO 2 format",
         example: "CN"
       },
       originCountryIso2: {
@@ -2881,7 +2750,7 @@ let ex = {
       },
       originCountryIso2Alt: {
         description: "The alternative country of origin of the name, in ISO 2 format",
-          example: "CN"
+        example: "CN"
       },
       phoneNumber: {
         description: "The phone number, as it was sent for analysis",
@@ -2897,8 +2766,7 @@ let ex = {
   },
   "/api2/json/phoneCodeGeo/{firstName}/{lastName}/{phoneNumber}/{countryIso2}": {
     http: "get",
-    summary:
-      "Identify the likely phone prefix of a name and phone number (formatted or unformatted) according to local context.",
+    summary: "Identify the likely phone prefix of a name and phone number (formatted or unformatted) according to local context.",
     tag: "social",
     request: {
       firstName: {
@@ -2925,10 +2793,10 @@ let ex = {
         description: "The first name, as it was given for analysis",
         example: "John",
       },
-      lastName: { 
-        description: "The last name, as it was given for analysis", 
-        example: "Smith" 
-      },      
+      lastName: {
+        description: "The last name, as it was given for analysis",
+        example: "Smith"
+      },
       internationalPhoneNumberVerified: {
         description: "The formatted phone number for international calls",
       },
@@ -2936,9 +2804,9 @@ let ex = {
         description: "The country code of the number, in ISO 2 format",
         example: "+1-541-754-3010",
       },
-      phoneCountryCode: { 
+      phoneCountryCode: {
         description: "The phone prefix of the number",
-        example: "1" 
+        example: "1"
       },
       phoneCountryCodeAlt: {
         description: "The alternative phone prefix of the number",
@@ -2949,7 +2817,7 @@ let ex = {
         example: "US"
       },
       phoneCountryIso2Alt: {
-        description:"The altervative country origin of the phone number, in ISO 2 format",
+        description: "The altervative country origin of the phone number, in ISO 2 format",
         example: "CN"
       },
       originCountryIso2: {
@@ -2958,7 +2826,7 @@ let ex = {
       },
       originCountryIso2Alt: {
         description: "The alternative country of origin of the name, in ISO 2 format",
-          example: "CN"
+        example: "CN"
       },
       phoneNumber: {
         description: "The phone number, as it was sent for analysis",
@@ -2974,8 +2842,7 @@ let ex = {
   },
   "/api2/json/phoneCodeGeoFeedbackLoop/{firstName}/{lastName}/{phoneNumber}/{phoneNumberE164}/{countryIso2}": {
     http: "get",
-    summary:
-      "Suggest a phone prefix, according to a name, phone number (formatted or unformatted) and local context, to help us improve our technology.",
+    summary: "Suggest a phone prefix, according to a name, phone number (formatted or unformatted) and local context, to help us improve our technology.",
     tag: "social",
     request: {
       firstName: {
@@ -3005,8 +2872,7 @@ let ex = {
   },
   "/api2/json/phoneCodeBatch": {
     http: "post",
-    summary:
-      "Identify the likely country and phone prefix of up to 100 names and phone numbers (formatted or unformatted)",
+    summary: "Identify the likely country and phone prefix of up to 100 names and phone numbers (formatted or unformatted)",
     tag: "social",
     request: {
       id: { description: "A unique processing identifier" },
@@ -3026,8 +2892,7 @@ let ex = {
         },
         id: { description: "A unique processing identifier" },
         firstName: {
-          description:
-            "The personal name given to someone at birth, or baptism",
+          description: "The personal name given to someone at birth, or baptism",
           example: "John",
         },
         lastName: { description: "The family name", example: "Smith" },
@@ -3036,13 +2901,11 @@ let ex = {
           example: "US; FR",
         },
         countryOriginAlt: {
-          description:
-            "The code of the alternative country of origin, in ISO 2 format",
+          description: "The code of the alternative country of origin, in ISO 2 format",
           example: "US; FR",
         },
         countriesOriginTop: {
-          description:
-            "The codes of the 10 most likely countries of origin, in ISO 2 format",
+          description: "The codes of the 10 most likely countries of origin, in ISO 2 format",
           example: "",
         },
         score: { description: "The coefficient of accuracy of the result" },
@@ -3062,8 +2925,7 @@ let ex = {
           description: "The probability of the result, on a scale from 0 to 1",
         },
         probabilityAltCalibrated: {
-          description:
-            "The alternative probability of the result, on a scale from 0 to 1",
+          description: "The alternative probability of the result, on a scale from 0 to 1",
         },
       },
     },
@@ -3093,19 +2955,16 @@ let ex = {
         description: "The alternative phone prefix of the number",
       },
       phoneCountryIso2: {
-        description:
-          "The country of origin of the phone number, in ISO 2 format",
+        description: "The country of origin of the phone number, in ISO 2 format",
       },
       phoneCountryIso2Alt: {
-        description:
-          "The altervative country origin of the phone number, in ISO 2 format",
+        description: "The altervative country origin of the phone number, in ISO 2 format",
       },
       originCountryIso2: {
         description: "The country of origin of the name, in ISO 2 format",
       },
       originCountryIso2Alt: {
-        description:
-          "The alternative country of origin of the name, in ISO 2 format",
+        description: "The alternative country of origin of the name, in ISO 2 format",
       },
       phoneNumber: {
         description: "The phone number, as it was sent for analysis",
@@ -3122,8 +2981,7 @@ let ex = {
   },
   "/api2/json/phoneCodeGeoBatch": {
     http: "post",
-    summary:
-      "Identify the likely phone prefix of up to 100 names and phone numbers (formatted or unformatted) according to local context.",
+    summary: "Identify the likely phone prefix of up to 100 names and phone numbers (formatted or unformatted) according to local context.",
     tag: "social",
     request: {
       id: { description: "A unique processing identifier" },
@@ -3143,8 +3001,7 @@ let ex = {
         },
         id: { description: "A unique processing identifier" },
         firstName: {
-          description:
-            "The personal name given to someone at birth, or baptism",
+          description: "The personal name given to someone at birth, or baptism",
           example: "John",
         },
         lastName: { description: "The family name", example: "Smith" },
@@ -3153,13 +3010,11 @@ let ex = {
           example: "US; FR",
         },
         countryOriginAlt: {
-          description:
-            "The code of the alternative country of origin, in ISO 2 format",
+          description: "The code of the alternative country of origin, in ISO 2 format",
           example: "US; FR",
         },
         countriesOriginTop: {
-          description:
-            "The codes of the 10 most likely countries of origin, in ISO 2 format",
+          description: "The codes of the 10 most likely countries of origin, in ISO 2 format",
           example: "",
         },
         score: { description: "The coefficient of accuracy of the result" },
@@ -3179,8 +3034,7 @@ let ex = {
           description: "The probability of the result, on a scale from 0 to 1",
         },
         probabilityAltCalibrated: {
-          description:
-            "The alternative probability of the result, on a scale from 0 to 1",
+          description: "The alternative probability of the result, on a scale from 0 to 1",
         },
       },
       countryIso2: {
@@ -3215,19 +3069,16 @@ let ex = {
         description: "The alternative phone prefix of the number",
       },
       phoneCountryIso2: {
-        description:
-          "The country of origin of the phone number, in ISO 2 format",
+        description: "The country of origin of the phone number, in ISO 2 format",
       },
       phoneCountryIso2Alt: {
-        description:
-          "The altervative country origin of the phone number, in ISO 2 format",
+        description: "The altervative country origin of the phone number, in ISO 2 format",
       },
       originCountryIso2: {
         description: "The country of origin of the name, in ISO 2 format",
       },
       originCountryIso2Alt: {
-        description:
-          "The alternative country of origin of the name, in ISO 2 format",
+        description: "The alternative country of origin of the name, in ISO 2 format",
       },
       phoneNumber: {
         description: "The phone number, as it was sent for analysis",

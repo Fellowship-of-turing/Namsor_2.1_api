@@ -7,6 +7,7 @@ let capitalize = helpers.capitalize;
 const fs = require('fs');
 let routeNames = require('../config/routeNames');
 let apiExamples = require('../config/apiExamples');
+let descr = require('../config/structure_ex_modified');
 
 /***************************************************/
 /**************** Openapi.json Mod ****************/
@@ -73,7 +74,14 @@ let formatOpenapi = (swaggerFile, opt) => {
         route.summary = route.summary.slice(costEnd + 2, route.summary.length);
       };
 
-
+      // Replace route summary
+      if (
+        descr[routes[i]] &&
+        descr[routes[i]].summary
+      ) {
+        route.summary = descr[routes[i]].summary;
+        console.log('route.summary: ', route.summary);
+      };
 
       if (method === 'get') {
 
@@ -84,6 +92,7 @@ let formatOpenapi = (swaggerFile, opt) => {
           if (opt.req_no_params) console.log(`\u001b[34mWarning\u001b[m\nRoute ${routes[i]} - No request parameters where found`);
         }
         else {
+          // SAVE Request
           routeRequests[routes[i]] = {
             http: 'get',
             type: 'param',
@@ -177,6 +186,7 @@ let formatOpenapi = (swaggerFile, opt) => {
                   cleanSchema[nested] = JSON.parse(JSON.stringify(passRefNested[nested]));
                 });
 
+                // SAVE Request
                 routeRequests[routes[i]] = {
                   http: 'post',
                   type: 'array',
@@ -234,6 +244,7 @@ let formatOpenapi = (swaggerFile, opt) => {
                 cleanSchema[nested] = JSON.parse(JSON.stringify(passRefNested[nested]));
               });
 
+              // SAVE Request
               routeRequests[routes[i]] = {
                 http: 'post',
                 type: 'object',
@@ -349,6 +360,7 @@ let formatOpenapi = (swaggerFile, opt) => {
               cleanSchema[nested] = JSON.parse(JSON.stringify(passRefNested[nested]));
             });
 
+            // SAVE Responses
             routeResponses[routes[i]] = {
               type: 'array',
               description: route.responses['200'].description,
@@ -424,6 +436,7 @@ let formatOpenapi = (swaggerFile, opt) => {
             cleanSchema[nested] = JSON.parse(JSON.stringify(passRefNested[nested]));
           });
 
+          // SAVE Responses
           routeResponses[routes[i]] = {
             type: 'object',
             description: route.responses['200'].description,

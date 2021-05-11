@@ -1,4 +1,4 @@
-let apiExamples = {
+module.exports = {
     ////////////////////////////////////////////////////////////////////////////////////////////// what is route ???
     // - - - GET
     "/api2/json/anonymize/{source}/{anonymized}": {
@@ -1957,5 +1957,3 @@ let apiExamples = {
         }
     }
 }
-
-module.exports = apiExamples;
