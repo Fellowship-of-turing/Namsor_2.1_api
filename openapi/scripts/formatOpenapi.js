@@ -23,49 +23,46 @@ let routeRequests = {};
 let routeResponses = {};
 let DESCR = {};
 
-let descr_gen = (io, route, type, key, subkey) => {
+let descrGen = (io, route, type, key, subkey) => {
   let DESCR_RES = DESCR[route].response;
   let DESCR_REQ = DESCR[route].request;
   // REQUEST
   if (io === 'req') {
 
-    // Key exists in descriptions
-    if (
-      descr[route] &&
-      descr[route].request &&
-      descr[route].request[key]
-    ) {
+    // IS a subkeyed element
+    if (subkey) {
 
-      // IS a subkeyed element
-      if (subkey) {
+      // Key is an object
+      if (
+        DESCR_REQ[key] === null ||
+        typeof DESCR_REQ[key] !== 'object' ||
+        Object.prototype.toString.call(DESCR_REQ[key]) !== '[object Object]'
+      ) {
+        DESCR_REQ[key] = {};
+      };
 
-        // Key is an object
-        if (
-          DESCR_REQ[key][subkey] === null ||
-          typeof DESCR_REQ[key][subkey] !== 'object' ||
-          Object.prototype.toString.call(DESCR_REQ[key][subkey]) !== '[object Object]'
-        ) {
-          DESCR_REQ[key][subkey] = {};
-        };
-
-        // Subkey has a description
-        if (
-          descr[route].request[key][subkey] &&
-          descr[route].request[key][subkey].description
-        ) {
-          DESCR_REQ[key][subkey] = descr[route].request[key][subkey].description;
-        }
-        else {
-          DESCR_REQ[key][subkey] = `*** ${type} ***`;
-        };
-      }
-      // Key has a description
-      else if (descr[route].request[key].description) {
-        DESCR_REQ[key] = descr[route].request[key].description;
+      // Subkey has a description
+      if (
+        descr[route] &&
+        descr[route].request &&
+        descr[route].request[key] &&
+        descr[route].request[key][subkey] &&
+        descr[route].request[key][subkey].description
+      ) {
+        DESCR_REQ[key][subkey] = descr[route].request[key][subkey].description;
       }
       else {
-        DESCR_REQ[key] = `*** ${type} ***`
-      }
+        DESCR_REQ[key][subkey] = `*** ${type} ***`;
+      };
+    }
+    // Key has a description
+    else if (
+      descr[route] &&
+      descr[route].request &&
+      descr[route].request[key] &&
+      descr[route].request[key].description
+    ) {
+      DESCR_REQ[key] = descr[route].request[key].description;
     }
     else {
       DESCR_REQ[key] = `*** ${type} ***`
@@ -75,43 +72,40 @@ let descr_gen = (io, route, type, key, subkey) => {
   // RESPONSE
   else if (io === 'res') {
 
-    // Key exists in descriptions
-    if (
-      descr[route] &&
-      descr[route].response &&
-      descr[route].response[key]
-    ) {
+    // IS a subkeyed element
+    if (subkey) {
 
-      // IS a subkeyed element
-      if (subkey) {
+      // Key is an object
+      if (
+        DESCR_RES[key] === null ||
+        typeof DESCR_RES[key] !== 'object' ||
+        Object.prototype.toString.call(DESCR_RES[key]) !== '[object Object]'
+      ) {
+        DESCR_RES[key] = {};
+      };
 
-        // Key is an object
-        if (
-          DESCR_RES[key][subkey] === null ||
-          typeof DESCR_RES[key][subkey] !== 'object' ||
-          Object.prototype.toString.call(DESCR_RES[key][subkey]) !== '[object Object]'
-        ) {
-          DESCR_RES[key][subkey] = {};
-        };
-
-        // Subkey has a description
-        if (
-          descr[route].response[key][subkey] &&
-          descr[route].response[key][subkey].description
-        ) {
-          DESCR_RES[key][subkey] = descr[route].response[key][subkey].description;
-        }
-        else {
-          DESCR_RES[key][subkey] = `*** ${type} ***`;
-        };
-      }
-      // Key has a description
-      else if (descr[route].response[key].description) {
-        DESCR_RES[key] = descr[route].response[key].description;
+      // Subkey has a description
+      if (
+        descr[route] &&
+        descr[route].response &&
+        descr[route].response[key] &&
+        descr[route].response[key][subkey] &&
+        descr[route].response[key][subkey].description
+      ) {
+        DESCR_RES[key][subkey] = descr[route].response[key][subkey].description;
       }
       else {
-        DESCR_RES[key] = `*** ${type} ***`
-      }
+        DESCR_RES[key][subkey] = `*** ${type} ***`;
+      };
+    }
+    // Key has a description
+    else if (
+      descr[route] &&
+      descr[route].response &&
+      descr[route].response[key] &&
+      descr[route].response[key].description
+    ) {
+      DESCR_RES[key] = descr[route].response[key].description;
     }
     else {
       DESCR_RES[key] = `*** ${type} ***`
@@ -140,8 +134,6 @@ let formatOpenapi = (swaggerFile, opt) => {
     else {
       let route = methodPath[method];
       routeMethods[routes[i]] = method;
-
-
 
       DESCR[routes[i]] = {
         request: {},
@@ -221,19 +213,8 @@ let formatOpenapi = (swaggerFile, opt) => {
               param.type = param.schema.type ? capitalize(param.schema.type) : 'Any';
 
               // Get description 
-              // descr_gen(io, route, type, key, subkey)
-              descr_gen('req', routes[i], param.type, param.name);
-              // if (
-              //   descr[routes[i]] &&
-              //   descr[routes[i]].request &&
-              //   descr[routes[i]].request[param.name] &&
-              //   descr[routes[i]].request[param.name].description
-              // ) {
-              //   DESCR_REQ[param.name] = descr[routes[i]].request[param.name].description;
-              // }
-              // else {
-              //   DESCR_REQ[param.name] = `*** ${param.type} ***`
-              // };
+              descrGen('req', routes[i], param.type, param.name);
+
               // Replace typed examples with value examples
               if (
                 opt.inject_ex === true &&
@@ -302,11 +283,17 @@ let formatOpenapi = (swaggerFile, opt) => {
 
                     Object.keys(requestNestedSubSchema.properties).forEach(subKey => {
                       if (requestNestedSubSchema.properties[subKey].type) {
+                        // Get description 
+                        descrGen('req', routes[i], requestNestedSubSchema.properties[subKey].type, key, subKey);
+
                         requestSubStructure[key][subKey] = capitalize(requestNestedSubSchema.properties[subKey].type);
                       };
                     });
                   }
                   else if (requestSubSchema.properties[key].type) {
+                    // Get description 
+                    descrGen('req', routes[i], requestSubSchema.properties[key].type, key);
+
                     requestSubStructure[key] = capitalize(requestSubSchema.properties[key].type);
                   };
                 });
@@ -360,11 +347,17 @@ let formatOpenapi = (swaggerFile, opt) => {
 
                   Object.keys(requestNestedSchema.properties).forEach(subKey => {
                     if (requestNestedSchema.properties[subKey].type) {
+                      // Get description 
+                      descrGen('req', routes[i], requestNestedSchema.properties[subKey].type, key, subKey);
+
                       RES_STRUCT[key][subKey] = capitalize(requestNestedSchema.properties[subKey].type);
                     };
                   });
                 }
                 else if (schemas[requestSchemaName].properties[key].type) {
+                  // Get description 
+                  descrGen('req', routes[i], schemas[requestSchemaName].properties[key].type, key);
+
                   REQ_STRUCT[key] = capitalize(schemas[requestSchemaName].properties[key].type);
                 };
               });
@@ -455,6 +448,9 @@ let formatOpenapi = (swaggerFile, opt) => {
 
                 Object.keys(responseNestedSubSchema.properties).forEach(subKey => {
                   if (responseNestedSubSchema.properties[subKey].type) {
+                    // Get description 
+                    descrGen('res', routes[i], responseNestedSubSchema.properties[subKey].type, key, subKey);
+
                     responseSubStructure[key][subKey] = capitalize(responseNestedSubSchema.properties[subKey].type);
                   };
                 });
@@ -475,11 +471,17 @@ let formatOpenapi = (swaggerFile, opt) => {
 
                 Object.keys(responseNestedSubSchema.properties).forEach(subKey => {
                   if (responseNestedSubSchema.properties[subKey].type) {
+                    // Get description 
+                    descrGen('res', routes[i], responseNestedSubSchema.properties[subKey].type, key, subKey);
+
                     responseSubStructure[key][0][subKey] = capitalize(responseNestedSubSchema.properties[subKey].type);
                   };
                 });
               }
               else if (responseSubSchema.properties[key].type) {
+                // Get description 
+                descrGen('res', routes[i], responseSubSchema.properties[key].type, key);
+
                 responseSubStructure[key] = capitalize(responseSubSchema.properties[key].type);
               };
             });
@@ -532,6 +534,9 @@ let formatOpenapi = (swaggerFile, opt) => {
 
               Object.keys(responseNestedSchema.properties).forEach(subKey => {
                 if (responseNestedSchema.properties[subKey].type) {
+                  // Get description 
+                  descrGen('res', routes[i], responseNestedSchema.properties[subKey].type, key, subKey);
+
                   RES_STRUCT[key][subKey] = capitalize(responseNestedSchema.properties[subKey].type);
                 };
               });
@@ -552,11 +557,17 @@ let formatOpenapi = (swaggerFile, opt) => {
 
               Object.keys(responseNestedSchema.properties).forEach(subKey => {
                 if (responseNestedSchema.properties[subKey].type) {
+                  // Get description 
+                  descrGen('res', routes[i], responseNestedSchema.properties[subKey].type, key, subKey);
+
                   RES_STRUCT[key][0][subKey] = capitalize(responseNestedSchema.properties[subKey].type);
                 };
               });
             }
             else if (schemas[responseSchemaName].properties[key].type) {
+              // Get description 
+              descrGen('res', routes[i], schemas[responseSchemaName].properties[key].type, key);
+
               RES_STRUCT[key] = capitalize(schemas[responseSchemaName].properties[key].type);
             };
           });
@@ -592,8 +603,6 @@ let formatOpenapi = (swaggerFile, opt) => {
   };
   // Delete Schemas
   delete swaggerFile.components;
-
-  console.log('DESCR: ', DESCR);
 
   // Save intermidiate files
   fs.writeFileSync('openapi/genNotMD/premarkdown.json', JSON.stringify(swaggerFile), 'utf8');
