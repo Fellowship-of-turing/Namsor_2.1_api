@@ -94,43 +94,14 @@
     "/api2/json/apiUsageHistoryAggregate": {
         "request": {},
         "response": {
-            "subscription": {
-                "apiKey": "Your Namsor API key. Always keep it secret",
-                "planStarted": "The starting date of the plan, in UNIX format",
-                "priorPlanStarted": "*** integer ***",
-                "planEnded": "The ending date of the plan, in UNIX format",
-                "taxRate": "*** number ***",
-                "planName": " The name of the plan",
-                "planBaseFeesKey": "*** string ***",
-                "planStatus": "*** string ***",
-                "planQuota": "The total number of units associated with this plan",
-                "priceUSD": "The price in U.S. dollars ($)",
-                "priceOverageUSD": "The overage price in U.S. dollars ($)",
-                "price": "The price in the user's preferred currency",
-                "priceOverage": "The overaged price in the user's preferred currency",
-                "currency": "The user's preferred currency",
-                "currencyFactor": "*** number ***",
-                "stripeCustomerId": "*** string ***",
-                "stripeStatus": "*** string ***",
-                "stripeSubscription": "*** string ***",
-                "userId": "A unique processing identifier"
-            },
-            "billingPeriod": {
-                "apiKey": "Your Namsor API key. Always keep it secret",
-                "subscriptionStarted": "The subscription starting date, in UNIX format",
-                "periodStarted": "*** integer ***",
-                "periodEnded": "*** integer ***",
-                "stripeCurrentPeriodEnd": "*** integer ***",
-                "stripeCurrentPeriodStart": "*** integer ***",
-                "billingStatus": "*** string ***",
-                "usage": "The number of units used so far",
-                "softLimit": "*** integer ***",
-                "hardLimit": "*** integer ***"
-            },
-            "overageExclTax": "*** number ***",
-            "overageInclTax": "*** number ***",
-            "overageCurrency": "*** string ***",
-            "overageQuantity": "*** integer ***"
+            "timeUnit": "*** string ***",
+            "periodStart": "*** integer ***",
+            "periodEnd": "*** integer ***",
+            "totalUsage": "*** integer ***",
+            "historyTruncated": "*** boolean ***",
+            "data": "*** array ***",
+            "colHeaders": "*** array ***",
+            "rowHeaders": "*** array ***"
         },
         "summary": "Print your API usage history in an aggregated view (by service, by day/hour/min)."
     },
@@ -215,13 +186,15 @@
         "response": {
             "script": "The alphabet or characters used in the parameters",
             "id": "The processing identifier, as it was given for analysis",
-            "latinName": "*** string ***",
-            "originalName": "*** string ***",
-            "sourceLanguage": "*** string ***",
-            "targetLanguage": "*** string ***",
-            "sourceScript": "*** string ***",
-            "targetScript": "*** string ***",
-            "score": "The coefficient of accuracy of the result"
+            "firstName": "*** string ***",
+            "lastName": "*** string ***",
+            "orderOption": "*** string ***",
+            "matchCandidates": {
+                "candidateName": "*** string ***",
+                "probability": "*** number ***",
+                "predScoreGivenName": "*** number ***",
+                "predScoreFamilyName": "*** number ***"
+            }
         },
         "summary": "Determine the most likely Mandarin transcriptions for a romanized Chinese first name and last name, accrding to the known gender of the name"
     },

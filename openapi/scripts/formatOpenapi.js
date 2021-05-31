@@ -1,5 +1,5 @@
 // Helper imports
-let helpers = require('./helpers');
+let helpers = require('../helpers');
 let capitalize = helpers.capitalize;
 
 
@@ -7,7 +7,7 @@ let capitalize = helpers.capitalize;
 const fs = require('fs');
 let routeNames = require('../config/routeNames');
 let apiExamples = require('../config/apiExamples');
-let descr = require('../config/structure_ex_modified');
+let descr = require('../config/descriptions');
 
 /***************************************************/
 /**************** Openapi.json Mod ****************/
@@ -22,6 +22,7 @@ let routeCosts = {};
 let routeRequests = {};
 let routeResponses = {};
 let DESCR = {};
+let STRUCT = {};
 
 let descrGen = (io, route, type, key, subkey) => {
   let DESCR_RES = DESCR[route].response;
@@ -140,6 +141,15 @@ let formatOpenapi = (swaggerFile, opt) => {
         response: {}
       };
 
+      STRUCT[route.operationId] = {
+        http: method,
+        url: routes[i],
+        req: {},
+        res: {}
+      };
+
+      let ROUTE_STRUCT = STRUCT[route.operationId];
+
       if (
         descr[routes[i]] &&
         descr[routes[i]].summary
@@ -149,8 +159,6 @@ let formatOpenapi = (swaggerFile, opt) => {
       else {
         DESCR[routes[i]].summary = "*** string ***";
       };
-      let DESCR_RES = DESCR[routes[i]].response;
-      let DESCR_REQ = DESCR[routes[i]].request;
 
       // Capitalize tag names
       route.tags = route.tags.map(tag => capitalize(tag));
@@ -211,6 +219,7 @@ let formatOpenapi = (swaggerFile, opt) => {
             routeRequests[routes[i]].schema[param.name] = param;
             if (param.schema) {
               param.type = param.schema.type ? capitalize(param.schema.type) : 'Any';
+              ROUTE_STRUCT.req[param.name] = param.type;
 
               // Get description 
               descrGen('req', routes[i], param.type, param.name);
@@ -322,6 +331,7 @@ let formatOpenapi = (swaggerFile, opt) => {
                 else {
                   route.requestBody.content[requestAccept[0]].schema = REQ_STRUCT;
                 };
+                ROUTE_STRUCT.req = REQ_STRUCT;
               };
             }
             // type 2/2 - Case of $ref to an object
@@ -385,6 +395,7 @@ let formatOpenapi = (swaggerFile, opt) => {
               else {
                 route.requestBody.content[requestAccept[0]].schema = REQ_STRUCT;
               };
+              ROUTE_STRUCT.req = REQ_STRUCT;
             }
             else {
               // console.log(`\u001b[31mError\u001b[m\nRoute ${routes[i]} - Unexpected $ref request structure must be either an object or an array`);
@@ -509,6 +520,7 @@ let formatOpenapi = (swaggerFile, opt) => {
             else {
               route.responses['200'].content['application/json'].schema = RES_STRUCT;
             };
+            ROUTE_STRUCT.res = RES_STRUCT;
           };
         }
         // type 2/2 - Case of $ref to an object
@@ -594,6 +606,7 @@ let formatOpenapi = (swaggerFile, opt) => {
           else {
             route.responses['200'].content['application/json'].schema = RES_STRUCT;
           };
+          ROUTE_STRUCT.res = RES_STRUCT;
         }
         else {
           // console.log(`\u001b[31mError\u001b[m\nRoute ${routes[i]} - Unexpected $ref response structure must be either an object or an array`);
@@ -608,6 +621,7 @@ let formatOpenapi = (swaggerFile, opt) => {
   fs.writeFileSync('openapi/genNotMD/premarkdown.json', JSON.stringify(swaggerFile), 'utf8');
   fs.writeFileSync('openapi/genNotMD/routeRequests.json', JSON.stringify(routeRequests), 'utf8');
   fs.writeFileSync('openapi/genNotMD/routeResponses.json', JSON.stringify(routeResponses), 'utf8');
+  fs.writeFileSync('openapi/genNotMD/io_schemes.json', JSON.stringify(STRUCT), 'utf8');
   fs.writeFileSync('openapi/genNotMD/descr_ex_v2.json', JSON.stringify(DESCR), 'utf8');
 
   // Return stored values

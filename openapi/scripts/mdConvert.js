@@ -1,18 +1,16 @@
 // Helper imports
-let helpers = require('./helpers');
+let helpers = require('../helpers');
 let capitalize = helpers.capitalize;
 let listEnums = helpers.listEnums;
 
 // Imports
 const fs = require('fs');
 const widdershins = require('widdershins');
-const descr = require('../config/structure_ex_modified');
+const descr = require('../config/descriptions');
 
 /************************************************/
 /**************** MD Conversion ****************/
 /**********************************************/
-
-let nestedObjects = [];
 
 let nbspMulti = '&nbsp;&nbsp;&nbsp;&nbsp;';
 
@@ -178,13 +176,16 @@ let mdConvert = (swaggerFile, wsOptions, store, opt) => {
             Object.keys(routeRequests[route].schema).forEach(param => {
               prm = routeRequests[route].schema[param];
               prm.name = param;
-              prm.type = prm.type ? capitalize(prm.type) : 'Object';
-              if (prm.type == 'Object') nestedObjects.push({
-                route: route,
-                key: param,
-                schema: prm
-              })
-              prm.required = prm.required === true ? 'true' : 'false';
+
+              if (!prm.type) console.log('prm.name: ', prm.name);
+              if (!prm.type) console.log('prm.type: ', prm.type, '\n');
+
+              prm.type = prm.type ? capitalize(prm.type) : '**Object**';
+              if (Array.isArray(prm) && prm.length) prm.type = '**Array of Objects**';
+              if (prm.type === '**Object**' || prm.type === '**Array of Objects**') prm.name = `**${prm.name}**`;
+              prm.enum = prm.enum ? listEnums(prm.enum, route) : '';
+
+              prm.required = prm.required === false ? 'false' : 'true';
 
               // Get description 
               if (
@@ -199,6 +200,41 @@ let mdConvert = (swaggerFile, wsOptions, store, opt) => {
                 prm.desc = prm.description ? prm.description : '';
               };
               mdRouteReplace(reqTag, `|${prm.name}|${prm.type}|${prm.required}|${prm.desc}|\n${reqTag}`, routeStart(), routeEnd(), route);
+
+              // Handle nested structures
+              if (prm.type === '**Object**' || prm.type === '**Array of Objects**') {
+                let indicator = prm.type === '**Object**' ? `${nbspMulti}{...}` : `${nbspMulti}[ {...} ]`;
+                if (prm.type == '**Array of Objects**') prm = prm[0];
+                Object.keys(prm).forEach(subKey => {
+                  if (
+                    prm[subKey].type &&
+                    subKey !== 'name' &&
+                    subKey !== 'type' &&
+                    subKey !== 'enum' &&
+                    subKey !== 'description'
+                  ) {
+                    subPrm = prm[subKey];
+                    subPrm.type = subPrm.type ? capitalize(subPrm.type) : '';
+                    subPrm.enum = subPrm.enum ? listEnums(subPrm.enum, route) : '';
+                    subPrm.desc = subPrm.description ? subPrm.description : '';
+
+                    // Get description 
+                    if (
+                      descr[route] &&
+                      descr[route].response &&
+                      descr[route].response[param] &&
+                      descr[route].response[param][subPrm] &&
+                      descr[route].response[param][subPrm].description
+                    ) {
+                      subPrm.desc = descr[route].response[param].description;
+                    }
+                    else {
+                      subPrm.desc = subPrm.description ? subPrm.description : '';
+                    };
+                    mdRouteReplace(reqTag, `|*${indicator}.${subKey}*|${subPrm.type}|${subPrm.desc}|${subPrm.enum}|\n${reqTag}`, routeStart(), routeEnd(), route);
+                  };
+                });
+              };
             });
           };
 
@@ -389,8 +425,7 @@ let mdConvert = (swaggerFile, wsOptions, store, opt) => {
         };
       });
 
-      // fs.writeFileSync('openapi/genNotMD/nestedObjects.js', `let vars = ${JSON.stringify(nestedObjects)}`, 'utf8');
-      // dirtyMD contains the clean converted markdown
+      // dirtyMD is now the clean converted markdown
       fs.writeFileSync('source/index.md', dirtyMD, 'utf8');
       console.log('\u001b[32m--> Generation Completed\u001b[0m');
       console.log('\u001b[32mYour file has been saved to: source/index.md\u001b[0m');

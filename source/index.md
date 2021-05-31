@@ -1,5 +1,5 @@
 ---
-title: NamSor API v2 v2.0.14
+title: NamSor API v2 v2.0.15
 language_tabs:
   - shell: Shell
   - java: Java
@@ -27,7 +27,7 @@ headingLevel: 2
 
 <!-- Generator: Widdershins v4.0.1 -->
 
-<h1 id="namsor-api-v2">NamSor API v2 v2.0.14</h1>
+<h1 id="namsor-api-v2">NamSor API v2 v2.0.15</h1>
 
 > Scroll down for code samples, example requests and responses. Select a language for code samples from the tabs above or the mobile navigation menu.
 
@@ -328,23 +328,23 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/corridor/GB/Ada/Lovelace/US/N
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.score*|Number|Compatibility to NamSor_v1 Origin score value||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.ethnicityAlt*|String|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.ethnicity*|String|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lifted*|Boolean|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.countryIso2*|String|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.ethnicitiesTop*|Array|List ethnicities (top 10)||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.score*|Number|Compatibility to NamSor_v1 Diaspora score value. Higher score is better, but score is not normalized. Use calibratedProbability if available. ||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.ethnicityAlt*|String|The second best alternative ethnicity||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.ethnicity*|String|The most likely ethnicity||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lifted*|Boolean|Indicates if the output ethnicity is based on machine learning only, or further lifted as a known fact by a country-specific rule. Let us know if you believe ethnicity is incorrect on a specific case where lifted is true.||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.countryIso2*|String|From input data, the countryIso2||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.ethnicitiesTop*|Array|List of most likely ethnicities (top 10)||
 |**firstLastNameGeoToDiaspora**|**Object**|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.score*|Number|Compatibility to NamSor_v1 Origin score value||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.ethnicityAlt*|String|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.ethnicity*|String|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lifted*|Boolean|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.countryIso2*|String|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.ethnicitiesTop*|Array|List ethnicities (top 10)||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.score*|Number|Compatibility to NamSor_v1 Diaspora score value. Higher score is better, but score is not normalized. Use calibratedProbability if available. ||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.ethnicityAlt*|String|The second best alternative ethnicity||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.ethnicity*|String|The most likely ethnicity||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lifted*|Boolean|Indicates if the output ethnicity is based on machine learning only, or further lifted as a known fact by a country-specific rule. Let us know if you believe ethnicity is incorrect on a specific case where lifted is true.||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.countryIso2*|String|From input data, the countryIso2||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.ethnicitiesTop*|Array|List of most likely ethnicities (top 10)||
 |script|String|||
 
 
@@ -472,9 +472,17 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/corridorBatch", {
 
 |Name|Type|Required|Description|
 |---|---|---|---|
-|id|String|false|A unique processing identifier|
-|firstLastNameGeoFrom|Object|false||
-|firstLastNameGeoTo|Object|false||
+|id|String|true|A unique processing identifier|
+|**firstLastNameGeoFrom**|**Object**|true||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.countryIso2*|String|||
+|**firstLastNameGeoTo**|**Object**|true||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.countryIso2*|String|||
 
 
 
@@ -637,23 +645,23 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/corridorBatch", {
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.score*|Number|Compatibility to NamSor_v1 Origin score value||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.ethnicityAlt*|String|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.ethnicity*|String|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lifted*|Boolean|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.countryIso2*|String|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.ethnicitiesTop*|Array|List ethnicities (top 10)||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.score*|Number|Compatibility to NamSor_v1 Diaspora score value. Higher score is better, but score is not normalized. Use calibratedProbability if available. ||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.ethnicityAlt*|String|The second best alternative ethnicity||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.ethnicity*|String|The most likely ethnicity||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lifted*|Boolean|Indicates if the output ethnicity is based on machine learning only, or further lifted as a known fact by a country-specific rule. Let us know if you believe ethnicity is incorrect on a specific case where lifted is true.||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.countryIso2*|String|From input data, the countryIso2||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.ethnicitiesTop*|Array|List of most likely ethnicities (top 10)||
 |**firstLastNameGeoToDiaspora**|**Object**|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.score*|Number|Compatibility to NamSor_v1 Origin score value||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.ethnicityAlt*|String|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.ethnicity*|String|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lifted*|Boolean|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.countryIso2*|String|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.ethnicitiesTop*|Array|List ethnicities (top 10)||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.score*|Number|Compatibility to NamSor_v1 Diaspora score value. Higher score is better, but score is not normalized. Use calibratedProbability if available. ||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.ethnicityAlt*|String|The second best alternative ethnicity||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.ethnicity*|String|The most likely ethnicity||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lifted*|Boolean|Indicates if the output ethnicity is based on machine learning only, or further lifted as a known fact by a country-specific rule. Let us know if you believe ethnicity is incorrect on a specific case where lifted is true.||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.countryIso2*|String|From input data, the countryIso2||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.ethnicitiesTop*|Array|List of most likely ethnicities (top 10)||
 |script|String|The alphabet or characters used in the parameters||
 
 
@@ -882,8 +890,8 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/countryBatch", {
 
 |Name|Type|Required|Description|
 |---|---|---|---|
-|id|String|false|A unique processing identifier|
-|name|String|false|A complete personal name|
+|id|String|true|A unique processing identifier|
+|name|String|true|A complete personal name|
 
 
 
@@ -1054,7 +1062,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/diaspora/US/Subrahmanyan/Chan
 |score|Number|The coefficient of accuracy of the result||
 |ethnicityAlt|String|The alternativeethnicity of the name||
 |ethnicity|String|The ethnicity of the name||
-|lifted|Boolean|||
+|lifted|Boolean|Indicates if the output ethnicity is based on machine learning only, or further lifted as a known fact by a country-specific rule. Let us know if you believe ethnicity is incorrect on a specific case where lifted is true.||
 |countryIso2|String|The country code, in ISO 2 format||
 |ethnicitiesTop|Array|An array of the top ten most likely ethnicities of the name||
 
@@ -1165,10 +1173,10 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/diasporaBatch", {
 
 |Name|Type|Required|Description|
 |---|---|---|---|
-|id|String|false|A unique processing identifier|
-|firstName|String|false|The personal name given to someone at birth, or baptism|
-|lastName|String|false|The family name|
-|countryIso2|String|false|The country code, in ISO 2 format|
+|id|String|true|A unique processing identifier|
+|firstName|String|true|The personal name given to someone at birth, or baptism|
+|lastName|String|true|The family name|
+|countryIso2|String|true|The country code, in ISO 2 format|
 
 
 
@@ -1212,7 +1220,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/diasporaBatch", {
 |score|Number|The coefficient of accuracy of the result||
 |ethnicityAlt|String|The alternativeethnicity of the name||
 |ethnicity|String|The ethnicity of the name||
-|lifted|Boolean|||
+|lifted|Boolean|Indicates if the output ethnicity is based on machine learning only, or further lifted as a known fact by a country-specific rule. Let us know if you believe ethnicity is incorrect on a specific case where lifted is true.||
 |countryIso2|String|The country code, in ISO 2 format||
 |ethnicitiesTop|Array|An array of the top ten most likely ethnicities of the name||
 
@@ -1435,9 +1443,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderBatch", {
 
 |Name|Type|Required|Description|
 |---|---|---|---|
-|id|String|false|A unique processing identifier|
-|firstName|String|false|The personal name given to someone at birth, or baptism|
-|lastName|String|false|The family name|
+|id|String|true|A unique processing identifier|
+|firstName|String|true|The personal name given to someone at birth, or baptism|
+|lastName|String|true|The family name|
 
 
 
@@ -1691,8 +1699,8 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderFullBatch", {
 
 |Name|Type|Required|Description|
 |---|---|---|---|
-|id|String|false|A unique processing identifier|
-|name|String|false|A complete personal name|
+|id|String|true|A unique processing identifier|
+|name|String|true|A complete personal name|
 
 
 
@@ -1948,9 +1956,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderFullGeoBatch", {
 
 |Name|Type|Required|Description|
 |---|---|---|---|
-|id|String|false|A unique processing identifier|
-|name|String|false|A complete personal name|
-|countryIso2|String|false|The country code, in ISO 2 format|
+|id|String|true|A unique processing identifier|
+|name|String|true|A complete personal name|
+|countryIso2|String|true|The country code, in ISO 2 format|
 
 
 
@@ -2212,10 +2220,10 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderGeoBatch", {
 
 |Name|Type|Required|Description|
 |---|---|---|---|
-|id|String|false|A unique processing identifier|
-|firstName|String|false|The personal name given to someone at birth, or baptism|
-|lastName|String|false|The family name|
-|countryIso2|String|false|The country code, in ISO 2 format|
+|id|String|true|A unique processing identifier|
+|firstName|String|true|The personal name given to someone at birth, or baptism|
+|lastName|String|true|The family name|
+|countryIso2|String|true|The country code, in ISO 2 format|
 
 
 
@@ -2488,9 +2496,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/originBatch", {
 
 |Name|Type|Required|Description|
 |---|---|---|---|
-|id|String|false|A unique processing identifier|
-|firstName|String|false|The personal name given to someone at birth, or baptism|
-|lastName|String|false|The family name|
+|id|String|true|A unique processing identifier|
+|firstName|String|true|The personal name given to someone at birth, or baptism|
+|lastName|String|true|The family name|
 
 
 
@@ -2654,8 +2662,8 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseName/John%20Smith", {
 |script|String|The alphabet or characters used in the parameters||
 |id|String|The processing identifier, as it was given for analysis||
 |name|String|The name, as it was given for analysis||
-|nameParserType|String|||
-|nameParserTypeAlt|String|||
+|nameParserType|String|Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order.||
+|nameParserTypeAlt|String|Name parsing is addressed as a classification problem, for example LN1FN1 means a last then first name order.||
 |**firstLastName**|**Object**|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|||
@@ -2766,8 +2774,8 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseNameBatch", {
 
 |Name|Type|Required|Description|
 |---|---|---|---|
-|id|String|false|A unique processing identifier|
-|name|String|false|A complete personal name|
+|id|String|true|A unique processing identifier|
+|name|String|true|A complete personal name|
 
 
 
@@ -2806,8 +2814,8 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseNameBatch", {
 |script|String|The alphabet or characters used in the parameters||
 |id|String|The processing identifier, as it was given for analysis||
 |name|String|The name, as it was given for analysis||
-|nameParserType|String|||
-|nameParserTypeAlt|String|||
+|nameParserType|String|Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order.||
+|nameParserTypeAlt|String|Name parsing is addressed as a classification problem, for example LN1FN1 means a last then first name order.||
 |**firstLastName**|**Object**|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|||
@@ -2927,8 +2935,8 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseName/Ricardo%20Dar%C3%AD
 |script|String|The alphabet or characters used in the parameters||
 |id|String|A unique processing identifier||
 |name|String|The name, as it was given for analysis||
-|nameParserType|String|||
-|nameParserTypeAlt|String|||
+|nameParserType|String|Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order.||
+|nameParserTypeAlt|String|Name parsing is addressed as a classification problem, for example LN1FN1 means a last then first name order.||
 |**firstLastName**|**Object**|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|||
@@ -3041,9 +3049,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseNameGeoBatch", {
 
 |Name|Type|Required|Description|
 |---|---|---|---|
-|id|String|false|A unique processing identifier|
-|name|String|false|A complete personal name|
-|countryIso2|String|false|The country code, in ISO 2 format|
+|id|String|true|A unique processing identifier|
+|name|String|true|A complete personal name|
+|countryIso2|String|true|The country code, in ISO 2 format|
 
 
 
@@ -3082,8 +3090,8 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseNameGeoBatch", {
 |script|String|The alphabet or characters used in the parameters||
 |id|String|The processing identifier, as it was given for analysis||
 |name|String|The name, as it was given for analysis||
-|nameParserType|String|||
-|nameParserTypeAlt|String|||
+|nameParserType|String|Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order.||
+|nameParserTypeAlt|String|Name parsing is addressed as a classification problem, for example LN1FN1 means a last then first name order.||
 |**firstLastName**|**Object**|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|||
@@ -3321,10 +3329,10 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/usRaceEthnicityBatch", {
 
 |Name|Type|Required|Description|
 |---|---|---|---|
-|id|String|false|A unique processing identifier|
-|firstName|String|false|The personal name given to someone at birth, or baptism|
-|lastName|String|false|The family name|
-|countryIso2|String|false|The country code, in ISO 2 format|
+|id|String|true|A unique processing identifier|
+|firstName|String|true|The personal name given to someone at birth, or baptism|
+|lastName|String|true|The family name|
+|countryIso2|String|true|The country code, in ISO 2 format|
 
 
 
@@ -3608,11 +3616,11 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/usZipRaceEthnicityBatch", {
 
 |Name|Type|Required|Description|
 |---|---|---|---|
-|id|String|false|A unique processing identifier|
-|firstName|String|false|The personal name given to someone at birth, or baptism|
-|lastName|String|false|The family name|
-|countryIso2|String|false|The country code, in ISO 2 format|
-|zipCode|String|false|A 5 digits zip code|
+|id|String|true|A unique processing identifier|
+|firstName|String|true|The personal name given to someone at birth, or baptism|
+|lastName|String|true|The family name|
+|countryIso2|String|true|The country code, in ISO 2 format|
+|zipCode|String|true|A 5 digits zip code|
 
 
 
@@ -3793,7 +3801,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/phoneCode/Jamini/Roy/09804201
 |originCountryIso2|String|The country of origin of the name, in ISO 2 format||
 |originCountryIso2Alt|String|The alternative country of origin of the name, in ISO 2 format||
 |phoneNumber|String|The phone number, as it was sent for analysis||
-|verified|Boolean|||
+|verified|Boolean|Indicates if the phone number could be positively verified using libphonenumber.||
 |score|Number|The coefficient of accuracy of the result||
 |countryIso2|String|The country code, in ISO 2 format||
 
@@ -3904,11 +3912,24 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/phoneCodeBatch", {
 
 |Name|Type|Required|Description|
 |---|---|---|---|
-|id|String|false|A unique processing identifier|
-|firstName|String|false|The personal name given to someone at birth, or baptism|
-|lastName|String|false|The family name|
-|phoneNumber|String|false|A phone number, formatted or unformatted|
-|origin|Object|false||
+|id|String|true|A unique processing identifier|
+|firstName|String|true|The personal name given to someone at birth, or baptism|
+|lastName|String|true|The family name|
+|phoneNumber|String|true|A phone number, formatted or unformatted|
+|**origin**|**Object**|true||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.countryOrigin*|String|Most likely country of Origin||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.countryOriginAlt*|String|Second best alternative : country of Origin||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.countriesOriginTop*|Array|List countries of Origin (top 10)||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.score*|Number|Compatibility to NamSor_v1 Origin score value||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.regionOrigin*|String|Most likely region of Origin (based on countryOrigin ISO2 code)||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.topRegionOrigin*|String|Most likely region of Origin (based on countryOrigin ISO2 code)||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.subRegionOrigin*|String|Most likely region of Origin (based on countryOrigin ISO2 code)||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.probabilityCalibrated*|Number|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.probabilityAltCalibrated*|Number|||
 
 
 
@@ -3960,7 +3981,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/phoneCodeBatch", {
 |originCountryIso2|String|The country of origin of the name, in ISO 2 format||
 |originCountryIso2Alt|String|The alternative country of origin of the name, in ISO 2 format||
 |phoneNumber|String|The phone number, as it was sent for analysis||
-|verified|Boolean|||
+|verified|Boolean|Indicates if the phone number could be positively verified using libphonenumber.||
 |score|Number|The coefficient of accuracy of the result||
 |countryIso2|String|The country code, in ISO 2 format||
 
@@ -4093,7 +4114,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/phoneCodeGeo/Teniola/Apata/08
 |originCountryIso2|String|The country of origin of the name, in ISO 2 format||
 |originCountryIso2Alt|String|The alternative country of origin of the name, in ISO 2 format||
 |phoneNumber|String|The phone number, as it was sent for analysis||
-|verified|Boolean|||
+|verified|Boolean|Indicates if the phone number could be positively verified using libphonenumber.||
 |score|Number|The coefficient of accuracy of the result||
 |countryIso2|String|The country code, in ISO 2 format||
 
@@ -4206,13 +4227,26 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/phoneCodeGeoBatch", {
 
 |Name|Type|Required|Description|
 |---|---|---|---|
-|id|String|false|A unique processing identifier|
-|firstName|String|false|The personal name given to someone at birth, or baptism|
-|lastName|String|false|The family name|
-|phoneNumber|String|false|A phone number, formatted or unformatted|
-|origin|Object|false||
-|countryIso2|String|false|The country code, in ISO 2 format|
-|countryIso2Alt|String|false||
+|id|String|true|A unique processing identifier|
+|firstName|String|true|The personal name given to someone at birth, or baptism|
+|lastName|String|true|The family name|
+|phoneNumber|String|true|A phone number, formatted or unformatted|
+|**origin**|**Object**|true||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.countryOrigin*|String|Most likely country of Origin||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.countryOriginAlt*|String|Second best alternative : country of Origin||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.countriesOriginTop*|Array|List countries of Origin (top 10)||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.score*|Number|Compatibility to NamSor_v1 Origin score value||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.regionOrigin*|String|Most likely region of Origin (based on countryOrigin ISO2 code)||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.topRegionOrigin*|String|Most likely region of Origin (based on countryOrigin ISO2 code)||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.subRegionOrigin*|String|Most likely region of Origin (based on countryOrigin ISO2 code)||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.probabilityCalibrated*|Number|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.probabilityAltCalibrated*|Number|||
+|countryIso2|String|true|The country code, in ISO 2 format|
+|countryIso2Alt|String|true||
 
 
 
@@ -4264,7 +4298,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/phoneCodeGeoBatch", {
 |originCountryIso2|String|The country of origin of the name, in ISO 2 format||
 |originCountryIso2Alt|String|The alternative country of origin of the name, in ISO 2 format||
 |phoneNumber|String|The phone number, as it was sent for analysis||
-|verified|Boolean|||
+|verified|Boolean|Indicates if the phone number could be positively verified using libphonenumber.||
 |score|Number|The coefficient of accuracy of the result||
 |countryIso2|String|The country code, in ISO 2 format||
 
@@ -4377,15 +4411,15 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/phoneCodeGeoFeedbackLoop/Dieg
 |firstName|String|||
 |lastName|String|||
 |internationalPhoneNumberVerified|String|||
-|phoneCountryIso2Verified|String|||
-|phoneCountryCode|Integer|||
-|phoneCountryCodeAlt|Integer|||
-|phoneCountryIso2|String|||
-|phoneCountryIso2Alt|String|||
-|originCountryIso2|String|||
-|originCountryIso2Alt|String|||
-|phoneNumber|String|||
-|verified|Boolean|||
+|phoneCountryIso2Verified|String|The normalized phone number, verified using libphonenumber.||
+|phoneCountryCode|Integer|The phone country code of the phone number, verified using libphonenumber.||
+|phoneCountryCodeAlt|Integer|The best alternative phone country code of the phone number.||
+|phoneCountryIso2|String|The likely country of the phone number.||
+|phoneCountryIso2Alt|String|The best alternative country of the phone number.||
+|originCountryIso2|String|The likely country of origin of the name.||
+|originCountryIso2Alt|String|The best alternative country of origin of the name.||
+|phoneNumber|String|The input phone number.||
+|verified|Boolean|Indicates if the phone number could be positively verified using libphonenumber.||
 |score|Number|||
 |countryIso2|String|||
 
@@ -4513,7 +4547,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameCandidates/Zhao/Li
 |id|String|A unique processing identifier||
 |firstName|String|The first name, as it was given for analysis||
 |lastName|String|The last name, as it was given for analysis||
-|orderOption|String|||
+|orderOption|String|As defined by X-OPTION-JPNAME-ORDER the order option can be OrderRankFNLN, OrderRankLNFN, OrderScoreSquareFNLN||
 |**matchCandidates**|**Array of Objects**|An array of the most likely name transcriptions||
 |*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].candidateName*|String|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].probability*|Number|||
@@ -4625,9 +4659,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameCandidatesBatch", 
 
 |Name|Type|Required|Description|
 |---|---|---|---|
-|id|String|false|A unique processing identifier|
-|firstName|String|false||
-|lastName|String|false||
+|id|String|true|A unique processing identifier|
+|firstName|String|true||
+|lastName|String|true||
 
 
 
@@ -4674,7 +4708,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameCandidatesBatch", 
 |id|String|The processing identifier, as it was given for analysis||
 |firstName|String|The first name, as it was given for analysis||
 |lastName|String|The last name, as it was given for analysis||
-|orderOption|String|||
+|orderOption|String|As defined by X-OPTION-JPNAME-ORDER the order option can be OrderRankFNLN, OrderRankLNFN, OrderScoreSquareFNLN||
 |**matchCandidates**|**Array of Objects**|An array of the most likely name transcriptions||
 |*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].candidateName*|String|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].probability*|Number|||
@@ -4788,10 +4822,10 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameCandidatesGenderBa
 
 |Name|Type|Required|Description|
 |---|---|---|---|
-|id|String|false|A unique processing identifier|
-|firstName|String|false|A romanized Chinese first name|
-|lastName|String|false|A romanized Chinese last name|
-|gender|String|false|The gender of the name|
+|id|String|true|A unique processing identifier|
+|firstName|String|true|A romanized Chinese first name|
+|lastName|String|true|A romanized Chinese last name|
+|gender|String|true|The gender of the name|
 
 
 
@@ -4838,7 +4872,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameCandidatesGenderBa
 |id|String|The processing identifier, as it was given for analysis||
 |firstName|String|The first name, as it was given for analysis||
 |lastName|String|The last name, as it was given for analysis||
-|orderOption|String|||
+|orderOption|String|As defined by X-OPTION-JPNAME-ORDER the order option can be OrderRankFNLN, OrderRankLNFN, OrderScoreSquareFNLN||
 |**matchCandidates**|**Array of Objects**|An array of the most likely name transcriptions||
 |*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].candidateName*|String|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].probability*|Number|||
@@ -4965,13 +4999,14 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameGenderCandidates/F
 |---|---|---|---|
 |script|String|The alphabet or characters used in the parameters||
 |id|String|The processing identifier, as it was given for analysis||
-|latinName|String|||
-|originalName|String|||
-|sourceLanguage|String|||
-|targetLanguage|String|||
-|sourceScript|String|||
-|targetScript|String|||
-|score|Number|The coefficient of accuracy of the result||
+|firstName|String|||
+|lastName|String|||
+|orderOption|String|As defined by X-OPTION-JPNAME-ORDER the order option can be OrderRankFNLN, OrderRankLNFN, OrderScoreSquareFNLN||
+|**matchCandidates**|**Array of Objects**|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].candidateName*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].probability*|Number|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].predScoreGivenName*|Number|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].predScoreFamilyName*|Number|||
 
 
 
@@ -5200,9 +5235,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameMatchBatch", {
 
 |Name|Type|Required|Description|
 |---|---|---|---|
-|id|String|false|A unique processing identifier|
-|name1|Object|false||
-|name2|Object|false||
+|id|String|true|A unique processing identifier|
+|**name1**|**Object**|true||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|||
+|**name2**|**Object**|true||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|||
 
 
 
@@ -5448,8 +5487,8 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseNameBatch", {
 
 |Name|Type|Required|Description|
 |---|---|---|---|
-|id|String|false|A unique processing identifier|
-|name|String|false|A Chinese name written in Standard Mandarin|
+|id|String|true|A unique processing identifier|
+|name|String|true|A Chinese name written in Standard Mandarin|
 
 
 
@@ -5707,9 +5746,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseNamePinyinBatch"
 
 |Name|Type|Required|Description|
 |---|---|---|---|
-|id|String|false|A unique processing identifier|
-|firstName|String|false|A Chinese last name written in Pinyin|
-|lastName|String|false|A Chinese first name written in Pinyin|
+|id|String|true|A unique processing identifier|
+|firstName|String|true|A Chinese last name written in Pinyin|
+|lastName|String|true|A Chinese first name written in Pinyin|
 
 
 
@@ -5860,8 +5899,8 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseChineseName/%E8%B5%B5%E4
 |script|String|The alphabet or characters used in the parameters||
 |id|String|A unique processing identifier||
 |name|String|The name, as it was given for analysis||
-|nameParserType|String|||
-|nameParserTypeAlt|String|||
+|nameParserType|String|Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order.||
+|nameParserTypeAlt|String|Name parsing is addressed as a classification problem, for example LN1FN1 means a last then first name order.||
 |**firstLastName**|**Object**|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|||
@@ -5972,8 +6011,8 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseChineseNameBatch", {
 
 |Name|Type|Required|Description|
 |---|---|---|---|
-|id|String|false|A unique processing identifier|
-|name|String|false|A Chinese name written in Standard Mandarin|
+|id|String|true|A unique processing identifier|
+|name|String|true|A Chinese name written in Standard Mandarin|
 
 
 
@@ -6012,8 +6051,8 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseChineseNameBatch", {
 |script|String|The alphabet or characters used in the parameters||
 |id|String|The processing identifier, as it was given for analysis||
 |name|String|The name, as it was given for analysis||
-|nameParserType|String|||
-|nameParserTypeAlt|String|||
+|nameParserType|String|Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order.||
+|nameParserTypeAlt|String|Name parsing is addressed as a classification problem, for example LN1FN1 means a last then first name order.||
 |**firstLastName**|**Object**|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|||
@@ -6131,8 +6170,8 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/pinyinChineseName/%E8%B5%B5%E
 |script|String|The alphabet or characters used in the parameters||
 |id|String|The processing identifier, as it was given for analysis||
 |name|String|The name, as it was given for analysis||
-|nameParserType|String|||
-|nameParserTypeAlt|String|||
+|nameParserType|String|Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order.||
+|nameParserTypeAlt|String|Name parsing is addressed as a classification problem, for example LN1FN1 means a last then first name order.||
 |**firstLastName**|**Object**|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|||
@@ -6243,8 +6282,8 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/pinyinChineseNameBatch", {
 
 |Name|Type|Required|Description|
 |---|---|---|---|
-|id|String|false|A unique processing identifier|
-|name|String|false|A Chinese name written in Standard Mandarin|
+|id|String|true|A unique processing identifier|
+|name|String|true|A Chinese name written in Standard Mandarin|
 
 
 
@@ -6283,8 +6322,8 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/pinyinChineseNameBatch", {
 |script|String|||
 |id|String|The processing identifier, as it was given for analysis||
 |name|String|The name, as it was given for analysis||
-|nameParserType|String|||
-|nameParserTypeAlt|String|||
+|nameParserType|String|Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order.||
+|nameParserTypeAlt|String|Name parsing is addressed as a classification problem, for example LN1FN1 means a last then first name order.||
 |**firstLastName**|**Object**|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|||
@@ -6509,8 +6548,8 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderJapaneseNameFullBatch",
 
 |Name|Type|Required|Description|
 |---|---|---|---|
-|id|String|false|A unique processing identifier|
-|name|String|false|A Japanese name in Kanji characters|
+|id|String|true|A unique processing identifier|
+|name|String|true|A Japanese name in Kanji characters|
 
 
 
@@ -6768,9 +6807,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderJapaneseNameBatch", {
 
 |Name|Type|Required|Description|
 |---|---|---|---|
-|id|String|false|A unique processing identifier|
-|firstName|String|false|A romanized Japanese first name|
-|lastName|String|false|A romanized Japanese last name|
+|id|String|true|A unique processing identifier|
+|firstName|String|true|A romanized Japanese first name|
+|lastName|String|true|A romanized Japanese last name|
 
 
 
@@ -6918,10 +6957,10 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameGenderKanjiCandid
 
 |Name|Type|Required|Description|
 |---|---|---|---|
-|id|String|false|A unique processing identifier|
-|firstName|String|false|A romanized Japanese first name|
-|lastName|String|false|A romanized Japanese last name|
-|gender|String|false|The gender of the name|
+|id|String|true|A unique processing identifier|
+|firstName|String|true|A romanized Japanese first name|
+|lastName|String|true|A romanized Japanese last name|
+|gender|String|true|The gender of the name|
 
 
 
@@ -6968,7 +7007,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameGenderKanjiCandid
 |id|String|The processing identifier, as it was given for analysis||
 |firstName|String|The first name, as it was given for analysis||
 |lastName|String|The last name, as it was given for analysis||
-|orderOption|String|||
+|orderOption|String|As defined by X-OPTION-JPNAME-ORDER the order option can be OrderRankFNLN, OrderRankLNFN, OrderScoreSquareFNLN||
 |**matchCandidates**|**Array of Objects**|An array of the most likely name transcriptions||
 |*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].candidateName*|String|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].probability*|Number|||
@@ -7095,7 +7134,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameKanjiCandidates/Y
 |id|String|A unique processing identifier||
 |firstName|String|The first name, as it was given for analysis||
 |lastName|String|The last name, as it was given for analysis||
-|orderOption|String|||
+|orderOption|String|As defined by X-OPTION-JPNAME-ORDER the order option can be OrderRankFNLN, OrderRankLNFN, OrderScoreSquareFNLN||
 |**matchCandidates**|**Array of Objects**|An array of the most likely name transcriptions||
 |*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].candidateName*|String|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].probability*|Number|||
@@ -7224,7 +7263,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameKanjiCandidates/Y
 |id|String|A unique processing identifier||
 |firstName|String|The first name, as it was given for analysis||
 |lastName|String|The last name, as it was given for analysis||
-|orderOption|String|||
+|orderOption|String|As defined by X-OPTION-JPNAME-ORDER the order option can be OrderRankFNLN, OrderRankLNFN, OrderScoreSquareFNLN||
 |**matchCandidates**|**Array of Objects**|An array of the most likely name transcriptions||
 |*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].candidateName*|String|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].probability*|Number|||
@@ -7336,9 +7375,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameKanjiCandidatesBa
 
 |Name|Type|Required|Description|
 |---|---|---|---|
-|id|String|false|A unique processing identifier|
-|firstName|String|false|A romanized Japanese first name|
-|lastName|String|false|A romanized Japanese last name|
+|id|String|true|A unique processing identifier|
+|firstName|String|true|A romanized Japanese first name|
+|lastName|String|true|A romanized Japanese last name|
 
 
 
@@ -7385,7 +7424,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameKanjiCandidatesBa
 |id|String|The processing identifier, as it was given for analysis||
 |firstName|String|The first name, as it was given for analysis||
 |lastName|String|The last name, as it was given for analysis||
-|orderOption|String|||
+|orderOption|String|As defined by X-OPTION-JPNAME-ORDER the order option can be OrderRankFNLN, OrderRankLNFN, OrderScoreSquareFNLN||
 |**matchCandidates**|**Array of Objects**|An array of the most likely name transcriptions||
 |*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].candidateName*|String|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].probability*|Number|||
@@ -7512,7 +7551,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameLatinCandidates/%
 |id|String|A unique processing identifier||
 |firstName|String|The first name, as it was given for analysis||
 |lastName|String|The last name, as it was given for analysis||
-|orderOption|String|||
+|orderOption|String|As defined by X-OPTION-JPNAME-ORDER the order option can be OrderRankFNLN, OrderRankLNFN, OrderScoreSquareFNLN||
 |**matchCandidates**|**Array of Objects**|An array of the most likely name transcriptions||
 |*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].candidateName*|String|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].probability*|Number|||
@@ -7624,9 +7663,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameLatinCandidatesBa
 
 |Name|Type|Required|Description|
 |---|---|---|---|
-|id|String|false|A unique processing identifier|
-|firstName|String|false|A Japanese first name in Kanji characters|
-|lastName|String|false|A Japanese last name in Kanji characters|
+|id|String|true|A unique processing identifier|
+|firstName|String|true|A Japanese first name in Kanji characters|
+|lastName|String|true|A Japanese last name in Kanji characters|
 
 
 
@@ -7673,7 +7712,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameLatinCandidatesBa
 |id|String|The processing identifier, as it was given for analysis||
 |firstName|String|The first name, as it was given for analysis||
 |lastName|String|The last name, as it was given for analysis||
-|orderOption|String|||
+|orderOption|String|As defined by X-OPTION-JPNAME-ORDER the order option can be OrderRankFNLN, OrderRankLNFN, OrderScoreSquareFNLN||
 |**matchCandidates**|**Array of Objects**|An array of the most likely name transcriptions||
 |*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].candidateName*|String|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].probability*|Number|||
@@ -7907,9 +7946,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameMatchBatch", {
 
 |Name|Type|Required|Description|
 |---|---|---|---|
-|id|String|false|A unique processing identifier|
-|name1|Object|false||
-|name2|Object|false||
+|id|String|true|A unique processing identifier|
+|**name1**|**Object**|true||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|||
+|**name2**|**Object**|true||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|||
 
 
 
@@ -8154,8 +8197,8 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseJapaneseName/%E5%B0%8F%E
 |script|String|The alphabet or characters used in the parameters||
 |id|String|The processing identifier, as it was given for analysis||
 |name|String|The name, as it was given for analysis||
-|nameParserType|String|||
-|nameParserTypeAlt|String|||
+|nameParserType|String|Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order.||
+|nameParserTypeAlt|String|Name parsing is addressed as a classification problem, for example LN1FN1 means a last then first name order.||
 |**firstLastName**|**Object**|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|||
@@ -8266,8 +8309,8 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseJapaneseNameBatch", {
 
 |Name|Type|Required|Description|
 |---|---|---|---|
-|id|String|false|A unique processing identifier|
-|name|String|false|A Japanese name in Kanji characters|
+|id|String|true|A unique processing identifier|
+|name|String|true|A Japanese name in Kanji characters|
 
 
 
@@ -8306,8 +8349,8 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseJapaneseNameBatch", {
 |script|String|The alphabet or characters used in the parameters||
 |id|String|The processing identifier, as it was given for analysis||
 |name|String|The name, as it was given for analysis||
-|nameParserType|String|||
-|nameParserTypeAlt|String|||
+|nameParserType|String|Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order.||
+|nameParserTypeAlt|String|Name parsing is addressed as a classification problem, for example LN1FN1 means a last then first name order.||
 |**firstLastName**|**Object**|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|||
@@ -8382,11 +8425,11 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/anonymize/77afd518a85798fa372
 
 |Name|Type|Required|Description|
 |---|---|---|---|
-|source|String|true||
+|source|String|true|The API Key to set as anonymized.|
 |anonymized|Boolean|true||
 
 
-
+|source|path|any|true|The API Key to set as anonymized.|
 
 
 <h3 id="anonymize-responses">Response</h3>
@@ -8622,40 +8665,40 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/apiUsage", {
 |Name|Type|Description|Enumerators|
 |---|---|---|---|
 |**subscription**|**Object**|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.apiKey*|String|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.planStarted*|Integer|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.priorPlanStarted*|Integer|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.planEnded*|Integer|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.taxRate*|Number|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.planName*|String|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.planBaseFeesKey*|String|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.planStatus*|String|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.planQuota*|Integer|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.priceUSD*|Number|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.priceOverageUSD*|Number|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.price*|Number|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.priceOverage*|Number|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.currency*|String|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.currencyFactor*|Number|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.stripeCustomerId*|String|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.stripeStatus*|String|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.stripeSubscription*|String|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.userId*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.apiKey*|String|User API Key.||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.planStarted*|Integer|Datetime when the user subscribed to the current plan.||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.priorPlanStarted*|Integer|Datetime when the user subscribed to the prior plan.||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.planEnded*|Integer|Datetime when the user ended the plan.||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.taxRate*|Number|Applicable tax rate for the plan.||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.planName*|String|Current plan name.||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.planBaseFeesKey*|String|Current plan key (as in Stripe product).||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.planStatus*|String|Plan status.||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.planQuota*|Integer|Current plan quota in quantity of units (NB some API use several units per name).||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.priceUSD*|Number|Current plan monthly price expressed in USD (includes a free quota).||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.priceOverageUSD*|Number|Current plan price for overages expressed in USD (extra price per unit above the free quota).||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.price*|Number|Current plan price for overages expressed in Currency (extra price per unit above the free quota).||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.priceOverage*|Number|Current plan price for overages expressed in Currency (extra price per unit above the free quota).||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.currency*|String|Current plan Currency for prices.||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.currencyFactor*|Number|For USD, GBP, EUR - the factor is 1.||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.stripeCustomerId*|String|Stripe customer identifier.||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.stripeStatus*|String|Stripe status ex active.||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.stripeSubscription*|String|Stripe subscription identifier.||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.userId*|String|Internal user identifier.||
 |**billingPeriod**|**Object**|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.apiKey*|String|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.subscriptionStarted*|Integer|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.periodStarted*|Integer|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.periodEnded*|Integer|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.stripeCurrentPeriodEnd*|Integer|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.stripeCurrentPeriodStart*|Integer|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.billingStatus*|String|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.usage*|Integer|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.softLimit*|Integer|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.hardLimit*|Integer|||
-|overageExclTax|Number|||
-|overageInclTax|Number|||
-|overageCurrency|String|||
-|overageQuantity|Integer|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.apiKey*|String|User API Key.||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.subscriptionStarted*|Integer|Datetime when the user subscribed to the plan.||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.periodStarted*|Integer|Datetime when the the plan's current period started.||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.periodEnded*|Integer|Datetime when the the plan's current period endend.||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.stripeCurrentPeriodEnd*|Integer|Datetime when the the plan's current period endend (in Stripe). Internal and Stripe periodicity should ~coincide.||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.stripeCurrentPeriodStart*|Integer|Datetime when the the plan's current period started (in Stripe). Internal and Stripe periodicity should ~coincide.||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.billingStatus*|String|Current period billing status ex OPEN.||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.usage*|Integer|Current period usage in units (NB some API endpoints use more than one unit).||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.softLimit*|Integer|Current period soft limit (reaching the limit sends an email notification).||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.hardLimit*|Integer|Current period hard limit (reaching the limit sends an email notification and blocks the API Key).||
+|overageExclTax|Number|Overage amount including any tax.||
+|overageInclTax|Number|Overage amount including tax (if applicable).||
+|overageCurrency|String|Currency of the overage amount.||
+|overageQuantity|Integer|Quantity above monthly quota of the current subscritpion, in units.||
 
 
 
@@ -8758,22 +8801,22 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/apiUsageHistory", {
 |Name|Type|Description|Enumerators|
 |---|---|---|---|
 |**apiKey**|**Object**|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.apiKey*|String|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.userId*|String|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.admin*|Boolean|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.vetted*|Boolean|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.learnable*|Boolean|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.anonymized*|Boolean|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.partner*|Boolean|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.striped*|Boolean|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.corporate*|Boolean|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.disabled*|Boolean|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.apiKey*|String|The user API Key.||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.userId*|String|The user identifier.||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.admin*|Boolean|The API Key has admin role.||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.vetted*|Boolean|The API Key is vetted (assumed truthful) for machine learning.||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.learnable*|Boolean|The API Key is learnable (without assuming truthfulness) for machine learning. Set learnable=false for highest privacy (ie. to forget data as it's processed).||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.anonymized*|Boolean|The API Key is anonymized (using SHA-252 digest for logging). Set anonymized=true for highest privacy (ie. to forget data as it's processed).||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.partner*|Boolean|The API Key has partner role.||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.striped*|Boolean|The API Key is associated to a valid Stripe account.||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.corporate*|Boolean|The API Key has role corporate (ex SWIFT payments instead of Stripe payments).||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.disabled*|Boolean|The API Key is temporarily or permanently disabled.||
 |apiService|String|The type of service that was requested for the analysis of names||
 |createdDateTime|Integer|The date of the analysis, in UNIX format||
 |totalUsage|Integer|The total cost of the analysis in units||
-|lastFlushedDateTime|Integer|||
-|lastUsedDateTime|Integer|||
-|serviceFeaturesUsage|Object|||
+|lastFlushedDateTime|Integer|The flush datetime of the counter.||
+|lastUsedDateTime|Integer|The last usage datetime of the counter.||
+|serviceFeaturesUsage|Object|Usage of special features, such as Chinese, Japanese.||
 
 
 
@@ -8895,41 +8938,14 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/apiUsageHistoryAggregate", {
 
 |Name|Type|Description|Enumerators|
 |---|---|---|---|
-|**subscription**|**Object**|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.apiKey*|String|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.planStarted*|Integer|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.priorPlanStarted*|Integer|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.planEnded*|Integer|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.taxRate*|Number|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.planName*|String|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.planBaseFeesKey*|String|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.planStatus*|String|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.planQuota*|Integer|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.priceUSD*|Number|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.priceOverageUSD*|Number|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.price*|Number|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.priceOverage*|Number|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.currency*|String|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.currencyFactor*|Number|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.stripeCustomerId*|String|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.stripeStatus*|String|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.stripeSubscription*|String|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.userId*|String|||
-|**billingPeriod**|**Object**|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.apiKey*|String|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.subscriptionStarted*|Integer|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.periodStarted*|Integer|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.periodEnded*|Integer|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.stripeCurrentPeriodEnd*|Integer|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.stripeCurrentPeriodStart*|Integer|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.billingStatus*|String|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.usage*|Integer|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.softLimit*|Integer|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.hardLimit*|Integer|||
-|overageExclTax|Number|||
-|overageInclTax|Number|||
-|overageCurrency|String|||
-|overageQuantity|Integer|||
+|timeUnit|String|Time unit is DAY, WEEK or MONTH depending on prior usage||
+|periodStart|Integer|Start datetime of the reporting period||
+|periodEnd|Integer|End datetime of the reporting period||
+|totalUsage|Integer|Total usage in the current period||
+|historyTruncated|Boolean|If the history was truncaded due to data limit||
+|data|Array|Data points : usage per DAY, WEEK or MONTH and per apiService||
+|colHeaders|Array|apiServices as column headers ||
+|rowHeaders|Array|dates as row headers ||
 
 
 
@@ -9023,8 +9039,8 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/apiServices", {
 
 |Name|Type|Description|Enumerators|
 |---|---|---|---|
-|serviceName|String|||
-|serviceGroup|String|||
+|serviceName|String|A service name corresponds to classifier name in apiStatus (ex. personalname_gender or personalfullname_gender)||
+|serviceGroup|String|Groups together classifiers providing a similar service (ex. gender groups personalname_gender and personalfullname_gender)||
 |costInUnits|Integer|The cost in units for the usage of that service||
 
 
@@ -9090,11 +9106,11 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/learnable/77afd518a85798fa372
 
 |Name|Type|Required|Description|
 |---|---|---|---|
-|source|String|true||
+|source|String|true|The API Key to set as learnable/non learnable.|
 |learnable|Boolean|true||
 
 
-
+|source|path|any|true|The API Key to set as learnable/non learnable.|
 
 
 <h3 id="learnable-responses">Response</h3>
@@ -9262,10 +9278,10 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/taxonomyClasses/personalname_
 
 |Name|Type|Required|Description|
 |---|---|---|---|
-|classifierName|String|true||
+|classifierName|String|true|Name of the classifier as per apiStatus (corresponds also to the name of the service in apiServices)|
 
 
-
+|classifierName|path|any|true|Name of the classifier as per apiStatus (corresponds also to the name of the service in apiServices)|
 
 > The above command returns JSON structured like this:
 
@@ -9288,7 +9304,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/taxonomyClasses/personalname_
 |Name|Type|Description|Enumerators|
 |---|---|---|---|
 |classifierName|String|The classifier name, as it was given for analysis||
-|taxonomyClasses|Array|||
+|taxonomyClasses|Array|The taxonomy classes this classifier classifies to||
 
 
 
@@ -9503,8 +9519,8 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/nameTypeBatch", {
 
 |Name|Type|Required|Description|
 |---|---|---|---|
-|id|String|false|A unique processing identifier|
-|name|String|false|The name of a person, a brand or object that is spelled with a capital letter|
+|id|String|true|A unique processing identifier|
+|name|String|true|The name of a person, a brand or object that is spelled with a capital letter|
 
 
 
@@ -9756,9 +9772,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/nameTypeGeoBatch", {
 
 |Name|Type|Required|Description|
 |---|---|---|---|
-|id|String|false|A unique processing identifier|
-|name|String|false|A personal name or a brand name|
-|countryIso2|String|false|The country code, in ISO 2 format|
+|id|String|true|A unique processing identifier|
+|name|String|true|A personal name or a brand name|
+|countryIso2|String|true|The country code, in ISO 2 format|
 
 
 

@@ -1,9 +1,5 @@
 const fs = require('fs');
 
-// REMOVE FOR PROD
-// API key 996048c58adca6c217609e6c46288dc1
-// API key 2 b214894824e1c4762fb650866fea8f3c
-
 // Main scripts
 let formatOpenapi = require('./scripts/formatOpenapi');
 let mdConvert = require('./scripts/mdConvert');
