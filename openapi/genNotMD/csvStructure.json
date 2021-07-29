@@ -1,0 +1,1646 @@
+{
+    "base": "https://v2.namsor.com/NamSorAPIv2",
+    "errorResponses": {
+        "401": "Missing or incorrect API Key",
+        "403": "API Limit Reached or API Key Disabled"
+    },
+    "routes": {
+        "nameTypeBatch": {
+            "http": "post",
+            "url": "/api2/json/nameTypeBatch",
+            "req": {
+                "properNouns": [
+                    {
+                        "id": "String",
+                        "name": "String"
+                    }
+                ]
+            },
+            "res": {
+                "properNouns": [
+                    {
+                        "script": "String",
+                        "id": "String",
+                        "name": "String",
+                        "commonType": "String",
+                        "commonTypeAlt": "String",
+                        "score": "Number"
+                    }
+                ]
+            },
+            "operationName": "Name Type Batch",
+            "summary": "Detect if proper nouns are personal names or public names (ex: John Smith : personal name, Namsor: brand name). You can inspect up to a 100 names",
+            "reqMetaKey": "properNouns",
+            "reqKeys": [
+                "id",
+                "name"
+            ],
+            "resMetaKey": "properNouns",
+            "resKeys": [
+                "script",
+                "id",
+                "name",
+                "commonType",
+                "commonTypeAlt",
+                "score"
+            ],
+            "cost": 1
+        },
+        "nameTypeGeoBatch": {
+            "http": "post",
+            "url": "/api2/json/nameTypeGeoBatch",
+            "req": {
+                "properNouns": [
+                    {
+                        "id": "String",
+                        "name": "String",
+                        "countryIso2": "String"
+                    }
+                ]
+            },
+            "res": {
+                "properNouns": [
+                    {
+                        "script": "String",
+                        "id": "String",
+                        "name": "String",
+                        "commonType": "String",
+                        "commonTypeAlt": "String",
+                        "score": "Number"
+                    }
+                ]
+            },
+            "operationName": "Name Type Geo Batch",
+            "summary": "Detect if proper nouns are personal names or a public names, according to their local context (ex: John Smith : personal name, Namsor: brand name). You can inspect up to 100 names",
+            "reqMetaKey": "properNouns",
+            "reqKeys": [
+                "id",
+                "name",
+                "countryIso2"
+            ],
+            "resMetaKey": "properNouns",
+            "resKeys": [
+                "script",
+                "id",
+                "name",
+                "commonType",
+                "commonTypeAlt",
+                "score"
+            ],
+            "cost": 1
+        },
+        "corridorBatch": {
+            "http": "post",
+            "url": "/api2/json/corridorBatch",
+            "req": {
+                "corridorFromTo": [
+                    {
+                        "id": "String",
+                        "firstLastNameGeoFrom": {
+                            "id": "String",
+                            "firstName": "String",
+                            "lastName": "String",
+                            "countryIso2": "String"
+                        },
+                        "firstLastNameGeoTo": {
+                            "id": "String",
+                            "firstName": "String",
+                            "lastName": "String",
+                            "countryIso2": "String"
+                        }
+                    }
+                ]
+            },
+            "res": {
+                "corridorFromTo": [
+                    {
+                        "id": "String",
+                        "FirstLastNameGenderedOut": {
+                            "script": "String",
+                            "id": "String",
+                            "firstName": "String",
+                            "lastName": "String",
+                            "likelyGender": "String",
+                            "genderScale": "Number",
+                            "score": "Number",
+                            "probabilityCalibrated": "Number"
+                        },
+                        "FirstLastNameOriginedOut": {
+                            "script": "String",
+                            "id": "String",
+                            "firstName": "String",
+                            "lastName": "String",
+                            "countryOrigin": "String",
+                            "countryOriginAlt": "String",
+                            "countriesOriginTop": "Array",
+                            "score": "Number",
+                            "regionOrigin": "String",
+                            "topRegionOrigin": "String",
+                            "subRegionOrigin": "String",
+                            "probabilityCalibrated": "Number",
+                            "probabilityAltCalibrated": "Number"
+                        },
+                        "FirstLastNameDiasporaedOut": {
+                            "script": "String",
+                            "id": "String",
+                            "firstName": "String",
+                            "lastName": "String",
+                            "score": "Number",
+                            "ethnicityAlt": "String",
+                            "ethnicity": "String",
+                            "lifted": "Boolean",
+                            "countryIso2": "String",
+                            "ethnicitiesTop": "Array"
+                        },
+                        "script": "String"
+                    }
+                ]
+            },
+            "operationName": "Corridor Batch",
+            "summary": "Infer several classifications for up to 100 cross border interaction between names (ex. remit, travel, intl com)",
+            "reqMetaKey": "corridorFromTo",
+            "reqKeys": [
+                "id",
+                "firstLastNameGeoFrom.id",
+                "firstLastNameGeoFrom.firstName",
+                "firstLastNameGeoFrom.lastName",
+                "firstLastNameGeoFrom.countryIso2",
+                "firstLastNameGeoTo.id",
+                "firstLastNameGeoTo.firstName",
+                "firstLastNameGeoTo.lastName",
+                "firstLastNameGeoTo.countryIso2"
+            ],
+            "resMetaKey": "corridorFromTo",
+            "resKeys": [
+                "id",
+                "FirstLastNameGenderedOut.script",
+                "FirstLastNameGenderedOut.id",
+                "FirstLastNameGenderedOut.firstName",
+                "FirstLastNameGenderedOut.lastName",
+                "FirstLastNameGenderedOut.likelyGender",
+                "FirstLastNameGenderedOut.genderScale",
+                "FirstLastNameGenderedOut.score",
+                "FirstLastNameGenderedOut.probabilityCalibrated",
+                "FirstLastNameOriginedOut.script",
+                "FirstLastNameOriginedOut.id",
+                "FirstLastNameOriginedOut.firstName",
+                "FirstLastNameOriginedOut.lastName",
+                "FirstLastNameOriginedOut.countryOrigin",
+                "FirstLastNameOriginedOut.countryOriginAlt",
+                "FirstLastNameOriginedOut.countriesOriginTop",
+                "FirstLastNameOriginedOut.score",
+                "FirstLastNameOriginedOut.regionOrigin",
+                "FirstLastNameOriginedOut.topRegionOrigin",
+                "FirstLastNameOriginedOut.subRegionOrigin",
+                "FirstLastNameOriginedOut.probabilityCalibrated",
+                "FirstLastNameOriginedOut.probabilityAltCalibrated",
+                "FirstLastNameDiasporaedOut.script",
+                "FirstLastNameDiasporaedOut.id",
+                "FirstLastNameDiasporaedOut.firstName",
+                "FirstLastNameDiasporaedOut.lastName",
+                "FirstLastNameDiasporaedOut.score",
+                "FirstLastNameDiasporaedOut.ethnicityAlt",
+                "FirstLastNameDiasporaedOut.ethnicity",
+                "FirstLastNameDiasporaedOut.lifted",
+                "FirstLastNameDiasporaedOut.countryIso2",
+                "FirstLastNameDiasporaedOut.ethnicitiesTop",
+                "script"
+            ],
+            "cost": 20
+        },
+        "genderGeoBatch": {
+            "http": "post",
+            "url": "/api2/json/genderGeoBatch",
+            "req": {
+                "personalNames": [
+                    {
+                        "id": "String",
+                        "firstName": "String",
+                        "lastName": "String",
+                        "countryIso2": "String"
+                    }
+                ]
+            },
+            "res": {
+                "personalNames": [
+                    {
+                        "script": "String",
+                        "id": "String",
+                        "firstName": "String",
+                        "lastName": "String",
+                        "likelyGender": "String",
+                        "genderScale": "Number",
+                        "score": "Number",
+                        "probabilityCalibrated": "Number"
+                    }
+                ]
+            },
+            "operationName": "Gender Geo Batch",
+            "summary": "Detect the likely gender of up to 100 names, according to their local context",
+            "reqMetaKey": "personalNames",
+            "reqKeys": [
+                "id",
+                "firstName",
+                "lastName",
+                "countryIso2"
+            ],
+            "resMetaKey": "personalNames",
+            "resKeys": [
+                "script",
+                "id",
+                "firstName",
+                "lastName",
+                "likelyGender",
+                "genderScale",
+                "score",
+                "probabilityCalibrated"
+            ],
+            "cost": 1
+        },
+        "genderBatch": {
+            "http": "post",
+            "url": "/api2/json/genderBatch",
+            "req": {
+                "personalNames": [
+                    {
+                        "id": "String",
+                        "firstName": "String",
+                        "lastName": "String"
+                    }
+                ]
+            },
+            "res": {
+                "personalNames": [
+                    {
+                        "script": "String",
+                        "id": "String",
+                        "firstName": "String",
+                        "lastName": "String",
+                        "likelyGender": "String",
+                        "genderScale": "Number",
+                        "score": "Number",
+                        "probabilityCalibrated": "Number"
+                    }
+                ]
+            },
+            "operationName": "Gender Batch",
+            "summary": "Find the likely gender of up to 100 names",
+            "reqMetaKey": "personalNames",
+            "reqKeys": [
+                "id",
+                "firstName",
+                "lastName"
+            ],
+            "resMetaKey": "personalNames",
+            "resKeys": [
+                "script",
+                "id",
+                "firstName",
+                "lastName",
+                "likelyGender",
+                "genderScale",
+                "score",
+                "probabilityCalibrated"
+            ],
+            "cost": 1
+        },
+        "genderFullBatch": {
+            "http": "post",
+            "url": "/api2/json/genderFullBatch",
+            "req": {
+                "personalNames": [
+                    {
+                        "id": "String",
+                        "name": "String"
+                    }
+                ]
+            },
+            "res": {
+                "personalNames": [
+                    {
+                        "script": "String",
+                        "id": "String",
+                        "name": "String",
+                        "likelyGender": "String",
+                        "genderScale": "Number",
+                        "score": "Number",
+                        "probabilityCalibrated": "Number"
+                    }
+                ]
+            },
+            "operationName": "Gender Full Batch",
+            "summary": "Detect the likely gender of up to 100 full names",
+            "reqMetaKey": "personalNames",
+            "reqKeys": [
+                "id",
+                "name"
+            ],
+            "resMetaKey": "personalNames",
+            "resKeys": [
+                "script",
+                "id",
+                "name",
+                "likelyGender",
+                "genderScale",
+                "score",
+                "probabilityCalibrated"
+            ],
+            "cost": 1
+        },
+        "genderFullGeoBatch": {
+            "http": "post",
+            "url": "/api2/json/genderFullGeoBatch",
+            "req": {
+                "personalNames": [
+                    {
+                        "id": "String",
+                        "name": "String",
+                        "countryIso2": "String"
+                    }
+                ]
+            },
+            "res": {
+                "personalNames": [
+                    {
+                        "script": "String",
+                        "id": "String",
+                        "name": "String",
+                        "likelyGender": "String",
+                        "genderScale": "Number",
+                        "score": "Number",
+                        "probabilityCalibrated": "Number"
+                    }
+                ]
+            },
+            "operationName": "Gender Full Geo Batch",
+            "summary": "Detect the likely gender of up to 100 full names, according to their local context",
+            "reqMetaKey": "personalNames",
+            "reqKeys": [
+                "id",
+                "name",
+                "countryIso2"
+            ],
+            "resMetaKey": "personalNames",
+            "resKeys": [
+                "script",
+                "id",
+                "name",
+                "likelyGender",
+                "genderScale",
+                "score",
+                "probabilityCalibrated"
+            ],
+            "cost": 1
+        },
+        "originBatch": {
+            "http": "post",
+            "url": "/api2/json/originBatch",
+            "req": {
+                "personalNames": [
+                    {
+                        "id": "String",
+                        "firstName": "String",
+                        "lastName": "String"
+                    }
+                ]
+            },
+            "res": {
+                "personalNames": [
+                    {
+                        "script": "String",
+                        "id": "String",
+                        "firstName": "String",
+                        "lastName": "String",
+                        "countryOrigin": "String",
+                        "countryOriginAlt": "String",
+                        "countriesOriginTop": "Array",
+                        "score": "Number",
+                        "regionOrigin": "String",
+                        "topRegionOrigin": "String",
+                        "subRegionOrigin": "String",
+                        "probabilityCalibrated": "Number",
+                        "probabilityAltCalibrated": "Number"
+                    }
+                ]
+            },
+            "operationName": "Origin Batch",
+            "summary": "Detect the likely country of origin of up to 100 first and last names",
+            "reqMetaKey": "personalNames",
+            "reqKeys": [
+                "id",
+                "firstName",
+                "lastName"
+            ],
+            "resMetaKey": "personalNames",
+            "resKeys": [
+                "script",
+                "id",
+                "firstName",
+                "lastName",
+                "countryOrigin",
+                "countryOriginAlt",
+                "countriesOriginTop",
+                "score",
+                "regionOrigin",
+                "topRegionOrigin",
+                "subRegionOrigin",
+                "probabilityCalibrated",
+                "probabilityAltCalibrated"
+            ],
+            "cost": 10
+        },
+        "countryBatch": {
+            "http": "post",
+            "url": "/api2/json/countryBatch",
+            "req": {
+                "personalNames": [
+                    {
+                        "id": "String",
+                        "name": "String"
+                    }
+                ]
+            },
+            "res": {
+                "personalNames": [
+                    {
+                        "script": "String",
+                        "id": "String",
+                        "name": "String",
+                        "score": "Number",
+                        "country": "String",
+                        "countryAlt": "String",
+                        "region": "String",
+                        "topRegion": "String",
+                        "subRegion": "String",
+                        "countriesTop": "Array",
+                        "probabilityCalibrated": "Number",
+                        "probabilityAltCalibrated": "Number"
+                    }
+                ]
+            },
+            "operationName": "Country Batch",
+            "summary": "Infer the likely country of residence of up to 100 full names or last names",
+            "reqMetaKey": "personalNames",
+            "reqKeys": [
+                "id",
+                "name"
+            ],
+            "resMetaKey": "personalNames",
+            "resKeys": [
+                "script",
+                "id",
+                "name",
+                "score",
+                "country",
+                "countryAlt",
+                "region",
+                "topRegion",
+                "subRegion",
+                "countriesTop",
+                "probabilityCalibrated",
+                "probabilityAltCalibrated"
+            ],
+            "cost": 10
+        },
+        "usRaceEthnicityBatch": {
+            "http": "post",
+            "url": "/api2/json/usRaceEthnicityBatch",
+            "req": {
+                "personalNames": [
+                    {
+                        "id": "String",
+                        "firstName": "String",
+                        "lastName": "String",
+                        "countryIso2": "String"
+                    }
+                ]
+            },
+            "res": {
+                "personalNames": [
+                    {
+                        "script": "String",
+                        "id": "String",
+                        "firstName": "String",
+                        "lastName": "String",
+                        "raceEthnicityAlt": "String",
+                        "raceEthnicity": "String",
+                        "score": "Number",
+                        "raceEthnicitiesTop": "Array",
+                        "probabilityCalibrated": "Number",
+                        "probabilityAltCalibrated": "Number"
+                    }
+                ]
+            },
+            "operationName": "US Race and Ethnicity Batch",
+            "summary": "Detect the most likely U.S. race or ethnicity of a up to 100 U.S. residents' first and last names",
+            "reqMetaKey": "personalNames",
+            "reqKeys": [
+                "id",
+                "firstName",
+                "lastName",
+                "countryIso2"
+            ],
+            "resMetaKey": "personalNames",
+            "resKeys": [
+                "script",
+                "id",
+                "firstName",
+                "lastName",
+                "raceEthnicityAlt",
+                "raceEthnicity",
+                "score",
+                "raceEthnicitiesTop",
+                "probabilityCalibrated",
+                "probabilityAltCalibrated"
+            ],
+            "cost": 10
+        },
+        "usZipRaceEthnicityBatch": {
+            "http": "post",
+            "url": "/api2/json/usZipRaceEthnicityBatch",
+            "req": {
+                "personalNames": [
+                    {
+                        "id": "String",
+                        "firstName": "String",
+                        "lastName": "String",
+                        "countryIso2": "String",
+                        "zipCode": "String"
+                    }
+                ]
+            },
+            "res": {
+                "personalNames": [
+                    {
+                        "script": "String",
+                        "id": "String",
+                        "firstName": "String",
+                        "lastName": "String",
+                        "raceEthnicityAlt": "String",
+                        "raceEthnicity": "String",
+                        "score": "Number",
+                        "raceEthnicitiesTop": "Array",
+                        "probabilityCalibrated": "Number",
+                        "probabilityAltCalibrated": "Number"
+                    }
+                ]
+            },
+            "operationName": "US ZIP Race and Ethnicity Batch",
+            "summary": "Determine the most likely U.S. race or ethnicity of up to 100 U.S. residents' first and last names, using their ZIP code",
+            "reqMetaKey": "personalNames",
+            "reqKeys": [
+                "id",
+                "firstName",
+                "lastName",
+                "countryIso2",
+                "zipCode"
+            ],
+            "resMetaKey": "personalNames",
+            "resKeys": [
+                "script",
+                "id",
+                "firstName",
+                "lastName",
+                "raceEthnicityAlt",
+                "raceEthnicity",
+                "score",
+                "raceEthnicitiesTop",
+                "probabilityCalibrated",
+                "probabilityAltCalibrated"
+            ],
+            "cost": 10
+        },
+        "diasporaBatch": {
+            "http": "post",
+            "url": "/api2/json/diasporaBatch",
+            "req": {
+                "personalNames": [
+                    {
+                        "id": "String",
+                        "firstName": "String",
+                        "lastName": "String",
+                        "countryIso2": "String"
+                    }
+                ]
+            },
+            "res": {
+                "personalNames": [
+                    {
+                        "script": "String",
+                        "id": "String",
+                        "firstName": "String",
+                        "lastName": "String",
+                        "score": "Number",
+                        "ethnicityAlt": "String",
+                        "ethnicity": "String",
+                        "lifted": "Boolean",
+                        "countryIso2": "String",
+                        "ethnicitiesTop": "Array"
+                    }
+                ]
+            },
+            "operationName": "Diaspora Batch",
+            "summary": "Infer the likely ethnicity or diaspora of up to 100 names, according to their country of residence",
+            "reqMetaKey": "personalNames",
+            "reqKeys": [
+                "id",
+                "firstName",
+                "lastName",
+                "countryIso2"
+            ],
+            "resMetaKey": "personalNames",
+            "resKeys": [
+                "script",
+                "id",
+                "firstName",
+                "lastName",
+                "score",
+                "ethnicityAlt",
+                "ethnicity",
+                "lifted",
+                "countryIso2",
+                "ethnicitiesTop"
+            ],
+            "cost": 20
+        },
+        "parseNameBatch": {
+            "http": "post",
+            "url": "/api2/json/parseNameBatch",
+            "req": {
+                "personalNames": [
+                    {
+                        "id": "String",
+                        "name": "String"
+                    }
+                ]
+            },
+            "res": {
+                "personalNames": [
+                    {
+                        "script": "String",
+                        "id": "String",
+                        "name": "String",
+                        "nameParserType": "String",
+                        "nameParserTypeAlt": "String",
+                        "firstLastName": {
+                            "script": "String",
+                            "id": "String",
+                            "firstName": "String",
+                            "lastName": "String"
+                        },
+                        "score": "Number"
+                    }
+                ]
+            },
+            "operationName": "Parse Name Batch",
+            "summary": "Detect the likely first and last name structure of up to 100 full names",
+            "reqMetaKey": "personalNames",
+            "reqKeys": [
+                "id",
+                "name"
+            ],
+            "resMetaKey": "personalNames",
+            "resKeys": [
+                "script",
+                "id",
+                "name",
+                "nameParserType",
+                "nameParserTypeAlt",
+                "firstLastName.script",
+                "firstLastName.id",
+                "firstLastName.firstName",
+                "firstLastName.lastName",
+                "score"
+            ],
+            "cost": 1
+        },
+        "parseNameGeoBatch": {
+            "http": "post",
+            "url": "/api2/json/parseNameGeoBatch",
+            "req": {
+                "personalNames": [
+                    {
+                        "id": "String",
+                        "name": "String",
+                        "countryIso2": "String"
+                    }
+                ]
+            },
+            "res": {
+                "personalNames": [
+                    {
+                        "script": "String",
+                        "id": "String",
+                        "name": "String",
+                        "nameParserType": "String",
+                        "nameParserTypeAlt": "String",
+                        "firstLastName": {
+                            "script": "String",
+                            "id": "String",
+                            "firstName": "String",
+                            "lastName": "String"
+                        },
+                        "score": "Number"
+                    }
+                ]
+            },
+            "operationName": "Parse Name Geo Batch",
+            "summary": "Detect the likely first and last name structure of up to 100 full names. For better accuracy, provide a local context",
+            "reqMetaKey": "personalNames",
+            "reqKeys": [
+                "id",
+                "name",
+                "countryIso2"
+            ],
+            "resMetaKey": "personalNames",
+            "resKeys": [
+                "script",
+                "id",
+                "name",
+                "nameParserType",
+                "nameParserTypeAlt",
+                "firstLastName.script",
+                "firstLastName.id",
+                "firstLastName.firstName",
+                "firstLastName.lastName",
+                "score"
+            ],
+            "cost": 1
+        },
+        "parseChineseNameBatch": {
+            "http": "post",
+            "url": "/api2/json/parseChineseNameBatch",
+            "req": {
+                "personalNames": [
+                    {
+                        "id": "String",
+                        "name": "String"
+                    }
+                ]
+            },
+            "res": {
+                "personalNames": [
+                    {
+                        "script": "String",
+                        "id": "String",
+                        "name": "String",
+                        "nameParserType": "String",
+                        "nameParserTypeAlt": "String",
+                        "firstLastName": {
+                            "script": "String",
+                            "id": "String",
+                            "firstName": "String",
+                            "lastName": "String"
+                        },
+                        "score": "Number"
+                    }
+                ]
+            },
+            "operationName": "Parse Chinese Name Batch",
+            "summary": "Detect the likely first and last name structure of up to 100 a Chinese names, written in Mandarin, ex. 王晓明 -> 王(lastname) 晓明(first name)",
+            "reqMetaKey": "personalNames",
+            "reqKeys": [
+                "id",
+                "name"
+            ],
+            "resMetaKey": "personalNames",
+            "resKeys": [
+                "script",
+                "id",
+                "name",
+                "nameParserType",
+                "nameParserTypeAlt",
+                "firstLastName.script",
+                "firstLastName.id",
+                "firstLastName.firstName",
+                "firstLastName.lastName",
+                "score"
+            ],
+            "cost": 1
+        },
+        "pinyinChineseNameBatch": {
+            "http": "post",
+            "url": "/api2/json/pinyinChineseNameBatch",
+            "req": {
+                "personalNames": [
+                    {
+                        "id": "String",
+                        "name": "String"
+                    }
+                ]
+            },
+            "res": {
+                "personalNames": [
+                    {
+                        "script": "String",
+                        "id": "String",
+                        "name": "String",
+                        "nameParserType": "String",
+                        "nameParserTypeAlt": "String",
+                        "firstLastName": {
+                            "script": "String",
+                            "id": "String",
+                            "firstName": "String",
+                            "lastName": "String"
+                        },
+                        "score": "Number"
+                    }
+                ]
+            },
+            "operationName": "Pinyin Chinese Name Batch",
+            "summary": "Romanize a list of up to 100 Chinese names to Pinyin",
+            "reqMetaKey": "personalNames",
+            "reqKeys": [
+                "id",
+                "name"
+            ],
+            "resMetaKey": "personalNames",
+            "resKeys": [
+                "script",
+                "id",
+                "name",
+                "nameParserType",
+                "nameParserTypeAlt",
+                "firstLastName.script",
+                "firstLastName.id",
+                "firstLastName.firstName",
+                "firstLastName.lastName",
+                "score"
+            ],
+            "cost": 1
+        },
+        "chineseNameMatchBatch": {
+            "http": "post",
+            "url": "/api2/json/chineseNameMatchBatch",
+            "req": {
+                "personalNames": [
+                    {
+                        "id": "String",
+                        "name1": {
+                            "id": "String",
+                            "firstName": "String",
+                            "lastName": "String"
+                        },
+                        "name2": {
+                            "id": "String",
+                            "name": "String"
+                        }
+                    }
+                ]
+            },
+            "res": {
+                "matchedNames": [
+                    {
+                        "script": "String",
+                        "id": "String",
+                        "matchStatus": "String",
+                        "score": "Number"
+                    }
+                ]
+            },
+            "operationName": "Chinese Name Match Batch",
+            "summary": "Identify Chinese name candidates, based on the romanized name (firstName = chineseGivenName; lastName=chineseSurname), ex. Wang Xiaoming",
+            "reqMetaKey": "personalNames",
+            "reqKeys": [
+                "id",
+                "name1.id",
+                "name1.firstName",
+                "name1.lastName",
+                "name2.id",
+                "name2.name"
+            ],
+            "resMetaKey": "matchedNames",
+            "resKeys": [
+                "script",
+                "id",
+                "matchStatus",
+                "score"
+            ],
+            "cost": 1
+        },
+        "genderChineseNamePinyinBatch": {
+            "http": "post",
+            "url": "/api2/json/genderChineseNamePinyinBatch",
+            "req": {
+                "personalNames": [
+                    {
+                        "id": "String",
+                        "firstName": "String",
+                        "lastName": "String"
+                    }
+                ]
+            },
+            "res": {
+                "personalNames": [
+                    {
+                        "script": "String",
+                        "id": "String",
+                        "firstName": "String",
+                        "lastName": "String",
+                        "likelyGender": "String",
+                        "genderScale": "Number",
+                        "score": "Number",
+                        "probabilityCalibrated": "Number"
+                    }
+                ]
+            },
+            "operationName": "Gender Chinese Name Pinyin Batch",
+            "summary": "Find out the likely gender of up to 100 Chinese first and last names, written in Pinyin",
+            "reqMetaKey": "personalNames",
+            "reqKeys": [
+                "id",
+                "firstName",
+                "lastName"
+            ],
+            "resMetaKey": "personalNames",
+            "resKeys": [
+                "script",
+                "id",
+                "firstName",
+                "lastName",
+                "likelyGender",
+                "genderScale",
+                "score",
+                "probabilityCalibrated"
+            ],
+            "cost": 1
+        },
+        "genderChineseNameBatch": {
+            "http": "post",
+            "url": "/api2/json/genderChineseNameBatch",
+            "req": {
+                "personalNames": [
+                    {
+                        "id": "String",
+                        "name": "String"
+                    }
+                ]
+            },
+            "res": {
+                "personalNames": [
+                    {
+                        "script": "String",
+                        "id": "String",
+                        "name": "String",
+                        "likelyGender": "String",
+                        "genderScale": "Number",
+                        "score": "Number",
+                        "probabilityCalibrated": "Number"
+                    }
+                ]
+            },
+            "operationName": "Gender Chinese Name Batch",
+            "summary": "Infer the likely gender of up to 100 Chinese full names, written in Mandarin",
+            "reqMetaKey": "personalNames",
+            "reqKeys": [
+                "id",
+                "name"
+            ],
+            "resMetaKey": "personalNames",
+            "resKeys": [
+                "script",
+                "id",
+                "name",
+                "likelyGender",
+                "genderScale",
+                "score",
+                "probabilityCalibrated"
+            ],
+            "cost": 1
+        },
+        "chineseNameCandidatesBatch": {
+            "http": "post",
+            "url": "/api2/json/chineseNameCandidatesBatch",
+            "req": {
+                "personalNames": [
+                    {
+                        "id": "String",
+                        "firstName": "String",
+                        "lastName": "String"
+                    }
+                ]
+            },
+            "res": {
+                "namesAndMatchCandidates": [
+                    {
+                        "script": "String",
+                        "id": "String",
+                        "firstName": "String",
+                        "lastName": "String",
+                        "orderOption": "String",
+                        "matchCandidates": [
+                            {
+                                "candidateName": "String",
+                                "probability": "Number",
+                                "predScoreGivenName": "Number",
+                                "predScoreFamilyName": "Number"
+                            }
+                        ]
+                    }
+                ]
+            },
+            "operationName": "Chinese Name Candidates Batch",
+            "summary": "Find the most likely Mandarin transcriptions for up to 100 Chinese first and last names, written in Pinyin",
+            "reqMetaKey": "personalNames",
+            "reqKeys": [
+                "id",
+                "firstName",
+                "lastName"
+            ],
+            "resMetaKey": "namesAndMatchCandidates",
+            "resKeys": [
+                "script",
+                "id",
+                "firstName",
+                "lastName",
+                "orderOption",
+                "matchCandidates.[].candidateName,probability,predScoreGivenName,predScoreFamilyName"
+            ],
+            "cost": 1
+        },
+        "chineseNameCandidatesGenderBatch": {
+            "http": "post",
+            "url": "/api2/json/chineseNameCandidatesGenderBatch",
+            "req": {
+                "personalNames": [
+                    {
+                        "id": "String",
+                        "firstName": "String",
+                        "lastName": "String",
+                        "gender": "String"
+                    }
+                ]
+            },
+            "res": {
+                "namesAndMatchCandidates": [
+                    {
+                        "script": "String",
+                        "id": "String",
+                        "firstName": "String",
+                        "lastName": "String",
+                        "orderOption": "String",
+                        "matchCandidates": [
+                            {
+                                "candidateName": "String",
+                                "probability": "Number",
+                                "predScoreGivenName": "Number",
+                                "predScoreFamilyName": "Number"
+                            }
+                        ]
+                    }
+                ]
+            },
+            "operationName": "Chinese Name Candidates Gender Batch",
+            "summary": "Find the most likely transcriptions for a romanized Chinese first name and last name",
+            "reqMetaKey": "personalNames",
+            "reqKeys": [
+                "id",
+                "firstName",
+                "lastName",
+                "gender"
+            ],
+            "resMetaKey": "namesAndMatchCandidates",
+            "resKeys": [
+                "script",
+                "id",
+                "firstName",
+                "lastName",
+                "orderOption",
+                "matchCandidates.[].candidateName,probability,predScoreGivenName,predScoreFamilyName"
+            ],
+            "cost": 1
+        },
+        "parseJapaneseNameBatch": {
+            "http": "post",
+            "url": "/api2/json/parseJapaneseNameBatch",
+            "req": {
+                "personalNames": [
+                    {
+                        "id": "String",
+                        "name": "String"
+                    }
+                ]
+            },
+            "res": {
+                "personalNames": [
+                    {
+                        "script": "String",
+                        "id": "String",
+                        "name": "String",
+                        "nameParserType": "String",
+                        "nameParserTypeAlt": "String",
+                        "firstLastName": {
+                            "script": "String",
+                            "id": "String",
+                            "firstName": "String",
+                            "lastName": "String"
+                        },
+                        "score": "Number"
+                    }
+                ]
+            },
+            "operationName": "Parse Japanese Name Batch",
+            "summary": "Split up to 100 Japanese full names, in Kanji or Latin writing, into first name and last name structures",
+            "reqMetaKey": "personalNames",
+            "reqKeys": [
+                "id",
+                "name"
+            ],
+            "resMetaKey": "personalNames",
+            "resKeys": [
+                "script",
+                "id",
+                "name",
+                "nameParserType",
+                "nameParserTypeAlt",
+                "firstLastName.script",
+                "firstLastName.id",
+                "firstLastName.firstName",
+                "firstLastName.lastName",
+                "score"
+            ],
+            "cost": 1
+        },
+        "japaneseNameKanjiCandidatesBatch": {
+            "http": "post",
+            "url": "/api2/json/japaneseNameKanjiCandidatesBatch",
+            "req": {
+                "personalNames": [
+                    {
+                        "id": "String",
+                        "firstName": "String",
+                        "lastName": "String"
+                    }
+                ]
+            },
+            "res": {
+                "namesAndMatchCandidates": [
+                    {
+                        "script": "String",
+                        "id": "String",
+                        "firstName": "String",
+                        "lastName": "String",
+                        "orderOption": "String",
+                        "matchCandidates": [
+                            {
+                                "candidateName": "String",
+                                "probability": "Number",
+                                "predScoreGivenName": "Number",
+                                "predScoreFamilyName": "Number"
+                            }
+                        ]
+                    }
+                ]
+            },
+            "operationName": "Japanese Name Kanji Candidates Batch",
+            "summary": "Find the likely transcriptions to Kanji, for up to 100 Japanese romanized first and last names",
+            "reqMetaKey": "personalNames",
+            "reqKeys": [
+                "id",
+                "firstName",
+                "lastName"
+            ],
+            "resMetaKey": "namesAndMatchCandidates",
+            "resKeys": [
+                "script",
+                "id",
+                "firstName",
+                "lastName",
+                "orderOption",
+                "matchCandidates.[].candidateName,probability,predScoreGivenName,predScoreFamilyName"
+            ],
+            "cost": 1
+        },
+        "japaneseNameGenderKanjiCandidatesBatch": {
+            "http": "post",
+            "url": "/api2/json/japaneseNameGenderKanjiCandidatesBatch",
+            "req": {
+                "personalNames": [
+                    {
+                        "id": "String",
+                        "firstName": "String",
+                        "lastName": "String",
+                        "gender": "String"
+                    }
+                ]
+            },
+            "res": {
+                "namesAndMatchCandidates": [
+                    {
+                        "script": "String",
+                        "id": "String",
+                        "firstName": "String",
+                        "lastName": "String",
+                        "orderOption": "String",
+                        "matchCandidates": [
+                            {
+                                "candidateName": "String",
+                                "probability": "Number",
+                                "predScoreGivenName": "Number",
+                                "predScoreFamilyName": "Number"
+                            }
+                        ]
+                    }
+                ]
+            },
+            "operationName": "Japanese Name Gender Kanji Candidates Batch",
+            "summary": "Find the likely transcriptions to Kanji, for up to 100 Japanese romanized first and last names, according to a known gender",
+            "reqMetaKey": "personalNames",
+            "reqKeys": [
+                "id",
+                "firstName",
+                "lastName",
+                "gender"
+            ],
+            "resMetaKey": "namesAndMatchCandidates",
+            "resKeys": [
+                "script",
+                "id",
+                "firstName",
+                "lastName",
+                "orderOption",
+                "matchCandidates.[].candidateName,probability,predScoreGivenName,predScoreFamilyName"
+            ],
+            "cost": 1
+        },
+        "japaneseNameLatinCandidatesBatch": {
+            "http": "post",
+            "url": "/api2/json/japaneseNameLatinCandidatesBatch",
+            "req": {
+                "personalNames": [
+                    {
+                        "id": "String",
+                        "firstName": "String",
+                        "lastName": "String"
+                    }
+                ]
+            },
+            "res": {
+                "namesAndMatchCandidates": [
+                    {
+                        "script": "String",
+                        "id": "String",
+                        "firstName": "String",
+                        "lastName": "String",
+                        "orderOption": "String",
+                        "matchCandidates": [
+                            {
+                                "candidateName": "String",
+                                "probability": "Number",
+                                "predScoreGivenName": "Number",
+                                "predScoreFamilyName": "Number"
+                            }
+                        ]
+                    }
+                ]
+            },
+            "operationName": "Japanese Name Latin Candidates Batch",
+            "summary": "Romanize up to 100 japanese names written in Kanji",
+            "reqMetaKey": "personalNames",
+            "reqKeys": [
+                "id",
+                "firstName",
+                "lastName"
+            ],
+            "resMetaKey": "namesAndMatchCandidates",
+            "resKeys": [
+                "script",
+                "id",
+                "firstName",
+                "lastName",
+                "orderOption",
+                "matchCandidates.[].candidateName,probability,predScoreGivenName,predScoreFamilyName"
+            ],
+            "cost": 1
+        },
+        "japaneseNameMatchBatch": {
+            "http": "post",
+            "url": "/api2/json/japaneseNameMatchBatch",
+            "req": {
+                "personalNames": [
+                    {
+                        "id": "String",
+                        "name1": {
+                            "id": "String",
+                            "firstName": "String",
+                            "lastName": "String"
+                        },
+                        "name2": {
+                            "id": "String",
+                            "name": "String"
+                        }
+                    }
+                ]
+            },
+            "res": {
+                "matchedNames": [
+                    {
+                        "script": "String",
+                        "id": "String",
+                        "matchStatus": "String",
+                        "score": "Number"
+                    }
+                ]
+            },
+            "operationName": "Japanese Name Match Batch",
+            "summary": "Return a score for matching a list of Japanese names in KANJI ex. 山本 早苗 with romanized names ex. Yamamoto Sanae",
+            "reqMetaKey": "personalNames",
+            "reqKeys": [
+                "id",
+                "name1.id",
+                "name1.firstName",
+                "name1.lastName",
+                "name2.id",
+                "name2.name"
+            ],
+            "resMetaKey": "matchedNames",
+            "resKeys": [
+                "script",
+                "id",
+                "matchStatus",
+                "score"
+            ],
+            "cost": 1
+        },
+        "genderJapaneseNamePinyinBatch": {
+            "http": "post",
+            "url": "/api2/json/genderJapaneseNameBatch",
+            "req": {
+                "personalNames": [
+                    {
+                        "id": "String",
+                        "firstName": "String",
+                        "lastName": "String"
+                    }
+                ]
+            },
+            "res": {
+                "personalNames": [
+                    {
+                        "script": "String",
+                        "id": "String",
+                        "firstName": "String",
+                        "lastName": "String",
+                        "likelyGender": "String",
+                        "genderScale": "Number",
+                        "score": "Number",
+                        "probabilityCalibrated": "Number"
+                    }
+                ]
+            },
+            "operationName": "Gender Japanese Name Pinyin Batch",
+            "summary": "Discover the likely gender of a up to 100 Japanese first and last names written in Latin alphabet",
+            "reqMetaKey": "personalNames",
+            "reqKeys": [
+                "id",
+                "firstName",
+                "lastName"
+            ],
+            "resMetaKey": "personalNames",
+            "resKeys": [
+                "script",
+                "id",
+                "firstName",
+                "lastName",
+                "likelyGender",
+                "genderScale",
+                "score",
+                "probabilityCalibrated"
+            ],
+            "cost": 1
+        },
+        "genderJapaneseNameFullBatch": {
+            "http": "post",
+            "url": "/api2/json/genderJapaneseNameFullBatch",
+            "req": {
+                "personalNames": [
+                    {
+                        "id": "String",
+                        "name": "String"
+                    }
+                ]
+            },
+            "res": {
+                "personalNames": [
+                    {
+                        "script": "String",
+                        "id": "String",
+                        "name": "String",
+                        "likelyGender": "String",
+                        "genderScale": "Number",
+                        "score": "Number",
+                        "probabilityCalibrated": "Number"
+                    }
+                ]
+            },
+            "operationName": "Gender Japanese Name Full Batch",
+            "summary": "Find the likely gender of up to 100 Japanese full names, written in Kanji",
+            "reqMetaKey": "personalNames",
+            "reqKeys": [
+                "id",
+                "name"
+            ],
+            "resMetaKey": "personalNames",
+            "resKeys": [
+                "script",
+                "id",
+                "name",
+                "likelyGender",
+                "genderScale",
+                "score",
+                "probabilityCalibrated"
+            ],
+            "cost": 1
+        },
+        "phoneCodeBatch": {
+            "http": "post",
+            "url": "/api2/json/phoneCodeBatch",
+            "req": {
+                "personalNamesWithPhoneNumbers": [
+                    {
+                        "id": "String",
+                        "firstName": "String",
+                        "lastName": "String",
+                        "phoneNumber": "String",
+                        "FirstLastNameOriginedOut": {
+                            "script": "String",
+                            "id": "String",
+                            "firstName": "String",
+                            "lastName": "String",
+                            "countryOrigin": "String",
+                            "countryOriginAlt": "String",
+                            "countriesOriginTop": "Array",
+                            "score": "Number",
+                            "regionOrigin": "String",
+                            "topRegionOrigin": "String",
+                            "subRegionOrigin": "String",
+                            "probabilityCalibrated": "Number",
+                            "probabilityAltCalibrated": "Number"
+                        }
+                    }
+                ]
+            },
+            "res": {
+                "personalNamesWithPhoneNumbers": [
+                    {
+                        "script": "String",
+                        "id": "String",
+                        "firstName": "String",
+                        "lastName": "String",
+                        "internationalPhoneNumberVerified": "String",
+                        "phoneCountryIso2Verified": "String",
+                        "phoneCountryCode": "Integer",
+                        "phoneCountryCodeAlt": "Integer",
+                        "phoneCountryIso2": "String",
+                        "phoneCountryIso2Alt": "String",
+                        "originCountryIso2": "String",
+                        "originCountryIso2Alt": "String",
+                        "phoneNumber": "String",
+                        "verified": "Boolean",
+                        "score": "Number",
+                        "countryIso2": "String"
+                    }
+                ]
+            },
+            "operationName": "Phone Code Batch",
+            "summary": "Identify the likely country and phone prefix of up to 100 names and phone numbers (formatted or unformatted)",
+            "reqMetaKey": "personalNamesWithPhoneNumbers",
+            "reqKeys": [
+                "id",
+                "firstName",
+                "lastName",
+                "phoneNumber",
+                "FirstLastNameOriginedOut.script",
+                "FirstLastNameOriginedOut.id",
+                "FirstLastNameOriginedOut.firstName",
+                "FirstLastNameOriginedOut.lastName",
+                "FirstLastNameOriginedOut.countryOrigin",
+                "FirstLastNameOriginedOut.countryOriginAlt",
+                "FirstLastNameOriginedOut.countriesOriginTop",
+                "FirstLastNameOriginedOut.score",
+                "FirstLastNameOriginedOut.regionOrigin",
+                "FirstLastNameOriginedOut.topRegionOrigin",
+                "FirstLastNameOriginedOut.subRegionOrigin",
+                "FirstLastNameOriginedOut.probabilityCalibrated",
+                "FirstLastNameOriginedOut.probabilityAltCalibrated"
+            ],
+            "resMetaKey": "personalNamesWithPhoneNumbers",
+            "resKeys": [
+                "script",
+                "id",
+                "firstName",
+                "lastName",
+                "internationalPhoneNumberVerified",
+                "phoneCountryIso2Verified",
+                "phoneCountryCode",
+                "phoneCountryCodeAlt",
+                "phoneCountryIso2",
+                "phoneCountryIso2Alt",
+                "originCountryIso2",
+                "originCountryIso2Alt",
+                "phoneNumber",
+                "verified",
+                "score",
+                "countryIso2"
+            ],
+            "cost": 11
+        },
+        "phoneCodeGeoBatch": {
+            "http": "post",
+            "url": "/api2/json/phoneCodeGeoBatch",
+            "req": {
+                "personalNamesWithPhoneNumbers": [
+                    {
+                        "id": "String",
+                        "firstName": "String",
+                        "lastName": "String",
+                        "phoneNumber": "String",
+                        "FirstLastNameOriginedOut": {
+                            "script": "String",
+                            "id": "String",
+                            "firstName": "String",
+                            "lastName": "String",
+                            "countryOrigin": "String",
+                            "countryOriginAlt": "String",
+                            "countriesOriginTop": "Array",
+                            "score": "Number",
+                            "regionOrigin": "String",
+                            "topRegionOrigin": "String",
+                            "subRegionOrigin": "String",
+                            "probabilityCalibrated": "Number",
+                            "probabilityAltCalibrated": "Number"
+                        },
+                        "countryIso2": "String",
+                        "countryIso2Alt": "String"
+                    }
+                ]
+            },
+            "res": {
+                "personalNamesWithPhoneNumbers": [
+                    {
+                        "script": "String",
+                        "id": "String",
+                        "firstName": "String",
+                        "lastName": "String",
+                        "internationalPhoneNumberVerified": "String",
+                        "phoneCountryIso2Verified": "String",
+                        "phoneCountryCode": "Integer",
+                        "phoneCountryCodeAlt": "Integer",
+                        "phoneCountryIso2": "String",
+                        "phoneCountryIso2Alt": "String",
+                        "originCountryIso2": "String",
+                        "originCountryIso2Alt": "String",
+                        "phoneNumber": "String",
+                        "verified": "Boolean",
+                        "score": "Number",
+                        "countryIso2": "String"
+                    }
+                ]
+            },
+            "operationName": "Phone Code Geo Batch",
+            "summary": "Identify the likely phone prefix of up to 100 names and phone numbers (formatted or unformatted) according to local context",
+            "reqMetaKey": "personalNamesWithPhoneNumbers",
+            "reqKeys": [
+                "id",
+                "firstName",
+                "lastName",
+                "phoneNumber",
+                "FirstLastNameOriginedOut.script",
+                "FirstLastNameOriginedOut.id",
+                "FirstLastNameOriginedOut.firstName",
+                "FirstLastNameOriginedOut.lastName",
+                "FirstLastNameOriginedOut.countryOrigin",
+                "FirstLastNameOriginedOut.countryOriginAlt",
+                "FirstLastNameOriginedOut.countriesOriginTop",
+                "FirstLastNameOriginedOut.score",
+                "FirstLastNameOriginedOut.regionOrigin",
+                "FirstLastNameOriginedOut.topRegionOrigin",
+                "FirstLastNameOriginedOut.subRegionOrigin",
+                "FirstLastNameOriginedOut.probabilityCalibrated",
+                "FirstLastNameOriginedOut.probabilityAltCalibrated",
+                "countryIso2",
+                "countryIso2Alt"
+            ],
+            "resMetaKey": "personalNamesWithPhoneNumbers",
+            "resKeys": [
+                "script",
+                "id",
+                "firstName",
+                "lastName",
+                "internationalPhoneNumberVerified",
+                "phoneCountryIso2Verified",
+                "phoneCountryCode",
+                "phoneCountryCodeAlt",
+                "phoneCountryIso2",
+                "phoneCountryIso2Alt",
+                "originCountryIso2",
+                "originCountryIso2Alt",
+                "phoneNumber",
+                "verified",
+                "score",
+                "countryIso2"
+            ],
+            "cost": 11
+        }
+    }
+}

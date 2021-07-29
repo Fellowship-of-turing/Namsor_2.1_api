@@ -6,7 +6,7 @@ let listEnums = helpers.listEnums;
 // Imports
 const fs = require('fs');
 const widdershins = require('widdershins');
-const descr = require('../config/descriptions');
+const descr = require('../config/combinedDescriptions');
 
 /************************************************/
 /**************** MD Conversion ****************/
@@ -96,10 +96,7 @@ let mdConvert = (swaggerFile, wsOptions, store, opt) => {
 
         let routeContent = swaggerFile.paths[route][routeMethods[route]];
         let routeId = routeContent.operationId;
-        if (!routeId) {
-          console.log('swaggerFile.paths[route]: ', swaggerFile.paths[route]);
-          console.log('!routeId: ', route)
-        };
+
         let routeStart = () => dirtyMD.indexOf(`<a id="opId${routeId}"></a>`);
         let routeEnd = () => {
           let nextOperation = dirtyMD.indexOf(`<a id="opId`, routeStart() + 1);
@@ -110,7 +107,6 @@ let mdConvert = (swaggerFile, wsOptions, store, opt) => {
             return dirtyMD.length;
           };
         };
-        // if (routeEnd() === -1) routeEnd() = dirtyMD.length;
 
         mdRouteReplace(`<h3 id="${routeId.toLowerCase()}-responseschema">Response Schema</h3>`, '', routeStart(), routeEnd(), route);
 
@@ -161,10 +157,9 @@ let mdConvert = (swaggerFile, wsOptions, store, opt) => {
               if (
                 descr[route] &&
                 descr[route].request &&
-                descr[route].request[param] &&
-                descr[route].request[param].description
+                descr[route].request[param]
               ) {
-                prm.desc = descr[route].request[param].description;
+                prm.desc = descr[route].request[param];
               }
               else {
                 prm.desc = prm.description ? prm.description : '';
@@ -177,28 +172,43 @@ let mdConvert = (swaggerFile, wsOptions, store, opt) => {
               prm = routeRequests[route].schema[param];
               prm.name = param;
 
-              if (!prm.type) console.log('prm.name: ', prm.name);
-              if (!prm.type) console.log('prm.type: ', prm.type, '\n');
-
-              prm.type = prm.type ? capitalize(prm.type) : '**Object**';
-              if (Array.isArray(prm) && prm.length) prm.type = '**Array of Objects**';
-              if (prm.type === '**Object**' || prm.type === '**Array of Objects**') prm.name = `**${prm.name}**`;
-              prm.enum = prm.enum ? listEnums(prm.enum, route) : '';
-
-              prm.required = prm.required === false ? 'false' : 'true';
+              if (
+                Array.isArray(prm) &&
+                prm.length
+              ) {
+                prm.type = '**Array of Objects**';
+                prm.name = `**${prm.name}**`;
+                prm.required = '';
+              }
+              else if (!prm.type) {
+                prm.type = '**Object**';
+                prm.name = `**${prm.name}**`;
+                prm.required = '';
+              }
+              else {
+                prm.type = capitalize(prm.type);
+                prm.enum = prm.enum ? listEnums(prm.enum, route) : '';
+                prm.required = prm.required === false ? '' : 'true';
+              };
 
               // Get description 
               if (
+                prm.type === '**Array of Objects**' ||
+                prm.type === '**Object**'
+              ) {
+                prm.desc = '';
+              }
+              else if (
                 descr[route] &&
                 descr[route].request &&
-                descr[route].request[param] &&
-                descr[route].request[param].description
+                descr[route].request[param]
               ) {
-                prm.desc = descr[route].request[param].description;
+                prm.desc = descr[route].request[param];
               }
               else {
                 prm.desc = prm.description ? prm.description : '';
               };
+
               mdRouteReplace(reqTag, `|${prm.name}|${prm.type}|${prm.required}|${prm.desc}|\n${reqTag}`, routeStart(), routeEnd(), route);
 
               // Handle nested structures
@@ -218,20 +228,22 @@ let mdConvert = (swaggerFile, wsOptions, store, opt) => {
                     subPrm.enum = subPrm.enum ? listEnums(subPrm.enum, route) : '';
                     subPrm.desc = subPrm.description ? subPrm.description : '';
 
+                    subPrm.required = subPrm.required === false ? '' : 'true';
+
                     // Get description 
                     if (
                       descr[route] &&
-                      descr[route].response &&
-                      descr[route].response[param] &&
-                      descr[route].response[param][subPrm] &&
-                      descr[route].response[param][subPrm].description
+                      descr[route].request &&
+                      descr[route].request[param] &&
+                      descr[route].request[param][subKey]
                     ) {
-                      subPrm.desc = descr[route].response[param].description;
+                      subPrm.desc = descr[route].request[param][subKey];
                     }
                     else {
                       subPrm.desc = subPrm.description ? subPrm.description : '';
                     };
-                    mdRouteReplace(reqTag, `|*${indicator}.${subKey}*|${subPrm.type}|${subPrm.desc}|${subPrm.enum}|\n${reqTag}`, routeStart(), routeEnd(), route);
+
+                    mdRouteReplace(reqTag, `|*${indicator}.${subKey}*|${subPrm.type}|${subPrm.required}|${subPrm.desc}|${subPrm.enum}|\n${reqTag}`, routeStart(), routeEnd(), route);
                   };
                 });
               };
@@ -281,23 +293,46 @@ let mdConvert = (swaggerFile, wsOptions, store, opt) => {
           Object.keys(routeResponses[route].schema).forEach(param => {
             prm = routeResponses[route].schema[param];
             prm.name = param;
-            prm.type = prm.type ? capitalize(prm.type) : '**Object**';
-            if (Array.isArray(prm) && prm.length) prm.type = '**Array of Objects**';
-            if (prm.type === '**Object**' || prm.type === '**Array of Objects**') prm.name = `**${prm.name}**`;
-            prm.enum = prm.enum ? listEnums(prm.enum, route) : '';
+
+            if (
+              Array.isArray(prm) &&
+              prm.length
+            ) {
+              prm.type = '**Array of Objects**';
+              prm.name = `**${prm.name}**`;
+              prm.required = '';
+              prm.enum = '';
+            }
+            else if (!prm.type) {
+              prm.type = '**Object**';
+              prm.name = `**${prm.name}**`;
+              prm.required = '';
+              prm.enum = '';
+            }
+            else {
+              prm.type = capitalize(prm.type);
+              prm.enum = prm.enum ? listEnums(prm.enum, route) : '';
+              prm.required = prm.required === false ? '' : 'true';
+            };
 
             // Get description 
             if (
+              prm.type === '**Array of Objects**' ||
+              prm.type === '**Object**'
+            ) {
+              prm.desc = '';
+            }
+            else if (
               descr[route] &&
               descr[route].response &&
-              descr[route].response[param] &&
-              descr[route].response[param].description
+              descr[route].response[param]
             ) {
-              prm.desc = descr[route].response[param].description;
+              prm.desc = descr[route].response[param];
             }
             else {
               prm.desc = prm.description ? prm.description : '';
             };
+
             mdRouteReplace(resTag, `|${prm.name}|${prm.type}|${prm.desc}|${prm.enum}|\n${resTag}`, routeStart(), routeEnd(), route);
 
             // Handle nested structures
@@ -322,10 +357,9 @@ let mdConvert = (swaggerFile, wsOptions, store, opt) => {
                     descr[route] &&
                     descr[route].response &&
                     descr[route].response[param] &&
-                    descr[route].response[param][subPrm] &&
-                    descr[route].response[param][subPrm].description
+                    descr[route].response[param][subKey]
                   ) {
-                    subPrm.desc = descr[route].response[param].description;
+                    subPrm.desc = descr[route].response[param][subKey];
                   }
                   else {
                     subPrm.desc = subPrm.description ? subPrm.description : '';
@@ -337,6 +371,10 @@ let mdConvert = (swaggerFile, wsOptions, store, opt) => {
           });
 
           mdRouteReplace(resTag, '', routeStart(), routeEnd(), route);
+        }
+        else {
+          mdRouteReplace(resTag, 'In case of a success the API will respond with an HTTP 200 code.', routeStart(), routeEnd(), route);
+          console.log('Warn - No response table found for :', route);
         };
 
         /***********************
@@ -424,6 +462,10 @@ let mdConvert = (swaggerFile, wsOptions, store, opt) => {
           mdReplace(escapedExpression, `${keyParam.header} \\\n  ${keyParam.target}`);
         };
       });
+
+      // Clean dirty exceptions
+      dirtyMD = dirtyMD.replace('|source|path|any|true|The API Key to set as enabled/disabled.|', '');
+      dirtyMD = dirtyMD.replace('|source|path|any|true|The API Key to set as learnable/non learnable.|', '');
 
       // dirtyMD is now the clean converted markdown
       fs.writeFileSync('source/index.md', dirtyMD, 'utf8');

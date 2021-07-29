@@ -117,4 +117,6 @@ module.exports = {
   phoneCodeGeoFeedbackLoop: 'Phone-Code-Geo-Feedback-Loop',
   phoneCodeBatch: 'Phone-Code-Batch',
   phoneCodeGeoBatch: 'Phone-Code-Geo-Batch',
+
+  disable: 'Disable-API-Key'
 };

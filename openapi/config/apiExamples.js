@@ -196,6 +196,35 @@ module.exports = {
         }
     },
     //////////////////////////////////////////////////////////////////////////////////////////// OK2
+    // - - - GET
+    "/api2/json/disable/{source}/{disabled}": {
+        "input": {
+            "source": "77afd518a85798fa3723f5ec8120adb7",
+            "disabled": true
+        },
+        "output": {
+            "script": null,
+            "id": null,
+            "firstName": "LiYing",
+            "lastName": "Zhao",
+            "orderOption": null,
+            "matchCandidates": [
+                {
+                    "candidateName": "赵丽英",
+                    "probability": 0.26153460755147884,
+                    "predScoreGivenName": 0,
+                    "predScoreFamilyName": 0
+                },
+                {
+                    "candidateName": "赵丽颖",
+                    "probability": 0.11856235542333707,
+                    "predScoreGivenName": 0,
+                    "predScoreFamilyName": 0
+                }
+            ]
+        }
+    },
+    //////////////////////////////////////////////////////////////////////////////////////////// OK2
     // - - - POST 
     "/api2/json/chineseNameCandidatesBatch": {
         "input": {

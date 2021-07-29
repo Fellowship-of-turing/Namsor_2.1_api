@@ -25,3 +25,11 @@ or
 -   To serve: `npm run serve` and browse to http://localhost:3001
 
 (If installed as a dependency, use `npx reslate [build|debug|serve]`)
+
+## Generating an MD file using openapi.json
+
+-   Drop the openapi.json in openapi/
+-   Be sure any newly added routes have proper data in openapi/config/apiExamples.js
+-   Be sure any newly added routes have proper data in openapi/config/descriptions.js
+-   Be sure any newly added routes have proper data in openapi/config/routeNames.js
+-   Run `npm run genmd`

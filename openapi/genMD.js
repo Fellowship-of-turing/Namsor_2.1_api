@@ -15,6 +15,7 @@ let opt = {
   replace_notarget: false,
   // Inject examples
   inject_ex: true,
+  // Inject sections into intro
   intro_includes: [
     'information.md',
     'authentication.md',

@@ -7,14 +7,13 @@ let capitalize = helpers.capitalize;
 const fs = require('fs');
 let routeNames = require('../config/routeNames');
 let apiExamples = require('../config/apiExamples');
-let descr = require('../config/descriptions');
+let descr = require('../config/combinedDescriptions.json');
 
 /***************************************************/
 /**************** Openapi.json Mod ****************/
 /*************************************************/
 // Prefix Lengh of schemas
 let prefixLenght = '#/components/schemas/'.length;
-let prefixLenghtRoute = '/api2/json/'.length;
 
 // Stores the method of each route
 let routeMethods = {};
@@ -24,7 +23,42 @@ let routeResponses = {};
 let DESCR = {};
 let STRUCT = {};
 
-let descrGen = (io, route, type, key, subkey) => {
+//Fonction pour trouver toutes les clés d'un objet
+const getDeepKeys = (obj, strictKey, findObject) => {
+  let keys = [];
+  for (let key in obj) {
+    if ((typeof obj[key] !== "object" || Array.isArray(obj[key])) && !findObject) {
+      if (
+        Array.isArray(obj[key]) &&
+        typeof obj[key][0] === "object"
+      ) {
+        const subkeys = getDeepKeys(obj[key][0], strictKey, findObject);
+        let arrayKey = key + ".[]." + subkeys.join();
+        keys.push(arrayKey);
+      }
+      else {
+        keys.push(key)
+      };
+    };
+    if (typeof obj[key] === "object" && !Array.isArray(obj[key])) {
+      if (findObject) keys.push(key);
+      const subkeys = getDeepKeys(obj[key], strictKey, findObject);
+      if (!strictKey) {
+        keys = keys.concat(subkeys.map((subkey) => {
+          return key + "." + subkey;
+        }));
+      } else {
+        keys = keys.concat(subkeys)
+      }
+    }
+  }
+  return keys;
+};
+
+////////////////////////////////////////////////
+// Description file generator /////////////////
+//////////////////////////////////////////////
+let descrGen = (io, route, type, hasDescr, key, subkey) => {
   let DESCR_RES = DESCR[route].response;
   let DESCR_REQ = DESCR[route].request;
   // REQUEST
@@ -42,28 +76,34 @@ let descrGen = (io, route, type, key, subkey) => {
         DESCR_REQ[key] = {};
       };
 
-      // Subkey has a description
+      // Subkey has a description in added defs
       if (
         descr[route] &&
         descr[route].request &&
         descr[route].request[key] &&
-        descr[route].request[key][subkey] &&
-        descr[route].request[key][subkey].description
+        descr[route].request[key][subkey]
       ) {
-        DESCR_REQ[key][subkey] = descr[route].request[key][subkey].description;
+        DESCR_REQ[key][subkey] = descr[route].request[key][subkey];
+      }
+      // Key has a description in openapi
+      else if (hasDescr) {
+        DESCR_REQ[key][subkey] = hasDescr;
       }
       else {
         DESCR_REQ[key][subkey] = `*** ${type} ***`;
       };
     }
-    // Key has a description
+    // Key has a description in added defs
     else if (
       descr[route] &&
       descr[route].request &&
-      descr[route].request[key] &&
-      descr[route].request[key].description
+      descr[route].request[key]
     ) {
-      DESCR_REQ[key] = descr[route].request[key].description;
+      DESCR_REQ[key] = descr[route].request[key];
+    }
+    // Key has a description in openapi
+    else if (hasDescr) {
+      DESCR_REQ[key] = hasDescr;
     }
     else {
       DESCR_REQ[key] = `*** ${type} ***`
@@ -85,28 +125,34 @@ let descrGen = (io, route, type, key, subkey) => {
         DESCR_RES[key] = {};
       };
 
-      // Subkey has a description
+      // Subkey has a description in added defs
       if (
         descr[route] &&
         descr[route].response &&
         descr[route].response[key] &&
-        descr[route].response[key][subkey] &&
-        descr[route].response[key][subkey].description
+        descr[route].response[key][subkey]
       ) {
-        DESCR_RES[key][subkey] = descr[route].response[key][subkey].description;
+        DESCR_RES[key][subkey] = descr[route].response[key][subkey];
+      }
+      // Subkey has a description in openapi
+      else if (hasDescr) {
+        DESCR_RES[key][subkey] = hasDescr;
       }
       else {
         DESCR_RES[key][subkey] = `*** ${type} ***`;
       };
     }
-    // Key has a description
+    // Key has a description in added defs
     else if (
       descr[route] &&
       descr[route].response &&
-      descr[route].response[key] &&
-      descr[route].response[key].description
+      descr[route].response[key]
     ) {
-      DESCR_RES[key] = descr[route].response[key].description;
+      DESCR_RES[key] = descr[route].response[key];
+    }
+    // Key has a description in openapi
+    else if (hasDescr) {
+      DESCR_RES[key] = hasDescr;
     }
     else {
       DESCR_RES[key] = `*** ${type} ***`
@@ -114,6 +160,7 @@ let descrGen = (io, route, type, key, subkey) => {
 
   };
 };
+//////////////////////////////////////////////
 
 let formatOpenapi = (swaggerFile, opt) => {
   let routes = Object.keys(swaggerFile.paths);
@@ -156,6 +203,9 @@ let formatOpenapi = (swaggerFile, opt) => {
       ) {
         DESCR[routes[i]].summary = descr[routes[i]].summary;
       }
+      else if (route.summary) {
+        DESCR[routes[i]].summary = route.summary;
+      }
       else {
         DESCR[routes[i]].summary = "*** string ***";
       };
@@ -168,6 +218,7 @@ let formatOpenapi = (swaggerFile, opt) => {
         console.log(`\u001b[31mError\u001b[m\nRoute ${routes[i]} - No route name found for this operation id.`);
       };
       swaggerFile.paths[routes[i]][method].operationId = routeNames[route.operationId];
+      ROUTE_STRUCT.operationName = route.operationId; // data location post renaming above
 
       // Delete systematic security requirement
       if (swaggerFile.paths[routes[i]][method].security) delete swaggerFile.paths[routes[i]][method].security;
@@ -222,11 +273,19 @@ let formatOpenapi = (swaggerFile, opt) => {
               ROUTE_STRUCT.req[param.name] = param.type;
 
               // Get description 
-              descrGen('req', routes[i], param.type, param.name);
+              let hasDescr = param.schema.description;
+              if (
+                !hasDescr &&
+                param.description
+              ) {
+                hasDescr = param.description;
+              };
+              descrGen('req', routes[i], param.type, hasDescr, param.name);
 
               // Replace typed examples with value examples
               if (
                 opt.inject_ex === true &&
+                apiExamples[routes[i]] &&
                 Object.keys(apiExamples[routes[i]].input).length
               ) {
                 param.schema = apiExamples[routes[i]].input[param.name];
@@ -293,7 +352,8 @@ let formatOpenapi = (swaggerFile, opt) => {
                     Object.keys(requestNestedSubSchema.properties).forEach(subKey => {
                       if (requestNestedSubSchema.properties[subKey].type) {
                         // Get description 
-                        descrGen('req', routes[i], requestNestedSubSchema.properties[subKey].type, key, subKey);
+                        let hasDescr = requestNestedSubSchema.properties[subKey].description;
+                        descrGen('req', routes[i], requestNestedSubSchema.properties[subKey].type, hasDescr, key, subKey);
 
                         requestSubStructure[key][subKey] = capitalize(requestNestedSubSchema.properties[subKey].type);
                       };
@@ -301,7 +361,8 @@ let formatOpenapi = (swaggerFile, opt) => {
                   }
                   else if (requestSubSchema.properties[key].type) {
                     // Get description 
-                    descrGen('req', routes[i], requestSubSchema.properties[key].type, key);
+                    let hasDescr = requestSubSchema.properties[key].description;
+                    descrGen('req', routes[i], requestSubSchema.properties[key].type, hasDescr, key);
 
                     requestSubStructure[key] = capitalize(requestSubSchema.properties[key].type);
                   };
@@ -358,7 +419,8 @@ let formatOpenapi = (swaggerFile, opt) => {
                   Object.keys(requestNestedSchema.properties).forEach(subKey => {
                     if (requestNestedSchema.properties[subKey].type) {
                       // Get description 
-                      descrGen('req', routes[i], requestNestedSchema.properties[subKey].type, key, subKey);
+                      let hasDescr = requestNestedSchema.properties[subKey].description;
+                      descrGen('req', routes[i], requestNestedSchema.properties[subKey].type, hasDescr, key, subKey);
 
                       RES_STRUCT[key][subKey] = capitalize(requestNestedSchema.properties[subKey].type);
                     };
@@ -366,7 +428,8 @@ let formatOpenapi = (swaggerFile, opt) => {
                 }
                 else if (schemas[requestSchemaName].properties[key].type) {
                   // Get description 
-                  descrGen('req', routes[i], schemas[requestSchemaName].properties[key].type, key);
+                  let hasDescr = schemas[requestSchemaName].properties[key].description;
+                  descrGen('req', routes[i], schemas[requestSchemaName].properties[key].type, hasDescr, key);
 
                   REQ_STRUCT[key] = capitalize(schemas[requestSchemaName].properties[key].type);
                 };
@@ -433,6 +496,7 @@ let formatOpenapi = (swaggerFile, opt) => {
 
           let RES_STRUCT = { [schemaNameInPath[0]]: [] }
           let RES_STRUCT_ARRAY = RES_STRUCT[schemaNameInPath[0]];
+
           let responseSubSchemaPath = schemas[responseSchemaName].properties[schemaNameInPath[0]].items.$ref;
           let responseSubSchemaName = responseSubSchemaPath.slice(prefixLenght, responseSubSchemaPath.length);
           let responseSubSchema = schemas[responseSubSchemaName];
@@ -460,7 +524,8 @@ let formatOpenapi = (swaggerFile, opt) => {
                 Object.keys(responseNestedSubSchema.properties).forEach(subKey => {
                   if (responseNestedSubSchema.properties[subKey].type) {
                     // Get description 
-                    descrGen('res', routes[i], responseNestedSubSchema.properties[subKey].type, key, subKey);
+                    let hasDescr = responseNestedSubSchema.properties[subKey].description;
+                    descrGen('res', routes[i], responseNestedSubSchema.properties[subKey].type, hasDescr, key, subKey);
 
                     responseSubStructure[key][subKey] = capitalize(responseNestedSubSchema.properties[subKey].type);
                   };
@@ -483,7 +548,8 @@ let formatOpenapi = (swaggerFile, opt) => {
                 Object.keys(responseNestedSubSchema.properties).forEach(subKey => {
                   if (responseNestedSubSchema.properties[subKey].type) {
                     // Get description 
-                    descrGen('res', routes[i], responseNestedSubSchema.properties[subKey].type, key, subKey);
+                    let hasDescr = responseNestedSubSchema.properties[subKey].description;
+                    descrGen('res', routes[i], responseNestedSubSchema.properties[subKey].type, hasDescr, key, subKey);
 
                     responseSubStructure[key][0][subKey] = capitalize(responseNestedSubSchema.properties[subKey].type);
                   };
@@ -491,7 +557,8 @@ let formatOpenapi = (swaggerFile, opt) => {
               }
               else if (responseSubSchema.properties[key].type) {
                 // Get description 
-                descrGen('res', routes[i], responseSubSchema.properties[key].type, key);
+                let hasDescr = responseSubSchema.properties[key].description;
+                descrGen('res', routes[i], responseSubSchema.properties[key].type, hasDescr, key);
 
                 responseSubStructure[key] = capitalize(responseSubSchema.properties[key].type);
               };
@@ -547,7 +614,8 @@ let formatOpenapi = (swaggerFile, opt) => {
               Object.keys(responseNestedSchema.properties).forEach(subKey => {
                 if (responseNestedSchema.properties[subKey].type) {
                   // Get description 
-                  descrGen('res', routes[i], responseNestedSchema.properties[subKey].type, key, subKey);
+                  let hasDescr = responseNestedSchema.properties[subKey].description;
+                  descrGen('res', routes[i], responseNestedSchema.properties[subKey].type, hasDescr, key, subKey);
 
                   RES_STRUCT[key][subKey] = capitalize(responseNestedSchema.properties[subKey].type);
                 };
@@ -570,7 +638,8 @@ let formatOpenapi = (swaggerFile, opt) => {
               Object.keys(responseNestedSchema.properties).forEach(subKey => {
                 if (responseNestedSchema.properties[subKey].type) {
                   // Get description 
-                  descrGen('res', routes[i], responseNestedSchema.properties[subKey].type, key, subKey);
+                  let hasDescr = responseNestedSchema.properties[subKey].description;
+                  descrGen('res', routes[i], responseNestedSchema.properties[subKey].type, hasDescr, key, subKey);
 
                   RES_STRUCT[key][0][subKey] = capitalize(responseNestedSchema.properties[subKey].type);
                 };
@@ -578,7 +647,8 @@ let formatOpenapi = (swaggerFile, opt) => {
             }
             else if (schemas[responseSchemaName].properties[key].type) {
               // Get description 
-              descrGen('res', routes[i], schemas[responseSchemaName].properties[key].type, key);
+              let hasDescr = schemas[responseSchemaName].properties[key].description;
+              descrGen('res', routes[i], schemas[responseSchemaName].properties[key].type, hasDescr, key);
 
               RES_STRUCT[key] = capitalize(schemas[responseSchemaName].properties[key].type);
             };
@@ -618,11 +688,46 @@ let formatOpenapi = (swaggerFile, opt) => {
   delete swaggerFile.components;
 
   // Save intermidiate files
-  fs.writeFileSync('openapi/genNotMD/premarkdown.json', JSON.stringify(swaggerFile), 'utf8');
-  fs.writeFileSync('openapi/genNotMD/routeRequests.json', JSON.stringify(routeRequests), 'utf8');
-  fs.writeFileSync('openapi/genNotMD/routeResponses.json', JSON.stringify(routeResponses), 'utf8');
-  fs.writeFileSync('openapi/genNotMD/io_schemes.json', JSON.stringify(STRUCT), 'utf8');
-  fs.writeFileSync('openapi/genNotMD/descr_ex_v2.json', JSON.stringify(DESCR), 'utf8');
+  fs.writeFileSync('openapi/genNotMD/premarkdown.json', JSON.stringify(swaggerFile, null, 4), 'utf8');
+  fs.writeFileSync('openapi/genNotMD/routeRequests.json', JSON.stringify(routeRequests, null, 4), 'utf8');
+  fs.writeFileSync('openapi/genNotMD/routeResponses.json', JSON.stringify(routeResponses, null, 4), 'utf8');
+  fs.writeFileSync('openapi/genNotMD/combinedDescriptions.json', JSON.stringify(DESCR, null, 4), 'utf8');
+  // fs.writeFileSync('openapi/genNotMD/io_schemes.json', JSON.stringify(STRUCT, null, 4), 'utf8');
+
+  // Generate config for CSV module
+  let csvData = JSON.parse(JSON.stringify(STRUCT));
+  Object.keys(csvData).forEach(key => {
+    if (key.indexOf('Batch') === -1) {
+      delete csvData[key];
+    }
+    else {
+      csvData[key].operationName = csvData[key].operationName.replace(/-/g, ' ');
+      csvData[key].summary = descr[csvData[key].url].summary;
+
+      // Req / Res structures formated for api_caller
+      let reqMetaKey = csvData[key].reqMetaKey = Object.keys(csvData[key].req)[0];
+      csvData[key].reqKeys = getDeepKeys(csvData[key].req[reqMetaKey][0], false, false);
+      let resMetaKey = csvData[key].resMetaKey = Object.keys(csvData[key].res)[0];
+      csvData[key].resKeys = getDeepKeys(csvData[key].res[resMetaKey][0], false, false);
+
+      // Route costs
+      if (routeCosts[csvData[key].url]) {
+        csvData[key].cost = routeCosts[csvData[key].url] * 1;
+      }
+      else {
+        csvData[key].cost = 1;
+      };
+    };
+  });
+  let csvStructure = {
+    base: swaggerFile.servers[0].url,
+    errorResponses: {
+      "401": "Missing or incorrect API Key",
+      "403": "API Limit Reached or API Key Disabled"
+    },
+    routes: csvData
+  };
+  fs.writeFileSync('openapi/genNotMD/csvStructure.json', JSON.stringify(csvStructure, null, 4), 'utf8');
 
   // Return stored values
   let formatedResult = {
