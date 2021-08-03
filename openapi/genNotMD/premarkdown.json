@@ -58,7 +58,7 @@
                 "tags": [
                     "Personal"
                 ],
-                "summary": "Infer the likely country of residence of a personal full name, or one surname. Assumes names as they are in the country of residence OR the country of origin",
+                "summary": "Infer the likely country of residence of a personal full name, or one surname. Assumes names as they are in the country of residence OR the country of origin.",
                 "operationId": "Country",
                 "parameters": [
                     {
@@ -102,7 +102,7 @@
                 "tags": [
                     "General"
                 ],
-                "summary": "Detect if a proper noun is a personal name or a public name",
+                "summary": "Infer the likely type of a proper noun (personal name, brand name, place name etc.)",
                 "operationId": "Name-Type",
                 "parameters": [
                     {
@@ -137,7 +137,7 @@
                 "tags": [
                     "Admin"
                 ],
-                "summary": "Activate/deactivate an API Key",
+                "summary": "Activate/deactivate an API Key.",
                 "operationId": "Disable-API-Key",
                 "parameters": [
                     {
@@ -168,7 +168,7 @@
                 "tags": [
                     "Personal"
                 ],
-                "summary": "Detect the likely country of origin of a first name and last name structure. For countries like U.S.A, Canada, Australia or New-Zealand and other melting-pots, refer to 'diaspora'",
+                "summary": "Infer the likely country of origin of a personal name. Assumes names as they are in the country of origin. For US, CA, AU, NZ and other melting-pots : use 'diaspora' instead.",
                 "operationId": "Origin",
                 "parameters": [
                     {
@@ -220,7 +220,7 @@
                 "tags": [
                     "Admin"
                 ],
-                "summary": "Get the current version of the Namsor software",
+                "summary": "Get the current software version",
                 "operationId": "Software-Version",
                 "responses": {
                     "200": {
@@ -246,7 +246,7 @@
                 "tags": [
                     "Admin"
                 ],
-                "summary": "Prints the current status of the classifiers. A classifier name in apiStatus corresponds to a service name in apiServices. ",
+                "summary": "Prints the current status of the classifiers. A classifier name in apiStatus corresponds to a service name in apiServices.",
                 "operationId": "Api-Status",
                 "responses": {
                     "200": {
@@ -290,7 +290,7 @@
                 "tags": [
                     "Admin"
                 ],
-                "summary": "Receive a list of the API services and usage costs in Units",
+                "summary": "List of classification services and usage cost in Units per classification (default is 1=ONE Unit). Some API endpoints (ex. Corridor) combine multiple classifiers.",
                 "operationId": "Available-Services",
                 "responses": {
                     "200": {
@@ -356,7 +356,7 @@
                 "tags": [
                     "Admin"
                 ],
-                "summary": "Receive information on your subscription plan and current API usage",
+                "summary": "Print current API usage.",
                 "operationId": "Api-Usage",
                 "responses": {
                     "200": {
@@ -413,7 +413,7 @@
                 "tags": [
                     "Admin"
                 ],
-                "summary": "Print your API usage history",
+                "summary": "Print historical API usage.",
                 "operationId": "Api-Usage-History",
                 "responses": {
                     "200": {
@@ -453,7 +453,7 @@
                 "tags": [
                     "Admin"
                 ],
-                "summary": "Print your API usage history in an aggregated view (by service, by day/hour/min)",
+                "summary": "Print historical API usage (in an aggregated view, by service, by day/hour/min).",
                 "operationId": "Api-Usage-History-Aggregate",
                 "responses": {
                     "200": {
@@ -513,7 +513,7 @@
                 "tags": [
                     "Admin"
                 ],
-                "summary": "Activate/deactivate learning from a source",
+                "summary": "Activate/deactivate learning from a source.",
                 "operationId": "Learnable",
                 "parameters": [
                     {
@@ -544,7 +544,7 @@
                 "tags": [
                     "Admin"
                 ],
-                "summary": "Activate/deactivate anonymization for a source",
+                "summary": "Activate/deactivate anonymization for a source.",
                 "operationId": "Anonymize",
                 "parameters": [
                     {
@@ -574,7 +574,7 @@
                 "tags": [
                     "General"
                 ],
-                "summary": "Detect if a proper noun is a personal name or a public name, according to its local context (ex: John Smith : personal name, Namsor: brand name)",
+                "summary": "Infer the likely type of a proper noun (personal name, brand name, place name etc.)",
                 "operationId": "Name-Type-Geo",
                 "parameters": [
                     {
@@ -616,7 +616,7 @@
                 "tags": [
                     "General"
                 ],
-                "summary": "Detect if proper nouns are personal names or public names (ex: John Smith : personal name, Namsor: brand name). You can inspect up to a 100 names",
+                "summary": "Infer the likely common type of up to 100 proper nouns (personal name, brand name, place name etc.)",
                 "operationId": "Name-Type-Batch",
                 "requestBody": {
                     "description": "A list of proper names",
@@ -661,7 +661,7 @@
                 "tags": [
                     "General"
                 ],
-                "summary": "Detect if proper nouns are personal names or a public names, according to their local context (ex: John Smith : personal name, Namsor: brand name). You can inspect up to 100 names",
+                "summary": "Infer the likely common type of up to 100 proper nouns (personal name, brand name, place name etc.)",
                 "operationId": "Name-Type-Geo-Batch",
                 "requestBody": {
                     "description": "A list of proper names",
@@ -995,7 +995,7 @@
                 "tags": [
                     "Personal"
                 ],
-                "summary": "Find the likely gender of a first name and last name structure",
+                "summary": "Infer the likely gender of a name.",
                 "operationId": "Gender",
                 "parameters": [
                     {
@@ -1039,7 +1039,7 @@
                 "tags": [
                     "Personal"
                 ],
-                "summary": "Find the likely gender of a first and last name structure, according to its local context",
+                "summary": "Infer the likely gender of a name, given a local context (ISO2 country code).",
                 "operationId": "Gender-Geo",
                 "parameters": [
                     {
@@ -1090,7 +1090,7 @@
                 "tags": [
                     "Personal"
                 ],
-                "summary": "Detect the likely gender of up to 100 names, according to their local context",
+                "summary": "Infer the likely gender of up to 100 names, each given a local context (ISO2 country code).",
                 "operationId": "Gender-Geo-Batch",
                 "requestBody": {
                     "description": "A list of names, with country code.",
@@ -1139,7 +1139,7 @@
                 "tags": [
                     "Personal"
                 ],
-                "summary": "Find the likely gender of up to 100 names",
+                "summary": "Infer the likely gender of up to 100 names, detecting automatically the cultural context.",
                 "operationId": "Gender-Batch",
                 "requestBody": {
                     "description": "A list of personal names",
@@ -1187,7 +1187,7 @@
                 "tags": [
                     "Personal"
                 ],
-                "summary": "Infer the likely gender of a full name, according to a local context",
+                "summary": "Infer the likely gender of a full name, given a local context (ISO2 country code).",
                 "operationId": "Gender-Full-Geo",
                 "parameters": [
                     {
@@ -1230,7 +1230,7 @@
                 "tags": [
                     "Personal"
                 ],
-                "summary": "Find the likely gender of a full name",
+                "summary": "Infer the likely gender of a full name, ex. John H. Smith",
                 "operationId": "Gender-Full",
                 "parameters": [
                     {
@@ -1266,7 +1266,7 @@
                 "tags": [
                     "Personal"
                 ],
-                "summary": "Detect the likely gender of up to 100 full names",
+                "summary": "Infer the likely gender of up to 100 full names, detecting automatically the cultural context.",
                 "operationId": "Gender-Full-Batch",
                 "requestBody": {
                     "description": "A list of personal names",
@@ -1312,7 +1312,7 @@
                 "tags": [
                     "Personal"
                 ],
-                "summary": "Detect the likely gender of up to 100 full names, according to their local context",
+                "summary": "Infer the likely gender of up to 100 full names, with a given cultural context (country ISO2 code).",
                 "operationId": "Gender-Full-Geo-Batch",
                 "requestBody": {
                     "description": "A list of personal names, with a country ISO2 code",
@@ -1359,7 +1359,7 @@
                 "tags": [
                     "Personal"
                 ],
-                "summary": "Detect the likely country of origin of up to 100 first and last names",
+                "summary": "Infer the likely country of origin of up to 100 names, detecting automatically the cultural context.",
                 "operationId": "Origin-Batch",
                 "requestBody": {
                     "description": "A list of personal names",
@@ -1415,7 +1415,7 @@
                 "tags": [
                     "Personal"
                 ],
-                "summary": "Infer the likely country of residence of up to 100 full names or last names",
+                "summary": "Infer the likely country of residence of up to 100 personal full names, or surnames. Assumes names as they are in the country of residence OR the country of origin.",
                 "operationId": "Country-Batch",
                 "requestBody": {
                     "description": "A list of personal names",
@@ -1469,7 +1469,7 @@
                 "tags": [
                     "Personal"
                 ],
-                "summary": "Determine the most likely U.S. race or ethnicity of a U.S. resident's first and last name",
+                "summary": "Infer a US resident's likely race/ethnicity according to US Census taxonomy W_NL (white, non latino), HL (hispano latino),  A (asian, non latino), B_NL (black, non latino). Optionally add header X-OPTION-USRACEETHNICITY-TAXONOMY: USRACEETHNICITY-6CLASSES for two additional classes, AI_AN (American Indian or Alaskan Native) and PI (Pacific Islander).",
                 "operationId": "US-Race-and-Ethnicity",
                 "parameters": [
                     {
@@ -1520,7 +1520,7 @@
                 "tags": [
                     "Personal"
                 ],
-                "summary": "Determine the most likely U.S. race or ethnicity of a U.S. resident's first and last name, using their ZIP code",
+                "summary": "Infer a US resident's likely race/ethnicity according to US Census taxonomy, using (optional) ZIP5 code info. Output is W_NL (white, non latino), HL (hispano latino),  A (asian, non latino), B_NL (black, non latino). Optionally add header X-OPTION-USRACEETHNICITY-TAXONOMY: USRACEETHNICITY-6CLASSES for two additional classes, AI_AN (American Indian or Alaskan Native) and PI (Pacific Islander).",
                 "operationId": "US-ZIP-Race-and-Ethnicity",
                 "parameters": [
                     {
@@ -1578,7 +1578,7 @@
                 "tags": [
                     "Personal"
                 ],
-                "summary": "Detect the most likely U.S. race or ethnicity of a up to 100 U.S. residents' first and last names",
+                "summary": "Infer up-to 100 US resident's likely race/ethnicity according to US Census taxonomy. Output is W_NL (white, non latino), HL (hispano latino),  A (asian, non latino), B_NL (black, non latino). Optionally add header X-OPTION-USRACEETHNICITY-TAXONOMY: USRACEETHNICITY-6CLASSES for two additional classes, AI_AN (American Indian or Alaskan Native) and PI (Pacific Islander).",
                 "operationId": "US-Race-and-Ethnicity-Batch",
                 "requestBody": {
                     "description": "A list of personal names",
@@ -1634,7 +1634,7 @@
                 "tags": [
                     "Personal"
                 ],
-                "summary": "Determine the most likely U.S. race or ethnicity of up to 100 U.S. residents' first and last names, using their ZIP code",
+                "summary": "Infer up-to 100 US resident's likely race/ethnicity according to US Census taxonomy, with (optional) ZIP code. Output is W_NL (white, non latino), HL (hispano latino),  A (asian, non latino), B_NL (black, non latino). Optionally add header X-OPTION-USRACEETHNICITY-TAXONOMY: USRACEETHNICITY-6CLASSES for two additional classes, AI_AN (American Indian or Alaskan Native) and PI (Pacific Islander).",
                 "operationId": "US-ZIP-Race-and-Ethnicity-Batch",
                 "requestBody": {
                     "description": "A list of personal names",
@@ -1691,7 +1691,7 @@
                 "tags": [
                     "Personal"
                 ],
-                "summary": "Find out the likely ethnicity or diaspora of a first name and last name, according to the country of residence",
+                "summary": "Infer the likely ethnicity/diaspora of a personal name, given a country of residence ISO2 code (ex. US, CA, AU, NZ etc.)",
                 "operationId": "Diaspora",
                 "parameters": [
                     {
@@ -1747,7 +1747,7 @@
                 "tags": [
                     "Personal"
                 ],
-                "summary": "Infer the likely ethnicity or diaspora of up to 100 names, according to their country of residence",
+                "summary": "Infer the likely ethnicity/diaspora of up to 100 personal names, given a country of residence ISO2 code (ex. US, CA, AU, NZ etc.)",
                 "operationId": "Diaspora-Batch",
                 "requestBody": {
                     "description": "A list of personal names",
@@ -1801,7 +1801,7 @@
                 "tags": [
                     "Personal"
                 ],
-                "summary": "Split a full name into a likely first and last name structure. For better accuracy, provide a local context",
+                "summary": "Infer the likely first/last name structure of a name, ex. John Smith or SMITH, John or SMITH; John. For better accuracy, provide a geographic context.",
                 "operationId": "Parse-Name-Geo",
                 "parameters": [
                     {
@@ -1849,7 +1849,7 @@
                 "tags": [
                     "Personal"
                 ],
-                "summary": "Detect the likely first and last name structure of up to 100 full names",
+                "summary": "Infer the likely first/last name structure of a name, ex. John Smith or SMITH, John or SMITH; John.",
                 "operationId": "Parse-Name-Batch",
                 "requestBody": {
                     "description": "A list of personal names",
@@ -1900,7 +1900,7 @@
                 "tags": [
                     "Personal"
                 ],
-                "summary": "Detect the likely first and last name structure of up to 100 full names. For better accuracy, provide a local context",
+                "summary": "Infer the likely first/last name structure of a name, ex. John Smith or SMITH, John or SMITH; John. Giving a local context improves precision. ",
                 "operationId": "Parse-Name-Geo-Batch",
                 "requestBody": {
                     "description": "A list of personal names",
@@ -1952,7 +1952,7 @@
                 "tags": [
                     "Chinese"
                 ],
-                "summary": "Determine the likely first and last name structure of a Chinese name, written in Mandarin",
+                "summary": "Infer the likely first/last name structure of a name, ex. 王晓明 -> 王(surname) 晓明(given name)",
                 "operationId": "Parse-Chinese-Name",
                 "parameters": [
                     {
@@ -1993,7 +1993,7 @@
                 "tags": [
                     "Chinese"
                 ],
-                "summary": "Detect the likely first and last name structure of up to 100 a Chinese names, written in Mandarin, ex. 王晓明 -> 王(lastname) 晓明(first name)",
+                "summary": "Infer the likely first/last name structure of a name, ex. 王晓明 -> 王(surname) 晓明(given name).",
                 "operationId": "Parse-Chinese-Name-Batch",
                 "requestBody": {
                     "description": "A list of personal names",
@@ -2044,7 +2044,7 @@
                 "tags": [
                     "Chinese"
                 ],
-                "summary": "Romanize a Chinese name to Pinyin",
+                "summary": "Romanize the Chinese name to Pinyin, ex. 王晓明 -> Wang (surname) Xiaoming (given name)",
                 "operationId": "Pinyin-Chinese-Name",
                 "parameters": [
                     {
@@ -2085,7 +2085,7 @@
                 "tags": [
                     "Chinese"
                 ],
-                "summary": "Romanize a list of up to 100 Chinese names to Pinyin",
+                "summary": "Romanize a list of Chinese name to Pinyin, ex. 王晓明 -> Wang (surname) Xiaoming (given name).",
                 "operationId": "Pinyin-Chinese-Name-Batch",
                 "requestBody": {
                     "description": "A list of Chinese names",
@@ -2136,7 +2136,7 @@
                 "tags": [
                     "Chinese"
                 ],
-                "summary": "Receive a score for matching a romanized Chinese name with its Mandarin writing",
+                "summary": "Return a score for matching Chinese name ex. 王晓明 with a romanized name ex. Wang Xiaoming",
                 "operationId": "Chinese-Name-Match",
                 "parameters": [
                     {
@@ -2234,7 +2234,7 @@
                 "tags": [
                     "Chinese"
                 ],
-                "summary": "Find the likely gender of a romanized Chinese first name and last name",
+                "summary": "Infer the likely gender of a Chinese name in LATIN (Pinyin).",
                 "operationId": "Gender-Chinese-Name-Pinyin",
                 "parameters": [
                     {
@@ -2278,7 +2278,7 @@
                 "tags": [
                     "Chinese"
                 ],
-                "summary": "Find out the likely gender of up to 100 Chinese first and last names, written in Pinyin",
+                "summary": "Infer the likely gender of up to 100 Chinese names in LATIN (Pinyin).",
                 "operationId": "Gender-Chinese-Name-Pinyin-Batch",
                 "requestBody": {
                     "description": "A list of names, with country code.",
@@ -2326,7 +2326,7 @@
                 "tags": [
                     "Chinese"
                 ],
-                "summary": "Determine the gender of a Chinese full name, written in Mandarin",
+                "summary": "Infer the likely gender of a Chinese full name ex. 王晓明",
                 "operationId": "Gender-Chinese-Name",
                 "parameters": [
                     {
@@ -2362,7 +2362,7 @@
                 "tags": [
                     "Chinese"
                 ],
-                "summary": "Infer the likely gender of up to 100 Chinese full names, written in Mandarin",
+                "summary": "Infer the likely gender of up to 100 full names ex. 王晓明",
                 "operationId": "Gender-Chinese-Name-Batch",
                 "requestBody": {
                     "description": "A list of personal names, with a country ISO2 code",
@@ -2408,7 +2408,7 @@
                 "tags": [
                     "Chinese"
                 ],
-                "summary": "Find the most likely Mandarin transcriptions for a Chinese first name and last name, written in Pinyin",
+                "summary": "Identify Chinese name candidates, based on the romanized name ex. Wang Xiaoming",
                 "operationId": "Chinese-Name-Candidates",
                 "parameters": [
                     {
@@ -2463,7 +2463,7 @@
                 "tags": [
                     "Chinese"
                 ],
-                "summary": "Find the most likely Mandarin transcriptions for up to 100 Chinese first and last names, written in Pinyin",
+                "summary": "Identify Chinese name candidates, based on the romanized name (firstName = chineseGivenName; lastName=chineseSurname), ex. Wang Xiaoming",
                 "operationId": "Chinese-Name-Candidates-Batch",
                 "requestBody": {
                     "description": "A list of personal Chinese names in LATIN, firstName = chineseGivenName; lastName=chineseSurname",
@@ -2522,7 +2522,7 @@
                 "tags": [
                     "Chinese"
                 ],
-                "summary": "Determine the most likely Mandarin transcriptions for a romanized Chinese first name and last name, accrding to the known gender of the name",
+                "summary": "Identify Chinese name candidates, based on the romanized name ex. Wang Xiaoming - having a known gender ('male' or 'female')",
                 "operationId": "Chinese-Name-Gender-Candidates",
                 "parameters": [
                     {
@@ -2584,7 +2584,7 @@
                 "tags": [
                     "Chinese"
                 ],
-                "summary": "Find the most likely transcriptions for a romanized Chinese first name and last name",
+                "summary": "Identify Chinese name candidates, based on the romanized name (firstName = chineseGivenName; lastName=chineseSurname) ex. Wang Xiaoming.",
                 "operationId": "Chinese-Name-Candidates-Gender-Batch",
                 "requestBody": {
                     "description": "A list of personal Chinese names in LATIN, firstName = chineseGivenName; lastName=chineseSurname",
@@ -2644,7 +2644,7 @@
                 "tags": [
                     "Japanese"
                 ],
-                "summary": "Split a Japanese full name, in Kanji or Latin writing, into a first name and last name structure",
+                "summary": "Infer the likely first/last name structure of a name, ex. 山本 早苗 or Yamamoto Sanae",
                 "operationId": "Parse-Japanese-Name",
                 "parameters": [
                     {
@@ -2685,7 +2685,7 @@
                 "tags": [
                     "Japanese"
                 ],
-                "summary": "Split up to 100 Japanese full names, in Kanji or Latin writing, into first name and last name structures",
+                "summary": "Infer the likely first/last name structure of a name, ex. 山本 早苗 or Yamamoto Sanae ",
                 "operationId": "Parse-Japanese-Name-Batch",
                 "requestBody": {
                     "description": "A list of personal names",
@@ -2736,7 +2736,7 @@
                 "tags": [
                     "Japanese"
                 ],
-                "summary": "Find the likely transcriptions to Kanji, for a Japanese first name and last name, according to a known gender",
+                "summary": "Identify japanese name candidates in KANJI, based on the romanized name ex. Yamamoto Sanae - and a known gender.",
                 "operationId": "Japanese-Name-Kanji-Candidates",
                 "parameters": [
                     {
@@ -2798,7 +2798,7 @@
                 "tags": [
                     "Japanese"
                 ],
-                "summary": "Find the likely transcriptions to Kanji, for a romanized Japanese first name and last name",
+                "summary": "Identify japanese name candidates in KANJI, based on the romanized name ex. Yamamoto Sanae",
                 "operationId": "Japanese-Name-Nogender-Kanji-Candidates",
                 "parameters": [
                     {
@@ -2853,7 +2853,7 @@
                 "tags": [
                     "Japanese"
                 ],
-                "summary": "Receive the most likely Latin transcriptions for a Japanese name written in Kanji characters",
+                "summary": "Romanize japanese name, based on the name in Kanji.",
                 "operationId": "Japanese-Name-Latin-Candidates",
                 "parameters": [
                     {
@@ -2908,7 +2908,7 @@
                 "tags": [
                     "Japanese"
                 ],
-                "summary": "Find the likely transcriptions to Kanji, for up to 100 Japanese romanized first and last names",
+                "summary": "Identify japanese name candidates in KANJI, based on the romanized name (firstName = japaneseGivenName; lastName=japaneseSurname), ex. Yamamoto Sanae",
                 "operationId": "Japanese-Name-Kanji-Candidates-Batch",
                 "requestBody": {
                     "description": "A list of personal japanese names in LATIN, firstName = japaneseGivenName; lastName=japaneseSurname",
@@ -2967,7 +2967,7 @@
                 "tags": [
                     "Japanese"
                 ],
-                "summary": "Find the likely transcriptions to Kanji, for up to 100 Japanese romanized first and last names, according to a known gender",
+                "summary": "Identify japanese name candidates in KANJI, based on the romanized name (firstName = japaneseGivenName; lastName=japaneseSurname) with KNOWN gender, ex. Yamamoto Sanae",
                 "operationId": "Japanese-Name-Gender-Kanji-Candidates-Batch",
                 "requestBody": {
                     "description": "A list of personal japanese names in LATIN, firstName = japaneseGivenName; lastName=japaneseSurname and known gender",
@@ -3027,7 +3027,7 @@
                 "tags": [
                     "Japanese"
                 ],
-                "summary": "Romanize up to 100 japanese names written in Kanji",
+                "summary": "Romanize japanese names, based on the name in KANJI",
                 "operationId": "Japanese-Name-Latin-Candidates-Batch",
                 "requestBody": {
                     "description": "A list of personal japanese names in KANJI, firstName = japaneseGivenName; lastName=japaneseSurname",
@@ -3086,7 +3086,7 @@
                 "tags": [
                     "Japanese"
                 ],
-                "summary": "Receive a score for matching a romanized Japanese name with a Kanji transcription",
+                "summary": "Return a score for matching Japanese name in KANJI ex. 山本 早苗 with a romanized name ex. Yamamoto Sanae",
                 "operationId": "Japanese-Name-Match",
                 "parameters": [
                     {
@@ -3133,7 +3133,7 @@
                 "tags": [
                     "Japanese"
                 ],
-                "summary": "Suggest a transcription of a Japanese name between Kanji characters and Latin alphabet to help us improve our name matching tool",
+                "summary": "Feedback loop to better perform matching Japanese name in KANJI ex. 山本 早苗 with a romanized name ex. Yamamoto Sanae",
                 "operationId": "Japanese-Name-Match-Feedback-Loop",
                 "parameters": [
                     {
@@ -3228,7 +3228,7 @@
                 "tags": [
                     "Japanese"
                 ],
-                "summary": "Discover the likely gender of a Japanese first name and last name written in Latin alphabet",
+                "summary": "Infer the likely gender of a Japanese name in LATIN (Pinyin).",
                 "operationId": "Gender-Japanese-Name-Pinyin",
                 "parameters": [
                     {
@@ -3272,7 +3272,7 @@
                 "tags": [
                     "Japanese"
                 ],
-                "summary": "Discover the likely gender of a up to 100 Japanese first and last names written in Latin alphabet",
+                "summary": "Infer the likely gender of up to 100 Japanese names in LATIN (Pinyin).",
                 "operationId": "Gender-Japanese-Name-Pinyin-Batch",
                 "requestBody": {
                     "description": "A list of names, with country code.",
@@ -3320,7 +3320,7 @@
                 "tags": [
                     "Japanese"
                 ],
-                "summary": "Find the likely gender of a Japanese full name, written in Kanji",
+                "summary": "Infer the likely gender of a Japanese full name ex. 王晓明",
                 "operationId": "Gender-Japanese-Name-Full",
                 "parameters": [
                     {
@@ -3356,7 +3356,7 @@
                 "tags": [
                     "Japanese"
                 ],
-                "summary": "Find the likely gender of up to 100 Japanese full names, written in Kanji",
+                "summary": "Infer the likely gender of up to 100 full names",
                 "operationId": "Gender-Japanese-Name-Full-Batch",
                 "requestBody": {
                     "description": "A list of personal names",
@@ -3402,7 +3402,7 @@
                 "tags": [
                     "Social"
                 ],
-                "summary": "Identify the likely country and phone prefix of a name and phone number",
+                "summary": "Infer the likely country and phone prefix, given a personal name and formatted / unformatted phone number.",
                 "operationId": "Phone-Code",
                 "parameters": [
                     {
@@ -3460,7 +3460,7 @@
                 "tags": [
                     "Social"
                 ],
-                "summary": "Identify the likely phone prefix of a name and phone number (formatted or unformatted) according to local context",
+                "summary": "Infer the likely phone prefix, given a personal name and formatted / unformatted phone number, with a local context (ISO2 country of residence).",
                 "operationId": "Phone-Code-Geo",
                 "parameters": [
                     {
@@ -3525,7 +3525,7 @@
                 "tags": [
                     "Social"
                 ],
-                "summary": "Suggest a phone prefix, according to a name, phone number (formatted or unformatted) and local context, to help us improve our technology",
+                "summary": "Feedback loop to better infer the likely phone prefix, given a personal name and formatted / unformatted phone number, with a local context (ISO2 country of residence).",
                 "operationId": "Phone-Code-Geo-Feedback-Loop",
                 "parameters": [
                     {
@@ -3583,7 +3583,7 @@
                 "tags": [
                     "Social"
                 ],
-                "summary": "Identify the likely country and phone prefix of up to 100 names and phone numbers (formatted or unformatted)",
+                "summary": "Infer the likely country and phone prefix, of up to 100 personal names, detecting automatically the local context given a name and formatted / unformatted phone number.",
                 "operationId": "Phone-Code-Batch",
                 "requestBody": {
                     "description": "A list of personal names",
@@ -3639,7 +3639,7 @@
                 "tags": [
                     "Social"
                 ],
-                "summary": "Identify the likely phone prefix of up to 100 names and phone numbers (formatted or unformatted) according to local context",
+                "summary": "Infer the likely country and phone prefix, of up to 100 personal names, with a local context (ISO2 country of residence).",
                 "operationId": "Phone-Code-Geo-Batch",
                 "requestBody": {
                     "description": "A list of personal names",
@@ -3696,7 +3696,7 @@
                 "tags": [
                     "Personal"
                 ],
-                "summary": "Split a full name into a likely first and last name structure. ",
+                "summary": "Infer the likely first/last name structure of a name, ex. John Smith or SMITH, John or SMITH; John. ",
                 "operationId": "Parse-Name",
                 "parameters": [
                     {

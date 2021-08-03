@@ -58,6 +58,27 @@ License: <a href="https://v2.namsor.com/NamSorAPIv2/assets/pdf/201803_NamSor_API
 -   Certain API response code examples have been truncated in order to improve readability. For example the countriesOriginTop, ethnicitiesTop and matchCandidates Array fields have been reduced to 2 elements in length.
 -   Be aware that data in the code examples have been URL encoded into the corresponding ASCII code characters when necessary, for example "谢晓亮" is replaced by "%E8%B0%A2%E6%99%93%E4%BA%AE".
 
+<h3 id="privacy">Privacy</h3>
+
+Set learnable=false and anonymized=true for highest privacy (ie. to forget data as it's processed)
+
+### Region Classifications
+
+We provide two regions classifications when inferring the origin. These classifications have slightly different enumerators that we have detailed below:
+
+#### regionOrigin :
+
+Africa, Asia, Europe, Latin America and the Caribbean, Northern America, Oceania, Unclassified
+
+#### topRegionOrigin :
+
+Africa, Americas, Asia, Europe, Oceania, Unclassified
+
+### Soft Limit vs Hard Limit
+
+Reaching the soft limit will trigger an email notification.
+Reaching the hard limit will trigger an email notification and block the API key.
+
 
 ## Authentication
 
@@ -147,7 +168,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/country/Marie%20Curie", {
 
 
 
-*Infer the likely country of residence of a personal full name, or one surname. Assumes names as they are in the country of residence OR the country of origin*
+*Infer the likely country of residence of a personal full name, or one surname. Assumes names as they are in the country of residence OR the country of origin.*
 
 *<u>Cost :</u> The processing of each name requires **10** credits.*
 
@@ -159,7 +180,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/country/Marie%20Curie", {
 
 |Name|Type|Required|Description|
 |---|---|---|---|
-|personalNameFull|String|true|A complete personal name|
+|personalNameFull|String|true||
 
 
 
@@ -194,9 +215,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/country/Marie%20Curie", {
 
 |Name|Type|Description|Enumerators|
 |---|---|---|---|
-|script|String|The alphabet or characters used in the parameters||
+|script|String|||
 |id|String|||
-|name|String|The input name||
+|name|String|The input name.||
 |score|Number|Higher score is better, but score is not normalized. Use calibratedProbability if available. ||
 |country|String|Most likely country ||
 |countryAlt|String|Second best alternative : country ||
@@ -205,7 +226,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/country/Marie%20Curie", {
 |subRegion|String|Most likely sub region (based on country ISO2 code)||
 |countriesTop|Array|List countries (top 10)||
 |probabilityCalibrated|Number|The calibrated probability for country to have been guessed correctly.||
-|probabilityAltCalibrated|Number|The calibrated probability for country OR countryAlt to have been guessed correctly||
+|probabilityAltCalibrated|Number|The calibrated probability for country OR countryAlt to have been guessed correctly.||
 
 
 
@@ -270,7 +291,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/origin/Zanele/Muholi", {
 
 
 
-*Detect the likely country of origin of a first name and last name structure. For countries like U.S.A, Canada, Australia or New-Zealand and other melting-pots, refer to 'diaspora'*
+*Infer the likely country of origin of a personal name. Assumes names as they are in the country of origin. For US, CA, AU, NZ and other melting-pots : use 'diaspora' instead.*
 
 *<u>Cost :</u> The processing of each name requires **10** credits.*
 
@@ -282,8 +303,8 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/origin/Zanele/Muholi", {
 
 |Name|Type|Required|Description|
 |---|---|---|---|
-|firstName|String|true|The personal name given to someone at birth, or baptism|
-|lastName|String|true|The family name|
+|firstName|String|true||
+|lastName|String|true||
 
 
 
@@ -320,19 +341,19 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/origin/Zanele/Muholi", {
 
 |Name|Type|Description|Enumerators|
 |---|---|---|---|
-|script|String|The alphabet or characters used in the parameters||
+|script|String|||
 |id|String|||
-|firstName|String|The first name, as it was given for analysis||
-|lastName|String|The last name, as it was given for analysis||
-|countryOrigin|String|The code of the country of origin, in ISO 2 format||
-|countryOriginAlt|String|The code of the alternative country of origin, in ISO 2 format||
-|countriesOriginTop|Array|The codes of the 10 most likely countries of origin, in ISO 2 format||
-|score|Number|The coefficient of accuracy of the result||
-|regionOrigin|String|The continent of the name||
+|firstName|String|The first name (also known as given name)||
+|lastName|String|The last name (also known as family name, or surname)||
+|countryOrigin|String|Most likely country of Origin||
+|countryOriginAlt|String|Second best alternative : country of Origin||
+|countriesOriginTop|Array|List countries of Origin (top 10)||
+|score|Number|Compatibility to NamSor_v1 Origin score value. Higher score is better, but score is not normalized. Use calibratedProbability if available. ||
+|regionOrigin|String|Most likely region of Origin (based on countryOrigin ISO2 code)||
 |topRegionOrigin|String|Most likely top region of Origin (based on countryOrigin ISO2 code)||
-|subRegionOrigin|String|The region of the continent||
+|subRegionOrigin|String|Most likely sub region of Origin (based on countryOrigin ISO2 code)||
 |probabilityCalibrated|Number|The calibrated probability for countryOrigin to have been guessed correctly.||
-|probabilityAltCalibrated|Number|The alternative probability of the result, on a scale from 0 to 1||
+|probabilityAltCalibrated|Number|The calibrated probability for countryOrigin OR countryOriginAlt to have been guessed correctly.||
 
 
 
@@ -409,12 +430,12 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/corridor/GB/Ada/Lovelace/US/N
 
 |Name|Type|Required|Description|
 |---|---|---|---|
-|countryIso2From|String|true|The ISO country code from which the interaction starts|
-|firstNameFrom|String|true|The first name of the person from whom the interaction starts|
-|lastNameFrom|String|true|The last name of the person from whom the interaction starts|
-|countryIso2To|String|true|The ISO country code to which the interaction goes|
-|firstNameTo|String|true|The first name of the person to whom the interaction goes|
-|lastNameTo|String|true|The last name of the person to whom the interaction goes|
+|countryIso2From|String|true||
+|firstNameFrom|String|true||
+|lastNameFrom|String|true||
+|countryIso2To|String|true||
+|firstNameTo|String|true||
+|lastNameTo|String|true||
 
 
 
@@ -528,7 +549,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/corridor/GB/Ada/Lovelace/US/N
 |---|---|---|---|
 |id|String|||
 |**FirstLastNameGenderedOut**|**Object**|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|The alphabet or characters used in the parameters||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|The first name (also known as given name)||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|The last name (also known as family name, or surname)||
@@ -537,7 +558,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/corridor/GB/Ada/Lovelace/US/N
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.score*|Number|Compatibility to NamSor_v1 Gender score value. Higher score is better, but score is not normalized. Use calibratedProbability if available. ||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.probabilityCalibrated*|Number|The calibrated probability for inferred gender to have been guessed correctly.||
 |**FirstLastNameOriginedOut**|**Object**|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|The alphabet or characters used in the parameters||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|The first name (also known as given name)||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|The last name (also known as family name, or surname)||
@@ -549,19 +570,19 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/corridor/GB/Ada/Lovelace/US/N
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.topRegionOrigin*|String|Most likely top region of Origin (based on countryOrigin ISO2 code)||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.subRegionOrigin*|String|Most likely sub region of Origin (based on countryOrigin ISO2 code)||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.probabilityCalibrated*|Number|The calibrated probability for countryOrigin to have been guessed correctly.||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.probabilityAltCalibrated*|Number|The calibrated probability for countryOrigin OR countryOriginAlt to have been guessed correctly||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.probabilityAltCalibrated*|Number|The calibrated probability for countryOrigin OR countryOriginAlt to have been guessed correctly.||
 |**FirstLastNameDiasporaedOut**|**Object**|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|The alphabet or characters used in the parameters||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|The first name (also known as given name)||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|The last name (also known as family name, or surname)||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.score*|Number|Compatibility to NamSor_v1 Diaspora score value. Higher score is better, but score is not normalized. Use calibratedProbability if available. ||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.ethnicityAlt*|String|The second best alternative ethnicity||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.ethnicity*|String|The most likely ethnicity||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lifted*|Boolean|Indicates if the output ethnicity is based on machine learning only, or further lifted as a known fact by a country-specific rule. Let us know if you believe ethnicity is incorrect on a specific case where lifted is true||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lifted*|Boolean|Indicates if the output ethnicity is based on machine learning only, or further lifted as a known fact by a country-specific rule. Let us know if you believe ethnicity is incorrect on a specific case where lifted is true.||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.countryIso2*|String|From input data, the countryIso2 of geographic context (US,CA etc.)||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.ethnicitiesTop*|Array|List most likely ethnicities (top 10)||
-|script|String|The alphabet or characters used in the parameters||
+|script|String|||
 
 
 
@@ -691,14 +712,14 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/corridorBatch", {
 |id|String|true||
 |**firstLastNameGeoFrom**|**Object**|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|true|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|true|The first name of the person from whom the interaction starts||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|true|The last name of the person from whom the interaction starts||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.countryIso2*|String|true|The ISO country code from which the interaction starts||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|true|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|true|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.countryIso2*|String|true|||
 |**firstLastNameGeoTo**|**Object**|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|true|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|true|The first name of the person to whom the interaction goes||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|true|The last name of the person to whom the interaction goes||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.countryIso2*|String|true|The ISO country code to which the interaction goes||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|true|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|true|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.countryIso2*|String|true|||
 
 
 
@@ -811,7 +832,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/corridorBatch", {
 |---|---|---|---|
 |id|String|||
 |**FirstLastNameGenderedOut**|**Object**|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|The alphabet or characters used in the parameters||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|The first name (also known as given name)||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|The last name (also known as family name, or surname)||
@@ -820,7 +841,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/corridorBatch", {
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.score*|Number|Compatibility to NamSor_v1 Gender score value. Higher score is better, but score is not normalized. Use calibratedProbability if available. ||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.probabilityCalibrated*|Number|The calibrated probability for inferred gender to have been guessed correctly.||
 |**FirstLastNameOriginedOut**|**Object**|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|The alphabet or characters used in the parameters||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|The first name (also known as given name)||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|The last name (also known as family name, or surname)||
@@ -832,19 +853,19 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/corridorBatch", {
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.topRegionOrigin*|String|Most likely top region of Origin (based on countryOrigin ISO2 code)||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.subRegionOrigin*|String|Most likely sub region of Origin (based on countryOrigin ISO2 code)||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.probabilityCalibrated*|Number|The calibrated probability for countryOrigin to have been guessed correctly.||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.probabilityAltCalibrated*|Number|The calibrated probability for countryOrigin OR countryOriginAlt to have been guessed correctly||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.probabilityAltCalibrated*|Number|The calibrated probability for countryOrigin OR countryOriginAlt to have been guessed correctly.||
 |**FirstLastNameDiasporaedOut**|**Object**|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|The alphabet or characters used in the parameters||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|The first name (also known as given name)||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|The last name (also known as family name, or surname)||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.score*|Number|Compatibility to NamSor_v1 Diaspora score value. Higher score is better, but score is not normalized. Use calibratedProbability if available. ||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.ethnicityAlt*|String|The second best alternative ethnicity||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.ethnicity*|String|The most likely ethnicity||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lifted*|Boolean|Indicates if the output ethnicity is based on machine learning only, or further lifted as a known fact by a country-specific rule. Let us know if you believe ethnicity is incorrect on a specific case where lifted is true||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lifted*|Boolean|Indicates if the output ethnicity is based on machine learning only, or further lifted as a known fact by a country-specific rule. Let us know if you believe ethnicity is incorrect on a specific case where lifted is true.||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.countryIso2*|String|From input data, the countryIso2 of geographic context (US,CA etc.)||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.ethnicitiesTop*|Array|List most likely ethnicities (top 10)||
-|script|String|The alphabet or characters used in the parameters||
+|script|String|||
 
 
 
@@ -909,7 +930,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/gender/Rosalind/Franklin", {
 
 
 
-*Find the likely gender of a first name and last name structure*
+*Infer the likely gender of a name.*
 
 *<u>Cost :</u> The processing of each name requires **1** credit.*
 
@@ -921,8 +942,8 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/gender/Rosalind/Franklin", {
 
 |Name|Type|Required|Description|
 |---|---|---|---|
-|firstName|String|true|The personal name given to someone at birth, or baptism|
-|lastName|String|true|The family name|
+|firstName|String|true||
+|lastName|String|true||
 
 
 
@@ -951,13 +972,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/gender/Rosalind/Franklin", {
 
 |Name|Type|Description|Enumerators|
 |---|---|---|---|
-|script|String|The alphabet or characters used in the parameters||
+|script|String|||
 |id|String|||
-|firstName|String|The first name, as it was given for analysis||
-|lastName|String|The last name, as it was given for analysis||
-|likelyGender|String|The most likely gender of the name|"male", "female" or "unknown"|
+|firstName|String|The first name (also known as given name)||
+|lastName|String|The last name (also known as family name, or surname)||
+|likelyGender|String|Most likely gender|"male", "female" or "unknown"|
 |genderScale|Number|Compatibility to NamSor_v1 Gender Scale M[-1..U..+1]F value||
-|score|Number|The coefficient of accuracy of the result||
+|score|Number|Compatibility to NamSor_v1 Gender score value. Higher score is better, but score is not normalized. Use calibratedProbability if available. ||
 |probabilityCalibrated|Number|The calibrated probability for inferred gender to have been guessed correctly.||
 
 
@@ -1023,7 +1044,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderGeo/Sofia/Kovalevskaya/
 
 
 
-*Find the likely gender of a first and last name structure, according to its local context*
+*Infer the likely gender of a name, given a local context (ISO2 country code).*
 
 *<u>Cost :</u> The processing of each name requires **1** credit.*
 
@@ -1035,9 +1056,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderGeo/Sofia/Kovalevskaya/
 
 |Name|Type|Required|Description|
 |---|---|---|---|
-|firstName|String|true|The personal name given to someone at birth, or baptism|
-|lastName|String|true|The family name|
-|countryIso2|String|true|The country code, in ISO 2 format|
+|firstName|String|true||
+|lastName|String|true||
+|countryIso2|String|true||
 
 
 
@@ -1067,13 +1088,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderGeo/Sofia/Kovalevskaya/
 
 |Name|Type|Description|Enumerators|
 |---|---|---|---|
-|script|String|The alphabet or characters used in the parameters||
+|script|String|||
 |id|String|||
-|firstName|String|The first name, as it was given for analysis||
-|lastName|String|The last name, as it was given for analysis||
-|likelyGender|String|The most likely gender of the name|"male", "female" or "unknown"|
+|firstName|String|The first name (also known as given name)||
+|lastName|String|The last name (also known as family name, or surname)||
+|likelyGender|String|Most likely gender|"male", "female" or "unknown"|
 |genderScale|Number|Compatibility to NamSor_v1 Gender Scale M[-1..U..+1]F value||
-|score|Number|The coefficient of accuracy of the result||
+|score|Number|Compatibility to NamSor_v1 Gender score value. Higher score is better, but score is not normalized. Use calibratedProbability if available. ||
 |probabilityCalibrated|Number|The calibrated probability for inferred gender to have been guessed correctly.||
 
 
@@ -1154,7 +1175,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderGeoBatch", {
 
 
 
-*Detect the likely gender of up to 100 names, according to their local context*
+*Infer the likely gender of up to 100 names, each given a local context (ISO2 country code).*
 
 > Body parameter
 
@@ -1184,9 +1205,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderGeoBatch", {
 |Name|Type|Required|Description|
 |---|---|---|---|
 |id|String|true||
-|firstName|String|true|The personal name given to someone at birth, or baptism|
-|lastName|String|true|The family name|
-|countryIso2|String|true|The country code, in ISO 2 format|
+|firstName|String|true||
+|lastName|String|true||
+|countryIso2|String|true||
 
 
 
@@ -1218,13 +1239,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderGeoBatch", {
 
 |Name|Type|Description|Enumerators|
 |---|---|---|---|
-|script|String|The alphabet or characters used in the parameters||
+|script|String|||
 |id|String|||
-|firstName|String|The first name, as it was given for analysis||
-|lastName|String|The last name, as it was given for analysis||
-|likelyGender|String|The most likely gender of the name|"male", "female" or "unknown"|
+|firstName|String|The first name (also known as given name)||
+|lastName|String|The last name (also known as family name, or surname)||
+|likelyGender|String|Most likely gender|"male", "female" or "unknown"|
 |genderScale|Number|Compatibility to NamSor_v1 Gender Scale M[-1..U..+1]F value||
-|score|Number|The coefficient of accuracy of the result||
+|score|Number|Compatibility to NamSor_v1 Gender score value. Higher score is better, but score is not normalized. Use calibratedProbability if available. ||
 |probabilityCalibrated|Number|The calibrated probability for inferred gender to have been guessed correctly.||
 
 
@@ -1304,7 +1325,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderBatch", {
 
 
 
-*Find the likely gender of up to 100 names*
+*Infer the likely gender of up to 100 names, detecting automatically the cultural context.*
 
 > Body parameter
 
@@ -1333,8 +1354,8 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderBatch", {
 |Name|Type|Required|Description|
 |---|---|---|---|
 |id|String|true||
-|firstName|String|true|The personal name given to someone at birth, or baptism|
-|lastName|String|true|The family name|
+|firstName|String|true||
+|lastName|String|true||
 
 
 
@@ -1366,13 +1387,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderBatch", {
 
 |Name|Type|Description|Enumerators|
 |---|---|---|---|
-|script|String|The alphabet or characters used in the parameters||
+|script|String|||
 |id|String|||
-|firstName|String|The first name, as it was given for analysis||
-|lastName|String|The last name, as it was given for analysis||
-|likelyGender|String|The most likely gender of the name|"male", "female" or "unknown"|
+|firstName|String|The first name (also known as given name)||
+|lastName|String|The last name (also known as family name, or surname)||
+|likelyGender|String|Most likely gender|"male", "female" or "unknown"|
 |genderScale|Number|Compatibility to NamSor_v1 Gender Scale M[-1..U..+1]F value||
-|score|Number|The coefficient of accuracy of the result||
+|score|Number|Compatibility to NamSor_v1 Gender score value. Higher score is better, but score is not normalized. Use calibratedProbability if available. ||
 |probabilityCalibrated|Number|The calibrated probability for inferred gender to have been guessed correctly.||
 
 
@@ -1438,7 +1459,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderFullGeo/Maryam%20Mirzak
 
 
 
-*Infer the likely gender of a full name, according to a local context*
+*Infer the likely gender of a full name, given a local context (ISO2 country code).*
 
 *<u>Cost :</u> The processing of each name requires **1** credit.*
 
@@ -1450,8 +1471,8 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderFullGeo/Maryam%20Mirzak
 
 |Name|Type|Required|Description|
 |---|---|---|---|
-|fullName|String|true|A complete personal name|
-|countryIso2|String|true|The country code, in ISO 2 format|
+|fullName|String|true||
+|countryIso2|String|true||
 
 
 
@@ -1479,12 +1500,12 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderFullGeo/Maryam%20Mirzak
 
 |Name|Type|Description|Enumerators|
 |---|---|---|---|
-|script|String|The alphabet or characters used in the parameters||
+|script|String|||
 |id|String|||
-|name|String|The name, as it was given for analysis||
-|likelyGender|String|The most likely gender of the name|"male", "female" or "unknown"|
+|name|String|The input name||
+|likelyGender|String|Most likely gender|"male", "female" or "unknown"|
 |genderScale|Number|Compatibility to NamSor_v1 Gender Scale M[-1..U..+1]F value||
-|score|Number|The coefficient of accuracy of the result||
+|score|Number|Compatibility to NamSor_v1 Gender score value. Higher score is better, but score is not normalized. Use calibratedProbability if available. ||
 |probabilityCalibrated|Number|The calibrated probability for inferred gender to have been guessed correctly.||
 
 
@@ -1550,7 +1571,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderFull/Alan%20Turing", {
 
 
 
-*Find the likely gender of a full name*
+*Infer the likely gender of a full name, ex. John H. Smith*
 
 *<u>Cost :</u> The processing of each name requires **1** credit.*
 
@@ -1562,7 +1583,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderFull/Alan%20Turing", {
 
 |Name|Type|Required|Description|
 |---|---|---|---|
-|fullName|String|true|A complete personal name|
+|fullName|String|true||
 
 
 
@@ -1589,12 +1610,12 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderFull/Alan%20Turing", {
 
 |Name|Type|Description|Enumerators|
 |---|---|---|---|
-|script|String|The alphabet or characters used in the parameters||
+|script|String|||
 |id|String|||
-|name|String|The name, as it was given for analysis||
-|likelyGender|String|The most likely gender of the name|"male", "female" or "unknown"|
+|name|String|The input name||
+|likelyGender|String|Most likely gender|"male", "female" or "unknown"|
 |genderScale|Number|Compatibility to NamSor_v1 Gender Scale M[-1..U..+1]F value||
-|score|Number|The coefficient of accuracy of the result||
+|score|Number|Compatibility to NamSor_v1 Gender score value. Higher score is better, but score is not normalized. Use calibratedProbability if available. ||
 |probabilityCalibrated|Number|The calibrated probability for inferred gender to have been guessed correctly.||
 
 
@@ -1673,7 +1694,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderFullBatch", {
 
 
 
-*Detect the likely gender of up to 100 full names*
+*Infer the likely gender of up to 100 full names, detecting automatically the cultural context.*
 
 > Body parameter
 
@@ -1701,7 +1722,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderFullBatch", {
 |Name|Type|Required|Description|
 |---|---|---|---|
 |id|String|true||
-|name|String|true|A complete personal name|
+|name|String|true||
 
 
 
@@ -1732,12 +1753,12 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderFullBatch", {
 
 |Name|Type|Description|Enumerators|
 |---|---|---|---|
-|script|String|The alphabet or characters used in the parameters||
+|script|String|||
 |id|String|||
-|name|String|The name, as it was given for analysis||
-|likelyGender|String|The most likely gender of the name|"male", "female" or "unknown"|
+|name|String|The input name||
+|likelyGender|String|Most likely gender|"male", "female" or "unknown"|
 |genderScale|Number|Compatibility to NamSor_v1 Gender Scale M[-1..U..+1]F value||
-|score|Number|The coefficient of accuracy of the result||
+|score|Number|Compatibility to NamSor_v1 Gender score value. Higher score is better, but score is not normalized. Use calibratedProbability if available. ||
 |probabilityCalibrated|Number|The calibrated probability for inferred gender to have been guessed correctly.||
 
 
@@ -1817,7 +1838,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderFullGeoBatch", {
 
 
 
-*Detect the likely gender of up to 100 full names, according to their local context*
+*Infer the likely gender of up to 100 full names, with a given cultural context (country ISO2 code).*
 
 > Body parameter
 
@@ -1846,8 +1867,8 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderFullGeoBatch", {
 |Name|Type|Required|Description|
 |---|---|---|---|
 |id|String|true||
-|name|String|true|A complete personal name|
-|countryIso2|String|true|The country code, in ISO 2 format|
+|name|String|true||
+|countryIso2|String|true||
 
 
 
@@ -1878,12 +1899,12 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderFullGeoBatch", {
 
 |Name|Type|Description|Enumerators|
 |---|---|---|---|
-|script|String|The alphabet or characters used in the parameters||
+|script|String|||
 |id|String|||
-|name|String|The name, as it was given for analysis||
-|likelyGender|String|The most likely gender of the name|"male", "female" or "unknown"|
+|name|String|The input name||
+|likelyGender|String|Most likely gender|"male", "female" or "unknown"|
 |genderScale|Number|Compatibility to NamSor_v1 Gender Scale M[-1..U..+1]F value||
-|score|Number|The coefficient of accuracy of the result||
+|score|Number|Compatibility to NamSor_v1 Gender score value. Higher score is better, but score is not normalized. Use calibratedProbability if available. ||
 |probabilityCalibrated|Number|The calibrated probability for inferred gender to have been guessed correctly.||
 
 
@@ -1963,7 +1984,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/originBatch", {
 
 
 
-*Detect the likely country of origin of up to 100 first and last names*
+*Infer the likely country of origin of up to 100 names, detecting automatically the cultural context.*
 
 > Body parameter
 
@@ -1992,8 +2013,8 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/originBatch", {
 |Name|Type|Required|Description|
 |---|---|---|---|
 |id|String|true||
-|firstName|String|true|The personal name given to someone at birth, or baptism|
-|lastName|String|true|The family name|
+|firstName|String|true||
+|lastName|String|true||
 
 
 
@@ -2033,19 +2054,19 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/originBatch", {
 
 |Name|Type|Description|Enumerators|
 |---|---|---|---|
-|script|String|The alphabet or characters used in the parameters||
+|script|String|||
 |id|String|||
-|firstName|String|The first name, as it was given for analysis||
-|lastName|String|The last name, as it was given for analysis||
-|countryOrigin|String|The code of the country of origin, in ISO 2 format||
-|countryOriginAlt|String|The code of the alternative country of origin, in ISO 2 format||
-|countriesOriginTop|Array|The codes of the 10 most likely countries of origin, in ISO 2 format||
-|score|Number|The coefficient of accuracy of the result||
-|regionOrigin|String|The continent of the name||
-|topRegionOrigin|String|The continent of the name||
-|subRegionOrigin|String|The region of the continent||
+|firstName|String|The first name (also known as given name)||
+|lastName|String|The last name (also known as family name, or surname)||
+|countryOrigin|String|Most likely country of Origin||
+|countryOriginAlt|String|Second best alternative : country of Origin||
+|countriesOriginTop|Array|List countries of Origin (top 10)||
+|score|Number|Compatibility to NamSor_v1 Origin score value. Higher score is better, but score is not normalized. Use calibratedProbability if available. ||
+|regionOrigin|String|Most likely region of Origin (based on countryOrigin ISO2 code)||
+|topRegionOrigin|String|Most likely top region of Origin (based on countryOrigin ISO2 code)||
+|subRegionOrigin|String|Most likely sub region of Origin (based on countryOrigin ISO2 code)||
 |probabilityCalibrated|Number|The calibrated probability for countryOrigin to have been guessed correctly.||
-|probabilityAltCalibrated|Number|The alternative probability of the result, on a scale from 0 to 1||
+|probabilityAltCalibrated|Number|The calibrated probability for countryOrigin OR countryOriginAlt to have been guessed correctly.||
 
 
 
@@ -2123,7 +2144,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/countryBatch", {
 
 
 
-*Infer the likely country of residence of up to 100 full names or last names*
+*Infer the likely country of residence of up to 100 personal full names, or surnames. Assumes names as they are in the country of residence OR the country of origin.*
 
 > Body parameter
 
@@ -2151,7 +2172,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/countryBatch", {
 |Name|Type|Required|Description|
 |---|---|---|---|
 |id|String|true||
-|name|String|true|A complete personal name|
+|name|String|true||
 
 
 
@@ -2190,18 +2211,18 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/countryBatch", {
 
 |Name|Type|Description|Enumerators|
 |---|---|---|---|
-|script|String|The alphabet or characters used in the parameters||
+|script|String|||
 |id|String|||
-|name|String|The name, as it was given for analysis||
-|score|Number|The coefficient of accuracy of the result||
-|country|String|The country code, in ISO 2 format||
-|countryAlt|String|The alternative country code, in ISO 2 format||
-|region|String|The continent of the name||
-|topRegion|String|The continent of the name||
-|subRegion|String|The region of the continent||
-|countriesTop|Array|The 10 likely country codes of the name||
+|name|String|The input name.||
+|score|Number|Higher score is better, but score is not normalized. Use calibratedProbability if available. ||
+|country|String|Most likely country ||
+|countryAlt|String|Second best alternative : country ||
+|region|String|Most likely region (based on country ISO2 code)||
+|topRegion|String|Most likely top region (based on country ISO2 code)||
+|subRegion|String|Most likely sub region (based on country ISO2 code)||
+|countriesTop|Array|List countries (top 10)||
 |probabilityCalibrated|Number|The calibrated probability for country to have been guessed correctly.||
-|probabilityAltCalibrated|Number|The alternative probability of the result, on a scale from 0 to 1||
+|probabilityAltCalibrated|Number|The calibrated probability for country OR countryAlt to have been guessed correctly.||
 
 
 
@@ -2266,7 +2287,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/usRaceEthnicity/Keith/Haring"
 
 
 
-*Determine the most likely U.S. race or ethnicity of a U.S. resident's first and last name*
+*Infer a US resident's likely race/ethnicity according to US Census taxonomy W_NL (white, non latino), HL (hispano latino),  A (asian, non latino), B_NL (black, non latino). Optionally add header X-OPTION-USRACEETHNICITY-TAXONOMY: USRACEETHNICITY-6CLASSES for two additional classes, AI_AN (American Indian or Alaskan Native) and PI (Pacific Islander).*
 
 *<u>Cost :</u> The processing of each name requires **10** credits.*
 
@@ -2278,8 +2299,8 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/usRaceEthnicity/Keith/Haring"
 
 |Name|Type|Required|Description|
 |---|---|---|---|
-|firstName|String|true|The personal name given to someone at birth, or baptism|
-|lastName|String|true|The family name|
+|firstName|String|true||
+|lastName|String|true||
 
 
 
@@ -2315,16 +2336,16 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/usRaceEthnicity/Keith/Haring"
 
 |Name|Type|Description|Enumerators|
 |---|---|---|---|
-|script|String|The alphabet or characters used in the parameters||
+|script|String|||
 |id|String|||
-|firstName|String|The first name, as it was given for analysis||
-|lastName|String|The last name, as it was given for analysis||
-|raceEthnicityAlt|String|The alternative most likely U.S. race or Ethnicity|"W_NL", "HL", "A", "B_NL", "AI_AN" or "PI"|
-|raceEthnicity|String|The most likely U.S. race or Ethnicity|"W_NL", "HL", "A", "B_NL", "AI_AN" or "PI"|
-|score|Number|The coefficient of accuracy of the result||
-|raceEthnicitiesTop|Array|An array of the most likely U.S. races or Ethnicities||
+|firstName|String|The first name (also known as given name)||
+|lastName|String|The last name (also known as family name, or surname)||
+|raceEthnicityAlt|String|Second most likely US 'race'/ethnicity|"W_NL", "HL", "A", "B_NL", "AI_AN" or "PI"|
+|raceEthnicity|String|Most likely US 'race'/ethnicity|"W_NL", "HL", "A", "B_NL", "AI_AN" or "PI"|
+|score|Number|Higher score is better, but score is not normalized. Use calibratedProbability if available. ||
+|raceEthnicitiesTop|Array|List 'race'/ethnicities||
 |probabilityCalibrated|Number|The calibrated probability for raceEthnicity to have been guessed correctly.||
-|probabilityAltCalibrated|Number|The alternative probability of the result, on a scale from 0 to 1||
+|probabilityAltCalibrated|Number|The calibrated probability for raceEthnicity OR raceEthnicityAlt to have been guessed correctly.||
 
 
 
@@ -2389,7 +2410,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/usRaceEthnicityZIP5/Makoto/Iw
 
 
 
-*Determine the most likely U.S. race or ethnicity of a U.S. resident's first and last name, using their ZIP code*
+*Infer a US resident's likely race/ethnicity according to US Census taxonomy, using (optional) ZIP5 code info. Output is W_NL (white, non latino), HL (hispano latino),  A (asian, non latino), B_NL (black, non latino). Optionally add header X-OPTION-USRACEETHNICITY-TAXONOMY: USRACEETHNICITY-6CLASSES for two additional classes, AI_AN (American Indian or Alaskan Native) and PI (Pacific Islander).*
 
 *<u>Cost :</u> The processing of each name requires **10** credits.*
 
@@ -2401,9 +2422,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/usRaceEthnicityZIP5/Makoto/Iw
 
 |Name|Type|Required|Description|
 |---|---|---|---|
-|firstName|String|true|The personal name given to someone at birth, or baptism|
-|lastName|String|true|The family name|
-|zip5Code|String|true|A 5 digits zip code|
+|firstName|String|true||
+|lastName|String|true||
+|zip5Code|String|true||
 
 
 
@@ -2440,16 +2461,16 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/usRaceEthnicityZIP5/Makoto/Iw
 
 |Name|Type|Description|Enumerators|
 |---|---|---|---|
-|script|String|The alphabet or characters used in the parameters||
+|script|String|||
 |id|String|||
-|firstName|String|The first name, as it was given for analysis||
-|lastName|String|The last name, as it was given for analysis||
-|raceEthnicityAlt|String|The alternative most likely U.S. race or Ethnicity|"W_NL", "HL", "A", "B_NL", "AI_AN" or "PI"|
-|raceEthnicity|String|The most likely U.S. race or Ethnicity|"W_NL", "HL", "A", "B_NL", "AI_AN" or "PI"|
-|score|Number|The coefficient of accuracy of the result||
-|raceEthnicitiesTop|Array|An array of the most likely U.S. races or Ethnicities||
+|firstName|String|The first name (also known as given name)||
+|lastName|String|The last name (also known as family name, or surname)||
+|raceEthnicityAlt|String|Second most likely US 'race'/ethnicity|"W_NL", "HL", "A", "B_NL", "AI_AN" or "PI"|
+|raceEthnicity|String|Most likely US 'race'/ethnicity|"W_NL", "HL", "A", "B_NL", "AI_AN" or "PI"|
+|score|Number|Higher score is better, but score is not normalized. Use calibratedProbability if available. ||
+|raceEthnicitiesTop|Array|List 'race'/ethnicities||
 |probabilityCalibrated|Number|The calibrated probability for raceEthnicity to have been guessed correctly.||
-|probabilityAltCalibrated|Number|The alternative probability of the result, on a scale from 0 to 1||
+|probabilityAltCalibrated|Number|The calibrated probability for raceEthnicity OR raceEthnicityAlt to have been guessed correctly.||
 
 
 
@@ -2529,7 +2550,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/usRaceEthnicityBatch", {
 
 
 
-*Detect the most likely U.S. race or ethnicity of a up to 100 U.S. residents' first and last names*
+*Infer up-to 100 US resident's likely race/ethnicity according to US Census taxonomy. Output is W_NL (white, non latino), HL (hispano latino),  A (asian, non latino), B_NL (black, non latino). Optionally add header X-OPTION-USRACEETHNICITY-TAXONOMY: USRACEETHNICITY-6CLASSES for two additional classes, AI_AN (American Indian or Alaskan Native) and PI (Pacific Islander).*
 
 > Body parameter
 
@@ -2559,9 +2580,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/usRaceEthnicityBatch", {
 |Name|Type|Required|Description|
 |---|---|---|---|
 |id|String|true||
-|firstName|String|true|The personal name given to someone at birth, or baptism|
-|lastName|String|true|The family name|
-|countryIso2|String|true|The country code, in ISO 2 format|
+|firstName|String|true||
+|lastName|String|true||
+|countryIso2|String|true||
 
 
 
@@ -2600,16 +2621,16 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/usRaceEthnicityBatch", {
 
 |Name|Type|Description|Enumerators|
 |---|---|---|---|
-|script|String|The alphabet or characters used in the parameters||
+|script|String|||
 |id|String|||
-|firstName|String|The first name, as it was given for analysis||
-|lastName|String|The last name, as it was given for analysis||
-|raceEthnicityAlt|String|The alternative most likely U.S. race or Ethnicity|"W_NL", "HL", "A", "B_NL", "AI_AN" or "PI"|
-|raceEthnicity|String|The most likely U.S. race or Ethnicity|"W_NL", "HL", "A", "B_NL", "AI_AN" or "PI"|
-|score|Number|The coefficient of accuracy of the result||
-|raceEthnicitiesTop|Array|An array of the most likely U.S. races or Ethnicities||
+|firstName|String|The first name (also known as given name)||
+|lastName|String|The last name (also known as family name, or surname)||
+|raceEthnicityAlt|String|Second most likely US 'race'/ethnicity|"W_NL", "HL", "A", "B_NL", "AI_AN" or "PI"|
+|raceEthnicity|String|Most likely US 'race'/ethnicity|"W_NL", "HL", "A", "B_NL", "AI_AN" or "PI"|
+|score|Number|Higher score is better, but score is not normalized. Use calibratedProbability if available. ||
+|raceEthnicitiesTop|Array|List 'race'/ethnicities||
 |probabilityCalibrated|Number|The calibrated probability for raceEthnicity to have been guessed correctly.||
-|probabilityAltCalibrated|Number|The alternative probability of the result, on a scale from 0 to 1||
+|probabilityAltCalibrated|Number|The calibrated probability for raceEthnicity OR raceEthnicityAlt to have been guessed correctly.||
 
 
 
@@ -2690,7 +2711,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/usZipRaceEthnicityBatch", {
 
 
 
-*Determine the most likely U.S. race or ethnicity of up to 100 U.S. residents' first and last names, using their ZIP code*
+*Infer up-to 100 US resident's likely race/ethnicity according to US Census taxonomy, with (optional) ZIP code. Output is W_NL (white, non latino), HL (hispano latino),  A (asian, non latino), B_NL (black, non latino). Optionally add header X-OPTION-USRACEETHNICITY-TAXONOMY: USRACEETHNICITY-6CLASSES for two additional classes, AI_AN (American Indian or Alaskan Native) and PI (Pacific Islander).*
 
 > Body parameter
 
@@ -2721,10 +2742,10 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/usZipRaceEthnicityBatch", {
 |Name|Type|Required|Description|
 |---|---|---|---|
 |id|String|true||
-|firstName|String|true|The personal name given to someone at birth, or baptism|
-|lastName|String|true|The family name|
-|countryIso2|String|true|The country code, in ISO 2 format|
-|zipCode|String|true|A 5 digits zip code|
+|firstName|String|true||
+|lastName|String|true||
+|countryIso2|String|true||
+|zipCode|String|true||
 
 
 
@@ -2763,16 +2784,16 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/usZipRaceEthnicityBatch", {
 
 |Name|Type|Description|Enumerators|
 |---|---|---|---|
-|script|String|The alphabet or characters used in the parameters||
+|script|String|||
 |id|String|||
-|firstName|String|The personal name given to someone at birth, or baptism||
-|lastName|String|The family name||
-|raceEthnicityAlt|String|The alternative most likely U.S. race or Ethnicity|"W_NL", "HL", "A", "B_NL", "AI_AN" or "PI"|
-|raceEthnicity|String|The most likely U.S. race or Ethnicity|"W_NL", "HL", "A", "B_NL", "AI_AN" or "PI"|
-|score|Number|The coefficient of accuracy of the result||
-|raceEthnicitiesTop|Array|An array of the most likely U.S. races or Ethnicities||
+|firstName|String|The first name (also known as given name)||
+|lastName|String|The last name (also known as family name, or surname)||
+|raceEthnicityAlt|String|Second most likely US 'race'/ethnicity|"W_NL", "HL", "A", "B_NL", "AI_AN" or "PI"|
+|raceEthnicity|String|Most likely US 'race'/ethnicity|"W_NL", "HL", "A", "B_NL", "AI_AN" or "PI"|
+|score|Number|Higher score is better, but score is not normalized. Use calibratedProbability if available. ||
+|raceEthnicitiesTop|Array|List 'race'/ethnicities||
 |probabilityCalibrated|Number|The calibrated probability for raceEthnicity to have been guessed correctly.||
-|probabilityAltCalibrated|Number|The alternative probability of the result, on a scale from 0 to 1||
+|probabilityAltCalibrated|Number|The calibrated probability for raceEthnicity OR raceEthnicityAlt to have been guessed correctly.||
 
 
 
@@ -2837,7 +2858,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/diaspora/US/Subrahmanyan/Chan
 
 
 
-*Find out the likely ethnicity or diaspora of a first name and last name, according to the country of residence*
+*Infer the likely ethnicity/diaspora of a personal name, given a country of residence ISO2 code (ex. US, CA, AU, NZ etc.)*
 
 *<u>Cost :</u> The processing of each name requires **20** credits.*
 
@@ -2849,9 +2870,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/diaspora/US/Subrahmanyan/Chan
 
 |Name|Type|Required|Description|
 |---|---|---|---|
-|countryIso2|String|true|The country code, in ISO 2 format|
-|firstName|String|true|The personal name given to someone at birth, or baptism|
-|lastName|String|true|The family name|
+|countryIso2|String|true||
+|firstName|String|true||
+|lastName|String|true||
 
 
 
@@ -2886,16 +2907,16 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/diaspora/US/Subrahmanyan/Chan
 
 |Name|Type|Description|Enumerators|
 |---|---|---|---|
-|script|String|The alphabet or characters used in the parameters||
+|script|String|||
 |id|String|||
-|firstName|String|The first name, as it was given for analysis||
-|lastName|String|The last name, as it was given for analysis||
-|score|Number|The coefficient of accuracy of the result||
-|ethnicityAlt|String|The alternativeethnicity of the name||
-|ethnicity|String|The ethnicity of the name||
-|lifted|Boolean|Indicates if the output ethnicity is based on machine learning only, or further lifted as a known fact by a country-specific rule. Let us know if you believe ethnicity is incorrect on a specific case where lifted is true||
-|countryIso2|String|The country code, in ISO 2 format||
-|ethnicitiesTop|Array|An array of the top ten most likely ethnicities of the name||
+|firstName|String|The first name (also known as given name)||
+|lastName|String|The last name (also known as family name, or surname)||
+|score|Number|Compatibility to NamSor_v1 Diaspora score value. Higher score is better, but score is not normalized. Use calibratedProbability if available. ||
+|ethnicityAlt|String|The second best alternative ethnicity||
+|ethnicity|String|The most likely ethnicity||
+|lifted|Boolean|Indicates if the output ethnicity is based on machine learning only, or further lifted as a known fact by a country-specific rule. Let us know if you believe ethnicity is incorrect on a specific case where lifted is true.||
+|countryIso2|String|From input data, the countryIso2 of geographic context (US,CA etc.)||
+|ethnicitiesTop|Array|List most likely ethnicities (top 10)||
 
 
 
@@ -2975,7 +2996,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/diasporaBatch", {
 
 
 
-*Infer the likely ethnicity or diaspora of up to 100 names, according to their country of residence*
+*Infer the likely ethnicity/diaspora of up to 100 personal names, given a country of residence ISO2 code (ex. US, CA, AU, NZ etc.)*
 
 > Body parameter
 
@@ -3005,9 +3026,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/diasporaBatch", {
 |Name|Type|Required|Description|
 |---|---|---|---|
 |id|String|true||
-|firstName|String|true|The personal name given to someone at birth, or baptism|
-|lastName|String|true|The family name|
-|countryIso2|String|true|The country code, in ISO 2 format|
+|firstName|String|true||
+|lastName|String|true||
+|countryIso2|String|true||
 
 
 
@@ -3044,16 +3065,16 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/diasporaBatch", {
 
 |Name|Type|Description|Enumerators|
 |---|---|---|---|
-|script|String|The alphabet or characters used in the parameters||
+|script|String|||
 |id|String|||
-|firstName|String|The first name, as it was given for analysis||
-|lastName|String|The last name, as it was given for analysis||
-|score|Number|The coefficient of accuracy of the result||
-|ethnicityAlt|String|The alternativeethnicity of the name||
-|ethnicity|String|The ethnicity of the name||
-|lifted|Boolean|Indicates if the output ethnicity is based on machine learning only, or further lifted as a known fact by a country-specific rule. Let us know if you believe ethnicity is incorrect on a specific case where lifted is true||
-|countryIso2|String|The country code, in ISO 2 format||
-|ethnicitiesTop|Array|An array of the top ten most likely ethnicities of the name||
+|firstName|String|The first name (also known as given name)||
+|lastName|String|The last name (also known as family name, or surname)||
+|score|Number|Compatibility to NamSor_v1 Diaspora score value. Higher score is better, but score is not normalized. Use calibratedProbability if available. ||
+|ethnicityAlt|String|The second best alternative ethnicity||
+|ethnicity|String|The most likely ethnicity||
+|lifted|Boolean|Indicates if the output ethnicity is based on machine learning only, or further lifted as a known fact by a country-specific rule. Let us know if you believe ethnicity is incorrect on a specific case where lifted is true.||
+|countryIso2|String|From input data, the countryIso2 of geographic context (US,CA etc.)||
+|ethnicitiesTop|Array|List most likely ethnicities (top 10)||
 
 
 
@@ -3118,7 +3139,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseName/Ricardo%20Dar%C3%AD
 
 
 
-*Split a full name into a likely first and last name structure. For better accuracy, provide a local context*
+*Infer the likely first/last name structure of a name, ex. John Smith or SMITH, John or SMITH; John. For better accuracy, provide a geographic context.*
 
 *<u>Cost :</u> The processing of each name requires **1** credit.*
 
@@ -3130,8 +3151,8 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseName/Ricardo%20Dar%C3%AD
 
 |Name|Type|Required|Description|
 |---|---|---|---|
-|nameFull|String|true|A complete personal name|
-|countryIso2|String|true|The country code, in ISO 2 format|
+|nameFull|String|true||
+|countryIso2|String|true||
 
 
 
@@ -3164,17 +3185,17 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseName/Ricardo%20Dar%C3%AD
 
 |Name|Type|Description|Enumerators|
 |---|---|---|---|
-|script|String|The alphabet or characters used in the parameters||
+|script|String|||
 |id|String|||
-|name|String|The name, as it was given for analysis||
-|nameParserType|String|Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order||
-|nameParserTypeAlt|String|Second best alternative parsing. Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order||
+|name|String|The input name||
+|nameParserType|String|Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order.||
+|nameParserTypeAlt|String|Second best alternative parsing. Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order.||
 |**firstLastName**|**Object**|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|The alphabet or characters used in the parameters||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|The personal name given to someone at birth, or baptism||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|The family name||
-|score|Number|The coefficient of accuracy of the result||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|The first name (also known as given name)||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|The last name (also known as family name, or surname)||
+|score|Number|Higher score is better, but score is not normalized. Use calibratedProbability if available. ||
 
 
 
@@ -3252,7 +3273,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseNameBatch", {
 
 
 
-*Detect the likely first and last name structure of up to 100 full names*
+*Infer the likely first/last name structure of a name, ex. John Smith or SMITH, John or SMITH; John.*
 
 > Body parameter
 
@@ -3280,7 +3301,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseNameBatch", {
 |Name|Type|Required|Description|
 |---|---|---|---|
 |id|String|true||
-|name|String|true|A complete personal name|
+|name|String|true||
 
 
 
@@ -3316,17 +3337,17 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseNameBatch", {
 
 |Name|Type|Description|Enumerators|
 |---|---|---|---|
-|script|String|The alphabet or characters used in the parameters||
+|script|String|||
 |id|String|||
-|name|String|The name, as it was given for analysis||
-|nameParserType|String|Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order||
-|nameParserTypeAlt|String|Second best alternative parsing. Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order||
+|name|String|The input name||
+|nameParserType|String|Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order.||
+|nameParserTypeAlt|String|Second best alternative parsing. Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order.||
 |**firstLastName**|**Object**|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|The alphabet or characters used in the parameters||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|The personal name given to someone at birth, or baptism||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|The family name||
-|score|Number|The coefficient of accuracy of the result||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|The first name (also known as given name)||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|The last name (also known as family name, or surname)||
+|score|Number|Higher score is better, but score is not normalized. Use calibratedProbability if available. ||
 
 
 
@@ -3405,7 +3426,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseNameGeoBatch", {
 
 
 
-*Detect the likely first and last name structure of up to 100 full names. For better accuracy, provide a local context*
+*Infer the likely first/last name structure of a name, ex. John Smith or SMITH, John or SMITH; John. Giving a local context improves precision. *
 
 > Body parameter
 
@@ -3434,8 +3455,8 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseNameGeoBatch", {
 |Name|Type|Required|Description|
 |---|---|---|---|
 |id|String|true||
-|name|String|true|A complete personal name|
-|countryIso2|String|true|The country code, in ISO 2 format|
+|name|String|true||
+|countryIso2|String|true||
 
 
 
@@ -3471,17 +3492,17 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseNameGeoBatch", {
 
 |Name|Type|Description|Enumerators|
 |---|---|---|---|
-|script|String|The alphabet or characters used in the parameters||
+|script|String|||
 |id|String|||
-|name|String|The name, as it was given for analysis||
-|nameParserType|String|Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order||
-|nameParserTypeAlt|String|Second best alternative parsing. Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order||
+|name|String|The input name||
+|nameParserType|String|Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order.||
+|nameParserTypeAlt|String|Second best alternative parsing. Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order.||
 |**firstLastName**|**Object**|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|The alphabet or characters used in the parameters||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|The personal name given to someone at birth, or baptism||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|The family name||
-|score|Number|The coefficient of accuracy of the result||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|The first name (also known as given name)||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|The last name (also known as family name, or surname)||
+|score|Number|Higher score is better, but score is not normalized. Use calibratedProbability if available. ||
 
 
 
@@ -3546,7 +3567,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseName/John%20Smith", {
 
 
 
-*Split a full name into a likely first and last name structure. *
+*Infer the likely first/last name structure of a name, ex. John Smith or SMITH, John or SMITH; John. *
 
 *<u>Cost :</u> The processing of each name requires **1** credit.*
 
@@ -3558,7 +3579,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseName/John%20Smith", {
 
 |Name|Type|Required|Description|
 |---|---|---|---|
-|nameFull|String|true|A complete personal name|
+|nameFull|String|true||
 
 
 
@@ -3590,17 +3611,17 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseName/John%20Smith", {
 
 |Name|Type|Description|Enumerators|
 |---|---|---|---|
-|script|String|The alphabet or characters used in the parameters||
+|script|String|||
 |id|String|||
-|name|String|The name, as it was given for analysis||
-|nameParserType|String|Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order||
-|nameParserTypeAlt|String|Second best alternative parsing. Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order||
+|name|String|The input name||
+|nameParserType|String|Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order.||
+|nameParserTypeAlt|String|Second best alternative parsing. Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order.||
 |**firstLastName**|**Object**|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|The alphabet or characters used in the parameters||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|The personal name given to someone at birth, or baptism||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|The family name||
-|score|Number|The coefficient of accuracy of the result||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|The first name (also known as given name)||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|The last name (also known as family name, or surname)||
+|score|Number|Higher score is better, but score is not normalized. Use calibratedProbability if available. ||
 
 
 
@@ -3669,7 +3690,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/phoneCode/Jamini/Roy/09804201
 
 
 
-*Identify the likely country and phone prefix of a name and phone number*
+*Infer the likely country and phone prefix, given a personal name and formatted / unformatted phone number.*
 
 *<u>Cost :</u> The processing of each name requires **11** credits.*
 
@@ -3681,9 +3702,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/phoneCode/Jamini/Roy/09804201
 
 |Name|Type|Required|Description|
 |---|---|---|---|
-|firstName|String|true|The personal name given to someone at birth, or baptism|
-|lastName|String|true|The family name|
-|phoneNumber|String|true|A phone number, formatted or unformatted|
+|firstName|String|true||
+|lastName|String|true||
+|phoneNumber|String|true||
 
 
 
@@ -3720,22 +3741,22 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/phoneCode/Jamini/Roy/09804201
 
 |Name|Type|Description|Enumerators|
 |---|---|---|---|
-|script|String|The alphabet or characters used in the parameters||
+|script|String|||
 |id|String|||
-|firstName|String|The first name, as it was given for analysis||
-|lastName|String|The last name, as it was given for analysis||
-|internationalPhoneNumberVerified|String|The formatted phone number for international calls||
-|phoneCountryIso2Verified|String|The country code of the number, in ISO 2 format||
-|phoneCountryCode|Integer|The phone prefix of the number||
-|phoneCountryCodeAlt|Integer|The alternative phone prefix of the number||
-|phoneCountryIso2|String|The country of origin of the phone number, in ISO 2 format||
-|phoneCountryIso2Alt|String|The altervative country origin of the phone number, in ISO 2 format||
-|originCountryIso2|String|The country of origin of the name, in ISO 2 format||
-|originCountryIso2Alt|String|The alternative country of origin of the name, in ISO 2 format||
-|phoneNumber|String|The phone number, as it was sent for analysis||
-|verified|Boolean|Indicates if the phone number could be positively verified using libphonenumber||
-|score|Number|The coefficient of accuracy of the result||
-|countryIso2|String|The country code, in ISO 2 format||
+|firstName|String|The first name (also known as given name)||
+|lastName|String|The last name (also known as family name, or surname)||
+|internationalPhoneNumberVerified|String|The normalized phone number, verified using libphonenumber.||
+|phoneCountryIso2Verified|String|The phone ISO2 country code, verified using libphonenumber.||
+|phoneCountryCode|Integer|The phone country code of the phone number, verified using libphonenumber.||
+|phoneCountryCodeAlt|Integer|The best alternative phone country code of the phone number.||
+|phoneCountryIso2|String|The likely country of the phone number.||
+|phoneCountryIso2Alt|String|The best alternative country of the phone number.||
+|originCountryIso2|String|The likely country of origin of the name.||
+|originCountryIso2Alt|String|The best alternative country of origin of the name.||
+|phoneNumber|String|The input phone number.||
+|verified|Boolean|Indicates if the phone number could be positively verified using libphonenumber.||
+|score|Number|Higher score is better, but score is not normalized. Use calibratedProbability if available. ||
+|countryIso2|String|||
 
 
 
@@ -3800,7 +3821,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/phoneCodeGeo/Teniola/Apata/08
 
 
 
-*Identify the likely phone prefix of a name and phone number (formatted or unformatted) according to local context*
+*Infer the likely phone prefix, given a personal name and formatted / unformatted phone number, with a local context (ISO2 country of residence).*
 
 *<u>Cost :</u> The processing of each name requires **11** credits.*
 
@@ -3812,10 +3833,10 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/phoneCodeGeo/Teniola/Apata/08
 
 |Name|Type|Required|Description|
 |---|---|---|---|
-|firstName|String|true|The personal name given to someone at birth, or baptism|
-|lastName|String|true|The family name|
-|phoneNumber|String|true|A phone number, formatted or unformatted|
-|countryIso2|String|true|The country code, in ISO 2 format|
+|firstName|String|true||
+|lastName|String|true||
+|phoneNumber|String|true||
+|countryIso2|String|true||
 
 
 
@@ -3853,22 +3874,22 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/phoneCodeGeo/Teniola/Apata/08
 
 |Name|Type|Description|Enumerators|
 |---|---|---|---|
-|script|String|The alphabet or characters used in the parameters||
+|script|String|||
 |id|String|||
-|firstName|String|The first name, as it was given for analysis||
-|lastName|String|The last name, as it was given for analysis||
-|internationalPhoneNumberVerified|String|The formatted phone number for international calls||
-|phoneCountryIso2Verified|String|The country code of the number, in ISO 2 format||
-|phoneCountryCode|Integer|The phone prefix of the number||
-|phoneCountryCodeAlt|Integer|The alternative phone prefix of the number||
-|phoneCountryIso2|String|The country of origin of the phone number, in ISO 2 format||
-|phoneCountryIso2Alt|String|The altervative country origin of the phone number, in ISO 2 format||
-|originCountryIso2|String|The country of origin of the name, in ISO 2 format||
-|originCountryIso2Alt|String|The alternative country of origin of the name, in ISO 2 format||
-|phoneNumber|String|The phone number, as it was sent for analysis||
-|verified|Boolean|Indicates if the phone number could be positively verified using libphonenumber||
-|score|Number|The coefficient of accuracy of the result||
-|countryIso2|String|The country code, in ISO 2 format||
+|firstName|String|The first name (also known as given name)||
+|lastName|String|The last name (also known as family name, or surname)||
+|internationalPhoneNumberVerified|String|The normalized phone number, verified using libphonenumber.||
+|phoneCountryIso2Verified|String|The phone ISO2 country code, verified using libphonenumber.||
+|phoneCountryCode|Integer|The phone country code of the phone number, verified using libphonenumber.||
+|phoneCountryCodeAlt|Integer|The best alternative phone country code of the phone number.||
+|phoneCountryIso2|String|The likely country of the phone number.||
+|phoneCountryIso2Alt|String|The best alternative country of the phone number.||
+|originCountryIso2|String|The likely country of origin of the name.||
+|originCountryIso2Alt|String|The best alternative country of origin of the name.||
+|phoneNumber|String|The input phone number.||
+|verified|Boolean|Indicates if the phone number could be positively verified using libphonenumber.||
+|score|Number|Higher score is better, but score is not normalized. Use calibratedProbability if available. ||
+|countryIso2|String|||
 
 
 
@@ -3933,7 +3954,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/phoneCodeGeoFeedbackLoop/Dieg
 
 
 
-*Suggest a phone prefix, according to a name, phone number (formatted or unformatted) and local context, to help us improve our technology*
+*Feedback loop to better infer the likely phone prefix, given a personal name and formatted / unformatted phone number, with a local context (ISO2 country of residence).*
 
 *<u>Cost :</u> The processing of each name requires ** 1** credits.*
 
@@ -3945,11 +3966,11 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/phoneCodeGeoFeedbackLoop/Dieg
 
 |Name|Type|Required|Description|
 |---|---|---|---|
-|firstName|String|true|The personal name given to someone at birth, or baptism|
-|lastName|String|true|The family name|
-|phoneNumber|String|true|A phone number, formatted or unformatted|
-|phoneNumberE164|String|true|A phone number on the E164 format|
-|countryIso2|String|true|The country code, in ISO 2 format|
+|firstName|String|true||
+|lastName|String|true||
+|phoneNumber|String|true||
+|phoneNumberE164|String|true||
+|countryIso2|String|true||
 
 
 
@@ -3974,22 +3995,22 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/phoneCodeGeoFeedbackLoop/Dieg
 
 |Name|Type|Description|Enumerators|
 |---|---|---|---|
-|script|String|The alphabet or characters used in the parameters||
+|script|String|||
 |id|String|||
 |firstName|String|The first name (also known as given name)||
 |lastName|String|The last name (also known as family name, or surname)||
-|internationalPhoneNumberVerified|String|The normalized phone number, verified using libphonenumber||
-|phoneCountryIso2Verified|String|The phone ISO2 country code, verified using libphonenumber||
-|phoneCountryCode|Integer|The phone country code of the phone number, verified using libphonenumber||
-|phoneCountryCodeAlt|Integer|The best alternative phone country code of the phone number||
-|phoneCountryIso2|String|The likely country of the phone number||
-|phoneCountryIso2Alt|String|The best alternative country of the phone number||
-|originCountryIso2|String|The likely country of origin of the name||
-|originCountryIso2Alt|String|The best alternative country of origin of the name||
-|phoneNumber|String|The input phone number||
-|verified|Boolean|Indicates if the phone number could be positively verified using libphonenumber||
+|internationalPhoneNumberVerified|String|The normalized phone number, verified using libphonenumber.||
+|phoneCountryIso2Verified|String|The phone ISO2 country code, verified using libphonenumber.||
+|phoneCountryCode|Integer|The phone country code of the phone number, verified using libphonenumber.||
+|phoneCountryCodeAlt|Integer|The best alternative phone country code of the phone number.||
+|phoneCountryIso2|String|The likely country of the phone number.||
+|phoneCountryIso2Alt|String|The best alternative country of the phone number.||
+|originCountryIso2|String|The likely country of origin of the name.||
+|originCountryIso2Alt|String|The best alternative country of origin of the name.||
+|phoneNumber|String|The input phone number.||
+|verified|Boolean|Indicates if the phone number could be positively verified using libphonenumber.||
 |score|Number|Higher score is better, but score is not normalized. Use calibratedProbability if available. ||
-|countryIso2|String|A country code in ISO 3166-1 alpha-2 format||
+|countryIso2|String|||
 
 
 
@@ -4069,7 +4090,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/phoneCodeBatch", {
 
 
 
-*Identify the likely country and phone prefix of up to 100 names and phone numbers (formatted or unformatted)*
+*Infer the likely country and phone prefix, of up to 100 personal names, detecting automatically the local context given a name and formatted / unformatted phone number.*
 
 > Body parameter
 
@@ -4099,11 +4120,11 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/phoneCodeBatch", {
 |Name|Type|Required|Description|
 |---|---|---|---|
 |id|String|true||
-|firstName|String|true|The personal name given to someone at birth, or baptism|
-|lastName|String|true|The family name|
-|phoneNumber|String|true|A phone number, formatted or unformatted|
+|firstName|String|true||
+|lastName|String|true||
+|phoneNumber|String|true||
 |**FirstLastNameOriginedOut**|**Object**|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|true|The alphabet or characters used in the parameters||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|true|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|true|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|true|The first name (also known as given name)||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|true|The last name (also known as family name, or surname)||
@@ -4115,7 +4136,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/phoneCodeBatch", {
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.topRegionOrigin*|String|true|Most likely top region of Origin (based on countryOrigin ISO2 code)||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.subRegionOrigin*|String|true|Most likely sub region of Origin (based on countryOrigin ISO2 code)||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.probabilityCalibrated*|Number|true|The calibrated probability for countryOrigin to have been guessed correctly.||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.probabilityAltCalibrated*|Number|true|The calibrated probability for countryOrigin OR countryOriginAlt to have been guessed correctly||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.probabilityAltCalibrated*|Number|true|The calibrated probability for countryOrigin OR countryOriginAlt to have been guessed correctly.||
 
 
 
@@ -4154,22 +4175,22 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/phoneCodeBatch", {
 
 |Name|Type|Description|Enumerators|
 |---|---|---|---|
-|script|String|The alphabet or characters used in the parameters||
+|script|String|||
 |id|String|||
-|firstName|String|The personal name given to someone at birth, or baptism||
-|lastName|String|The family name||
-|internationalPhoneNumberVerified|String|The phone number, formatted to E164||
-|phoneCountryIso2Verified|String|The phone number, formatted to E164||
-|phoneCountryCode|Integer|The phone prefix of the number||
-|phoneCountryCodeAlt|Integer|The alternative phone prefix of the number||
-|phoneCountryIso2|String|The country of origin of the phone number, in ISO 2 format||
-|phoneCountryIso2Alt|String|The altervative country origin of the phone number, in ISO 2 format||
-|originCountryIso2|String|The country of origin of the name, in ISO 2 format||
-|originCountryIso2Alt|String|The alternative country of origin of the name, in ISO 2 format||
-|phoneNumber|String|The phone number, as it was sent for analysis||
-|verified|Boolean|Indicates if the phone number could be positively verified using libphonenumber||
-|score|Number|The coefficient of accuracy of the result||
-|countryIso2|String|The country code, in ISO 2 format||
+|firstName|String|The first name (also known as given name)||
+|lastName|String|The last name (also known as family name, or surname)||
+|internationalPhoneNumberVerified|String|The normalized phone number, verified using libphonenumber.||
+|phoneCountryIso2Verified|String|The phone ISO2 country code, verified using libphonenumber.||
+|phoneCountryCode|Integer|The phone country code of the phone number, verified using libphonenumber.||
+|phoneCountryCodeAlt|Integer|The best alternative phone country code of the phone number.||
+|phoneCountryIso2|String|The likely country of the phone number.||
+|phoneCountryIso2Alt|String|The best alternative country of the phone number.||
+|originCountryIso2|String|The likely country of origin of the name.||
+|originCountryIso2Alt|String|The best alternative country of origin of the name.||
+|phoneNumber|String|The input phone number.||
+|verified|Boolean|Indicates if the phone number could be positively verified using libphonenumber.||
+|score|Number|Higher score is better, but score is not normalized. Use calibratedProbability if available. ||
+|countryIso2|String|||
 
 
 
@@ -4250,7 +4271,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/phoneCodeGeoBatch", {
 
 
 
-*Identify the likely phone prefix of up to 100 names and phone numbers (formatted or unformatted) according to local context*
+*Infer the likely country and phone prefix, of up to 100 personal names, with a local context (ISO2 country of residence).*
 
 > Body parameter
 
@@ -4281,11 +4302,11 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/phoneCodeGeoBatch", {
 |Name|Type|Required|Description|
 |---|---|---|---|
 |id|String|true||
-|firstName|String|true|The personal name given to someone at birth, or baptism|
-|lastName|String|true|The family name|
-|phoneNumber|String|true|A phone number, formatted or unformatted|
+|firstName|String|true||
+|lastName|String|true||
+|phoneNumber|String|true||
 |**FirstLastNameOriginedOut**|**Object**|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|true|The alphabet or characters used in the parameters||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|true|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|true|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|true|The first name (also known as given name)||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|true|The last name (also known as family name, or surname)||
@@ -4297,9 +4318,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/phoneCodeGeoBatch", {
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.topRegionOrigin*|String|true|Most likely top region of Origin (based on countryOrigin ISO2 code)||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.subRegionOrigin*|String|true|Most likely sub region of Origin (based on countryOrigin ISO2 code)||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.probabilityCalibrated*|Number|true|The calibrated probability for countryOrigin to have been guessed correctly.||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.probabilityAltCalibrated*|Number|true|The calibrated probability for countryOrigin OR countryOriginAlt to have been guessed correctly||
-|countryIso2|String|true|A country code in ISO 3166-1 alpha-2 format|
-|countryIso2Alt|String|true|An alternative country code in ISO 3166-1 alpha-2 format|
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.probabilityAltCalibrated*|Number|true|The calibrated probability for countryOrigin OR countryOriginAlt to have been guessed correctly.||
+|countryIso2|String|true||
+|countryIso2Alt|String|true||
 
 
 
@@ -4338,22 +4359,22 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/phoneCodeGeoBatch", {
 
 |Name|Type|Description|Enumerators|
 |---|---|---|---|
-|script|String|The alphabet or characters used in the parameters||
+|script|String|||
 |id|String|||
-|firstName|String|The personal name given to someone at birth, or baptism||
-|lastName|String|The family name||
-|internationalPhoneNumberVerified|String|The phone number, formatted to E164||
-|phoneCountryIso2Verified|String|The phone number, formatted to E164||
-|phoneCountryCode|Integer|The phone prefix of the number||
-|phoneCountryCodeAlt|Integer|The alternative phone prefix of the number||
-|phoneCountryIso2|String|The country of origin of the phone number, in ISO 2 format||
-|phoneCountryIso2Alt|String|The altervative country origin of the phone number, in ISO 2 format||
-|originCountryIso2|String|The country of origin of the name, in ISO 2 format||
-|originCountryIso2Alt|String|The alternative country of origin of the name, in ISO 2 format||
-|phoneNumber|String|The phone number, as it was sent for analysis||
-|verified|Boolean|Indicates if the phone number could be positively verified using libphonenumber||
-|score|Number|The coefficient of accuracy of the result||
-|countryIso2|String|The country code, in ISO 2 format||
+|firstName|String|The first name (also known as given name)||
+|lastName|String|The last name (also known as family name, or surname)||
+|internationalPhoneNumberVerified|String|The normalized phone number, verified using libphonenumber.||
+|phoneCountryIso2Verified|String|The phone ISO2 country code, verified using libphonenumber.||
+|phoneCountryCode|Integer|The phone country code of the phone number, verified using libphonenumber.||
+|phoneCountryCodeAlt|Integer|The best alternative phone country code of the phone number.||
+|phoneCountryIso2|String|The likely country of the phone number.||
+|phoneCountryIso2Alt|String|The best alternative country of the phone number.||
+|originCountryIso2|String|The likely country of origin of the name.||
+|originCountryIso2Alt|String|The best alternative country of origin of the name.||
+|phoneNumber|String|The input phone number.||
+|verified|Boolean|Indicates if the phone number could be positively verified using libphonenumber.||
+|score|Number|Higher score is better, but score is not normalized. Use calibratedProbability if available. ||
+|countryIso2|String|||
 
 
 
@@ -4422,7 +4443,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseChineseName/%E8%B5%B5%E4
 
 
 
-*Determine the likely first and last name structure of a Chinese name, written in Mandarin*
+*Infer the likely first/last name structure of a name, ex. 王晓明 -> 王(surname) 晓明(given name)*
 
 *<u>Cost :</u> The processing of each name requires **1** credit.*
 
@@ -4434,7 +4455,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseChineseName/%E8%B5%B5%E4
 
 |Name|Type|Required|Description|
 |---|---|---|---|
-|chineseName|String|true|A Chinese full name, written in Mandarin|
+|chineseName|String|true||
 
 
 
@@ -4466,17 +4487,17 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseChineseName/%E8%B5%B5%E4
 
 |Name|Type|Description|Enumerators|
 |---|---|---|---|
-|script|String|The alphabet or characters used in the parameters||
+|script|String|||
 |id|String|||
-|name|String|The name, as it was given for analysis||
-|nameParserType|String|Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order||
-|nameParserTypeAlt|String|Second best alternative parsing. Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order||
+|name|String|The input name||
+|nameParserType|String|Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order.||
+|nameParserTypeAlt|String|Second best alternative parsing. Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order.||
 |**firstLastName**|**Object**|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|The alphabet or characters used in the parameters||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|The personal name given to someone at birth, or baptism||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|The family name||
-|score|Number|The coefficient of accuracy of the result||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|The first name (also known as given name)||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|The last name (also known as family name, or surname)||
+|score|Number|Higher score is better, but score is not normalized. Use calibratedProbability if available. ||
 
 
 
@@ -4554,7 +4575,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseChineseNameBatch", {
 
 
 
-*Detect the likely first and last name structure of up to 100 a Chinese names, written in Mandarin, ex. 王晓明 -> 王(lastname) 晓明(first name)*
+*Infer the likely first/last name structure of a name, ex. 王晓明 -> 王(surname) 晓明(given name).*
 
 > Body parameter
 
@@ -4582,7 +4603,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseChineseNameBatch", {
 |Name|Type|Required|Description|
 |---|---|---|---|
 |id|String|true||
-|name|String|true|A Chinese name written in Standard Mandarin|
+|name|String|true||
 
 
 
@@ -4618,17 +4639,17 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseChineseNameBatch", {
 
 |Name|Type|Description|Enumerators|
 |---|---|---|---|
-|script|String|The alphabet or characters used in the parameters||
+|script|String|||
 |id|String|||
-|name|String|The name, as it was given for analysis||
-|nameParserType|String|Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order||
-|nameParserTypeAlt|String|Second best alternative parsing. Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order||
+|name|String|The input name||
+|nameParserType|String|Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order.||
+|nameParserTypeAlt|String|Second best alternative parsing. Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order.||
 |**firstLastName**|**Object**|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|The alphabet or characters used in the parameters||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|The personal name given to someone at birth, or baptism||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|The family name||
-|score|Number|The coefficient of accuracy of the result||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|The first name (also known as given name)||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|The last name (also known as family name, or surname)||
+|score|Number|Higher score is better, but score is not normalized. Use calibratedProbability if available. ||
 
 
 
@@ -4693,7 +4714,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/pinyinChineseName/%E8%B5%B5%E
 
 
 
-*Romanize a Chinese name to Pinyin*
+*Romanize the Chinese name to Pinyin, ex. 王晓明 -> Wang (surname) Xiaoming (given name)*
 
 *<u>Cost :</u> The processing of each name requires **1** credit.*
 
@@ -4705,7 +4726,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/pinyinChineseName/%E8%B5%B5%E
 
 |Name|Type|Required|Description|
 |---|---|---|---|
-|chineseName|String|true|A Chinese name written in Standard Mandarin|
+|chineseName|String|true||
 
 
 
@@ -4737,17 +4758,17 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/pinyinChineseName/%E8%B5%B5%E
 
 |Name|Type|Description|Enumerators|
 |---|---|---|---|
-|script|String|The alphabet or characters used in the parameters||
+|script|String|||
 |id|String|||
-|name|String|The name, as it was given for analysis||
-|nameParserType|String|Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order||
-|nameParserTypeAlt|String|Second best alternative parsing. Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order||
+|name|String|The input name||
+|nameParserType|String|Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order.||
+|nameParserTypeAlt|String|Second best alternative parsing. Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order.||
 |**firstLastName**|**Object**|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|The alphabet or characters used in the parameters||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|The most likely romanized transcription of the firstname||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|The most likely romanized transcription of the lastname||
-|score|Number|The coefficient of accuracy of the result||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|The first name (also known as given name)||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|The last name (also known as family name, or surname)||
+|score|Number|Higher score is better, but score is not normalized. Use calibratedProbability if available. ||
 
 
 
@@ -4825,7 +4846,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/pinyinChineseNameBatch", {
 
 
 
-*Romanize a list of up to 100 Chinese names to Pinyin*
+*Romanize a list of Chinese name to Pinyin, ex. 王晓明 -> Wang (surname) Xiaoming (given name).*
 
 > Body parameter
 
@@ -4853,7 +4874,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/pinyinChineseNameBatch", {
 |Name|Type|Required|Description|
 |---|---|---|---|
 |id|String|true||
-|name|String|true|A Chinese name written in Standard Mandarin|
+|name|String|true||
 
 
 
@@ -4889,17 +4910,17 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/pinyinChineseNameBatch", {
 
 |Name|Type|Description|Enumerators|
 |---|---|---|---|
-|script|String|The alphabet or characters used in the parameters||
+|script|String|||
 |id|String|||
-|name|String|The name, as it was given for analysis||
-|nameParserType|String|Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order||
-|nameParserTypeAlt|String|Second best alternative parsing. Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order||
+|name|String|The input name||
+|nameParserType|String|Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order.||
+|nameParserTypeAlt|String|Second best alternative parsing. Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order.||
 |**firstLastName**|**Object**|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|The alphabet or characters used in the parameters||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|The first name (also known as given name)||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|The last name (also known as family name, or surname)||
-|score|Number|The coefficient of accuracy of the result||
+|score|Number|Higher score is better, but score is not normalized. Use calibratedProbability if available. ||
 
 
 
@@ -4964,7 +4985,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameMatch/Yu/Hong/%E5%
 
 
 
-*Receive a score for matching a romanized Chinese name with its Mandarin writing*
+*Return a score for matching Chinese name ex. 王晓明 with a romanized name ex. Wang Xiaoming*
 
 *<u>Cost :</u> The processing of each name requires **1** credit.*
 
@@ -4976,9 +4997,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameMatch/Yu/Hong/%E5%
 
 |Name|Type|Required|Description|
 |---|---|---|---|
-|chineseSurnameLatin|String|true|A Chinese last name written in Pinyin|
-|chineseGivenNameLatin|String|true|A Chinese first name written in Pinyin|
-|chineseName|String|true|A Chinese name written in Standard Mandarin|
+|chineseSurnameLatin|String|true||
+|chineseGivenNameLatin|String|true||
+|chineseName|String|true||
 
 
 
@@ -5004,10 +5025,10 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameMatch/Yu/Hong/%E5%
 
 |Name|Type|Description|Enumerators|
 |---|---|---|---|
-|script|String|The alphabet or characters used in the parameters||
+|script|String|||
 |id|String|||
-|matchStatus|String|The status of the success of the match||
-|score|Number|The coefficient of accuracy of the result||
+|matchStatus|String|The name matching status.||
+|score|Number|||
 
 
 
@@ -5131,8 +5152,8 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameMatchBatch", {
 |id|String|true||
 |**name1**|**Object**|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|true|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|true|A Chinese given name (first name) in latin characters||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|true|A Chinese surname (last name) in latin characters||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|true|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|true|||
 |**name2**|**Object**|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|true|||
 
@@ -5162,10 +5183,10 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameMatchBatch", {
 
 |Name|Type|Description|Enumerators|
 |---|---|---|---|
-|script|String|The alphabet or characters used in the parameters||
+|script|String|||
 |id|String|||
-|matchStatus|String|The name matching status||
-|score|Number|A higher score means a better match||
+|matchStatus|String|The name matching status.||
+|score|Number|||
 
 
 
@@ -5230,7 +5251,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseNamePinyin/Q%C4%
 
 
 
-*Find the likely gender of a romanized Chinese first name and last name*
+*Infer the likely gender of a Chinese name in LATIN (Pinyin).*
 
 *<u>Cost :</u> The processing of each name requires **1** credit.*
 
@@ -5242,8 +5263,8 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseNamePinyin/Q%C4%
 
 |Name|Type|Required|Description|
 |---|---|---|---|
-|chineseSurnameLatin|String|true|A Chinese last name written in Pinyin|
-|chineseGivenNameLatin|String|true|A Chinese first name written in Pinyin|
+|chineseSurnameLatin|String|true||
+|chineseGivenNameLatin|String|true||
 
 
 
@@ -5272,13 +5293,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseNamePinyin/Q%C4%
 
 |Name|Type|Description|Enumerators|
 |---|---|---|---|
-|script|String|The alphabet or characters used in the parameters||
+|script|String|||
 |id|String|||
-|firstName|String|The first name, as it was provided for analysis||
-|lastName|String|The last name, as it was provided for analysis||
-|likelyGender|String|The most likely gender of the name|"male", "female" or "unknown"|
+|firstName|String|The first name (also known as given name)||
+|lastName|String|The last name (also known as family name, or surname)||
+|likelyGender|String|Most likely gender|"male", "female" or "unknown"|
 |genderScale|Number|Compatibility to NamSor_v1 Gender Scale M[-1..U..+1]F value||
-|score|Number|The coefficient of accuracy of the result||
+|score|Number|Compatibility to NamSor_v1 Gender score value. Higher score is better, but score is not normalized. Use calibratedProbability if available. ||
 |probabilityCalibrated|Number|The calibrated probability for inferred gender to have been guessed correctly.||
 
 
@@ -5358,7 +5379,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseNamePinyinBatch"
 
 
 
-*Find out the likely gender of up to 100 Chinese first and last names, written in Pinyin*
+*Infer the likely gender of up to 100 Chinese names in LATIN (Pinyin).*
 
 > Body parameter
 
@@ -5387,8 +5408,8 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseNamePinyinBatch"
 |Name|Type|Required|Description|
 |---|---|---|---|
 |id|String|true||
-|firstName|String|true|A Chinese last name written in Pinyin|
-|lastName|String|true|A Chinese first name written in Pinyin|
+|firstName|String|true||
+|lastName|String|true||
 
 
 
@@ -5420,13 +5441,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseNamePinyinBatch"
 
 |Name|Type|Description|Enumerators|
 |---|---|---|---|
-|script|String|The alphabet or characters used in the parameters||
+|script|String|||
 |id|String|||
-|firstName|String|The first name, as it was provided for analysis||
-|lastName|String|The last name, as it was provided for analysis||
-|likelyGender|String|The most likely gender of the name|"male", "female" or "unknown"|
+|firstName|String|The first name (also known as given name)||
+|lastName|String|The last name (also known as family name, or surname)||
+|likelyGender|String|Most likely gender|"male", "female" or "unknown"|
 |genderScale|Number|Compatibility to NamSor_v1 Gender Scale M[-1..U..+1]F value||
-|score|Number|The coefficient of accuracy of the result||
+|score|Number|Compatibility to NamSor_v1 Gender score value. Higher score is better, but score is not normalized. Use calibratedProbability if available. ||
 |probabilityCalibrated|Number|The calibrated probability for inferred gender to have been guessed correctly.||
 
 
@@ -5492,7 +5513,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseName/%E8%B0%A2%E
 
 
 
-*Determine the gender of a Chinese full name, written in Mandarin*
+*Infer the likely gender of a Chinese full name ex. 王晓明*
 
 *<u>Cost :</u> The processing of each name requires **1** credit.*
 
@@ -5504,7 +5525,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseName/%E8%B0%A2%E
 
 |Name|Type|Required|Description|
 |---|---|---|---|
-|chineseName|String|true|A Chinese name written in Standard Mandarin|
+|chineseName|String|true||
 
 
 
@@ -5531,12 +5552,12 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseName/%E8%B0%A2%E
 
 |Name|Type|Description|Enumerators|
 |---|---|---|---|
-|script|String|The alphabet or characters used in the parameters||
+|script|String|||
 |id|String|||
-|name|String|The name, as it was given for analysis||
-|likelyGender|String|The most likely gender of the name|"male", "female" or "unknown"|
+|name|String|The input name||
+|likelyGender|String|Most likely gender|"male", "female" or "unknown"|
 |genderScale|Number|Compatibility to NamSor_v1 Gender Scale M[-1..U..+1]F value||
-|score|Number|The coefficient of accuracy of the result||
+|score|Number|Compatibility to NamSor_v1 Gender score value. Higher score is better, but score is not normalized. Use calibratedProbability if available. ||
 |probabilityCalibrated|Number|The calibrated probability for inferred gender to have been guessed correctly.||
 
 
@@ -5615,7 +5636,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseNameBatch", {
 
 
 
-*Infer the likely gender of up to 100 Chinese full names, written in Mandarin*
+*Infer the likely gender of up to 100 full names ex. 王晓明*
 
 > Body parameter
 
@@ -5643,7 +5664,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseNameBatch", {
 |Name|Type|Required|Description|
 |---|---|---|---|
 |id|String|true||
-|name|String|true|A Chinese name written in Standard Mandarin|
+|name|String|true||
 
 
 
@@ -5674,12 +5695,12 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseNameBatch", {
 
 |Name|Type|Description|Enumerators|
 |---|---|---|---|
-|script|String|The alphabet or characters used in the parameters||
+|script|String|||
 |id|String|||
-|name|String|The name, as it was given for analysis||
-|likelyGender|String|The most likely gender of the name|"male", "female" or "unknown"|
+|name|String|The input name||
+|likelyGender|String|Most likely gender|"male", "female" or "unknown"|
 |genderScale|Number|Compatibility to NamSor_v1 Gender Scale M[-1..U..+1]F value||
-|score|Number|The coefficient of accuracy of the result||
+|score|Number|Compatibility to NamSor_v1 Gender score value. Higher score is better, but score is not normalized. Use calibratedProbability if available. ||
 |probabilityCalibrated|Number|The calibrated probability for inferred gender to have been guessed correctly.||
 
 
@@ -5745,7 +5766,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameCandidates/Zhao/Li
 
 
 
-*Find the most likely Mandarin transcriptions for a Chinese first name and last name, written in Pinyin*
+*Identify Chinese name candidates, based on the romanized name ex. Wang Xiaoming*
 
 *<u>Cost :</u> The processing of each name requires **1** credit.*
 
@@ -5757,8 +5778,8 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameCandidates/Zhao/Li
 
 |Name|Type|Required|Description|
 |---|---|---|---|
-|chineseSurnameLatin|String|true|A Chinese last name written in Pinyin|
-|chineseGivenNameLatin|String|true|A Chinese first name written in Pinyin|
+|chineseSurnameLatin|String|true||
+|chineseGivenNameLatin|String|true||
 
 
 
@@ -5798,16 +5819,16 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameCandidates/Zhao/Li
 
 |Name|Type|Description|Enumerators|
 |---|---|---|---|
-|script|String|The alphabet or characters used in the parameters||
+|script|String|||
 |id|String|||
-|firstName|String|The first name, as it was given for analysis||
-|lastName|String|The last name, as it was given for analysis||
+|firstName|String|The first name (also known as given name)||
+|lastName|String|The last name (also known as family name, or surname)||
 |orderOption|String|The option for ordering||
 |**matchCandidates**|**Array of Objects**|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].candidateName*|String|The name matching candidate name||
-|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].probability*|Number|The name matching estimated probability||
-|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].predScoreGivenName*|Number|The given name prediction score||
-|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].predScoreFamilyName*|Number|The family name prediction score||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].probability*|Number|The name matching estimated probability.||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].predScoreGivenName*|Number|The given name prediction score.||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].predScoreFamilyName*|Number|The family name prediction score.||
 
 
 
@@ -5886,7 +5907,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameCandidatesBatch", 
 
 
 
-*Find the most likely Mandarin transcriptions for up to 100 Chinese first and last names, written in Pinyin*
+*Identify Chinese name candidates, based on the romanized name (firstName = chineseGivenName; lastName=chineseSurname), ex. Wang Xiaoming*
 
 > Body parameter
 
@@ -5915,8 +5936,8 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameCandidatesBatch", 
 |Name|Type|Required|Description|
 |---|---|---|---|
 |id|String|true||
-|firstName|String|true|A Chinese given name (first name) in latin characters|
-|lastName|String|true|A Chinese surname (last name) in latin characters|
+|firstName|String|true||
+|lastName|String|true||
 
 
 
@@ -5959,16 +5980,16 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameCandidatesBatch", 
 
 |Name|Type|Description|Enumerators|
 |---|---|---|---|
-|script|String|The alphabet or characters used in the parameters||
+|script|String|||
 |id|String|||
-|firstName|String|The first name, as it was given for analysis||
-|lastName|String|The last name, as it was given for analysis||
+|firstName|String|The first name (also known as given name)||
+|lastName|String|The last name (also known as family name, or surname)||
 |orderOption|String|The option for ordering||
 |**matchCandidates**|**Array of Objects**|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].candidateName*|String|The name matching candidate name||
-|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].probability*|Number|The name matching estimated probability||
-|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].predScoreGivenName*|Number|The given name prediction score||
-|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].predScoreFamilyName*|Number|The family name prediction score||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].probability*|Number|The name matching estimated probability.||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].predScoreGivenName*|Number|The given name prediction score.||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].predScoreFamilyName*|Number|The family name prediction score.||
 
 
 
@@ -6033,7 +6054,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameGenderCandidates/F
 
 
 
-*Determine the most likely Mandarin transcriptions for a romanized Chinese first name and last name, accrding to the known gender of the name*
+*Identify Chinese name candidates, based on the romanized name ex. Wang Xiaoming - having a known gender ('male' or 'female')*
 
 *<u>Cost :</u> The processing of each name requires **1** credit.*
 
@@ -6045,9 +6066,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameGenderCandidates/F
 
 |Name|Type|Required|Description|
 |---|---|---|---|
-|chineseSurnameLatin|String|true|A Chinese last name written in Pinyin|
-|chineseGivenNameLatin|String|true|A Chinese first name written in Pinyin|
-|knownGender|String|true|The gender of the name|
+|chineseSurnameLatin|String|true||
+|chineseGivenNameLatin|String|true||
+|knownGender|String|true||
 
 
 
@@ -6088,16 +6109,16 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameGenderCandidates/F
 
 |Name|Type|Description|Enumerators|
 |---|---|---|---|
-|script|String|The alphabet or characters used in the parameters||
+|script|String|||
 |id|String|||
 |firstName|String|The first name (also known as given name)||
 |lastName|String|The last name (also known as family name, or surname)||
 |orderOption|String|The option for ordering||
 |**matchCandidates**|**Array of Objects**|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].candidateName*|String|The name matching candidate name||
-|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].probability*|Number|The name matching estimated probability||
-|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].predScoreGivenName*|Number|The given name prediction score||
-|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].predScoreFamilyName*|Number|The family name prediction score||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].probability*|Number|The name matching estimated probability.||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].predScoreGivenName*|Number|The given name prediction score.||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].predScoreFamilyName*|Number|The family name prediction score.||
 
 
 
@@ -6177,7 +6198,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameCandidatesGenderBa
 
 
 
-*Find the most likely transcriptions for a romanized Chinese first name and last name*
+*Identify Chinese name candidates, based on the romanized name (firstName = chineseGivenName; lastName=chineseSurname) ex. Wang Xiaoming.*
 
 > Body parameter
 
@@ -6207,9 +6228,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameCandidatesGenderBa
 |Name|Type|Required|Description|
 |---|---|---|---|
 |id|String|true||
-|firstName|String|true|A romanized Chinese first name|
-|lastName|String|true|A romanized Chinese last name|
-|gender|String|true|The gender of the name|
+|firstName|String|true||
+|lastName|String|true||
+|gender|String|true|The known gender of the name|
 
 
 
@@ -6252,16 +6273,16 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameCandidatesGenderBa
 
 |Name|Type|Description|Enumerators|
 |---|---|---|---|
-|script|String|The alphabet or characters used in the parameters||
+|script|String|||
 |id|String|||
-|firstName|String|The first name, as it was given for analysis||
-|lastName|String|The last name, as it was given for analysis||
+|firstName|String|The first name (also known as given name)||
+|lastName|String|The last name (also known as family name, or surname)||
 |orderOption|String|The option for ordering||
 |**matchCandidates**|**Array of Objects**|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].candidateName*|String|The name matching candidate name||
-|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].probability*|Number|The name matching estimated probability||
-|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].predScoreGivenName*|Number|The given name prediction score||
-|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].predScoreFamilyName*|Number|The family name prediction score||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].probability*|Number|The name matching estimated probability.||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].predScoreGivenName*|Number|The given name prediction score.||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].predScoreFamilyName*|Number|The family name prediction score.||
 
 
 
@@ -6330,7 +6351,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseJapaneseName/%E5%B0%8F%E
 
 
 
-*Split a Japanese full name, in Kanji or Latin writing, into a first name and last name structure*
+*Infer the likely first/last name structure of a name, ex. 山本 早苗 or Yamamoto Sanae*
 
 *<u>Cost :</u> The processing of each name requires **1** credit.*
 
@@ -6342,7 +6363,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseJapaneseName/%E5%B0%8F%E
 
 |Name|Type|Required|Description|
 |---|---|---|---|
-|japaneseName|String|true|A Japanese full name in Kanji characters or Latin alphabet|
+|japaneseName|String|true||
 
 
 
@@ -6374,17 +6395,17 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseJapaneseName/%E5%B0%8F%E
 
 |Name|Type|Description|Enumerators|
 |---|---|---|---|
-|script|String|The alphabet or characters used in the parameters||
+|script|String|||
 |id|String|||
-|name|String|The name, as it was given for analysis||
-|nameParserType|String|Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order||
-|nameParserTypeAlt|String|Second best alternative parsing. Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order||
+|name|String|The input name||
+|nameParserType|String|Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order.||
+|nameParserTypeAlt|String|Second best alternative parsing. Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order.||
 |**firstLastName**|**Object**|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|The alphabet or characters used in the parameters||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|The personal name given to someone at birth, or baptism||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|The family name||
-|score|Number|The coefficient of accuracy of the result||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|The first name (also known as given name)||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|The last name (also known as family name, or surname)||
+|score|Number|Higher score is better, but score is not normalized. Use calibratedProbability if available. ||
 
 
 
@@ -6462,7 +6483,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseJapaneseNameBatch", {
 
 
 
-*Split up to 100 Japanese full names, in Kanji or Latin writing, into first name and last name structures*
+*Infer the likely first/last name structure of a name, ex. 山本 早苗 or Yamamoto Sanae *
 
 > Body parameter
 
@@ -6490,7 +6511,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseJapaneseNameBatch", {
 |Name|Type|Required|Description|
 |---|---|---|---|
 |id|String|true||
-|name|String|true|A Japanese name in Kanji characters|
+|name|String|true||
 
 
 
@@ -6526,17 +6547,17 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseJapaneseNameBatch", {
 
 |Name|Type|Description|Enumerators|
 |---|---|---|---|
-|script|String|The alphabet or characters used in the parameters||
+|script|String|||
 |id|String|||
-|name|String|The name, as it was given for analysis||
-|nameParserType|String|Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order||
-|nameParserTypeAlt|String|Second best alternative parsing. Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order||
+|name|String|The input name||
+|nameParserType|String|Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order.||
+|nameParserTypeAlt|String|Second best alternative parsing. Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order.||
 |**firstLastName**|**Object**|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|The alphabet or characters used in the parameters||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|The personal name given to someone at birth, or baptism||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|The family name||
-|score|Number|The coefficient of accuracy of the result||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|The first name (also known as given name)||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|The last name (also known as family name, or surname)||
+|score|Number|Higher score is better, but score is not normalized. Use calibratedProbability if available. ||
 
 
 
@@ -6601,7 +6622,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameKanjiCandidates/Y
 
 
 
-*Find the likely transcriptions to Kanji, for a Japanese first name and last name, according to a known gender*
+*Identify japanese name candidates in KANJI, based on the romanized name ex. Yamamoto Sanae - and a known gender.*
 
 *<u>Cost :</u> The processing of each name requires **1** credit.*
 
@@ -6613,9 +6634,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameKanjiCandidates/Y
 
 |Name|Type|Required|Description|
 |---|---|---|---|
-|japaneseSurnameLatin|String|true|A romanized Japanese last name|
-|japaneseGivenNameLatin|String|true|A romanized Japanese first name|
-|knownGender|String|true|The gender of the name|
+|japaneseSurnameLatin|String|true||
+|japaneseGivenNameLatin|String|true||
+|knownGender|String|true||
 
 
 
@@ -6656,16 +6677,16 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameKanjiCandidates/Y
 
 |Name|Type|Description|Enumerators|
 |---|---|---|---|
-|script|String|The alphabet or characters used in the parameters||
+|script|String|||
 |id|String|||
-|firstName|String|The first name, as it was given for analysis||
-|lastName|String|The last name, as it was given for analysis||
+|firstName|String|The first name (also known as given name)||
+|lastName|String|The last name (also known as family name, or surname)||
 |orderOption|String|The option for ordering||
 |**matchCandidates**|**Array of Objects**|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].candidateName*|String|The name matching candidate name||
-|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].probability*|Number|The name matching estimated probability||
-|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].predScoreGivenName*|Number|The given name prediction score||
-|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].predScoreFamilyName*|Number|The family name prediction score||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].probability*|Number|The name matching estimated probability.||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].predScoreGivenName*|Number|The given name prediction score.||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].predScoreFamilyName*|Number|The family name prediction score.||
 
 
 
@@ -6730,7 +6751,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameKanjiCandidates/Y
 
 
 
-*Find the likely transcriptions to Kanji, for a romanized Japanese first name and last name*
+*Identify japanese name candidates in KANJI, based on the romanized name ex. Yamamoto Sanae*
 
 *<u>Cost :</u> The processing of each name requires **1** credit.*
 
@@ -6742,8 +6763,8 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameKanjiCandidates/Y
 
 |Name|Type|Required|Description|
 |---|---|---|---|
-|japaneseSurnameLatin|String|true|A romanized Japanese last name|
-|japaneseGivenNameLatin|String|true|A romanized Japanese first name|
+|japaneseSurnameLatin|String|true||
+|japaneseGivenNameLatin|String|true||
 
 
 
@@ -6783,16 +6804,16 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameKanjiCandidates/Y
 
 |Name|Type|Description|Enumerators|
 |---|---|---|---|
-|script|String|The alphabet or characters used in the parameters||
+|script|String|||
 |id|String|||
-|firstName|String|The first name, as it was given for analysis||
-|lastName|String|The last name, as it was given for analysis||
+|firstName|String|The first name (also known as given name)||
+|lastName|String|The last name (also known as family name, or surname)||
 |orderOption|String|The option for ordering||
 |**matchCandidates**|**Array of Objects**|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].candidateName*|String|The name matching candidate name||
-|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].probability*|Number|The name matching estimated probability||
-|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].predScoreGivenName*|Number|The given name prediction score||
-|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].predScoreFamilyName*|Number|The family name prediction score||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].probability*|Number|The name matching estimated probability.||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].predScoreGivenName*|Number|The given name prediction score.||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].predScoreFamilyName*|Number|The family name prediction score.||
 
 
 
@@ -6857,7 +6878,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameLatinCandidates/%
 
 
 
-*Receive the most likely Latin transcriptions for a Japanese name written in Kanji characters*
+*Romanize japanese name, based on the name in Kanji.*
 
 *<u>Cost :</u> The processing of each name requires **1** credit.*
 
@@ -6869,8 +6890,8 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameLatinCandidates/%
 
 |Name|Type|Required|Description|
 |---|---|---|---|
-|japaneseSurnameKanji|String|true|A Japanese last name in Kanji characters|
-|japaneseGivenNameKanji|String|true|A Japanese first name in Kanji characters|
+|japaneseSurnameKanji|String|true||
+|japaneseGivenNameKanji|String|true||
 
 
 
@@ -6910,16 +6931,16 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameLatinCandidates/%
 
 |Name|Type|Description|Enumerators|
 |---|---|---|---|
-|script|String|The alphabet or characters used in the parameters||
+|script|String|||
 |id|String|||
-|firstName|String|The first name, as it was given for analysis||
-|lastName|String|The last name, as it was given for analysis||
+|firstName|String|The first name (also known as given name)||
+|lastName|String|The last name (also known as family name, or surname)||
 |orderOption|String|The option for ordering||
 |**matchCandidates**|**Array of Objects**|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].candidateName*|String|The name matching candidate name||
-|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].probability*|Number|The name matching estimated probability||
-|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].predScoreGivenName*|Number|The given name prediction score||
-|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].predScoreFamilyName*|Number|The family name prediction score||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].probability*|Number|The name matching estimated probability.||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].predScoreGivenName*|Number|The given name prediction score.||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].predScoreFamilyName*|Number|The family name prediction score.||
 
 
 
@@ -6998,7 +7019,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameKanjiCandidatesBa
 
 
 
-*Find the likely transcriptions to Kanji, for up to 100 Japanese romanized first and last names*
+*Identify japanese name candidates in KANJI, based on the romanized name (firstName = japaneseGivenName; lastName=japaneseSurname), ex. Yamamoto Sanae*
 
 > Body parameter
 
@@ -7027,8 +7048,8 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameKanjiCandidatesBa
 |Name|Type|Required|Description|
 |---|---|---|---|
 |id|String|true||
-|firstName|String|true|A romanized Japanese first name|
-|lastName|String|true|A romanized Japanese last name|
+|firstName|String|true||
+|lastName|String|true||
 
 
 
@@ -7071,16 +7092,16 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameKanjiCandidatesBa
 
 |Name|Type|Description|Enumerators|
 |---|---|---|---|
-|script|String|The alphabet or characters used in the parameters||
+|script|String|||
 |id|String|||
-|firstName|String|The first name, as it was given for analysis||
-|lastName|String|The last name, as it was given for analysis||
+|firstName|String|The first name (also known as given name)||
+|lastName|String|The last name (also known as family name, or surname)||
 |orderOption|String|The option for ordering||
 |**matchCandidates**|**Array of Objects**|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].candidateName*|String|The name matching candidate name||
-|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].probability*|Number|The name matching estimated probability||
-|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].predScoreGivenName*|Number|The given name prediction score||
-|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].predScoreFamilyName*|Number|The family name prediction score||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].probability*|Number|The name matching estimated probability.||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].predScoreGivenName*|Number|The given name prediction score.||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].predScoreFamilyName*|Number|The family name prediction score.||
 
 
 
@@ -7160,7 +7181,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameGenderKanjiCandid
 
 
 
-*Find the likely transcriptions to Kanji, for up to 100 Japanese romanized first and last names, according to a known gender*
+*Identify japanese name candidates in KANJI, based on the romanized name (firstName = japaneseGivenName; lastName=japaneseSurname) with KNOWN gender, ex. Yamamoto Sanae*
 
 > Body parameter
 
@@ -7190,9 +7211,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameGenderKanjiCandid
 |Name|Type|Required|Description|
 |---|---|---|---|
 |id|String|true||
-|firstName|String|true|A romanized Japanese first name|
-|lastName|String|true|A romanized Japanese last name|
-|gender|String|true|The gender of the name|
+|firstName|String|true||
+|lastName|String|true||
+|gender|String|true|The known gender of the name|
 
 
 
@@ -7235,16 +7256,16 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameGenderKanjiCandid
 
 |Name|Type|Description|Enumerators|
 |---|---|---|---|
-|script|String|The alphabet or characters used in the parameters||
+|script|String|||
 |id|String|||
-|firstName|String|The first name, as it was given for analysis||
-|lastName|String|The last name, as it was given for analysis||
+|firstName|String|The first name (also known as given name)||
+|lastName|String|The last name (also known as family name, or surname)||
 |orderOption|String|The option for ordering||
 |**matchCandidates**|**Array of Objects**|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].candidateName*|String|The name matching candidate name||
-|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].probability*|Number|The name matching estimated probability||
-|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].predScoreGivenName*|Number|The given name prediction score||
-|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].predScoreFamilyName*|Number|The family name prediction score||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].probability*|Number|The name matching estimated probability.||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].predScoreGivenName*|Number|The given name prediction score.||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].predScoreFamilyName*|Number|The family name prediction score.||
 
 
 
@@ -7323,7 +7344,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameLatinCandidatesBa
 
 
 
-*Romanize up to 100 japanese names written in Kanji*
+*Romanize japanese names, based on the name in KANJI*
 
 > Body parameter
 
@@ -7352,8 +7373,8 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameLatinCandidatesBa
 |Name|Type|Required|Description|
 |---|---|---|---|
 |id|String|true||
-|firstName|String|true|A Japanese first name in Kanji characters|
-|lastName|String|true|A Japanese last name in Kanji characters|
+|firstName|String|true||
+|lastName|String|true||
 
 
 
@@ -7396,16 +7417,16 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameLatinCandidatesBa
 
 |Name|Type|Description|Enumerators|
 |---|---|---|---|
-|script|String|The alphabet or characters used in the parameters||
+|script|String|||
 |id|String|||
-|firstName|String|The first name, as it was given for analysis||
-|lastName|String|The last name, as it was given for analysis||
+|firstName|String|The first name (also known as given name)||
+|lastName|String|The last name (also known as family name, or surname)||
 |orderOption|String|The option for ordering||
 |**matchCandidates**|**Array of Objects**|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].candidateName*|String|The name matching candidate name||
-|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].probability*|Number|The name matching estimated probability||
-|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].predScoreGivenName*|Number|The given name prediction score||
-|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].predScoreFamilyName*|Number|The family name prediction score||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].probability*|Number|The name matching estimated probability.||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].predScoreGivenName*|Number|The given name prediction score.||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].predScoreFamilyName*|Number|The family name prediction score.||
 
 
 
@@ -7470,7 +7491,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameMatch/Tomioka/Tes
 
 
 
-*Receive a score for matching a romanized Japanese name with a Kanji transcription*
+*Return a score for matching Japanese name in KANJI ex. 山本 早苗 with a romanized name ex. Yamamoto Sanae*
 
 *<u>Cost :</u> The processing of each name requires **1** credit.*
 
@@ -7482,9 +7503,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameMatch/Tomioka/Tes
 
 |Name|Type|Required|Description|
 |---|---|---|---|
-|japaneseSurnameLatin|String|true|A romanized Japanese last name|
-|japaneseGivenNameLatin|String|true|A romanized Japanese first name|
-|japaneseName|String|true|A Japanese full name in Kanji characters|
+|japaneseSurnameLatin|String|true||
+|japaneseGivenNameLatin|String|true||
+|japaneseName|String|true||
 
 
 
@@ -7510,10 +7531,10 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameMatch/Tomioka/Tes
 
 |Name|Type|Description|Enumerators|
 |---|---|---|---|
-|script|String|The alphabet or characters used in the parameters||
+|script|String|||
 |id|String|||
-|matchStatus|String|The status of the success of the match||
-|score|Number|The coefficient of accuracy of the result||
+|matchStatus|String|The name matching status.||
+|score|Number|||
 
 
 
@@ -7578,7 +7599,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameMatchFeedbackLoop
 
 
 
-*Suggest a transcription of a Japanese name between Kanji characters and Latin alphabet to help us improve our name matching tool*
+*Feedback loop to better perform matching Japanese name in KANJI ex. 山本 早苗 with a romanized name ex. Yamamoto Sanae*
 
 *<u>Cost :</u> The processing of each name requires ** 1** credits.*
 
@@ -7590,9 +7611,9 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameMatchFeedbackLoop
 
 |Name|Type|Required|Description|
 |---|---|---|---|
-|japaneseSurnameLatin|String|true|A romanized Japanese last name|
-|japaneseGivenNameLatin|String|true|A romanized Japanese first name|
-|japaneseName|String|true|A Japanese full name in Kanji characters|
+|japaneseSurnameLatin|String|true||
+|japaneseGivenNameLatin|String|true||
+|japaneseName|String|true||
 
 
 
@@ -7615,7 +7636,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameMatchFeedbackLoop
 
 |Name|Type|Description|Enumerators|
 |---|---|---|---|
-|feedbackCredits|Integer|The number of unit credited to your account||
+|feedbackCredits|Integer|Number of units recredited as per feedback loop successful classification||
 
 
 
@@ -7739,8 +7760,8 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameMatchBatch", {
 |id|String|true||
 |**name1**|**Object**|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|true|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|true|A Japanese given name (first name) in latin characters||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|true|A Japanese surname (last name) in latin characters||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|true|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|true|||
 |**name2**|**Object**|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|true|||
 
@@ -7770,10 +7791,10 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameMatchBatch", {
 
 |Name|Type|Description|Enumerators|
 |---|---|---|---|
-|script|String|The alphabet or characters used in the parameters||
+|script|String|||
 |id|String|||
-|matchStatus|String|The name matching status||
-|score|Number|A higher score means a better match||
+|matchStatus|String|The name matching status.||
+|score|Number|||
 
 
 
@@ -7838,7 +7859,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderJapaneseName/Nakamoto/S
 
 
 
-*Discover the likely gender of a Japanese first name and last name written in Latin alphabet*
+*Infer the likely gender of a Japanese name in LATIN (Pinyin).*
 
 *<u>Cost :</u> The processing of each name requires **1** credit.*
 
@@ -7850,8 +7871,8 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderJapaneseName/Nakamoto/S
 
 |Name|Type|Required|Description|
 |---|---|---|---|
-|japaneseSurname|String|true|A Japanese surname (last name) in latin characters|
-|japaneseGivenName|String|true|A Japanese given name (first name) in latin characters|
+|japaneseSurname|String|true||
+|japaneseGivenName|String|true||
 
 
 
@@ -7880,13 +7901,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderJapaneseName/Nakamoto/S
 
 |Name|Type|Description|Enumerators|
 |---|---|---|---|
-|script|String|The alphabet or characters used in the parameters||
+|script|String|||
 |id|String|||
-|firstName|String|The first name, as it was given for analysis||
-|lastName|String|The last name, as it was given for analysis||
-|likelyGender|String|The most likely gender of the name|"male", "female" or "unknown"|
+|firstName|String|The first name (also known as given name)||
+|lastName|String|The last name (also known as family name, or surname)||
+|likelyGender|String|Most likely gender|"male", "female" or "unknown"|
 |genderScale|Number|Compatibility to NamSor_v1 Gender Scale M[-1..U..+1]F value||
-|score|Number|The coefficient of accuracy of the result||
+|score|Number|Compatibility to NamSor_v1 Gender score value. Higher score is better, but score is not normalized. Use calibratedProbability if available. ||
 |probabilityCalibrated|Number|The calibrated probability for inferred gender to have been guessed correctly.||
 
 
@@ -7966,7 +7987,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderJapaneseNameBatch", {
 
 
 
-*Discover the likely gender of a up to 100 Japanese first and last names written in Latin alphabet*
+*Infer the likely gender of up to 100 Japanese names in LATIN (Pinyin).*
 
 > Body parameter
 
@@ -7995,8 +8016,8 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderJapaneseNameBatch", {
 |Name|Type|Required|Description|
 |---|---|---|---|
 |id|String|true||
-|firstName|String|true|A romanized Japanese first name|
-|lastName|String|true|A romanized Japanese last name|
+|firstName|String|true||
+|lastName|String|true||
 
 
 
@@ -8028,13 +8049,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderJapaneseNameBatch", {
 
 |Name|Type|Description|Enumerators|
 |---|---|---|---|
-|script|String|The alphabet or characters used in the parameters||
+|script|String|||
 |id|String|||
-|firstName|String|The first name, as it was given for analysis||
-|lastName|String|The last name, as it was given for analysis||
-|likelyGender|String|The most likely gender of the name|"male", "female" or "unknown"|
+|firstName|String|The first name (also known as given name)||
+|lastName|String|The last name (also known as family name, or surname)||
+|likelyGender|String|Most likely gender|"male", "female" or "unknown"|
 |genderScale|Number|Compatibility to NamSor_v1 Gender Scale M[-1..U..+1]F value||
-|score|Number|The coefficient of accuracy of the result||
+|score|Number|Compatibility to NamSor_v1 Gender score value. Higher score is better, but score is not normalized. Use calibratedProbability if available. ||
 |probabilityCalibrated|Number|The calibrated probability for inferred gender to have been guessed correctly.||
 
 
@@ -8100,7 +8121,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderJapaneseNameFull/%E4%B8
 
 
 
-*Find the likely gender of a Japanese full name, written in Kanji*
+*Infer the likely gender of a Japanese full name ex. 王晓明*
 
 *<u>Cost :</u> The processing of each name requires **1** credit.*
 
@@ -8112,7 +8133,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderJapaneseNameFull/%E4%B8
 
 |Name|Type|Required|Description|
 |---|---|---|---|
-|japaneseName|String|true|A Japanese full name in Kanji characters|
+|japaneseName|String|true||
 
 
 
@@ -8139,12 +8160,12 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderJapaneseNameFull/%E4%B8
 
 |Name|Type|Description|Enumerators|
 |---|---|---|---|
-|script|String|The alphabet or characters used in the parameters||
+|script|String|||
 |id|String|||
-|name|String|The name, as it was given for analysis||
-|likelyGender|String|The most likely gender of the name|"male", "female" or "unknown"|
+|name|String|The input name||
+|likelyGender|String|Most likely gender|"male", "female" or "unknown"|
 |genderScale|Number|Compatibility to NamSor_v1 Gender Scale M[-1..U..+1]F value||
-|score|Number|The coefficient of accuracy of the result||
+|score|Number|Compatibility to NamSor_v1 Gender score value. Higher score is better, but score is not normalized. Use calibratedProbability if available. ||
 |probabilityCalibrated|Number|The calibrated probability for inferred gender to have been guessed correctly.||
 
 
@@ -8223,7 +8244,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderJapaneseNameFullBatch",
 
 
 
-*Find the likely gender of up to 100 Japanese full names, written in Kanji*
+*Infer the likely gender of up to 100 full names*
 
 > Body parameter
 
@@ -8251,7 +8272,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderJapaneseNameFullBatch",
 |Name|Type|Required|Description|
 |---|---|---|---|
 |id|String|true||
-|name|String|true|A Japanese name in Kanji characters|
+|name|String|true||
 
 
 
@@ -8282,12 +8303,12 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderJapaneseNameFullBatch",
 
 |Name|Type|Description|Enumerators|
 |---|---|---|---|
-|script|String|The alphabet or characters used in the parameters||
+|script|String|||
 |id|String|||
-|name|String|The name, as it was given for analysis||
-|likelyGender|String|The most likely gender of the name|"male", "female" or "unknown"|
+|name|String|The input name||
+|likelyGender|String|Most likely gender|"male", "female" or "unknown"|
 |genderScale|Number|Compatibility to NamSor_v1 Gender Scale M[-1..U..+1]F value||
-|score|Number|The coefficient of accuracy of the result||
+|score|Number|Compatibility to NamSor_v1 Gender score value. Higher score is better, but score is not normalized. Use calibratedProbability if available. ||
 |probabilityCalibrated|Number|The calibrated probability for inferred gender to have been guessed correctly.||
 
 
@@ -8345,7 +8366,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/disable/77afd518a85798fa3723f
 
 
 
-*Activate/deactivate an API Key*
+*Activate/deactivate an API Key.*
 
 *<u>Cost :</u> The processing of each name requires **1** credit.*
 
@@ -8357,8 +8378,8 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/disable/77afd518a85798fa3723f
 
 |Name|Type|Required|Description|
 |---|---|---|---|
-|source|String|true|The API Key to set as enabled/disabled|
-|disabled|Boolean|true|Should the API key be set to disabled|
+|source|String|true|The API Key to set as enabled/disabled.|
+|disabled|Boolean|true||
 
 
 
@@ -8428,7 +8449,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/softwareVersion", {
 
 
 
-*Get the current version of the Namsor software*
+*Get the current software version*
 
 > The above command returns JSON structured like this:
 
@@ -8451,8 +8472,8 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/softwareVersion", {
 
 |Name|Type|Description|Enumerators|
 |---|---|---|---|
-|softwareNameAndVersion|String|The name of the API version||
-|softwareVersion|Array|An array of the major, minor and patch version||
+|softwareNameAndVersion|String|The software version||
+|softwareVersion|Array|The software version major minor build||
 
 
 
@@ -8517,7 +8538,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/apiStatus", {
 
 
 
-*Prints the current status of the classifiers. A classifier name in apiStatus corresponds to a service name in apiServices. *
+*Prints the current status of the classifiers. A classifier name in apiStatus corresponds to a service name in apiServices.*
 
 > The above command returns JSON structured like this:
 
@@ -8559,8 +8580,8 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/apiStatus", {
 |Name|Type|Description|Enumerators|
 |---|---|---|---|
 |**softwareVersion**|**Object**|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.softwareNameAndVersion*|String|The name of the API version||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.softwareVersion*|Array|An array of the major, minor and patch version||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.softwareNameAndVersion*|String|The software version||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.softwareVersion*|Array|The software version major minor build||
 |**classifiers**|**Array of Objects**|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].classifierName*|String|The classifier name||
 |*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].serving*|Boolean|True if the classifier is serving requests (has reached minimal learning, is not shutting down)||
@@ -8631,7 +8652,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/apiServices", {
 
 
 
-*Receive a list of the API services and usage costs in Units*
+*List of classification services and usage cost in Units per classification (default is 1=ONE Unit). Some API endpoints (ex. Corridor) combine multiple classifiers.*
 
 > The above command returns JSON structured like this:
 
@@ -8662,7 +8683,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/apiServices", {
 |---|---|---|---|
 |serviceName|String|A service name corresponds to classifier name in apiStatus (ex. personalname_gender or personalfullname_gender)||
 |serviceGroup|String|Groups together classifiers providing a similar service (ex. gender groups personalname_gender and personalfullname_gender)||
-|costInUnits|Integer|The cost in units for the usage of that service||
+|costInUnits|Integer|Indicates how many units per call this service costs (ex. the number of units per name)||
 
 
 
@@ -8830,7 +8851,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/apiUsage", {
 
 
 
-*Receive information on your subscription plan and current API usage*
+*Print current API usage.*
 
 > The above command returns JSON structured like this:
 
@@ -8885,40 +8906,40 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/apiUsage", {
 |Name|Type|Description|Enumerators|
 |---|---|---|---|
 |**subscription**|**Object**|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.apiKey*|String|Your Namsor API key. Always keep it secret||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.planStarted*|Integer|The starting date of the plan, in UNIX format||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.priorPlanStarted*|Integer|Datetime when the user subscribed to the prior plan||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.planEnded*|Integer|The ending date of the plan, in UNIX format||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.taxRate*|Number|Applicable tax rate for the plan||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.planName*|String| The name of the plan||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.planBaseFeesKey*|String|Current plan key (as in Stripe product)||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.planStatus*|String|Plan status||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.planQuota*|Integer|The total number of units associated with this plan||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.priceUSD*|Number|The price in U.S. dollars ($)||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.priceOverageUSD*|Number|The overage price in U.S. dollars ($)||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.price*|Number|The price in the user's preferred currency||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.priceOverage*|Number|The overaged price in the user's preferred currency||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.currency*|String|The user's preferred currency||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.currencyFactor*|Number|For USD, GBP, EUR - the factor is 1||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.stripeCustomerId*|String|Customer's unique Stripe identifier||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.stripeStatus*|String|Stripe status ex active||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.stripeSubscription*|String|Stripe subscription identifier||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.userId*|String|A unique user identifier||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.apiKey*|String|User API Key.||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.planStarted*|Integer|Datetime when the user subscribed to the current plan.||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.priorPlanStarted*|Integer|Datetime when the user subscribed to the prior plan.||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.planEnded*|Integer|Datetime when the user ended the plan.||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.taxRate*|Number|Applicable tax rate for the plan.||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.planName*|String|Current plan name.||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.planBaseFeesKey*|String|Current plan key (as in Stripe product).||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.planStatus*|String|Plan status.||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.planQuota*|Integer|Current plan quota in quantity of units (NB: some API use several units per name).||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.priceUSD*|Number|Current plan monthly price expressed in USD (includes a free quota).||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.priceOverageUSD*|Number|Current plan price for overages expressed in USD (extra price per unit above the free quota).||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.price*|Number|Current plan price for overages expressed in Currency (extra price per unit above the free quota).||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.priceOverage*|Number|Current plan price for overages expressed in Currency (extra price per unit above the free quota).||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.currency*|String|Current plan Currency for prices.||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.currencyFactor*|Number|For USD, GBP, EUR - the factor is 1.||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.stripeCustomerId*|String|Stripe customer identifier.||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.stripeStatus*|String|Stripe status ex active.||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.stripeSubscription*|String|Stripe subscription identifier.||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.userId*|String|Internal user identifier.||
 |**billingPeriod**|**Object**|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.apiKey*|String|Your Namsor API key. Always keep it secret||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.subscriptionStarted*|Integer|The subscription starting date, in UNIX format||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.periodStarted*|Integer|The subscription starting date, in UNIX format||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.periodEnded*|Integer|The subscription ending date, in UNIX format||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.stripeCurrentPeriodEnd*|Integer|Datetime when the the plan's current period endend (in Stripe). Internal and Stripe periodicity should ~coincide||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.stripeCurrentPeriodStart*|Integer|Datetime when the the plan's current period started (in Stripe). Internal and Stripe periodicity should ~coincide||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.billingStatus*|String|Current period billing status ex OPEN||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.usage*|Integer|The number of units used so far||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.softLimit*|Integer|Current period soft limit (reaching the limit sends an email notification)||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.hardLimit*|Integer|Current period hard limit (reaching the limit sends an email notification and blocks the API Key)||
-|overageExclTax|Number|Overage amount including any tax||
-|overageInclTax|Number|Overage amount including tax (if applicable)||
-|overageCurrency|String|Currency of the overage amount||
-|overageQuantity|Integer|Quantity above monthly quota of the current subscritpion, in units||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.apiKey*|String|User API Key.||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.subscriptionStarted*|Integer|Datetime when the user subscribed to the plan.||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.periodStarted*|Integer|Datetime when the the plan's current period started.||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.periodEnded*|Integer|Datetime when the the plan's current period endend.||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.stripeCurrentPeriodEnd*|Integer|Datetime when the the plan's current period endend (in Stripe). Internal and Stripe periodicity should ~coincide.||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.stripeCurrentPeriodStart*|Integer|Datetime when the the plan's current period started (in Stripe). Internal and Stripe periodicity should ~coincide.||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.billingStatus*|String|Current period billing status ex OPEN.||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.usage*|Integer|Current period usage in units (NB some API endpoints use more than one unit).||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.softLimit*|Integer|Current period soft limit (reaching the limit sends an email notification).||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.hardLimit*|Integer|Current period hard limit (reaching the limit sends an email notification and blocks the API Key).||
+|overageExclTax|Number|Overage amount including any tax.||
+|overageInclTax|Number|Overage amount including tax (if applicable).||
+|overageCurrency|String|Currency of the overage amount.||
+|overageQuantity|Integer|Quantity above monthly quota of the current subscritpion, in units.||
 
 
 
@@ -8983,7 +9004,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/apiUsageHistory", {
 
 
 
-*Print your API usage history*
+*Print historical API usage.*
 
 > The above command returns JSON structured like this:
 
@@ -9021,22 +9042,22 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/apiUsageHistory", {
 |Name|Type|Description|Enumerators|
 |---|---|---|---|
 |**apiKey**|**Object**|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.apiKey*|String|Your Namsor API key. Always keep it secret||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.userId*|String|A unique user identifier||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.admin*|Boolean|The API Key has admin role||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.vetted*|Boolean|The API Key is vetted (assumed truthful) for machine learning||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.learnable*|Boolean|The API Key is learnable (without assuming truthfulness) for machine learning. Set learnable=false and anonymized=true for highest privacy (ie. to forget data as it's processed)||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.anonymized*|Boolean|The API Key is anonymized (using SHA-252 digest for logging). Set learnable=false and anonymized=true for highest privacy (ie. to forget data as it's processed)||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.partner*|Boolean|The API Key has partner role||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.striped*|Boolean|The API Key is associated to a valid Stripe account||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.corporate*|Boolean|The API Key has role corporate (ex SWIFT payments instead of Stripe payments)||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.disabled*|Boolean|The API Key is temporarily or permanently disabled||
-|apiService|String|The type of service that was requested for the analysis of names||
-|createdDateTime|Integer|The date of the analysis, in UNIX format||
-|totalUsage|Integer|The total cost of the analysis in units||
-|lastFlushedDateTime|Integer|The flush datetime of the counter||
-|lastUsedDateTime|Integer|The last usage datetime of the counter||
-|serviceFeaturesUsage|Object|Usage of special features, such as Chinese, Japanese||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.apiKey*|String|The user API Key.||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.userId*|String|The user identifier.||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.admin*|Boolean|The API Key has admin role.||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.vetted*|Boolean|The API Key is vetted (assumed truthful) for machine learning.||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.learnable*|Boolean|The API Key is learnable (without assuming truthfulness) for machine learning. Set learnable=false and anonymized=true for highest privacy (ie. to forget data as it's processed).||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.anonymized*|Boolean|The API Key is anonymized (using SHA-252 digest for logging). Set learnable=false and anonymized=true for highest privacy (ie. to forget data as it's processed).||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.partner*|Boolean|The API Key has partner role.||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.striped*|Boolean|The API Key is associated to a valid Stripe account.||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.corporate*|Boolean|The API Key has role corporate (ex SWIFT payments instead of Stripe payments).||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.disabled*|Boolean|The API Key is temporarily or permanently disabled.||
+|apiService|String|The apiService corresponds to the classifier name.||
+|createdDateTime|Integer|The create datetime of the counter.||
+|totalUsage|Integer|The usage of the counter.||
+|lastFlushedDateTime|Integer|The flush datetime of the counter.||
+|lastUsedDateTime|Integer|The last usage datetime of the counter.||
+|serviceFeaturesUsage|Object|Usage of special features, such as Chinese, Japanese.||
 
 
 
@@ -9101,7 +9122,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/apiUsageHistoryAggregate", {
 
 
 
-*Print your API usage history in an aggregated view (by service, by day/hour/min)*
+*Print historical API usage (in an aggregated view, by service, by day/hour/min).*
 
 > The above command returns JSON structured like this:
 
@@ -9218,7 +9239,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/learnable/77afd518a85798fa372
 
 
 
-*Activate/deactivate learning from a source*
+*Activate/deactivate learning from a source.*
 
 *<u>Cost :</u> The processing of each name requires **1** credit.*
 
@@ -9230,8 +9251,8 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/learnable/77afd518a85798fa372
 
 |Name|Type|Required|Description|
 |---|---|---|---|
-|source|String|true|The API Key to set as learnable/non learnable|
-|learnable|Boolean|true|Should the API key be set to learnable|
+|source|String|true|The API Key to set as learnable/non learnable.|
+|learnable|Boolean|true||
 
 
 
@@ -9289,7 +9310,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/anonymize/77afd518a85798fa372
 
 
 
-*Activate/deactivate anonymization for a source*
+*Activate/deactivate anonymization for a source.*
 
 *<u>Cost :</u> The processing of each name requires **1** credit.*
 
@@ -9301,8 +9322,8 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/anonymize/77afd518a85798fa372
 
 |Name|Type|Required|Description|
 |---|---|---|---|
-|source|String|true|The API Key to set as anonymized/non anonymized|
-|anonymized|Boolean|true|Should the API key be set to anonymized|
+|source|String|true||
+|anonymized|Boolean|true||
 
 
 
@@ -9374,7 +9395,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/nameType/Zippo", {
 
 
 
-*Detect if a proper noun is a personal name or a public name*
+*Infer the likely type of a proper noun (personal name, brand name, place name etc.)*
 
 *<u>Cost :</u> The processing of each name requires **1** credit.*
 
@@ -9386,7 +9407,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/nameType/Zippo", {
 
 |Name|Type|Required|Description|
 |---|---|---|---|
-|properNoun|String|true|The name of a person, a brand or object that is spelled with a capital letter|
+|properNoun|String|true||
 
 
 
@@ -9412,12 +9433,12 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/nameType/Zippo", {
 
 |Name|Type|Description|Enumerators|
 |---|---|---|---|
-|script|String|The alphabet or characters used in the parameters||
+|script|String|||
 |id|String|||
-|name|String|The name, as it was given for analysis||
-|commonType|String|The type of the analyzed name||
-|commonTypeAlt|String|The alternative  type of the analyzed name||
-|score|Number|The coefficient of accuracy of the result||
+|name|String|The input name||
+|commonType|String|The most likely common name type||
+|commonTypeAlt|String|Best alternative for : The most likely common name type||
+|score|Number|Higher score is better, but score is not normalized. Use calibratedProbability if available. ||
 
 
 
@@ -9482,7 +9503,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/nameTypeGeo/Edi%20Gathegi/KE"
 
 
 
-*Detect if a proper noun is a personal name or a public name, according to its local context (ex: John Smith : personal name, Namsor: brand name)*
+*Infer the likely type of a proper noun (personal name, brand name, place name etc.)*
 
 *<u>Cost :</u> The processing of each name requires **1** credit.*
 
@@ -9494,8 +9515,8 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/nameTypeGeo/Edi%20Gathegi/KE"
 
 |Name|Type|Required|Description|
 |---|---|---|---|
-|properNoun|String|true|The name of a person, a brand or object that is spelled with a capital letter|
-|countryIso2|String|true|The country code, in ISO 2 format|
+|properNoun|String|true||
+|countryIso2|String|true||
 
 
 
@@ -9522,12 +9543,12 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/nameTypeGeo/Edi%20Gathegi/KE"
 
 |Name|Type|Description|Enumerators|
 |---|---|---|---|
-|script|String|The alphabet or characters used in the parameters||
+|script|String|||
 |id|String|||
-|name|String|The name, as it was given for analysis||
-|commonType|String|The type of the name||
-|commonTypeAlt|String|The alternative type of the name||
-|score|Number|The coefficient of accuracy of the result||
+|name|String|The input name||
+|commonType|String|The most likely common name type||
+|commonTypeAlt|String|Best alternative for : The most likely common name type||
+|score|Number|Higher score is better, but score is not normalized. Use calibratedProbability if available. ||
 
 
 
@@ -9605,7 +9626,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/nameTypeBatch", {
 
 
 
-*Detect if proper nouns are personal names or public names (ex: John Smith : personal name, Namsor: brand name). You can inspect up to a 100 names*
+*Infer the likely common type of up to 100 proper nouns (personal name, brand name, place name etc.)*
 
 > Body parameter
 
@@ -9633,7 +9654,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/nameTypeBatch", {
 |Name|Type|Required|Description|
 |---|---|---|---|
 |id|String|true||
-|name|String|true|The name of a person, a brand or object that is spelled with a capital letter|
+|name|String|true||
 
 
 
@@ -9663,12 +9684,12 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/nameTypeBatch", {
 
 |Name|Type|Description|Enumerators|
 |---|---|---|---|
-|script|String|The alphabet or characters used in the parameters||
+|script|String|||
 |id|String|||
-|name|String|The name, as it was given for analysis||
-|commonType|String|The type of the analyzed name||
-|commonTypeAlt|String|The alternative  type of the analyzed name||
-|score|Number|The coefficient of accuracy of the result||
+|name|String|The input name||
+|commonType|String|The most likely common name type||
+|commonTypeAlt|String|Best alternative for : The most likely common name type||
+|score|Number|Higher score is better, but score is not normalized. Use calibratedProbability if available. ||
 
 
 
@@ -9747,7 +9768,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/nameTypeGeoBatch", {
 
 
 
-*Detect if proper nouns are personal names or a public names, according to their local context (ex: John Smith : personal name, Namsor: brand name). You can inspect up to 100 names*
+*Infer the likely common type of up to 100 proper nouns (personal name, brand name, place name etc.)*
 
 > Body parameter
 
@@ -9776,8 +9797,8 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/nameTypeGeoBatch", {
 |Name|Type|Required|Description|
 |---|---|---|---|
 |id|String|true||
-|name|String|true|A personal name or a brand name|
-|countryIso2|String|true|The country code, in ISO 2 format|
+|name|String|true||
+|countryIso2|String|true||
 
 
 
@@ -9807,12 +9828,12 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/nameTypeGeoBatch", {
 
 |Name|Type|Description|Enumerators|
 |---|---|---|---|
-|script|String|The alphabet or characters used in the parameters||
+|script|String|||
 |id|String|||
-|name|String|The name, as it was given for analysis||
-|commonType|String|The type of the analyzed name||
-|commonTypeAlt|String|The alternative  type of the analyzed name||
-|score|Number|The coefficient of accuracy of the result||
+|name|String|The input name||
+|commonType|String|The most likely common name type||
+|commonTypeAlt|String|Best alternative for : The most likely common name type||
+|score|Number|Higher score is better, but score is not normalized. Use calibratedProbability if available. ||
 
 
 

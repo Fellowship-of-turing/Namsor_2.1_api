@@ -67,9 +67,16 @@ TODO 26/04
 
 - What do feedbackloop routes do ?
 
-28.07.21
+28.07.21---------------------------------
 
 "Most likely country of origin in ISO 3166-1 alpha-2 format"
 
 - feedbackloops (verify descriptions)
 - check if latin, standard chinese or pinyin in params
+
+28.07.21---------------------------------
+
+* Problem with replacing api_key in script 2
+* Does anonymise = true change records ? repeat operation limits ?
+* Manque ID corridor GET
+* Check pinyin vs SMC

@@ -1,12 +1,12 @@
 {
     "/api2/json/country/{personalNameFull}": {
         "request": {
-            "personalNameFull": "A complete personal name"
+            "personalNameFull": "*** String ***"
         },
         "response": {
-            "script": "The alphabet or characters used in the parameters",
+            "script": "*** string ***",
             "id": "*** string ***",
-            "name": "The input name",
+            "name": "The input name.",
             "score": "Higher score is better, but score is not normalized. Use calibratedProbability if available. ",
             "country": "Most likely country ",
             "countryAlt": "Second best alternative : country ",
@@ -15,68 +15,68 @@
             "subRegion": "Most likely sub region (based on country ISO2 code)",
             "countriesTop": "List countries (top 10)",
             "probabilityCalibrated": "The calibrated probability for country to have been guessed correctly.",
-            "probabilityAltCalibrated": "The calibrated probability for country OR countryAlt to have been guessed correctly"
+            "probabilityAltCalibrated": "The calibrated probability for country OR countryAlt to have been guessed correctly."
         },
-        "summary": "Infer the likely country of residence of a personal full name, or one surname. Assumes names as they are in the country of residence OR the country of origin"
+        "summary": "[USES 10 UNITS PER NAME] Infer the likely country of residence of a personal full name, or one surname. Assumes names as they are in the country of residence OR the country of origin."
     },
     "/api2/json/nameType/{properNoun}": {
         "request": {
-            "properNoun": "The name of a person, a brand or object that is spelled with a capital letter"
+            "properNoun": "*** String ***"
         },
         "response": {
-            "script": "The alphabet or characters used in the parameters",
+            "script": "*** string ***",
             "id": "*** string ***",
-            "name": "The name, as it was given for analysis",
-            "commonType": "The type of the analyzed name",
-            "commonTypeAlt": "The alternative  type of the analyzed name",
-            "score": "The coefficient of accuracy of the result"
+            "name": "The input name",
+            "commonType": "The most likely common name type",
+            "commonTypeAlt": "Best alternative for : The most likely common name type",
+            "score": "Higher score is better, but score is not normalized. Use calibratedProbability if available. "
         },
-        "summary": "Detect if a proper noun is a personal name or a public name"
+        "summary": "Infer the likely type of a proper noun (personal name, brand name, place name etc.)"
     },
     "/api2/json/disable/{source}/{disabled}": {
         "request": {
-            "source": "The API Key to set as enabled/disabled",
-            "disabled": "Should the API key be set to disabled"
+            "source": "The API Key to set as enabled/disabled.",
+            "disabled": "*** Boolean ***"
         },
         "response": {},
-        "summary": "Activate/deactivate an API Key"
+        "summary": "Activate/deactivate an API Key."
     },
     "/api2/json/origin/{firstName}/{lastName}": {
         "request": {
-            "firstName": "The personal name given to someone at birth, or baptism",
-            "lastName": "The family name"
+            "firstName": "*** String ***",
+            "lastName": "*** String ***"
         },
         "response": {
-            "script": "The alphabet or characters used in the parameters",
+            "script": "*** string ***",
             "id": "*** string ***",
-            "firstName": "The first name, as it was given for analysis",
-            "lastName": "The last name, as it was given for analysis",
-            "countryOrigin": "The code of the country of origin, in ISO 2 format",
-            "countryOriginAlt": "The code of the alternative country of origin, in ISO 2 format",
-            "countriesOriginTop": "The codes of the 10 most likely countries of origin, in ISO 2 format",
-            "score": "The coefficient of accuracy of the result",
-            "regionOrigin": "The continent of the name",
+            "firstName": "The first name (also known as given name)",
+            "lastName": "The last name (also known as family name, or surname)",
+            "countryOrigin": "Most likely country of Origin",
+            "countryOriginAlt": "Second best alternative : country of Origin",
+            "countriesOriginTop": "List countries of Origin (top 10)",
+            "score": "Compatibility to NamSor_v1 Origin score value. Higher score is better, but score is not normalized. Use calibratedProbability if available. ",
+            "regionOrigin": "Most likely region of Origin (based on countryOrigin ISO2 code)",
             "topRegionOrigin": "Most likely top region of Origin (based on countryOrigin ISO2 code)",
-            "subRegionOrigin": "The region of the continent",
+            "subRegionOrigin": "Most likely sub region of Origin (based on countryOrigin ISO2 code)",
             "probabilityCalibrated": "The calibrated probability for countryOrigin to have been guessed correctly.",
-            "probabilityAltCalibrated": "The alternative probability of the result, on a scale from 0 to 1"
+            "probabilityAltCalibrated": "The calibrated probability for countryOrigin OR countryOriginAlt to have been guessed correctly."
         },
-        "summary": "Detect the likely country of origin of a first name and last name structure. For countries like U.S.A, Canada, Australia or New-Zealand and other melting-pots, refer to 'diaspora'"
+        "summary": "[USES 10 UNITS PER NAME] Infer the likely country of origin of a personal name. Assumes names as they are in the country of origin. For US, CA, AU, NZ and other melting-pots : use 'diaspora' instead."
     },
     "/api2/json/softwareVersion": {
         "request": {},
         "response": {
-            "softwareNameAndVersion": "The name of the API version",
-            "softwareVersion": "An array of the major, minor and patch version"
+            "softwareNameAndVersion": "The software version",
+            "softwareVersion": "The software version major minor build"
         },
-        "summary": "Get the current version of the Namsor software"
+        "summary": "Get the current software version"
     },
     "/api2/json/apiStatus": {
         "request": {},
         "response": {
             "softwareVersion": {
-                "softwareNameAndVersion": "The name of the API version",
-                "softwareVersion": "An array of the major, minor and patch version"
+                "softwareNameAndVersion": "The software version",
+                "softwareVersion": "The software version major minor build"
             },
             "classifiers": {
                 "classifierName": "The classifier name",
@@ -86,16 +86,16 @@
                 "probabilityCalibrated": "True if the classifier has finished the initial learning and calibrated probabilities (meanwhile, during initial learning, probabilities will be equal to -1)"
             }
         },
-        "summary": "Prints the current status of the classifiers. A classifier name in apiStatus corresponds to a service name in apiServices. "
+        "summary": "Prints the current status of the classifiers. A classifier name in apiStatus corresponds to a service name in apiServices."
     },
     "/api2/json/apiServices": {
         "request": {},
         "response": {
             "serviceName": "A service name corresponds to classifier name in apiStatus (ex. personalname_gender or personalfullname_gender)",
             "serviceGroup": "Groups together classifiers providing a similar service (ex. gender groups personalname_gender and personalfullname_gender)",
-            "costInUnits": "The cost in units for the usage of that service"
+            "costInUnits": "Indicates how many units per call this service costs (ex. the number of units per name)"
         },
-        "summary": "Receive a list of the API services and usage costs in Units"
+        "summary": "List of classification services and usage cost in Units per classification (default is 1=ONE Unit). Some API endpoints (ex. Corridor) combine multiple classifiers."
     },
     "/api2/json/taxonomyClasses/{classifierName}": {
         "request": {
@@ -111,68 +111,68 @@
         "request": {},
         "response": {
             "subscription": {
-                "apiKey": "Your Namsor API key. Always keep it secret",
-                "planStarted": "The starting date of the plan, in UNIX format",
-                "priorPlanStarted": "Datetime when the user subscribed to the prior plan",
-                "planEnded": "The ending date of the plan, in UNIX format",
-                "taxRate": "Applicable tax rate for the plan",
-                "planName": " The name of the plan",
-                "planBaseFeesKey": "Current plan key (as in Stripe product)",
-                "planStatus": "Plan status",
-                "planQuota": "The total number of units associated with this plan",
-                "priceUSD": "The price in U.S. dollars ($)",
-                "priceOverageUSD": "The overage price in U.S. dollars ($)",
-                "price": "The price in the user's preferred currency",
-                "priceOverage": "The overaged price in the user's preferred currency",
-                "currency": "The user's preferred currency",
-                "currencyFactor": "For USD, GBP, EUR - the factor is 1",
-                "stripeCustomerId": "Customer's unique Stripe identifier",
-                "stripeStatus": "Stripe status ex active",
-                "stripeSubscription": "Stripe subscription identifier",
-                "userId": "A unique user identifier"
+                "apiKey": "User API Key.",
+                "planStarted": "Datetime when the user subscribed to the current plan.",
+                "priorPlanStarted": "Datetime when the user subscribed to the prior plan.",
+                "planEnded": "Datetime when the user ended the plan.",
+                "taxRate": "Applicable tax rate for the plan.",
+                "planName": "Current plan name.",
+                "planBaseFeesKey": "Current plan key (as in Stripe product).",
+                "planStatus": "Plan status.",
+                "planQuota": "Current plan quota in quantity of units (NB: some API use several units per name).",
+                "priceUSD": "Current plan monthly price expressed in USD (includes a free quota).",
+                "priceOverageUSD": "Current plan price for overages expressed in USD (extra price per unit above the free quota).",
+                "price": "Current plan price for overages expressed in Currency (extra price per unit above the free quota).",
+                "priceOverage": "Current plan price for overages expressed in Currency (extra price per unit above the free quota).",
+                "currency": "Current plan Currency for prices.",
+                "currencyFactor": "For USD, GBP, EUR - the factor is 1.",
+                "stripeCustomerId": "Stripe customer identifier.",
+                "stripeStatus": "Stripe status ex active.",
+                "stripeSubscription": "Stripe subscription identifier.",
+                "userId": "Internal user identifier."
             },
             "billingPeriod": {
-                "apiKey": "Your Namsor API key. Always keep it secret",
-                "subscriptionStarted": "The subscription starting date, in UNIX format",
-                "periodStarted": "The subscription starting date, in UNIX format",
-                "periodEnded": "The subscription ending date, in UNIX format",
-                "stripeCurrentPeriodEnd": "Datetime when the the plan's current period endend (in Stripe). Internal and Stripe periodicity should ~coincide",
-                "stripeCurrentPeriodStart": "Datetime when the the plan's current period started (in Stripe). Internal and Stripe periodicity should ~coincide",
-                "billingStatus": "Current period billing status ex OPEN",
-                "usage": "The number of units used so far",
-                "softLimit": "Current period soft limit (reaching the limit sends an email notification)",
-                "hardLimit": "Current period hard limit (reaching the limit sends an email notification and blocks the API Key)"
+                "apiKey": "User API Key.",
+                "subscriptionStarted": "Datetime when the user subscribed to the plan.",
+                "periodStarted": "Datetime when the the plan's current period started.",
+                "periodEnded": "Datetime when the the plan's current period endend.",
+                "stripeCurrentPeriodEnd": "Datetime when the the plan's current period endend (in Stripe). Internal and Stripe periodicity should ~coincide.",
+                "stripeCurrentPeriodStart": "Datetime when the the plan's current period started (in Stripe). Internal and Stripe periodicity should ~coincide.",
+                "billingStatus": "Current period billing status ex OPEN.",
+                "usage": "Current period usage in units (NB some API endpoints use more than one unit).",
+                "softLimit": "Current period soft limit (reaching the limit sends an email notification).",
+                "hardLimit": "Current period hard limit (reaching the limit sends an email notification and blocks the API Key)."
             },
-            "overageExclTax": "Overage amount including any tax",
-            "overageInclTax": "Overage amount including tax (if applicable)",
-            "overageCurrency": "Currency of the overage amount",
-            "overageQuantity": "Quantity above monthly quota of the current subscritpion, in units"
+            "overageExclTax": "Overage amount including any tax.",
+            "overageInclTax": "Overage amount including tax (if applicable).",
+            "overageCurrency": "Currency of the overage amount.",
+            "overageQuantity": "Quantity above monthly quota of the current subscritpion, in units."
         },
-        "summary": "Receive information on your subscription plan and current API usage"
+        "summary": "Print current API usage."
     },
     "/api2/json/apiUsageHistory": {
         "request": {},
         "response": {
             "apiKey": {
-                "apiKey": "Your Namsor API key. Always keep it secret",
-                "userId": "A unique user identifier",
-                "admin": "The API Key has admin role",
-                "vetted": "The API Key is vetted (assumed truthful) for machine learning",
-                "learnable": "The API Key is learnable (without assuming truthfulness) for machine learning. Set learnable=false and anonymized=true for highest privacy (ie. to forget data as it's processed)",
-                "anonymized": "The API Key is anonymized (using SHA-252 digest for logging). Set learnable=false and anonymized=true for highest privacy (ie. to forget data as it's processed)",
-                "partner": "The API Key has partner role",
-                "striped": "The API Key is associated to a valid Stripe account",
-                "corporate": "The API Key has role corporate (ex SWIFT payments instead of Stripe payments)",
-                "disabled": "The API Key is temporarily or permanently disabled"
+                "apiKey": "The user API Key.",
+                "userId": "The user identifier.",
+                "admin": "The API Key has admin role.",
+                "vetted": "The API Key is vetted (assumed truthful) for machine learning.",
+                "learnable": "The API Key is learnable (without assuming truthfulness) for machine learning. Set learnable=false and anonymized=true for highest privacy (ie. to forget data as it's processed).",
+                "anonymized": "The API Key is anonymized (using SHA-252 digest for logging). Set learnable=false and anonymized=true for highest privacy (ie. to forget data as it's processed).",
+                "partner": "The API Key has partner role.",
+                "striped": "The API Key is associated to a valid Stripe account.",
+                "corporate": "The API Key has role corporate (ex SWIFT payments instead of Stripe payments).",
+                "disabled": "The API Key is temporarily or permanently disabled."
             },
-            "apiService": "The type of service that was requested for the analysis of names",
-            "createdDateTime": "The date of the analysis, in UNIX format",
-            "totalUsage": "The total cost of the analysis in units",
-            "lastFlushedDateTime": "The flush datetime of the counter",
-            "lastUsedDateTime": "The last usage datetime of the counter",
-            "serviceFeaturesUsage": "Usage of special features, such as Chinese, Japanese"
+            "apiService": "The apiService corresponds to the classifier name.",
+            "createdDateTime": "The create datetime of the counter.",
+            "totalUsage": "The usage of the counter.",
+            "lastFlushedDateTime": "The flush datetime of the counter.",
+            "lastUsedDateTime": "The last usage datetime of the counter.",
+            "serviceFeaturesUsage": "Usage of special features, such as Chinese, Japanese."
         },
-        "summary": "Print your API usage history"
+        "summary": "Print historical API usage."
     },
     "/api2/json/apiUsageHistoryAggregate": {
         "request": {},
@@ -186,83 +186,83 @@
             "colHeaders": "apiServices as column headers ",
             "rowHeaders": "dates as row headers "
         },
-        "summary": "Print your API usage history in an aggregated view (by service, by day/hour/min)"
+        "summary": "Print historical API usage (in an aggregated view, by service, by day/hour/min)."
     },
     "/api2/json/learnable/{source}/{learnable}": {
         "request": {
-            "source": "The API Key to set as learnable/non learnable",
-            "learnable": "Should the API key be set to learnable"
+            "source": "The API Key to set as learnable/non learnable.",
+            "learnable": "*** Boolean ***"
         },
         "response": {},
-        "summary": "Activate/deactivate learning from a source"
+        "summary": "Activate/deactivate learning from a source."
     },
     "/api2/json/anonymize/{source}/{anonymized}": {
         "request": {
-            "source": "The API Key to set as anonymized/non anonymized",
-            "anonymized": "Should the API key be set to anonymized"
+            "source": "*** String ***",
+            "anonymized": "*** Boolean ***"
         },
         "response": {},
-        "summary": "Activate/deactivate anonymization for a source"
+        "summary": "Activate/deactivate anonymization for a source."
     },
     "/api2/json/nameTypeGeo/{properNoun}/{countryIso2}": {
         "request": {
-            "properNoun": "The name of a person, a brand or object that is spelled with a capital letter",
-            "countryIso2": "The country code, in ISO 2 format"
+            "properNoun": "*** String ***",
+            "countryIso2": "*** String ***"
         },
         "response": {
-            "script": "The alphabet or characters used in the parameters",
+            "script": "*** string ***",
             "id": "*** string ***",
-            "name": "The name, as it was given for analysis",
-            "commonType": "The type of the name",
-            "commonTypeAlt": "The alternative type of the name",
-            "score": "The coefficient of accuracy of the result"
+            "name": "The input name",
+            "commonType": "The most likely common name type",
+            "commonTypeAlt": "Best alternative for : The most likely common name type",
+            "score": "Higher score is better, but score is not normalized. Use calibratedProbability if available. "
         },
-        "summary": "Detect if a proper noun is a personal name or a public name, according to its local context (ex: John Smith : personal name, Namsor: brand name)"
+        "summary": "Infer the likely type of a proper noun (personal name, brand name, place name etc.)"
     },
     "/api2/json/nameTypeBatch": {
         "request": {
             "id": "*** string ***",
-            "name": "The name of a person, a brand or object that is spelled with a capital letter"
+            "name": "*** string ***"
         },
         "response": {
-            "script": "The alphabet or characters used in the parameters",
+            "script": "*** string ***",
             "id": "*** string ***",
-            "name": "The name, as it was given for analysis",
-            "commonType": "The type of the analyzed name",
-            "commonTypeAlt": "The alternative  type of the analyzed name",
-            "score": "The coefficient of accuracy of the result"
+            "name": "The input name",
+            "commonType": "The most likely common name type",
+            "commonTypeAlt": "Best alternative for : The most likely common name type",
+            "score": "Higher score is better, but score is not normalized. Use calibratedProbability if available. "
         },
-        "summary": "Detect if proper nouns are personal names or public names (ex: John Smith : personal name, Namsor: brand name). You can inspect up to a 100 names"
+        "summary": "Infer the likely common type of up to 100 proper nouns (personal name, brand name, place name etc.)"
     },
     "/api2/json/nameTypeGeoBatch": {
         "request": {
             "id": "*** string ***",
-            "name": "A personal name or a brand name",
-            "countryIso2": "The country code, in ISO 2 format"
+            "name": "*** string ***",
+            "countryIso2": "*** string ***"
         },
         "response": {
-            "script": "The alphabet or characters used in the parameters",
+            "script": "*** string ***",
             "id": "*** string ***",
-            "name": "The name, as it was given for analysis",
-            "commonType": "The type of the analyzed name",
-            "commonTypeAlt": "The alternative  type of the analyzed name",
-            "score": "The coefficient of accuracy of the result"
+            "name": "The input name",
+            "commonType": "The most likely common name type",
+            "commonTypeAlt": "Best alternative for : The most likely common name type",
+            "score": "Higher score is better, but score is not normalized. Use calibratedProbability if available. "
         },
-        "summary": "Detect if proper nouns are personal names or a public names, according to their local context (ex: John Smith : personal name, Namsor: brand name). You can inspect up to 100 names"
+        "summary": "Infer the likely common type of up to 100 proper nouns (personal name, brand name, place name etc.)"
     },
     "/api2/json/corridor/{countryIso2From}/{firstNameFrom}/{lastNameFrom}/{countryIso2To}/{firstNameTo}/{lastNameTo}": {
         "request": {
-            "countryIso2From": "The ISO country code from which the interaction starts",
-            "firstNameFrom": "The first name of the person from whom the interaction starts",
-            "lastNameFrom": "The last name of the person from whom the interaction starts",
-            "countryIso2To": "The ISO country code to which the interaction goes",
-            "firstNameTo": "The first name of the person to whom the interaction goes",
-            "lastNameTo": "The last name of the person to whom the interaction goes"
+            "countryIso2From": "*** String ***",
+            "firstNameFrom": "*** String ***",
+            "lastNameFrom": "*** String ***",
+            "countryIso2To": "*** String ***",
+            "firstNameTo": "*** String ***",
+            "lastNameTo": "*** String ***"
         },
         "response": {
             "id": "*** string ***",
             "FirstLastNameGenderedOut": {
-                "script": "The alphabet or characters used in the parameters",
+                "script": "*** string ***",
                 "id": "*** string ***",
                 "firstName": "The first name (also known as given name)",
                 "lastName": "The last name (also known as family name, or surname)",
@@ -272,7 +272,7 @@
                 "probabilityCalibrated": "The calibrated probability for inferred gender to have been guessed correctly."
             },
             "FirstLastNameOriginedOut": {
-                "script": "The alphabet or characters used in the parameters",
+                "script": "*** string ***",
                 "id": "*** string ***",
                 "firstName": "The first name (also known as given name)",
                 "lastName": "The last name (also known as family name, or surname)",
@@ -284,44 +284,44 @@
                 "topRegionOrigin": "Most likely top region of Origin (based on countryOrigin ISO2 code)",
                 "subRegionOrigin": "Most likely sub region of Origin (based on countryOrigin ISO2 code)",
                 "probabilityCalibrated": "The calibrated probability for countryOrigin to have been guessed correctly.",
-                "probabilityAltCalibrated": "The calibrated probability for countryOrigin OR countryOriginAlt to have been guessed correctly"
+                "probabilityAltCalibrated": "The calibrated probability for countryOrigin OR countryOriginAlt to have been guessed correctly."
             },
             "FirstLastNameDiasporaedOut": {
-                "script": "The alphabet or characters used in the parameters",
+                "script": "*** string ***",
                 "id": "*** string ***",
                 "firstName": "The first name (also known as given name)",
                 "lastName": "The last name (also known as family name, or surname)",
                 "score": "Compatibility to NamSor_v1 Diaspora score value. Higher score is better, but score is not normalized. Use calibratedProbability if available. ",
                 "ethnicityAlt": "The second best alternative ethnicity",
                 "ethnicity": "The most likely ethnicity",
-                "lifted": "Indicates if the output ethnicity is based on machine learning only, or further lifted as a known fact by a country-specific rule. Let us know if you believe ethnicity is incorrect on a specific case where lifted is true",
+                "lifted": "Indicates if the output ethnicity is based on machine learning only, or further lifted as a known fact by a country-specific rule. Let us know if you believe ethnicity is incorrect on a specific case where lifted is true.",
                 "countryIso2": "From input data, the countryIso2 of geographic context (US,CA etc.)",
                 "ethnicitiesTop": "List most likely ethnicities (top 10)"
             },
-            "script": "The alphabet or characters used in the parameters"
+            "script": "*** string ***"
         },
-        "summary": "Infer several classifications for a cross border interaction between names (ex. remit, travel, intl com)"
+        "summary": "[USES 20 UNITS PER NAME COUPLE] Infer several classifications for a cross border interaction between names (ex. remit, travel, intl com)"
     },
     "/api2/json/corridorBatch": {
         "request": {
             "id": "*** string ***",
             "firstLastNameGeoFrom": {
                 "id": "*** string ***",
-                "firstName": "The first name of the person from whom the interaction starts",
-                "lastName": "The last name of the person from whom the interaction starts",
-                "countryIso2": "The ISO country code from which the interaction starts"
+                "firstName": "*** string ***",
+                "lastName": "*** string ***",
+                "countryIso2": "*** string ***"
             },
             "firstLastNameGeoTo": {
                 "id": "*** string ***",
-                "firstName": "The first name of the person to whom the interaction goes",
-                "lastName": "The last name of the person to whom the interaction goes",
-                "countryIso2": "The ISO country code to which the interaction goes"
+                "firstName": "*** string ***",
+                "lastName": "*** string ***",
+                "countryIso2": "*** string ***"
             }
         },
         "response": {
             "id": "*** string ***",
             "FirstLastNameGenderedOut": {
-                "script": "The alphabet or characters used in the parameters",
+                "script": "*** string ***",
                 "id": "*** string ***",
                 "firstName": "The first name (also known as given name)",
                 "lastName": "The last name (also known as family name, or surname)",
@@ -331,7 +331,7 @@
                 "probabilityCalibrated": "The calibrated probability for inferred gender to have been guessed correctly."
             },
             "FirstLastNameOriginedOut": {
-                "script": "The alphabet or characters used in the parameters",
+                "script": "*** string ***",
                 "id": "*** string ***",
                 "firstName": "The first name (also known as given name)",
                 "lastName": "The last name (also known as family name, or surname)",
@@ -343,1025 +343,1025 @@
                 "topRegionOrigin": "Most likely top region of Origin (based on countryOrigin ISO2 code)",
                 "subRegionOrigin": "Most likely sub region of Origin (based on countryOrigin ISO2 code)",
                 "probabilityCalibrated": "The calibrated probability for countryOrigin to have been guessed correctly.",
-                "probabilityAltCalibrated": "The calibrated probability for countryOrigin OR countryOriginAlt to have been guessed correctly"
+                "probabilityAltCalibrated": "The calibrated probability for countryOrigin OR countryOriginAlt to have been guessed correctly."
             },
             "FirstLastNameDiasporaedOut": {
-                "script": "The alphabet or characters used in the parameters",
+                "script": "*** string ***",
                 "id": "*** string ***",
                 "firstName": "The first name (also known as given name)",
                 "lastName": "The last name (also known as family name, or surname)",
                 "score": "Compatibility to NamSor_v1 Diaspora score value. Higher score is better, but score is not normalized. Use calibratedProbability if available. ",
                 "ethnicityAlt": "The second best alternative ethnicity",
                 "ethnicity": "The most likely ethnicity",
-                "lifted": "Indicates if the output ethnicity is based on machine learning only, or further lifted as a known fact by a country-specific rule. Let us know if you believe ethnicity is incorrect on a specific case where lifted is true",
+                "lifted": "Indicates if the output ethnicity is based on machine learning only, or further lifted as a known fact by a country-specific rule. Let us know if you believe ethnicity is incorrect on a specific case where lifted is true.",
                 "countryIso2": "From input data, the countryIso2 of geographic context (US,CA etc.)",
                 "ethnicitiesTop": "List most likely ethnicities (top 10)"
             },
-            "script": "The alphabet or characters used in the parameters"
+            "script": "*** string ***"
         },
-        "summary": "Infer several classifications for up to 100 cross border interaction between names (ex. remit, travel, intl com)"
+        "summary": "[USES 20 UNITS PER NAME PAIR] Infer several classifications for up to 100 cross border interaction between names (ex. remit, travel, intl com)"
     },
     "/api2/json/gender/{firstName}/{lastName}": {
         "request": {
-            "firstName": "The personal name given to someone at birth, or baptism",
-            "lastName": "The family name"
+            "firstName": "*** String ***",
+            "lastName": "*** String ***"
         },
         "response": {
-            "script": "The alphabet or characters used in the parameters",
+            "script": "*** string ***",
             "id": "*** string ***",
-            "firstName": "The first name, as it was given for analysis",
-            "lastName": "The last name, as it was given for analysis",
-            "likelyGender": "The most likely gender of the name",
+            "firstName": "The first name (also known as given name)",
+            "lastName": "The last name (also known as family name, or surname)",
+            "likelyGender": "Most likely gender",
             "genderScale": "Compatibility to NamSor_v1 Gender Scale M[-1..U..+1]F value",
-            "score": "The coefficient of accuracy of the result",
+            "score": "Compatibility to NamSor_v1 Gender score value. Higher score is better, but score is not normalized. Use calibratedProbability if available. ",
             "probabilityCalibrated": "The calibrated probability for inferred gender to have been guessed correctly."
         },
-        "summary": "Find the likely gender of a first name and last name structure"
+        "summary": "Infer the likely gender of a name."
     },
     "/api2/json/genderGeo/{firstName}/{lastName}/{countryIso2}": {
         "request": {
-            "firstName": "The personal name given to someone at birth, or baptism",
-            "lastName": "The family name",
-            "countryIso2": "The country code, in ISO 2 format"
+            "firstName": "*** String ***",
+            "lastName": "*** String ***",
+            "countryIso2": "*** String ***"
         },
         "response": {
-            "script": "The alphabet or characters used in the parameters",
+            "script": "*** string ***",
             "id": "*** string ***",
-            "firstName": "The first name, as it was given for analysis",
-            "lastName": "The last name, as it was given for analysis",
-            "likelyGender": "The most likely gender of the name",
+            "firstName": "The first name (also known as given name)",
+            "lastName": "The last name (also known as family name, or surname)",
+            "likelyGender": "Most likely gender",
             "genderScale": "Compatibility to NamSor_v1 Gender Scale M[-1..U..+1]F value",
-            "score": "The coefficient of accuracy of the result",
+            "score": "Compatibility to NamSor_v1 Gender score value. Higher score is better, but score is not normalized. Use calibratedProbability if available. ",
             "probabilityCalibrated": "The calibrated probability for inferred gender to have been guessed correctly."
         },
-        "summary": "Find the likely gender of a first and last name structure, according to its local context"
+        "summary": "Infer the likely gender of a name, given a local context (ISO2 country code)."
     },
     "/api2/json/genderGeoBatch": {
         "request": {
             "id": "*** string ***",
-            "firstName": "The personal name given to someone at birth, or baptism",
-            "lastName": "The family name",
-            "countryIso2": "The country code, in ISO 2 format"
+            "firstName": "*** string ***",
+            "lastName": "*** string ***",
+            "countryIso2": "*** string ***"
         },
         "response": {
-            "script": "The alphabet or characters used in the parameters",
+            "script": "*** string ***",
             "id": "*** string ***",
-            "firstName": "The first name, as it was given for analysis",
-            "lastName": "The last name, as it was given for analysis",
-            "likelyGender": "The most likely gender of the name",
+            "firstName": "The first name (also known as given name)",
+            "lastName": "The last name (also known as family name, or surname)",
+            "likelyGender": "Most likely gender",
             "genderScale": "Compatibility to NamSor_v1 Gender Scale M[-1..U..+1]F value",
-            "score": "The coefficient of accuracy of the result",
+            "score": "Compatibility to NamSor_v1 Gender score value. Higher score is better, but score is not normalized. Use calibratedProbability if available. ",
             "probabilityCalibrated": "The calibrated probability for inferred gender to have been guessed correctly."
         },
-        "summary": "Detect the likely gender of up to 100 names, according to their local context"
+        "summary": "Infer the likely gender of up to 100 names, each given a local context (ISO2 country code)."
     },
     "/api2/json/genderBatch": {
         "request": {
             "id": "*** string ***",
-            "firstName": "The personal name given to someone at birth, or baptism",
-            "lastName": "The family name"
+            "firstName": "*** string ***",
+            "lastName": "*** string ***"
         },
         "response": {
-            "script": "The alphabet or characters used in the parameters",
+            "script": "*** string ***",
             "id": "*** string ***",
-            "firstName": "The first name, as it was given for analysis",
-            "lastName": "The last name, as it was given for analysis",
-            "likelyGender": "The most likely gender of the name",
+            "firstName": "The first name (also known as given name)",
+            "lastName": "The last name (also known as family name, or surname)",
+            "likelyGender": "Most likely gender",
             "genderScale": "Compatibility to NamSor_v1 Gender Scale M[-1..U..+1]F value",
-            "score": "The coefficient of accuracy of the result",
+            "score": "Compatibility to NamSor_v1 Gender score value. Higher score is better, but score is not normalized. Use calibratedProbability if available. ",
             "probabilityCalibrated": "The calibrated probability for inferred gender to have been guessed correctly."
         },
-        "summary": "Find the likely gender of up to 100 names"
+        "summary": "Infer the likely gender of up to 100 names, detecting automatically the cultural context."
     },
     "/api2/json/genderFullGeo/{fullName}/{countryIso2}": {
         "request": {
-            "fullName": "A complete personal name",
-            "countryIso2": "The country code, in ISO 2 format"
+            "fullName": "*** String ***",
+            "countryIso2": "*** String ***"
         },
         "response": {
-            "script": "The alphabet or characters used in the parameters",
+            "script": "*** string ***",
             "id": "*** string ***",
-            "name": "The name, as it was given for analysis",
-            "likelyGender": "The most likely gender of the name",
+            "name": "The input name",
+            "likelyGender": "Most likely gender",
             "genderScale": "Compatibility to NamSor_v1 Gender Scale M[-1..U..+1]F value",
-            "score": "The coefficient of accuracy of the result",
+            "score": "Compatibility to NamSor_v1 Gender score value. Higher score is better, but score is not normalized. Use calibratedProbability if available. ",
             "probabilityCalibrated": "The calibrated probability for inferred gender to have been guessed correctly."
         },
-        "summary": "Infer the likely gender of a full name, according to a local context"
+        "summary": "Infer the likely gender of a full name, given a local context (ISO2 country code)."
     },
     "/api2/json/genderFull/{fullName}": {
         "request": {
-            "fullName": "A complete personal name"
+            "fullName": "*** String ***"
         },
         "response": {
-            "script": "The alphabet or characters used in the parameters",
+            "script": "*** string ***",
             "id": "*** string ***",
-            "name": "The name, as it was given for analysis",
-            "likelyGender": "The most likely gender of the name",
+            "name": "The input name",
+            "likelyGender": "Most likely gender",
             "genderScale": "Compatibility to NamSor_v1 Gender Scale M[-1..U..+1]F value",
-            "score": "The coefficient of accuracy of the result",
+            "score": "Compatibility to NamSor_v1 Gender score value. Higher score is better, but score is not normalized. Use calibratedProbability if available. ",
             "probabilityCalibrated": "The calibrated probability for inferred gender to have been guessed correctly."
         },
-        "summary": "Find the likely gender of a full name"
+        "summary": "Infer the likely gender of a full name, ex. John H. Smith"
     },
     "/api2/json/genderFullBatch": {
         "request": {
             "id": "*** string ***",
-            "name": "A complete personal name"
+            "name": "*** string ***"
         },
         "response": {
-            "script": "The alphabet or characters used in the parameters",
+            "script": "*** string ***",
             "id": "*** string ***",
-            "name": "The name, as it was given for analysis",
-            "likelyGender": "The most likely gender of the name",
+            "name": "The input name",
+            "likelyGender": "Most likely gender",
             "genderScale": "Compatibility to NamSor_v1 Gender Scale M[-1..U..+1]F value",
-            "score": "The coefficient of accuracy of the result",
+            "score": "Compatibility to NamSor_v1 Gender score value. Higher score is better, but score is not normalized. Use calibratedProbability if available. ",
             "probabilityCalibrated": "The calibrated probability for inferred gender to have been guessed correctly."
         },
-        "summary": "Detect the likely gender of up to 100 full names"
+        "summary": "Infer the likely gender of up to 100 full names, detecting automatically the cultural context."
     },
     "/api2/json/genderFullGeoBatch": {
         "request": {
             "id": "*** string ***",
-            "name": "A complete personal name",
-            "countryIso2": "The country code, in ISO 2 format"
+            "name": "*** string ***",
+            "countryIso2": "*** string ***"
         },
         "response": {
-            "script": "The alphabet or characters used in the parameters",
+            "script": "*** string ***",
             "id": "*** string ***",
-            "name": "The name, as it was given for analysis",
-            "likelyGender": "The most likely gender of the name",
+            "name": "The input name",
+            "likelyGender": "Most likely gender",
             "genderScale": "Compatibility to NamSor_v1 Gender Scale M[-1..U..+1]F value",
-            "score": "The coefficient of accuracy of the result",
+            "score": "Compatibility to NamSor_v1 Gender score value. Higher score is better, but score is not normalized. Use calibratedProbability if available. ",
             "probabilityCalibrated": "The calibrated probability for inferred gender to have been guessed correctly."
         },
-        "summary": "Detect the likely gender of up to 100 full names, according to their local context"
+        "summary": "Infer the likely gender of up to 100 full names, with a given cultural context (country ISO2 code)."
     },
     "/api2/json/originBatch": {
         "request": {
             "id": "*** string ***",
-            "firstName": "The personal name given to someone at birth, or baptism",
-            "lastName": "The family name"
+            "firstName": "*** string ***",
+            "lastName": "*** string ***"
         },
         "response": {
-            "script": "The alphabet or characters used in the parameters",
+            "script": "*** string ***",
             "id": "*** string ***",
-            "firstName": "The first name, as it was given for analysis",
-            "lastName": "The last name, as it was given for analysis",
-            "countryOrigin": "The code of the country of origin, in ISO 2 format",
-            "countryOriginAlt": "The code of the alternative country of origin, in ISO 2 format",
-            "countriesOriginTop": "The codes of the 10 most likely countries of origin, in ISO 2 format",
-            "score": "The coefficient of accuracy of the result",
-            "regionOrigin": "The continent of the name",
-            "topRegionOrigin": "The continent of the name",
-            "subRegionOrigin": "The region of the continent",
+            "firstName": "The first name (also known as given name)",
+            "lastName": "The last name (also known as family name, or surname)",
+            "countryOrigin": "Most likely country of Origin",
+            "countryOriginAlt": "Second best alternative : country of Origin",
+            "countriesOriginTop": "List countries of Origin (top 10)",
+            "score": "Compatibility to NamSor_v1 Origin score value. Higher score is better, but score is not normalized. Use calibratedProbability if available. ",
+            "regionOrigin": "Most likely region of Origin (based on countryOrigin ISO2 code)",
+            "topRegionOrigin": "Most likely top region of Origin (based on countryOrigin ISO2 code)",
+            "subRegionOrigin": "Most likely sub region of Origin (based on countryOrigin ISO2 code)",
             "probabilityCalibrated": "The calibrated probability for countryOrigin to have been guessed correctly.",
-            "probabilityAltCalibrated": "The alternative probability of the result, on a scale from 0 to 1"
+            "probabilityAltCalibrated": "The calibrated probability for countryOrigin OR countryOriginAlt to have been guessed correctly."
         },
-        "summary": "Detect the likely country of origin of up to 100 first and last names"
+        "summary": "[USES 10 UNITS PER NAME] Infer the likely country of origin of up to 100 names, detecting automatically the cultural context."
     },
     "/api2/json/countryBatch": {
         "request": {
             "id": "*** string ***",
-            "name": "A complete personal name"
+            "name": "*** string ***"
         },
         "response": {
-            "script": "The alphabet or characters used in the parameters",
+            "script": "*** string ***",
             "id": "*** string ***",
-            "name": "The name, as it was given for analysis",
-            "score": "The coefficient of accuracy of the result",
-            "country": "The country code, in ISO 2 format",
-            "countryAlt": "The alternative country code, in ISO 2 format",
-            "region": "The continent of the name",
-            "topRegion": "The continent of the name",
-            "subRegion": "The region of the continent",
-            "countriesTop": "The 10 likely country codes of the name",
+            "name": "The input name.",
+            "score": "Higher score is better, but score is not normalized. Use calibratedProbability if available. ",
+            "country": "Most likely country ",
+            "countryAlt": "Second best alternative : country ",
+            "region": "Most likely region (based on country ISO2 code)",
+            "topRegion": "Most likely top region (based on country ISO2 code)",
+            "subRegion": "Most likely sub region (based on country ISO2 code)",
+            "countriesTop": "List countries (top 10)",
             "probabilityCalibrated": "The calibrated probability for country to have been guessed correctly.",
-            "probabilityAltCalibrated": "The alternative probability of the result, on a scale from 0 to 1"
+            "probabilityAltCalibrated": "The calibrated probability for country OR countryAlt to have been guessed correctly."
         },
-        "summary": "Infer the likely country of residence of up to 100 full names or last names"
+        "summary": "[USES 10 UNITS PER NAME] Infer the likely country of residence of up to 100 personal full names, or surnames. Assumes names as they are in the country of residence OR the country of origin."
     },
     "/api2/json/usRaceEthnicity/{firstName}/{lastName}": {
         "request": {
-            "firstName": "The personal name given to someone at birth, or baptism",
-            "lastName": "The family name"
+            "firstName": "*** String ***",
+            "lastName": "*** String ***"
         },
         "response": {
-            "script": "The alphabet or characters used in the parameters",
+            "script": "*** string ***",
             "id": "*** string ***",
-            "firstName": "The first name, as it was given for analysis",
-            "lastName": "The last name, as it was given for analysis",
-            "raceEthnicityAlt": "The alternative most likely U.S. race or Ethnicity",
-            "raceEthnicity": "The most likely U.S. race or Ethnicity",
-            "score": "The coefficient of accuracy of the result",
-            "raceEthnicitiesTop": "An array of the most likely U.S. races or Ethnicities",
+            "firstName": "The first name (also known as given name)",
+            "lastName": "The last name (also known as family name, or surname)",
+            "raceEthnicityAlt": "Second most likely US 'race'/ethnicity",
+            "raceEthnicity": "Most likely US 'race'/ethnicity",
+            "score": "Higher score is better, but score is not normalized. Use calibratedProbability if available. ",
+            "raceEthnicitiesTop": "List 'race'/ethnicities",
             "probabilityCalibrated": "The calibrated probability for raceEthnicity to have been guessed correctly.",
-            "probabilityAltCalibrated": "The alternative probability of the result, on a scale from 0 to 1"
+            "probabilityAltCalibrated": "The calibrated probability for raceEthnicity OR raceEthnicityAlt to have been guessed correctly."
         },
-        "summary": "Determine the most likely U.S. race or ethnicity of a U.S. resident's first and last name"
+        "summary": "[USES 10 UNITS PER NAME] Infer a US resident's likely race/ethnicity according to US Census taxonomy W_NL (white, non latino), HL (hispano latino),  A (asian, non latino), B_NL (black, non latino). Optionally add header X-OPTION-USRACEETHNICITY-TAXONOMY: USRACEETHNICITY-6CLASSES for two additional classes, AI_AN (American Indian or Alaskan Native) and PI (Pacific Islander)."
     },
     "/api2/json/usRaceEthnicityZIP5/{firstName}/{lastName}/{zip5Code}": {
         "request": {
-            "firstName": "The personal name given to someone at birth, or baptism",
-            "lastName": "The family name",
-            "zip5Code": "A 5 digits zip code"
+            "firstName": "*** String ***",
+            "lastName": "*** String ***",
+            "zip5Code": "*** String ***"
         },
         "response": {
-            "script": "The alphabet or characters used in the parameters",
+            "script": "*** string ***",
             "id": "*** string ***",
-            "firstName": "The first name, as it was given for analysis",
-            "lastName": "The last name, as it was given for analysis",
-            "raceEthnicityAlt": "The alternative most likely U.S. race or Ethnicity",
-            "raceEthnicity": "The most likely U.S. race or Ethnicity",
-            "score": "The coefficient of accuracy of the result",
-            "raceEthnicitiesTop": "An array of the most likely U.S. races or Ethnicities",
+            "firstName": "The first name (also known as given name)",
+            "lastName": "The last name (also known as family name, or surname)",
+            "raceEthnicityAlt": "Second most likely US 'race'/ethnicity",
+            "raceEthnicity": "Most likely US 'race'/ethnicity",
+            "score": "Higher score is better, but score is not normalized. Use calibratedProbability if available. ",
+            "raceEthnicitiesTop": "List 'race'/ethnicities",
             "probabilityCalibrated": "The calibrated probability for raceEthnicity to have been guessed correctly.",
-            "probabilityAltCalibrated": "The alternative probability of the result, on a scale from 0 to 1"
+            "probabilityAltCalibrated": "The calibrated probability for raceEthnicity OR raceEthnicityAlt to have been guessed correctly."
         },
-        "summary": "Determine the most likely U.S. race or ethnicity of a U.S. resident's first and last name, using their ZIP code"
+        "summary": "[USES 10 UNITS PER NAME] Infer a US resident's likely race/ethnicity according to US Census taxonomy, using (optional) ZIP5 code info. Output is W_NL (white, non latino), HL (hispano latino),  A (asian, non latino), B_NL (black, non latino). Optionally add header X-OPTION-USRACEETHNICITY-TAXONOMY: USRACEETHNICITY-6CLASSES for two additional classes, AI_AN (American Indian or Alaskan Native) and PI (Pacific Islander)."
     },
     "/api2/json/usRaceEthnicityBatch": {
         "request": {
             "id": "*** string ***",
-            "firstName": "The personal name given to someone at birth, or baptism",
-            "lastName": "The family name",
-            "countryIso2": "The country code, in ISO 2 format"
+            "firstName": "*** string ***",
+            "lastName": "*** string ***",
+            "countryIso2": "*** string ***"
         },
         "response": {
-            "script": "The alphabet or characters used in the parameters",
+            "script": "*** string ***",
             "id": "*** string ***",
-            "firstName": "The first name, as it was given for analysis",
-            "lastName": "The last name, as it was given for analysis",
-            "raceEthnicityAlt": "The alternative most likely U.S. race or Ethnicity",
-            "raceEthnicity": "The most likely U.S. race or Ethnicity",
-            "score": "The coefficient of accuracy of the result",
-            "raceEthnicitiesTop": "An array of the most likely U.S. races or Ethnicities",
+            "firstName": "The first name (also known as given name)",
+            "lastName": "The last name (also known as family name, or surname)",
+            "raceEthnicityAlt": "Second most likely US 'race'/ethnicity",
+            "raceEthnicity": "Most likely US 'race'/ethnicity",
+            "score": "Higher score is better, but score is not normalized. Use calibratedProbability if available. ",
+            "raceEthnicitiesTop": "List 'race'/ethnicities",
             "probabilityCalibrated": "The calibrated probability for raceEthnicity to have been guessed correctly.",
-            "probabilityAltCalibrated": "The alternative probability of the result, on a scale from 0 to 1"
+            "probabilityAltCalibrated": "The calibrated probability for raceEthnicity OR raceEthnicityAlt to have been guessed correctly."
         },
-        "summary": "Detect the most likely U.S. race or ethnicity of a up to 100 U.S. residents' first and last names"
+        "summary": "[USES 10 UNITS PER NAME] Infer up-to 100 US resident's likely race/ethnicity according to US Census taxonomy. Output is W_NL (white, non latino), HL (hispano latino),  A (asian, non latino), B_NL (black, non latino). Optionally add header X-OPTION-USRACEETHNICITY-TAXONOMY: USRACEETHNICITY-6CLASSES for two additional classes, AI_AN (American Indian or Alaskan Native) and PI (Pacific Islander)."
     },
     "/api2/json/usZipRaceEthnicityBatch": {
         "request": {
             "id": "*** string ***",
-            "firstName": "The personal name given to someone at birth, or baptism",
-            "lastName": "The family name",
-            "countryIso2": "The country code, in ISO 2 format",
-            "zipCode": "A 5 digits zip code"
+            "firstName": "*** string ***",
+            "lastName": "*** string ***",
+            "countryIso2": "*** string ***",
+            "zipCode": "*** string ***"
         },
         "response": {
-            "script": "The alphabet or characters used in the parameters",
+            "script": "*** string ***",
             "id": "*** string ***",
-            "firstName": "The personal name given to someone at birth, or baptism",
-            "lastName": "The family name",
-            "raceEthnicityAlt": "The alternative most likely U.S. race or Ethnicity",
-            "raceEthnicity": "The most likely U.S. race or Ethnicity",
-            "score": "The coefficient of accuracy of the result",
-            "raceEthnicitiesTop": "An array of the most likely U.S. races or Ethnicities",
+            "firstName": "The first name (also known as given name)",
+            "lastName": "The last name (also known as family name, or surname)",
+            "raceEthnicityAlt": "Second most likely US 'race'/ethnicity",
+            "raceEthnicity": "Most likely US 'race'/ethnicity",
+            "score": "Higher score is better, but score is not normalized. Use calibratedProbability if available. ",
+            "raceEthnicitiesTop": "List 'race'/ethnicities",
             "probabilityCalibrated": "The calibrated probability for raceEthnicity to have been guessed correctly.",
-            "probabilityAltCalibrated": "The alternative probability of the result, on a scale from 0 to 1"
+            "probabilityAltCalibrated": "The calibrated probability for raceEthnicity OR raceEthnicityAlt to have been guessed correctly."
         },
-        "summary": "Determine the most likely U.S. race or ethnicity of up to 100 U.S. residents' first and last names, using their ZIP code"
+        "summary": "[USES 10 UNITS PER NAME] Infer up-to 100 US resident's likely race/ethnicity according to US Census taxonomy, with (optional) ZIP code. Output is W_NL (white, non latino), HL (hispano latino),  A (asian, non latino), B_NL (black, non latino). Optionally add header X-OPTION-USRACEETHNICITY-TAXONOMY: USRACEETHNICITY-6CLASSES for two additional classes, AI_AN (American Indian or Alaskan Native) and PI (Pacific Islander)."
     },
     "/api2/json/diaspora/{countryIso2}/{firstName}/{lastName}": {
         "request": {
-            "countryIso2": "The country code, in ISO 2 format",
-            "firstName": "The personal name given to someone at birth, or baptism",
-            "lastName": "The family name"
+            "countryIso2": "*** String ***",
+            "firstName": "*** String ***",
+            "lastName": "*** String ***"
         },
         "response": {
-            "script": "The alphabet or characters used in the parameters",
+            "script": "*** string ***",
             "id": "*** string ***",
-            "firstName": "The first name, as it was given for analysis",
-            "lastName": "The last name, as it was given for analysis",
-            "score": "The coefficient of accuracy of the result",
-            "ethnicityAlt": "The alternativeethnicity of the name",
-            "ethnicity": "The ethnicity of the name",
-            "lifted": "Indicates if the output ethnicity is based on machine learning only, or further lifted as a known fact by a country-specific rule. Let us know if you believe ethnicity is incorrect on a specific case where lifted is true",
-            "countryIso2": "The country code, in ISO 2 format",
-            "ethnicitiesTop": "An array of the top ten most likely ethnicities of the name"
+            "firstName": "The first name (also known as given name)",
+            "lastName": "The last name (also known as family name, or surname)",
+            "score": "Compatibility to NamSor_v1 Diaspora score value. Higher score is better, but score is not normalized. Use calibratedProbability if available. ",
+            "ethnicityAlt": "The second best alternative ethnicity",
+            "ethnicity": "The most likely ethnicity",
+            "lifted": "Indicates if the output ethnicity is based on machine learning only, or further lifted as a known fact by a country-specific rule. Let us know if you believe ethnicity is incorrect on a specific case where lifted is true.",
+            "countryIso2": "From input data, the countryIso2 of geographic context (US,CA etc.)",
+            "ethnicitiesTop": "List most likely ethnicities (top 10)"
         },
-        "summary": "Find out the likely ethnicity or diaspora of a first name and last name, according to the country of residence"
+        "summary": "[USES 20 UNITS PER NAME] Infer the likely ethnicity/diaspora of a personal name, given a country of residence ISO2 code (ex. US, CA, AU, NZ etc.)"
     },
     "/api2/json/diasporaBatch": {
         "request": {
             "id": "*** string ***",
-            "firstName": "The personal name given to someone at birth, or baptism",
-            "lastName": "The family name",
-            "countryIso2": "The country code, in ISO 2 format"
+            "firstName": "*** string ***",
+            "lastName": "*** string ***",
+            "countryIso2": "*** string ***"
         },
         "response": {
-            "script": "The alphabet or characters used in the parameters",
+            "script": "*** string ***",
             "id": "*** string ***",
-            "firstName": "The first name, as it was given for analysis",
-            "lastName": "The last name, as it was given for analysis",
-            "score": "The coefficient of accuracy of the result",
-            "ethnicityAlt": "The alternativeethnicity of the name",
-            "ethnicity": "The ethnicity of the name",
-            "lifted": "Indicates if the output ethnicity is based on machine learning only, or further lifted as a known fact by a country-specific rule. Let us know if you believe ethnicity is incorrect on a specific case where lifted is true",
-            "countryIso2": "The country code, in ISO 2 format",
-            "ethnicitiesTop": "An array of the top ten most likely ethnicities of the name"
+            "firstName": "The first name (also known as given name)",
+            "lastName": "The last name (also known as family name, or surname)",
+            "score": "Compatibility to NamSor_v1 Diaspora score value. Higher score is better, but score is not normalized. Use calibratedProbability if available. ",
+            "ethnicityAlt": "The second best alternative ethnicity",
+            "ethnicity": "The most likely ethnicity",
+            "lifted": "Indicates if the output ethnicity is based on machine learning only, or further lifted as a known fact by a country-specific rule. Let us know if you believe ethnicity is incorrect on a specific case where lifted is true.",
+            "countryIso2": "From input data, the countryIso2 of geographic context (US,CA etc.)",
+            "ethnicitiesTop": "List most likely ethnicities (top 10)"
         },
-        "summary": "Infer the likely ethnicity or diaspora of up to 100 names, according to their country of residence"
+        "summary": "[USES 20 UNITS PER NAME] Infer the likely ethnicity/diaspora of up to 100 personal names, given a country of residence ISO2 code (ex. US, CA, AU, NZ etc.)"
     },
     "/api2/json/parseName/{nameFull}/{countryIso2}": {
         "request": {
-            "nameFull": "A complete personal name",
-            "countryIso2": "The country code, in ISO 2 format"
+            "nameFull": "*** String ***",
+            "countryIso2": "*** String ***"
         },
         "response": {
-            "script": "The alphabet or characters used in the parameters",
+            "script": "*** string ***",
             "id": "*** string ***",
-            "name": "The name, as it was given for analysis",
-            "nameParserType": "Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order",
-            "nameParserTypeAlt": "Second best alternative parsing. Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order",
+            "name": "The input name",
+            "nameParserType": "Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order.",
+            "nameParserTypeAlt": "Second best alternative parsing. Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order.",
             "firstLastName": {
-                "script": "The alphabet or characters used in the parameters",
-                "id": "*** string ***",
-                "firstName": "The personal name given to someone at birth, or baptism",
-                "lastName": "The family name"
-            },
-            "score": "The coefficient of accuracy of the result"
-        },
-        "summary": "Split a full name into a likely first and last name structure. For better accuracy, provide a local context"
-    },
-    "/api2/json/parseNameBatch": {
-        "request": {
-            "id": "*** string ***",
-            "name": "A complete personal name"
-        },
-        "response": {
-            "script": "The alphabet or characters used in the parameters",
-            "id": "*** string ***",
-            "name": "The name, as it was given for analysis",
-            "nameParserType": "Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order",
-            "nameParserTypeAlt": "Second best alternative parsing. Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order",
-            "firstLastName": {
-                "script": "The alphabet or characters used in the parameters",
-                "id": "*** string ***",
-                "firstName": "The personal name given to someone at birth, or baptism",
-                "lastName": "The family name"
-            },
-            "score": "The coefficient of accuracy of the result"
-        },
-        "summary": "Detect the likely first and last name structure of up to 100 full names"
-    },
-    "/api2/json/parseNameGeoBatch": {
-        "request": {
-            "id": "*** string ***",
-            "name": "A complete personal name",
-            "countryIso2": "The country code, in ISO 2 format"
-        },
-        "response": {
-            "script": "The alphabet or characters used in the parameters",
-            "id": "*** string ***",
-            "name": "The name, as it was given for analysis",
-            "nameParserType": "Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order",
-            "nameParserTypeAlt": "Second best alternative parsing. Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order",
-            "firstLastName": {
-                "script": "The alphabet or characters used in the parameters",
-                "id": "*** string ***",
-                "firstName": "The personal name given to someone at birth, or baptism",
-                "lastName": "The family name"
-            },
-            "score": "The coefficient of accuracy of the result"
-        },
-        "summary": "Detect the likely first and last name structure of up to 100 full names. For better accuracy, provide a local context"
-    },
-    "/api2/json/parseChineseName/{chineseName}": {
-        "request": {
-            "chineseName": "A Chinese full name, written in Mandarin"
-        },
-        "response": {
-            "script": "The alphabet or characters used in the parameters",
-            "id": "*** string ***",
-            "name": "The name, as it was given for analysis",
-            "nameParserType": "Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order",
-            "nameParserTypeAlt": "Second best alternative parsing. Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order",
-            "firstLastName": {
-                "script": "The alphabet or characters used in the parameters",
-                "id": "*** string ***",
-                "firstName": "The personal name given to someone at birth, or baptism",
-                "lastName": "The family name"
-            },
-            "score": "The coefficient of accuracy of the result"
-        },
-        "summary": "Determine the likely first and last name structure of a Chinese name, written in Mandarin"
-    },
-    "/api2/json/parseChineseNameBatch": {
-        "request": {
-            "id": "*** string ***",
-            "name": "A Chinese name written in Standard Mandarin"
-        },
-        "response": {
-            "script": "The alphabet or characters used in the parameters",
-            "id": "*** string ***",
-            "name": "The name, as it was given for analysis",
-            "nameParserType": "Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order",
-            "nameParserTypeAlt": "Second best alternative parsing. Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order",
-            "firstLastName": {
-                "script": "The alphabet or characters used in the parameters",
-                "id": "*** string ***",
-                "firstName": "The personal name given to someone at birth, or baptism",
-                "lastName": "The family name"
-            },
-            "score": "The coefficient of accuracy of the result"
-        },
-        "summary": "Detect the likely first and last name structure of up to 100 a Chinese names, written in Mandarin, ex. 王晓明 -> 王(lastname) 晓明(first name)"
-    },
-    "/api2/json/pinyinChineseName/{chineseName}": {
-        "request": {
-            "chineseName": "A Chinese name written in Standard Mandarin"
-        },
-        "response": {
-            "script": "The alphabet or characters used in the parameters",
-            "id": "*** string ***",
-            "name": "The name, as it was given for analysis",
-            "nameParserType": "Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order",
-            "nameParserTypeAlt": "Second best alternative parsing. Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order",
-            "firstLastName": {
-                "script": "The alphabet or characters used in the parameters",
-                "id": "*** string ***",
-                "firstName": "The most likely romanized transcription of the firstname",
-                "lastName": "The most likely romanized transcription of the lastname"
-            },
-            "score": "The coefficient of accuracy of the result"
-        },
-        "summary": "Romanize a Chinese name to Pinyin"
-    },
-    "/api2/json/pinyinChineseNameBatch": {
-        "request": {
-            "id": "*** string ***",
-            "name": "A Chinese name written in Standard Mandarin"
-        },
-        "response": {
-            "script": "The alphabet or characters used in the parameters",
-            "id": "*** string ***",
-            "name": "The name, as it was given for analysis",
-            "nameParserType": "Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order",
-            "nameParserTypeAlt": "Second best alternative parsing. Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order",
-            "firstLastName": {
-                "script": "The alphabet or characters used in the parameters",
+                "script": "*** string ***",
                 "id": "*** string ***",
                 "firstName": "The first name (also known as given name)",
                 "lastName": "The last name (also known as family name, or surname)"
             },
-            "score": "The coefficient of accuracy of the result"
+            "score": "Higher score is better, but score is not normalized. Use calibratedProbability if available. "
         },
-        "summary": "Romanize a list of up to 100 Chinese names to Pinyin"
+        "summary": "Infer the likely first/last name structure of a name, ex. John Smith or SMITH, John or SMITH; John. For better accuracy, provide a geographic context."
+    },
+    "/api2/json/parseNameBatch": {
+        "request": {
+            "id": "*** string ***",
+            "name": "*** string ***"
+        },
+        "response": {
+            "script": "*** string ***",
+            "id": "*** string ***",
+            "name": "The input name",
+            "nameParserType": "Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order.",
+            "nameParserTypeAlt": "Second best alternative parsing. Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order.",
+            "firstLastName": {
+                "script": "*** string ***",
+                "id": "*** string ***",
+                "firstName": "The first name (also known as given name)",
+                "lastName": "The last name (also known as family name, or surname)"
+            },
+            "score": "Higher score is better, but score is not normalized. Use calibratedProbability if available. "
+        },
+        "summary": "Infer the likely first/last name structure of a name, ex. John Smith or SMITH, John or SMITH; John."
+    },
+    "/api2/json/parseNameGeoBatch": {
+        "request": {
+            "id": "*** string ***",
+            "name": "*** string ***",
+            "countryIso2": "*** string ***"
+        },
+        "response": {
+            "script": "*** string ***",
+            "id": "*** string ***",
+            "name": "The input name",
+            "nameParserType": "Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order.",
+            "nameParserTypeAlt": "Second best alternative parsing. Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order.",
+            "firstLastName": {
+                "script": "*** string ***",
+                "id": "*** string ***",
+                "firstName": "The first name (also known as given name)",
+                "lastName": "The last name (also known as family name, or surname)"
+            },
+            "score": "Higher score is better, but score is not normalized. Use calibratedProbability if available. "
+        },
+        "summary": "Infer the likely first/last name structure of a name, ex. John Smith or SMITH, John or SMITH; John. Giving a local context improves precision. "
+    },
+    "/api2/json/parseChineseName/{chineseName}": {
+        "request": {
+            "chineseName": "*** String ***"
+        },
+        "response": {
+            "script": "*** string ***",
+            "id": "*** string ***",
+            "name": "The input name",
+            "nameParserType": "Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order.",
+            "nameParserTypeAlt": "Second best alternative parsing. Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order.",
+            "firstLastName": {
+                "script": "*** string ***",
+                "id": "*** string ***",
+                "firstName": "The first name (also known as given name)",
+                "lastName": "The last name (also known as family name, or surname)"
+            },
+            "score": "Higher score is better, but score is not normalized. Use calibratedProbability if available. "
+        },
+        "summary": "Infer the likely first/last name structure of a name, ex. 王晓明 -> 王(surname) 晓明(given name)"
+    },
+    "/api2/json/parseChineseNameBatch": {
+        "request": {
+            "id": "*** string ***",
+            "name": "*** string ***"
+        },
+        "response": {
+            "script": "*** string ***",
+            "id": "*** string ***",
+            "name": "The input name",
+            "nameParserType": "Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order.",
+            "nameParserTypeAlt": "Second best alternative parsing. Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order.",
+            "firstLastName": {
+                "script": "*** string ***",
+                "id": "*** string ***",
+                "firstName": "The first name (also known as given name)",
+                "lastName": "The last name (also known as family name, or surname)"
+            },
+            "score": "Higher score is better, but score is not normalized. Use calibratedProbability if available. "
+        },
+        "summary": "Infer the likely first/last name structure of a name, ex. 王晓明 -> 王(surname) 晓明(given name)."
+    },
+    "/api2/json/pinyinChineseName/{chineseName}": {
+        "request": {
+            "chineseName": "*** String ***"
+        },
+        "response": {
+            "script": "*** string ***",
+            "id": "*** string ***",
+            "name": "The input name",
+            "nameParserType": "Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order.",
+            "nameParserTypeAlt": "Second best alternative parsing. Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order.",
+            "firstLastName": {
+                "script": "*** string ***",
+                "id": "*** string ***",
+                "firstName": "The first name (also known as given name)",
+                "lastName": "The last name (also known as family name, or surname)"
+            },
+            "score": "Higher score is better, but score is not normalized. Use calibratedProbability if available. "
+        },
+        "summary": "Romanize the Chinese name to Pinyin, ex. 王晓明 -> Wang (surname) Xiaoming (given name)"
+    },
+    "/api2/json/pinyinChineseNameBatch": {
+        "request": {
+            "id": "*** string ***",
+            "name": "*** string ***"
+        },
+        "response": {
+            "script": "*** string ***",
+            "id": "*** string ***",
+            "name": "The input name",
+            "nameParserType": "Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order.",
+            "nameParserTypeAlt": "Second best alternative parsing. Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order.",
+            "firstLastName": {
+                "script": "*** string ***",
+                "id": "*** string ***",
+                "firstName": "The first name (also known as given name)",
+                "lastName": "The last name (also known as family name, or surname)"
+            },
+            "score": "Higher score is better, but score is not normalized. Use calibratedProbability if available. "
+        },
+        "summary": "Romanize a list of Chinese name to Pinyin, ex. 王晓明 -> Wang (surname) Xiaoming (given name)."
     },
     "/api2/json/chineseNameMatch/{chineseSurnameLatin}/{chineseGivenNameLatin}/{chineseName}": {
         "request": {
-            "chineseSurnameLatin": "A Chinese last name written in Pinyin",
-            "chineseGivenNameLatin": "A Chinese first name written in Pinyin",
-            "chineseName": "A Chinese name written in Standard Mandarin"
+            "chineseSurnameLatin": "*** String ***",
+            "chineseGivenNameLatin": "*** String ***",
+            "chineseName": "*** String ***"
         },
         "response": {
-            "script": "The alphabet or characters used in the parameters",
+            "script": "*** string ***",
             "id": "*** string ***",
-            "matchStatus": "The status of the success of the match",
-            "score": "The coefficient of accuracy of the result"
+            "matchStatus": "The name matching status.",
+            "score": "*** number ***"
         },
-        "summary": "Receive a score for matching a romanized Chinese name with its Mandarin writing"
+        "summary": "Return a score for matching Chinese name ex. 王晓明 with a romanized name ex. Wang Xiaoming"
     },
     "/api2/json/chineseNameMatchBatch": {
         "request": {
             "id": "*** string ***",
             "name1": {
                 "id": "*** string ***",
-                "firstName": "A Chinese given name (first name) in latin characters",
-                "lastName": "A Chinese surname (last name) in latin characters"
+                "firstName": "*** string ***",
+                "lastName": "*** string ***"
             },
             "name2": {
                 "id": "*** string ***",
-                "name": "A Chinese full name (surname and given name) in Chinese characters"
+                "name": "*** string ***"
             }
         },
         "response": {
-            "script": "The alphabet or characters used in the parameters",
+            "script": "*** string ***",
             "id": "*** string ***",
-            "matchStatus": "The name matching status",
-            "score": "A higher score means a better match"
+            "matchStatus": "The name matching status.",
+            "score": "*** number ***"
         },
         "summary": "Identify Chinese name candidates, based on the romanized name (firstName = chineseGivenName; lastName=chineseSurname), ex. Wang Xiaoming"
     },
     "/api2/json/genderChineseNamePinyin/{chineseSurnameLatin}/{chineseGivenNameLatin}": {
         "request": {
-            "chineseSurnameLatin": "A Chinese last name written in Pinyin",
-            "chineseGivenNameLatin": "A Chinese first name written in Pinyin"
+            "chineseSurnameLatin": "*** String ***",
+            "chineseGivenNameLatin": "*** String ***"
         },
         "response": {
-            "script": "The alphabet or characters used in the parameters",
+            "script": "*** string ***",
             "id": "*** string ***",
-            "firstName": "The first name, as it was provided for analysis",
-            "lastName": "The last name, as it was provided for analysis",
-            "likelyGender": "The most likely gender of the name",
+            "firstName": "The first name (also known as given name)",
+            "lastName": "The last name (also known as family name, or surname)",
+            "likelyGender": "Most likely gender",
             "genderScale": "Compatibility to NamSor_v1 Gender Scale M[-1..U..+1]F value",
-            "score": "The coefficient of accuracy of the result",
+            "score": "Compatibility to NamSor_v1 Gender score value. Higher score is better, but score is not normalized. Use calibratedProbability if available. ",
             "probabilityCalibrated": "The calibrated probability for inferred gender to have been guessed correctly."
         },
-        "summary": "Find the likely gender of a romanized Chinese first name and last name"
+        "summary": "Infer the likely gender of a Chinese name in LATIN (Pinyin)."
     },
     "/api2/json/genderChineseNamePinyinBatch": {
         "request": {
             "id": "*** string ***",
-            "firstName": "A Chinese last name written in Pinyin",
-            "lastName": "A Chinese first name written in Pinyin"
+            "firstName": "*** string ***",
+            "lastName": "*** string ***"
         },
         "response": {
-            "script": "The alphabet or characters used in the parameters",
+            "script": "*** string ***",
             "id": "*** string ***",
-            "firstName": "The first name, as it was provided for analysis",
-            "lastName": "The last name, as it was provided for analysis",
-            "likelyGender": "The most likely gender of the name",
+            "firstName": "The first name (also known as given name)",
+            "lastName": "The last name (also known as family name, or surname)",
+            "likelyGender": "Most likely gender",
             "genderScale": "Compatibility to NamSor_v1 Gender Scale M[-1..U..+1]F value",
-            "score": "The coefficient of accuracy of the result",
+            "score": "Compatibility to NamSor_v1 Gender score value. Higher score is better, but score is not normalized. Use calibratedProbability if available. ",
             "probabilityCalibrated": "The calibrated probability for inferred gender to have been guessed correctly."
         },
-        "summary": "Find out the likely gender of up to 100 Chinese first and last names, written in Pinyin"
+        "summary": "Infer the likely gender of up to 100 Chinese names in LATIN (Pinyin)."
     },
     "/api2/json/genderChineseName/{chineseName}": {
         "request": {
-            "chineseName": "A Chinese name written in Standard Mandarin"
+            "chineseName": "*** String ***"
         },
         "response": {
-            "script": "The alphabet or characters used in the parameters",
+            "script": "*** string ***",
             "id": "*** string ***",
-            "name": "The name, as it was given for analysis",
-            "likelyGender": "The most likely gender of the name",
+            "name": "The input name",
+            "likelyGender": "Most likely gender",
             "genderScale": "Compatibility to NamSor_v1 Gender Scale M[-1..U..+1]F value",
-            "score": "The coefficient of accuracy of the result",
+            "score": "Compatibility to NamSor_v1 Gender score value. Higher score is better, but score is not normalized. Use calibratedProbability if available. ",
             "probabilityCalibrated": "The calibrated probability for inferred gender to have been guessed correctly."
         },
-        "summary": "Determine the gender of a Chinese full name, written in Mandarin"
+        "summary": "Infer the likely gender of a Chinese full name ex. 王晓明"
     },
     "/api2/json/genderChineseNameBatch": {
         "request": {
             "id": "*** string ***",
-            "name": "A Chinese name written in Standard Mandarin"
+            "name": "*** string ***"
         },
         "response": {
-            "script": "The alphabet or characters used in the parameters",
+            "script": "*** string ***",
             "id": "*** string ***",
-            "name": "The name, as it was given for analysis",
-            "likelyGender": "The most likely gender of the name",
+            "name": "The input name",
+            "likelyGender": "Most likely gender",
             "genderScale": "Compatibility to NamSor_v1 Gender Scale M[-1..U..+1]F value",
-            "score": "The coefficient of accuracy of the result",
+            "score": "Compatibility to NamSor_v1 Gender score value. Higher score is better, but score is not normalized. Use calibratedProbability if available. ",
             "probabilityCalibrated": "The calibrated probability for inferred gender to have been guessed correctly."
         },
-        "summary": "Infer the likely gender of up to 100 Chinese full names, written in Mandarin"
+        "summary": "Infer the likely gender of up to 100 full names ex. 王晓明"
     },
     "/api2/json/chineseNameCandidates/{chineseSurnameLatin}/{chineseGivenNameLatin}": {
         "request": {
-            "chineseSurnameLatin": "A Chinese last name written in Pinyin",
-            "chineseGivenNameLatin": "A Chinese first name written in Pinyin"
+            "chineseSurnameLatin": "*** String ***",
+            "chineseGivenNameLatin": "*** String ***"
         },
         "response": {
-            "script": "The alphabet or characters used in the parameters",
-            "id": "*** string ***",
-            "firstName": "The first name, as it was given for analysis",
-            "lastName": "The last name, as it was given for analysis",
-            "orderOption": "The option for ordering",
-            "matchCandidates": {
-                "candidateName": "The name matching candidate name",
-                "probability": "The name matching estimated probability",
-                "predScoreGivenName": "The given name prediction score",
-                "predScoreFamilyName": "The family name prediction score"
-            }
-        },
-        "summary": "Find the most likely Mandarin transcriptions for a Chinese first name and last name, written in Pinyin"
-    },
-    "/api2/json/chineseNameCandidatesBatch": {
-        "request": {
-            "id": "*** string ***",
-            "firstName": "A Chinese given name (first name) in latin characters",
-            "lastName": "A Chinese surname (last name) in latin characters"
-        },
-        "response": {
-            "script": "The alphabet or characters used in the parameters",
-            "id": "*** string ***",
-            "firstName": "The first name, as it was given for analysis",
-            "lastName": "The last name, as it was given for analysis",
-            "orderOption": "The option for ordering",
-            "matchCandidates": {
-                "candidateName": "The name matching candidate name",
-                "probability": "The name matching estimated probability",
-                "predScoreGivenName": "The given name prediction score",
-                "predScoreFamilyName": "The family name prediction score"
-            }
-        },
-        "summary": "Find the most likely Mandarin transcriptions for up to 100 Chinese first and last names, written in Pinyin"
-    },
-    "/api2/json/chineseNameGenderCandidates/{chineseSurnameLatin}/{chineseGivenNameLatin}/{knownGender}": {
-        "request": {
-            "chineseSurnameLatin": "A Chinese last name written in Pinyin",
-            "chineseGivenNameLatin": "A Chinese first name written in Pinyin",
-            "knownGender": "The gender of the name"
-        },
-        "response": {
-            "script": "The alphabet or characters used in the parameters",
+            "script": "*** string ***",
             "id": "*** string ***",
             "firstName": "The first name (also known as given name)",
             "lastName": "The last name (also known as family name, or surname)",
             "orderOption": "The option for ordering",
             "matchCandidates": {
                 "candidateName": "The name matching candidate name",
-                "probability": "The name matching estimated probability",
-                "predScoreGivenName": "The given name prediction score",
-                "predScoreFamilyName": "The family name prediction score"
+                "probability": "The name matching estimated probability.",
+                "predScoreGivenName": "The given name prediction score.",
+                "predScoreFamilyName": "The family name prediction score."
             }
         },
-        "summary": "Determine the most likely Mandarin transcriptions for a romanized Chinese first name and last name, accrding to the known gender of the name"
+        "summary": "Identify Chinese name candidates, based on the romanized name ex. Wang Xiaoming"
+    },
+    "/api2/json/chineseNameCandidatesBatch": {
+        "request": {
+            "id": "*** string ***",
+            "firstName": "*** string ***",
+            "lastName": "*** string ***"
+        },
+        "response": {
+            "script": "*** string ***",
+            "id": "*** string ***",
+            "firstName": "The first name (also known as given name)",
+            "lastName": "The last name (also known as family name, or surname)",
+            "orderOption": "The option for ordering",
+            "matchCandidates": {
+                "candidateName": "The name matching candidate name",
+                "probability": "The name matching estimated probability.",
+                "predScoreGivenName": "The given name prediction score.",
+                "predScoreFamilyName": "The family name prediction score."
+            }
+        },
+        "summary": "Identify Chinese name candidates, based on the romanized name (firstName = chineseGivenName; lastName=chineseSurname), ex. Wang Xiaoming"
+    },
+    "/api2/json/chineseNameGenderCandidates/{chineseSurnameLatin}/{chineseGivenNameLatin}/{knownGender}": {
+        "request": {
+            "chineseSurnameLatin": "*** String ***",
+            "chineseGivenNameLatin": "*** String ***",
+            "knownGender": "*** String ***"
+        },
+        "response": {
+            "script": "*** string ***",
+            "id": "*** string ***",
+            "firstName": "The first name (also known as given name)",
+            "lastName": "The last name (also known as family name, or surname)",
+            "orderOption": "The option for ordering",
+            "matchCandidates": {
+                "candidateName": "The name matching candidate name",
+                "probability": "The name matching estimated probability.",
+                "predScoreGivenName": "The given name prediction score.",
+                "predScoreFamilyName": "The family name prediction score."
+            }
+        },
+        "summary": "Identify Chinese name candidates, based on the romanized name ex. Wang Xiaoming - having a known gender ('male' or 'female')"
     },
     "/api2/json/chineseNameCandidatesGenderBatch": {
         "request": {
             "id": "*** string ***",
-            "firstName": "A romanized Chinese first name",
-            "lastName": "A romanized Chinese last name",
-            "gender": "The gender of the name"
+            "firstName": "*** string ***",
+            "lastName": "*** string ***",
+            "gender": "The known gender of the name"
         },
         "response": {
-            "script": "The alphabet or characters used in the parameters",
+            "script": "*** string ***",
             "id": "*** string ***",
-            "firstName": "The first name, as it was given for analysis",
-            "lastName": "The last name, as it was given for analysis",
+            "firstName": "The first name (also known as given name)",
+            "lastName": "The last name (also known as family name, or surname)",
             "orderOption": "The option for ordering",
             "matchCandidates": {
                 "candidateName": "The name matching candidate name",
-                "probability": "The name matching estimated probability",
-                "predScoreGivenName": "The given name prediction score",
-                "predScoreFamilyName": "The family name prediction score"
+                "probability": "The name matching estimated probability.",
+                "predScoreGivenName": "The given name prediction score.",
+                "predScoreFamilyName": "The family name prediction score."
             }
         },
-        "summary": "Find the most likely transcriptions for a romanized Chinese first name and last name"
+        "summary": "Identify Chinese name candidates, based on the romanized name (firstName = chineseGivenName; lastName=chineseSurname) ex. Wang Xiaoming."
     },
     "/api2/json/parseJapaneseName/{japaneseName}": {
         "request": {
-            "japaneseName": "A Japanese full name in Kanji characters or Latin alphabet"
+            "japaneseName": "*** String ***"
         },
         "response": {
-            "script": "The alphabet or characters used in the parameters",
+            "script": "*** string ***",
             "id": "*** string ***",
-            "name": "The name, as it was given for analysis",
-            "nameParserType": "Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order",
-            "nameParserTypeAlt": "Second best alternative parsing. Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order",
+            "name": "The input name",
+            "nameParserType": "Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order.",
+            "nameParserTypeAlt": "Second best alternative parsing. Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order.",
             "firstLastName": {
-                "script": "The alphabet or characters used in the parameters",
+                "script": "*** string ***",
                 "id": "*** string ***",
-                "firstName": "The personal name given to someone at birth, or baptism",
-                "lastName": "The family name"
+                "firstName": "The first name (also known as given name)",
+                "lastName": "The last name (also known as family name, or surname)"
             },
-            "score": "The coefficient of accuracy of the result"
+            "score": "Higher score is better, but score is not normalized. Use calibratedProbability if available. "
         },
-        "summary": "Split a Japanese full name, in Kanji or Latin writing, into a first name and last name structure"
+        "summary": "Infer the likely first/last name structure of a name, ex. 山本 早苗 or Yamamoto Sanae"
     },
     "/api2/json/parseJapaneseNameBatch": {
         "request": {
             "id": "*** string ***",
-            "name": "A Japanese name in Kanji characters"
+            "name": "*** string ***"
         },
         "response": {
-            "script": "The alphabet or characters used in the parameters",
+            "script": "*** string ***",
             "id": "*** string ***",
-            "name": "The name, as it was given for analysis",
-            "nameParserType": "Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order",
-            "nameParserTypeAlt": "Second best alternative parsing. Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order",
+            "name": "The input name",
+            "nameParserType": "Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order.",
+            "nameParserTypeAlt": "Second best alternative parsing. Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order.",
             "firstLastName": {
-                "script": "The alphabet or characters used in the parameters",
+                "script": "*** string ***",
                 "id": "*** string ***",
-                "firstName": "The personal name given to someone at birth, or baptism",
-                "lastName": "The family name"
+                "firstName": "The first name (also known as given name)",
+                "lastName": "The last name (also known as family name, or surname)"
             },
-            "score": "The coefficient of accuracy of the result"
+            "score": "Higher score is better, but score is not normalized. Use calibratedProbability if available. "
         },
-        "summary": "Split up to 100 Japanese full names, in Kanji or Latin writing, into first name and last name structures"
+        "summary": "Infer the likely first/last name structure of a name, ex. 山本 早苗 or Yamamoto Sanae "
     },
     "/api2/json/japaneseNameKanjiCandidates/{japaneseSurnameLatin}/{japaneseGivenNameLatin}/{knownGender}": {
         "request": {
-            "japaneseSurnameLatin": "A romanized Japanese last name",
-            "japaneseGivenNameLatin": "A romanized Japanese first name",
-            "knownGender": "The gender of the name"
+            "japaneseSurnameLatin": "*** String ***",
+            "japaneseGivenNameLatin": "*** String ***",
+            "knownGender": "*** String ***"
         },
         "response": {
-            "script": "The alphabet or characters used in the parameters",
+            "script": "*** string ***",
             "id": "*** string ***",
-            "firstName": "The first name, as it was given for analysis",
-            "lastName": "The last name, as it was given for analysis",
+            "firstName": "The first name (also known as given name)",
+            "lastName": "The last name (also known as family name, or surname)",
             "orderOption": "The option for ordering",
             "matchCandidates": {
                 "candidateName": "The name matching candidate name",
-                "probability": "The name matching estimated probability",
-                "predScoreGivenName": "The given name prediction score",
-                "predScoreFamilyName": "The family name prediction score"
+                "probability": "The name matching estimated probability.",
+                "predScoreGivenName": "The given name prediction score.",
+                "predScoreFamilyName": "The family name prediction score."
             }
         },
-        "summary": "Find the likely transcriptions to Kanji, for a Japanese first name and last name, according to a known gender"
+        "summary": "Identify japanese name candidates in KANJI, based on the romanized name ex. Yamamoto Sanae - and a known gender."
     },
     "/api2/json/japaneseNameKanjiCandidates/{japaneseSurnameLatin}/{japaneseGivenNameLatin}": {
         "request": {
-            "japaneseSurnameLatin": "A romanized Japanese last name",
-            "japaneseGivenNameLatin": "A romanized Japanese first name"
+            "japaneseSurnameLatin": "*** String ***",
+            "japaneseGivenNameLatin": "*** String ***"
         },
         "response": {
-            "script": "The alphabet or characters used in the parameters",
+            "script": "*** string ***",
             "id": "*** string ***",
-            "firstName": "The first name, as it was given for analysis",
-            "lastName": "The last name, as it was given for analysis",
+            "firstName": "The first name (also known as given name)",
+            "lastName": "The last name (also known as family name, or surname)",
             "orderOption": "The option for ordering",
             "matchCandidates": {
                 "candidateName": "The name matching candidate name",
-                "probability": "The name matching estimated probability",
-                "predScoreGivenName": "The given name prediction score",
-                "predScoreFamilyName": "The family name prediction score"
+                "probability": "The name matching estimated probability.",
+                "predScoreGivenName": "The given name prediction score.",
+                "predScoreFamilyName": "The family name prediction score."
             }
         },
-        "summary": "Find the likely transcriptions to Kanji, for a romanized Japanese first name and last name"
+        "summary": "Identify japanese name candidates in KANJI, based on the romanized name ex. Yamamoto Sanae"
     },
     "/api2/json/japaneseNameLatinCandidates/{japaneseSurnameKanji}/{japaneseGivenNameKanji}": {
         "request": {
-            "japaneseSurnameKanji": "A Japanese last name in Kanji characters",
-            "japaneseGivenNameKanji": "A Japanese first name in Kanji characters"
+            "japaneseSurnameKanji": "*** String ***",
+            "japaneseGivenNameKanji": "*** String ***"
         },
         "response": {
-            "script": "The alphabet or characters used in the parameters",
+            "script": "*** string ***",
             "id": "*** string ***",
-            "firstName": "The first name, as it was given for analysis",
-            "lastName": "The last name, as it was given for analysis",
+            "firstName": "The first name (also known as given name)",
+            "lastName": "The last name (also known as family name, or surname)",
             "orderOption": "The option for ordering",
             "matchCandidates": {
                 "candidateName": "The name matching candidate name",
-                "probability": "The name matching estimated probability",
-                "predScoreGivenName": "The given name prediction score",
-                "predScoreFamilyName": "The family name prediction score"
+                "probability": "The name matching estimated probability.",
+                "predScoreGivenName": "The given name prediction score.",
+                "predScoreFamilyName": "The family name prediction score."
             }
         },
-        "summary": "Receive the most likely Latin transcriptions for a Japanese name written in Kanji characters"
+        "summary": "Romanize japanese name, based on the name in Kanji."
     },
     "/api2/json/japaneseNameKanjiCandidatesBatch": {
         "request": {
             "id": "*** string ***",
-            "firstName": "A romanized Japanese first name",
-            "lastName": "A romanized Japanese last name"
+            "firstName": "*** string ***",
+            "lastName": "*** string ***"
         },
         "response": {
-            "script": "The alphabet or characters used in the parameters",
+            "script": "*** string ***",
             "id": "*** string ***",
-            "firstName": "The first name, as it was given for analysis",
-            "lastName": "The last name, as it was given for analysis",
+            "firstName": "The first name (also known as given name)",
+            "lastName": "The last name (also known as family name, or surname)",
             "orderOption": "The option for ordering",
             "matchCandidates": {
                 "candidateName": "The name matching candidate name",
-                "probability": "The name matching estimated probability",
-                "predScoreGivenName": "The given name prediction score",
-                "predScoreFamilyName": "The family name prediction score"
+                "probability": "The name matching estimated probability.",
+                "predScoreGivenName": "The given name prediction score.",
+                "predScoreFamilyName": "The family name prediction score."
             }
         },
-        "summary": "Find the likely transcriptions to Kanji, for up to 100 Japanese romanized first and last names"
+        "summary": "Identify japanese name candidates in KANJI, based on the romanized name (firstName = japaneseGivenName; lastName=japaneseSurname), ex. Yamamoto Sanae"
     },
     "/api2/json/japaneseNameGenderKanjiCandidatesBatch": {
         "request": {
             "id": "*** string ***",
-            "firstName": "A romanized Japanese first name",
-            "lastName": "A romanized Japanese last name",
-            "gender": "The gender of the name"
+            "firstName": "*** string ***",
+            "lastName": "*** string ***",
+            "gender": "The known gender of the name"
         },
         "response": {
-            "script": "The alphabet or characters used in the parameters",
+            "script": "*** string ***",
             "id": "*** string ***",
-            "firstName": "The first name, as it was given for analysis",
-            "lastName": "The last name, as it was given for analysis",
+            "firstName": "The first name (also known as given name)",
+            "lastName": "The last name (also known as family name, or surname)",
             "orderOption": "The option for ordering",
             "matchCandidates": {
                 "candidateName": "The name matching candidate name",
-                "probability": "The name matching estimated probability",
-                "predScoreGivenName": "The given name prediction score",
-                "predScoreFamilyName": "The family name prediction score"
+                "probability": "The name matching estimated probability.",
+                "predScoreGivenName": "The given name prediction score.",
+                "predScoreFamilyName": "The family name prediction score."
             }
         },
-        "summary": "Find the likely transcriptions to Kanji, for up to 100 Japanese romanized first and last names, according to a known gender"
+        "summary": "Identify japanese name candidates in KANJI, based on the romanized name (firstName = japaneseGivenName; lastName=japaneseSurname) with KNOWN gender, ex. Yamamoto Sanae"
     },
     "/api2/json/japaneseNameLatinCandidatesBatch": {
         "request": {
             "id": "*** string ***",
-            "firstName": "A Japanese first name in Kanji characters",
-            "lastName": "A Japanese last name in Kanji characters"
+            "firstName": "*** string ***",
+            "lastName": "*** string ***"
         },
         "response": {
-            "script": "The alphabet or characters used in the parameters",
+            "script": "*** string ***",
             "id": "*** string ***",
-            "firstName": "The first name, as it was given for analysis",
-            "lastName": "The last name, as it was given for analysis",
+            "firstName": "The first name (also known as given name)",
+            "lastName": "The last name (also known as family name, or surname)",
             "orderOption": "The option for ordering",
             "matchCandidates": {
                 "candidateName": "The name matching candidate name",
-                "probability": "The name matching estimated probability",
-                "predScoreGivenName": "The given name prediction score",
-                "predScoreFamilyName": "The family name prediction score"
+                "probability": "The name matching estimated probability.",
+                "predScoreGivenName": "The given name prediction score.",
+                "predScoreFamilyName": "The family name prediction score."
             }
         },
-        "summary": "Romanize up to 100 japanese names written in Kanji"
+        "summary": "Romanize japanese names, based on the name in KANJI"
     },
     "/api2/json/japaneseNameMatch/{japaneseSurnameLatin}/{japaneseGivenNameLatin}/{japaneseName}": {
         "request": {
-            "japaneseSurnameLatin": "A romanized Japanese last name",
-            "japaneseGivenNameLatin": "A romanized Japanese first name",
-            "japaneseName": "A Japanese full name in Kanji characters"
+            "japaneseSurnameLatin": "*** String ***",
+            "japaneseGivenNameLatin": "*** String ***",
+            "japaneseName": "*** String ***"
         },
         "response": {
-            "script": "The alphabet or characters used in the parameters",
+            "script": "*** string ***",
             "id": "*** string ***",
-            "matchStatus": "The status of the success of the match",
-            "score": "The coefficient of accuracy of the result"
+            "matchStatus": "The name matching status.",
+            "score": "*** number ***"
         },
-        "summary": "Receive a score for matching a romanized Japanese name with a Kanji transcription"
+        "summary": "Return a score for matching Japanese name in KANJI ex. 山本 早苗 with a romanized name ex. Yamamoto Sanae"
     },
     "/api2/json/japaneseNameMatchFeedbackLoop/{japaneseSurnameLatin}/{japaneseGivenNameLatin}/{japaneseName}": {
         "request": {
-            "japaneseSurnameLatin": "A romanized Japanese last name",
-            "japaneseGivenNameLatin": "A romanized Japanese first name",
-            "japaneseName": "A Japanese full name in Kanji characters"
+            "japaneseSurnameLatin": "*** String ***",
+            "japaneseGivenNameLatin": "*** String ***",
+            "japaneseName": "*** String ***"
         },
         "response": {
-            "feedbackCredits": "The number of unit credited to your account"
+            "feedbackCredits": "Number of units recredited as per feedback loop successful classification"
         },
-        "summary": "Suggest a transcription of a Japanese name between Kanji characters and Latin alphabet to help us improve our name matching tool"
+        "summary": "[CREDITS 1 UNIT] Feedback loop to better perform matching Japanese name in KANJI ex. 山本 早苗 with a romanized name ex. Yamamoto Sanae"
     },
     "/api2/json/japaneseNameMatchBatch": {
         "request": {
             "id": "*** string ***",
             "name1": {
                 "id": "*** string ***",
-                "firstName": "A Japanese given name (first name) in latin characters",
-                "lastName": "A Japanese surname (last name) in latin characters"
+                "firstName": "*** string ***",
+                "lastName": "*** string ***"
             },
             "name2": {
                 "id": "*** string ***",
-                "name": "A Japanese full name (surname and given name) in KANJI characters"
+                "name": "*** string ***"
             }
         },
         "response": {
-            "script": "The alphabet or characters used in the parameters",
+            "script": "*** string ***",
             "id": "*** string ***",
-            "matchStatus": "The name matching status",
-            "score": "A higher score means a better match"
+            "matchStatus": "The name matching status.",
+            "score": "*** number ***"
         },
         "summary": "Return a score for matching a list of Japanese names in KANJI ex. 山本 早苗 with romanized names ex. Yamamoto Sanae"
     },
     "/api2/json/genderJapaneseName/{japaneseSurname}/{japaneseGivenName}": {
         "request": {
-            "japaneseSurname": "A Japanese surname (last name) in latin characters",
-            "japaneseGivenName": "A Japanese given name (first name) in latin characters"
+            "japaneseSurname": "*** String ***",
+            "japaneseGivenName": "*** String ***"
         },
         "response": {
-            "script": "The alphabet or characters used in the parameters",
+            "script": "*** string ***",
             "id": "*** string ***",
-            "firstName": "The first name, as it was given for analysis",
-            "lastName": "The last name, as it was given for analysis",
-            "likelyGender": "The most likely gender of the name",
+            "firstName": "The first name (also known as given name)",
+            "lastName": "The last name (also known as family name, or surname)",
+            "likelyGender": "Most likely gender",
             "genderScale": "Compatibility to NamSor_v1 Gender Scale M[-1..U..+1]F value",
-            "score": "The coefficient of accuracy of the result",
+            "score": "Compatibility to NamSor_v1 Gender score value. Higher score is better, but score is not normalized. Use calibratedProbability if available. ",
             "probabilityCalibrated": "The calibrated probability for inferred gender to have been guessed correctly."
         },
-        "summary": "Discover the likely gender of a Japanese first name and last name written in Latin alphabet"
+        "summary": "Infer the likely gender of a Japanese name in LATIN (Pinyin)."
     },
     "/api2/json/genderJapaneseNameBatch": {
         "request": {
             "id": "*** string ***",
-            "firstName": "A romanized Japanese first name",
-            "lastName": "A romanized Japanese last name"
+            "firstName": "*** string ***",
+            "lastName": "*** string ***"
         },
         "response": {
-            "script": "The alphabet or characters used in the parameters",
+            "script": "*** string ***",
             "id": "*** string ***",
-            "firstName": "The first name, as it was given for analysis",
-            "lastName": "The last name, as it was given for analysis",
-            "likelyGender": "The most likely gender of the name",
+            "firstName": "The first name (also known as given name)",
+            "lastName": "The last name (also known as family name, or surname)",
+            "likelyGender": "Most likely gender",
             "genderScale": "Compatibility to NamSor_v1 Gender Scale M[-1..U..+1]F value",
-            "score": "The coefficient of accuracy of the result",
+            "score": "Compatibility to NamSor_v1 Gender score value. Higher score is better, but score is not normalized. Use calibratedProbability if available. ",
             "probabilityCalibrated": "The calibrated probability for inferred gender to have been guessed correctly."
         },
-        "summary": "Discover the likely gender of a up to 100 Japanese first and last names written in Latin alphabet"
+        "summary": "Infer the likely gender of up to 100 Japanese names in LATIN (Pinyin)."
     },
     "/api2/json/genderJapaneseNameFull/{japaneseName}": {
         "request": {
-            "japaneseName": "A Japanese full name in Kanji characters"
+            "japaneseName": "*** String ***"
         },
         "response": {
-            "script": "The alphabet or characters used in the parameters",
+            "script": "*** string ***",
             "id": "*** string ***",
-            "name": "The name, as it was given for analysis",
-            "likelyGender": "The most likely gender of the name",
+            "name": "The input name",
+            "likelyGender": "Most likely gender",
             "genderScale": "Compatibility to NamSor_v1 Gender Scale M[-1..U..+1]F value",
-            "score": "The coefficient of accuracy of the result",
+            "score": "Compatibility to NamSor_v1 Gender score value. Higher score is better, but score is not normalized. Use calibratedProbability if available. ",
             "probabilityCalibrated": "The calibrated probability for inferred gender to have been guessed correctly."
         },
-        "summary": "Find the likely gender of a Japanese full name, written in Kanji"
+        "summary": "Infer the likely gender of a Japanese full name ex. 王晓明"
     },
     "/api2/json/genderJapaneseNameFullBatch": {
         "request": {
             "id": "*** string ***",
-            "name": "A Japanese name in Kanji characters"
+            "name": "*** string ***"
         },
         "response": {
-            "script": "The alphabet or characters used in the parameters",
+            "script": "*** string ***",
             "id": "*** string ***",
-            "name": "The name, as it was given for analysis",
-            "likelyGender": "The most likely gender of the name",
+            "name": "The input name",
+            "likelyGender": "Most likely gender",
             "genderScale": "Compatibility to NamSor_v1 Gender Scale M[-1..U..+1]F value",
-            "score": "The coefficient of accuracy of the result",
+            "score": "Compatibility to NamSor_v1 Gender score value. Higher score is better, but score is not normalized. Use calibratedProbability if available. ",
             "probabilityCalibrated": "The calibrated probability for inferred gender to have been guessed correctly."
         },
-        "summary": "Find the likely gender of up to 100 Japanese full names, written in Kanji"
+        "summary": "Infer the likely gender of up to 100 full names"
     },
     "/api2/json/phoneCode/{firstName}/{lastName}/{phoneNumber}": {
         "request": {
-            "firstName": "The personal name given to someone at birth, or baptism",
-            "lastName": "The family name",
-            "phoneNumber": "A phone number, formatted or unformatted"
+            "firstName": "*** String ***",
+            "lastName": "*** String ***",
+            "phoneNumber": "*** String ***"
         },
         "response": {
-            "script": "The alphabet or characters used in the parameters",
-            "id": "*** string ***",
-            "firstName": "The first name, as it was given for analysis",
-            "lastName": "The last name, as it was given for analysis",
-            "internationalPhoneNumberVerified": "The formatted phone number for international calls",
-            "phoneCountryIso2Verified": "The country code of the number, in ISO 2 format",
-            "phoneCountryCode": "The phone prefix of the number",
-            "phoneCountryCodeAlt": "The alternative phone prefix of the number",
-            "phoneCountryIso2": "The country of origin of the phone number, in ISO 2 format",
-            "phoneCountryIso2Alt": "The altervative country origin of the phone number, in ISO 2 format",
-            "originCountryIso2": "The country of origin of the name, in ISO 2 format",
-            "originCountryIso2Alt": "The alternative country of origin of the name, in ISO 2 format",
-            "phoneNumber": "The phone number, as it was sent for analysis",
-            "verified": "Indicates if the phone number could be positively verified using libphonenumber",
-            "score": "The coefficient of accuracy of the result",
-            "countryIso2": "The country code, in ISO 2 format"
-        },
-        "summary": "Identify the likely country and phone prefix of a name and phone number"
-    },
-    "/api2/json/phoneCodeGeo/{firstName}/{lastName}/{phoneNumber}/{countryIso2}": {
-        "request": {
-            "firstName": "The personal name given to someone at birth, or baptism",
-            "lastName": "The family name",
-            "phoneNumber": "A phone number, formatted or unformatted",
-            "countryIso2": "The country code, in ISO 2 format"
-        },
-        "response": {
-            "script": "The alphabet or characters used in the parameters",
-            "id": "*** string ***",
-            "firstName": "The first name, as it was given for analysis",
-            "lastName": "The last name, as it was given for analysis",
-            "internationalPhoneNumberVerified": "The formatted phone number for international calls",
-            "phoneCountryIso2Verified": "The country code of the number, in ISO 2 format",
-            "phoneCountryCode": "The phone prefix of the number",
-            "phoneCountryCodeAlt": "The alternative phone prefix of the number",
-            "phoneCountryIso2": "The country of origin of the phone number, in ISO 2 format",
-            "phoneCountryIso2Alt": "The altervative country origin of the phone number, in ISO 2 format",
-            "originCountryIso2": "The country of origin of the name, in ISO 2 format",
-            "originCountryIso2Alt": "The alternative country of origin of the name, in ISO 2 format",
-            "phoneNumber": "The phone number, as it was sent for analysis",
-            "verified": "Indicates if the phone number could be positively verified using libphonenumber",
-            "score": "The coefficient of accuracy of the result",
-            "countryIso2": "The country code, in ISO 2 format"
-        },
-        "summary": "Identify the likely phone prefix of a name and phone number (formatted or unformatted) according to local context"
-    },
-    "/api2/json/phoneCodeGeoFeedbackLoop/{firstName}/{lastName}/{phoneNumber}/{phoneNumberE164}/{countryIso2}": {
-        "request": {
-            "firstName": "The personal name given to someone at birth, or baptism",
-            "lastName": "The family name",
-            "phoneNumber": "A phone number, formatted or unformatted",
-            "phoneNumberE164": "A phone number on the E164 format",
-            "countryIso2": "The country code, in ISO 2 format"
-        },
-        "response": {
-            "script": "The alphabet or characters used in the parameters",
+            "script": "*** string ***",
             "id": "*** string ***",
             "firstName": "The first name (also known as given name)",
             "lastName": "The last name (also known as family name, or surname)",
-            "internationalPhoneNumberVerified": "The normalized phone number, verified using libphonenumber",
-            "phoneCountryIso2Verified": "The phone ISO2 country code, verified using libphonenumber",
-            "phoneCountryCode": "The phone country code of the phone number, verified using libphonenumber",
-            "phoneCountryCodeAlt": "The best alternative phone country code of the phone number",
-            "phoneCountryIso2": "The likely country of the phone number",
-            "phoneCountryIso2Alt": "The best alternative country of the phone number",
-            "originCountryIso2": "The likely country of origin of the name",
-            "originCountryIso2Alt": "The best alternative country of origin of the name",
-            "phoneNumber": "The input phone number",
-            "verified": "Indicates if the phone number could be positively verified using libphonenumber",
+            "internationalPhoneNumberVerified": "The normalized phone number, verified using libphonenumber.",
+            "phoneCountryIso2Verified": "The phone ISO2 country code, verified using libphonenumber.",
+            "phoneCountryCode": "The phone country code of the phone number, verified using libphonenumber.",
+            "phoneCountryCodeAlt": "The best alternative phone country code of the phone number.",
+            "phoneCountryIso2": "The likely country of the phone number.",
+            "phoneCountryIso2Alt": "The best alternative country of the phone number.",
+            "originCountryIso2": "The likely country of origin of the name.",
+            "originCountryIso2Alt": "The best alternative country of origin of the name.",
+            "phoneNumber": "The input phone number.",
+            "verified": "Indicates if the phone number could be positively verified using libphonenumber.",
             "score": "Higher score is better, but score is not normalized. Use calibratedProbability if available. ",
-            "countryIso2": "A country code in ISO 3166-1 alpha-2 format"
+            "countryIso2": "*** string ***"
         },
-        "summary": "Suggest a phone prefix, according to a name, phone number (formatted or unformatted) and local context, to help us improve our technology"
+        "summary": "[USES 11 UNITS PER NAME] Infer the likely country and phone prefix, given a personal name and formatted / unformatted phone number."
+    },
+    "/api2/json/phoneCodeGeo/{firstName}/{lastName}/{phoneNumber}/{countryIso2}": {
+        "request": {
+            "firstName": "*** String ***",
+            "lastName": "*** String ***",
+            "phoneNumber": "*** String ***",
+            "countryIso2": "*** String ***"
+        },
+        "response": {
+            "script": "*** string ***",
+            "id": "*** string ***",
+            "firstName": "The first name (also known as given name)",
+            "lastName": "The last name (also known as family name, or surname)",
+            "internationalPhoneNumberVerified": "The normalized phone number, verified using libphonenumber.",
+            "phoneCountryIso2Verified": "The phone ISO2 country code, verified using libphonenumber.",
+            "phoneCountryCode": "The phone country code of the phone number, verified using libphonenumber.",
+            "phoneCountryCodeAlt": "The best alternative phone country code of the phone number.",
+            "phoneCountryIso2": "The likely country of the phone number.",
+            "phoneCountryIso2Alt": "The best alternative country of the phone number.",
+            "originCountryIso2": "The likely country of origin of the name.",
+            "originCountryIso2Alt": "The best alternative country of origin of the name.",
+            "phoneNumber": "The input phone number.",
+            "verified": "Indicates if the phone number could be positively verified using libphonenumber.",
+            "score": "Higher score is better, but score is not normalized. Use calibratedProbability if available. ",
+            "countryIso2": "*** string ***"
+        },
+        "summary": "[USES 11 UNITS PER NAME] Infer the likely phone prefix, given a personal name and formatted / unformatted phone number, with a local context (ISO2 country of residence)."
+    },
+    "/api2/json/phoneCodeGeoFeedbackLoop/{firstName}/{lastName}/{phoneNumber}/{phoneNumberE164}/{countryIso2}": {
+        "request": {
+            "firstName": "*** String ***",
+            "lastName": "*** String ***",
+            "phoneNumber": "*** String ***",
+            "phoneNumberE164": "*** String ***",
+            "countryIso2": "*** String ***"
+        },
+        "response": {
+            "script": "*** string ***",
+            "id": "*** string ***",
+            "firstName": "The first name (also known as given name)",
+            "lastName": "The last name (also known as family name, or surname)",
+            "internationalPhoneNumberVerified": "The normalized phone number, verified using libphonenumber.",
+            "phoneCountryIso2Verified": "The phone ISO2 country code, verified using libphonenumber.",
+            "phoneCountryCode": "The phone country code of the phone number, verified using libphonenumber.",
+            "phoneCountryCodeAlt": "The best alternative phone country code of the phone number.",
+            "phoneCountryIso2": "The likely country of the phone number.",
+            "phoneCountryIso2Alt": "The best alternative country of the phone number.",
+            "originCountryIso2": "The likely country of origin of the name.",
+            "originCountryIso2Alt": "The best alternative country of origin of the name.",
+            "phoneNumber": "The input phone number.",
+            "verified": "Indicates if the phone number could be positively verified using libphonenumber.",
+            "score": "Higher score is better, but score is not normalized. Use calibratedProbability if available. ",
+            "countryIso2": "*** string ***"
+        },
+        "summary": "[CREDITS 1 UNIT] Feedback loop to better infer the likely phone prefix, given a personal name and formatted / unformatted phone number, with a local context (ISO2 country of residence)."
     },
     "/api2/json/phoneCodeBatch": {
         "request": {
             "id": "*** string ***",
-            "firstName": "The personal name given to someone at birth, or baptism",
-            "lastName": "The family name",
-            "phoneNumber": "A phone number, formatted or unformatted",
+            "firstName": "*** string ***",
+            "lastName": "*** string ***",
+            "phoneNumber": "*** string ***",
             "FirstLastNameOriginedOut": {
-                "script": "The alphabet or characters used in the parameters",
+                "script": "*** string ***",
                 "id": "*** string ***",
                 "firstName": "The first name (also known as given name)",
                 "lastName": "The last name (also known as family name, or surname)",
@@ -1373,37 +1373,37 @@
                 "topRegionOrigin": "Most likely top region of Origin (based on countryOrigin ISO2 code)",
                 "subRegionOrigin": "Most likely sub region of Origin (based on countryOrigin ISO2 code)",
                 "probabilityCalibrated": "The calibrated probability for countryOrigin to have been guessed correctly.",
-                "probabilityAltCalibrated": "The calibrated probability for countryOrigin OR countryOriginAlt to have been guessed correctly"
+                "probabilityAltCalibrated": "The calibrated probability for countryOrigin OR countryOriginAlt to have been guessed correctly."
             }
         },
         "response": {
-            "script": "The alphabet or characters used in the parameters",
+            "script": "*** string ***",
             "id": "*** string ***",
-            "firstName": "The personal name given to someone at birth, or baptism",
-            "lastName": "The family name",
-            "internationalPhoneNumberVerified": "The phone number, formatted to E164",
-            "phoneCountryIso2Verified": "The phone number, formatted to E164",
-            "phoneCountryCode": "The phone prefix of the number",
-            "phoneCountryCodeAlt": "The alternative phone prefix of the number",
-            "phoneCountryIso2": "The country of origin of the phone number, in ISO 2 format",
-            "phoneCountryIso2Alt": "The altervative country origin of the phone number, in ISO 2 format",
-            "originCountryIso2": "The country of origin of the name, in ISO 2 format",
-            "originCountryIso2Alt": "The alternative country of origin of the name, in ISO 2 format",
-            "phoneNumber": "The phone number, as it was sent for analysis",
-            "verified": "Indicates if the phone number could be positively verified using libphonenumber",
-            "score": "The coefficient of accuracy of the result",
-            "countryIso2": "The country code, in ISO 2 format"
+            "firstName": "The first name (also known as given name)",
+            "lastName": "The last name (also known as family name, or surname)",
+            "internationalPhoneNumberVerified": "The normalized phone number, verified using libphonenumber.",
+            "phoneCountryIso2Verified": "The phone ISO2 country code, verified using libphonenumber.",
+            "phoneCountryCode": "The phone country code of the phone number, verified using libphonenumber.",
+            "phoneCountryCodeAlt": "The best alternative phone country code of the phone number.",
+            "phoneCountryIso2": "The likely country of the phone number.",
+            "phoneCountryIso2Alt": "The best alternative country of the phone number.",
+            "originCountryIso2": "The likely country of origin of the name.",
+            "originCountryIso2Alt": "The best alternative country of origin of the name.",
+            "phoneNumber": "The input phone number.",
+            "verified": "Indicates if the phone number could be positively verified using libphonenumber.",
+            "score": "Higher score is better, but score is not normalized. Use calibratedProbability if available. ",
+            "countryIso2": "*** string ***"
         },
-        "summary": "Identify the likely country and phone prefix of up to 100 names and phone numbers (formatted or unformatted)"
+        "summary": "[USES 11 UNITS PER NAME] Infer the likely country and phone prefix, of up to 100 personal names, detecting automatically the local context given a name and formatted / unformatted phone number."
     },
     "/api2/json/phoneCodeGeoBatch": {
         "request": {
             "id": "*** string ***",
-            "firstName": "The personal name given to someone at birth, or baptism",
-            "lastName": "The family name",
-            "phoneNumber": "A phone number, formatted or unformatted",
+            "firstName": "*** string ***",
+            "lastName": "*** string ***",
+            "phoneNumber": "*** string ***",
             "FirstLastNameOriginedOut": {
-                "script": "The alphabet or characters used in the parameters",
+                "script": "*** string ***",
                 "id": "*** string ***",
                 "firstName": "The first name (also known as given name)",
                 "lastName": "The last name (also known as family name, or surname)",
@@ -1415,49 +1415,49 @@
                 "topRegionOrigin": "Most likely top region of Origin (based on countryOrigin ISO2 code)",
                 "subRegionOrigin": "Most likely sub region of Origin (based on countryOrigin ISO2 code)",
                 "probabilityCalibrated": "The calibrated probability for countryOrigin to have been guessed correctly.",
-                "probabilityAltCalibrated": "The calibrated probability for countryOrigin OR countryOriginAlt to have been guessed correctly"
+                "probabilityAltCalibrated": "The calibrated probability for countryOrigin OR countryOriginAlt to have been guessed correctly."
             },
-            "countryIso2": "A country code in ISO 3166-1 alpha-2 format",
-            "countryIso2Alt": "An alternative country code in ISO 3166-1 alpha-2 format"
+            "countryIso2": "*** string ***",
+            "countryIso2Alt": "*** string ***"
         },
         "response": {
-            "script": "The alphabet or characters used in the parameters",
+            "script": "*** string ***",
             "id": "*** string ***",
-            "firstName": "The personal name given to someone at birth, or baptism",
-            "lastName": "The family name",
-            "internationalPhoneNumberVerified": "The phone number, formatted to E164",
-            "phoneCountryIso2Verified": "The phone number, formatted to E164",
-            "phoneCountryCode": "The phone prefix of the number",
-            "phoneCountryCodeAlt": "The alternative phone prefix of the number",
-            "phoneCountryIso2": "The country of origin of the phone number, in ISO 2 format",
-            "phoneCountryIso2Alt": "The altervative country origin of the phone number, in ISO 2 format",
-            "originCountryIso2": "The country of origin of the name, in ISO 2 format",
-            "originCountryIso2Alt": "The alternative country of origin of the name, in ISO 2 format",
-            "phoneNumber": "The phone number, as it was sent for analysis",
-            "verified": "Indicates if the phone number could be positively verified using libphonenumber",
-            "score": "The coefficient of accuracy of the result",
-            "countryIso2": "The country code, in ISO 2 format"
+            "firstName": "The first name (also known as given name)",
+            "lastName": "The last name (also known as family name, or surname)",
+            "internationalPhoneNumberVerified": "The normalized phone number, verified using libphonenumber.",
+            "phoneCountryIso2Verified": "The phone ISO2 country code, verified using libphonenumber.",
+            "phoneCountryCode": "The phone country code of the phone number, verified using libphonenumber.",
+            "phoneCountryCodeAlt": "The best alternative phone country code of the phone number.",
+            "phoneCountryIso2": "The likely country of the phone number.",
+            "phoneCountryIso2Alt": "The best alternative country of the phone number.",
+            "originCountryIso2": "The likely country of origin of the name.",
+            "originCountryIso2Alt": "The best alternative country of origin of the name.",
+            "phoneNumber": "The input phone number.",
+            "verified": "Indicates if the phone number could be positively verified using libphonenumber.",
+            "score": "Higher score is better, but score is not normalized. Use calibratedProbability if available. ",
+            "countryIso2": "*** string ***"
         },
-        "summary": "Identify the likely phone prefix of up to 100 names and phone numbers (formatted or unformatted) according to local context"
+        "summary": "[USES 11 UNITS PER NAME] Infer the likely country and phone prefix, of up to 100 personal names, with a local context (ISO2 country of residence)."
     },
     "/api2/json/parseName/{nameFull}": {
         "request": {
-            "nameFull": "A complete personal name"
+            "nameFull": "*** String ***"
         },
         "response": {
-            "script": "The alphabet or characters used in the parameters",
+            "script": "*** string ***",
             "id": "*** string ***",
-            "name": "The name, as it was given for analysis",
-            "nameParserType": "Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order",
-            "nameParserTypeAlt": "Second best alternative parsing. Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order",
+            "name": "The input name",
+            "nameParserType": "Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order.",
+            "nameParserTypeAlt": "Second best alternative parsing. Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order.",
             "firstLastName": {
-                "script": "The alphabet or characters used in the parameters",
+                "script": "*** string ***",
                 "id": "*** string ***",
-                "firstName": "The personal name given to someone at birth, or baptism",
-                "lastName": "The family name"
+                "firstName": "The first name (also known as given name)",
+                "lastName": "The last name (also known as family name, or surname)"
             },
-            "score": "The coefficient of accuracy of the result"
+            "score": "Higher score is better, but score is not normalized. Use calibratedProbability if available. "
         },
-        "summary": "Split a full name into a likely first and last name structure. "
+        "summary": "Infer the likely first/last name structure of a name, ex. John Smith or SMITH, John or SMITH; John. "
     }
 }

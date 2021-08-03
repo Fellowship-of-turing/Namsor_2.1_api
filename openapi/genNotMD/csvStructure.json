@@ -29,7 +29,6 @@
                 ]
             },
             "operationName": "Name Type Batch",
-            "summary": "Detect if proper nouns are personal names or public names (ex: John Smith : personal name, Namsor: brand name). You can inspect up to a 100 names",
             "reqMetaKey": "properNouns",
             "reqKeys": [
                 "id",
@@ -71,7 +70,6 @@
                 ]
             },
             "operationName": "Name Type Geo Batch",
-            "summary": "Detect if proper nouns are personal names or a public names, according to their local context (ex: John Smith : personal name, Namsor: brand name). You can inspect up to 100 names",
             "reqMetaKey": "properNouns",
             "reqKeys": [
                 "id",
@@ -157,7 +155,6 @@
                 ]
             },
             "operationName": "Corridor Batch",
-            "summary": "Infer several classifications for up to 100 cross border interaction between names (ex. remit, travel, intl com)",
             "reqMetaKey": "corridorFromTo",
             "reqKeys": [
                 "id",
@@ -236,7 +233,6 @@
                 ]
             },
             "operationName": "Gender Geo Batch",
-            "summary": "Detect the likely gender of up to 100 names, according to their local context",
             "reqMetaKey": "personalNames",
             "reqKeys": [
                 "id",
@@ -284,7 +280,6 @@
                 ]
             },
             "operationName": "Gender Batch",
-            "summary": "Find the likely gender of up to 100 names",
             "reqMetaKey": "personalNames",
             "reqKeys": [
                 "id",
@@ -329,7 +324,6 @@
                 ]
             },
             "operationName": "Gender Full Batch",
-            "summary": "Detect the likely gender of up to 100 full names",
             "reqMetaKey": "personalNames",
             "reqKeys": [
                 "id",
@@ -373,7 +367,6 @@
                 ]
             },
             "operationName": "Gender Full Geo Batch",
-            "summary": "Detect the likely gender of up to 100 full names, according to their local context",
             "reqMetaKey": "personalNames",
             "reqKeys": [
                 "id",
@@ -424,7 +417,6 @@
                 ]
             },
             "operationName": "Origin Batch",
-            "summary": "Detect the likely country of origin of up to 100 first and last names",
             "reqMetaKey": "personalNames",
             "reqKeys": [
                 "id",
@@ -479,7 +471,6 @@
                 ]
             },
             "operationName": "Country Batch",
-            "summary": "Infer the likely country of residence of up to 100 full names or last names",
             "reqMetaKey": "personalNames",
             "reqKeys": [
                 "id",
@@ -532,7 +523,6 @@
                 ]
             },
             "operationName": "US Race and Ethnicity Batch",
-            "summary": "Detect the most likely U.S. race or ethnicity of a up to 100 U.S. residents' first and last names",
             "reqMetaKey": "personalNames",
             "reqKeys": [
                 "id",
@@ -586,7 +576,6 @@
                 ]
             },
             "operationName": "US ZIP Race and Ethnicity Batch",
-            "summary": "Determine the most likely U.S. race or ethnicity of up to 100 U.S. residents' first and last names, using their ZIP code",
             "reqMetaKey": "personalNames",
             "reqKeys": [
                 "id",
@@ -640,7 +629,6 @@
                 ]
             },
             "operationName": "Diaspora Batch",
-            "summary": "Infer the likely ethnicity or diaspora of up to 100 names, according to their country of residence",
             "reqMetaKey": "personalNames",
             "reqKeys": [
                 "id",
@@ -693,7 +681,6 @@
                 ]
             },
             "operationName": "Parse Name Batch",
-            "summary": "Detect the likely first and last name structure of up to 100 full names",
             "reqMetaKey": "personalNames",
             "reqKeys": [
                 "id",
@@ -745,7 +732,6 @@
                 ]
             },
             "operationName": "Parse Name Geo Batch",
-            "summary": "Detect the likely first and last name structure of up to 100 full names. For better accuracy, provide a local context",
             "reqMetaKey": "personalNames",
             "reqKeys": [
                 "id",
@@ -797,7 +783,6 @@
                 ]
             },
             "operationName": "Parse Chinese Name Batch",
-            "summary": "Detect the likely first and last name structure of up to 100 a Chinese names, written in Mandarin, ex. 王晓明 -> 王(lastname) 晓明(first name)",
             "reqMetaKey": "personalNames",
             "reqKeys": [
                 "id",
@@ -848,7 +833,6 @@
                 ]
             },
             "operationName": "Pinyin Chinese Name Batch",
-            "summary": "Romanize a list of up to 100 Chinese names to Pinyin",
             "reqMetaKey": "personalNames",
             "reqKeys": [
                 "id",
@@ -899,7 +883,6 @@
                 ]
             },
             "operationName": "Chinese Name Match Batch",
-            "summary": "Identify Chinese name candidates, based on the romanized name (firstName = chineseGivenName; lastName=chineseSurname), ex. Wang Xiaoming",
             "reqMetaKey": "personalNames",
             "reqKeys": [
                 "id",
@@ -945,7 +928,6 @@
                 ]
             },
             "operationName": "Gender Chinese Name Pinyin Batch",
-            "summary": "Find out the likely gender of up to 100 Chinese first and last names, written in Pinyin",
             "reqMetaKey": "personalNames",
             "reqKeys": [
                 "id",
@@ -990,7 +972,6 @@
                 ]
             },
             "operationName": "Gender Chinese Name Batch",
-            "summary": "Infer the likely gender of up to 100 Chinese full names, written in Mandarin",
             "reqMetaKey": "personalNames",
             "reqKeys": [
                 "id",
@@ -1040,7 +1021,6 @@
                 ]
             },
             "operationName": "Chinese Name Candidates Batch",
-            "summary": "Find the most likely Mandarin transcriptions for up to 100 Chinese first and last names, written in Pinyin",
             "reqMetaKey": "personalNames",
             "reqKeys": [
                 "id",
@@ -1091,7 +1071,6 @@
                 ]
             },
             "operationName": "Chinese Name Candidates Gender Batch",
-            "summary": "Find the most likely transcriptions for a romanized Chinese first name and last name",
             "reqMetaKey": "personalNames",
             "reqKeys": [
                 "id",
@@ -1140,7 +1119,6 @@
                 ]
             },
             "operationName": "Parse Japanese Name Batch",
-            "summary": "Split up to 100 Japanese full names, in Kanji or Latin writing, into first name and last name structures",
             "reqMetaKey": "personalNames",
             "reqKeys": [
                 "id",
@@ -1193,7 +1171,6 @@
                 ]
             },
             "operationName": "Japanese Name Kanji Candidates Batch",
-            "summary": "Find the likely transcriptions to Kanji, for up to 100 Japanese romanized first and last names",
             "reqMetaKey": "personalNames",
             "reqKeys": [
                 "id",
@@ -1244,7 +1221,6 @@
                 ]
             },
             "operationName": "Japanese Name Gender Kanji Candidates Batch",
-            "summary": "Find the likely transcriptions to Kanji, for up to 100 Japanese romanized first and last names, according to a known gender",
             "reqMetaKey": "personalNames",
             "reqKeys": [
                 "id",
@@ -1295,7 +1271,6 @@
                 ]
             },
             "operationName": "Japanese Name Latin Candidates Batch",
-            "summary": "Romanize up to 100 japanese names written in Kanji",
             "reqMetaKey": "personalNames",
             "reqKeys": [
                 "id",
@@ -1343,7 +1318,6 @@
                 ]
             },
             "operationName": "Japanese Name Match Batch",
-            "summary": "Return a score for matching a list of Japanese names in KANJI ex. 山本 早苗 with romanized names ex. Yamamoto Sanae",
             "reqMetaKey": "personalNames",
             "reqKeys": [
                 "id",
@@ -1389,7 +1363,6 @@
                 ]
             },
             "operationName": "Gender Japanese Name Pinyin Batch",
-            "summary": "Discover the likely gender of a up to 100 Japanese first and last names written in Latin alphabet",
             "reqMetaKey": "personalNames",
             "reqKeys": [
                 "id",
@@ -1434,7 +1407,6 @@
                 ]
             },
             "operationName": "Gender Japanese Name Full Batch",
-            "summary": "Find the likely gender of up to 100 Japanese full names, written in Kanji",
             "reqMetaKey": "personalNames",
             "reqKeys": [
                 "id",
@@ -1503,7 +1475,6 @@
                 ]
             },
             "operationName": "Phone Code Batch",
-            "summary": "Identify the likely country and phone prefix of up to 100 names and phone numbers (formatted or unformatted)",
             "reqMetaKey": "personalNamesWithPhoneNumbers",
             "reqKeys": [
                 "id",
@@ -1598,7 +1569,6 @@
                 ]
             },
             "operationName": "Phone Code Geo Batch",
-            "summary": "Identify the likely phone prefix of up to 100 names and phone numbers (formatted or unformatted) according to local context",
             "reqMetaKey": "personalNamesWithPhoneNumbers",
             "reqKeys": [
                 "id",

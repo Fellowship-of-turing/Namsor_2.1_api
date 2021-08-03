@@ -32,7 +32,7 @@ module.exports = {
                     "learning": true,
                     "shuttingDown": false,
                     "probabilityCalibrated": true
-                }
+                },
             ]
         }
     },
@@ -143,9 +143,7 @@ module.exports = {
                 "personalname_us_race_ethnicity"
             ],
             "rowHeaders": [
-                "2018-05-05",
-                "2018-05-06",
-                "2018-05-07"
+                "2018-05-05"
             ]
         }
     },
@@ -154,13 +152,13 @@ module.exports = {
         "output": {
             "apiServices": [
                 {
-                    "serviceName": "name_parser_type",
-                    "serviceGroup": "AIClassifier",
+                    "serviceName": "name_category",
+                    "serviceGroup": "general",
                     "costInUnits": 1
                 },
                 {
-                    "serviceName": "personalname_phone_prefix",
-                    "serviceGroup": "AIClassifier",
+                    "serviceName": "personalname_gender",
+                    "serviceGroup": "gender",
                     "costInUnits": 1
                 }
             ]
