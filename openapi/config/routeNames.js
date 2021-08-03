@@ -97,18 +97,18 @@ module.exports = {
   // japanese
   parseJapaneseName: 'Parse-Japanese-Name',
   parseJapaneseNameBatch: 'Parse-Japanese-Name-Batch',
-  japaneseNameKanjiCandidates: 'Japanese-Name-Kanji-Candidates',
+  japaneseNameKanjiCandidates: 'Japanese-Name-Gender-Kanji-Candidates',
   japaneseNameLatinCandidates: 'Japanese-Name-Latin-Candidates',
   japaneseNameKanjiCandidatesBatch: 'Japanese-Name-Kanji-Candidates-Batch',
   japaneseNameLatinCandidatesBatch: 'Japanese-Name-Latin-Candidates-Batch',
   japaneseNameMatch: 'Japanese-Name-Match',
   japaneseNameMatchFeedbackLoop: 'Japanese-Name-Match-Feedback-Loop',
   japaneseNameMatchBatch: 'Japanese-Name-Match-Batch',
-  genderJapaneseNamePinyin: 'Gender-Japanese-Name-Pinyin',
-  genderJapaneseNamePinyinBatch: 'Gender-Japanese-Name-Pinyin-Batch',
+  genderJapaneseNamePinyin: 'Gender-Japanese-Name-Latin',
+  genderJapaneseNamePinyinBatch: 'Gender-Japanese-Name-Latin-Batch',
   genderJapaneseNameFull: 'Gender-Japanese-Name-Full',
   genderJapaneseNameFullBatch: 'Gender-Japanese-Name-Full-Batch',
-  japaneseNameKanjiCandidates_1: 'Japanese-Name-Nogender-Kanji-Candidates',
+  japaneseNameKanjiCandidates_1: 'Japanese-Name-Kanji-Candidates',
   japaneseNameGenderKanjiCandidatesBatch: 'Japanese-Name-Gender-Kanji-Candidates-Batch',
 
   // social

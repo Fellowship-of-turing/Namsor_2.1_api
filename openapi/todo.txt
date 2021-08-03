@@ -80,3 +80,4 @@ TODO 26/04
 * Does anonymise = true change records ? repeat operation limits ?
 * Manque ID corridor GET
 * Check pinyin vs SMC
+* Add delete button in search bar
