@@ -101,7 +101,7 @@
             "serviceGroup": "Group the classifier / service belong to",
             "costInUnits": "Usage cost of the service, in credits"
         },
-        "summary": "Returns a list of the API services (classifiers) and their usage costs in credits"
+        "summary": "Returns a list of the API services (classifiers) and their usage costs in credits."
     },
 
     "/api2/json/taxonomyClasses/{classifierName}": {
@@ -112,7 +112,7 @@
             "classifierName": "Name of the submitted classifier",
             "taxonomyClasses": "Possible enumerators for this classifier"
         },
-        "summary": "Returns a list of the possible enumerators for a given classifier"
+        "summary": "Returns a list of the possible enumerators for a given classifier."
     },
 
     "/api2/json/apiUsage": {

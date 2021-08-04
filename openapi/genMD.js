@@ -35,7 +35,7 @@ const swaggerFile = JSON.parse(fileData);
 let format = formatOpenapi(swaggerFile, opt)
 
 let store = format.store;
-let swagFile = format.swaggerFile;
+let formatedSwaggerFile = format.swaggerFile;
 
 /////////////////////////////
 // WIDDERSHINS CONVERT TO MD
@@ -73,5 +73,5 @@ const wsOptions = {
   ]
 };
 
-mdConvert(swagFile, wsOptions, store, opt)
+mdConvert(formatedSwaggerFile, wsOptions, store, opt)
 

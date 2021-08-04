@@ -75,10 +75,8 @@ let mdConvert = (swaggerFile, wsOptions, store, opt) => {
 
       // Links to http code standars
       let contentToSwap = [
-        // '[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)',
         '<aside class="warning">',
         'To perform this operation, you must be authenticated by means of one of the following methods:',
-        'api_key',
         '</aside>'
       ];
 
@@ -392,7 +390,6 @@ let mdConvert = (swaggerFile, wsOptions, store, opt) => {
         mdRouteReplace(contentToSwap[0], '', routeStart(), routeEnd(), route);
         mdRouteReplace(contentToSwap[1], '', routeStart(), routeEnd(), route);
         mdRouteReplace(contentToSwap[2], '', routeStart(), routeEnd(), route);
-        mdRouteReplace(contentToSwap[3], '', routeStart(), routeEnd(), route);
 
         if (routeMethods[route] === 'get') mdRouteReplace('Parameters</h3>', 'Request Parameters</h3>', routeStart(), routeEnd(), route);
         if (routeMethods[route] === 'post') mdRouteReplace('Parameters</h3>', 'Request Body</h3>', routeStart(), routeEnd(), route);

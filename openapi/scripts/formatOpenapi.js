@@ -684,8 +684,12 @@ let formatOpenapi = (swaggerFile, opt) => {
       };
     };
   };
+
   // Delete Schemas
   delete swaggerFile.components;
+
+  // Delete external links
+  delete swaggerFile.externalDocs;
 
   // Save intermidiate files
   fs.writeFileSync('openapi/genNotMD/premarkdown.json', JSON.stringify(swaggerFile, null, 4), 'utf8');
