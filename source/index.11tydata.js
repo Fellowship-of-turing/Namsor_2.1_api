@@ -24,19 +24,19 @@ function language_array(language_tabs) {
 }
 
 function image_tag(src, alt) {
-  return '<img src="slate/img/'+src+'" alt="'+(alt||'Image')+'">';
+  return '<img src="slate/img/' + src + '" alt="' + (alt || 'Image') + '">';
 }
 
 function logo_image_tag() {
-  return '<img src="slate/img/logo.png" alt="Logo" class="logo">';
+  return '<img src="slate/img/logo-dark.svg" alt="Logo" class="logo">';
 }
 
 function toc_data(content, headingLevel) {
   const $ = cheerio.load(content);
   const result = [];
-  let h1,h2,h3,h4,h5;
+  let h1, h2, h3, h4, h5;
   headingLevel = (headingLevel || 2);
-  $(':header').each(function(e){
+  $(':header').each(function (e) {
     const tag = $(this).get(0).tagName.toLowerCase();
     const entry = {};
     if (tag === 'h1') {

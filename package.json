@@ -22,7 +22,8 @@
         "debug": "DEBUG=Eleventy* npx eleventy --dryrun --input=source/*.md",
         "serve": "npm run build.sass && npx eleventy --input=source/*.md --serve --port=3001",
         "serve.local": "cross-var npm run build.sass.local && npx eleventy --input=$SLATEDIR/*.md --output=$SLATEDIR/_site --serve --port=3001",
-        "genmd": "node openapi/genMD.js"
+        "genmd": "node openapi/genMD.js",
+        "deploy": "cd _site && git add . && git commit -m \"auto deploy\" && git push origin master && cd .."
     },
     "keywords": [
         "slate",

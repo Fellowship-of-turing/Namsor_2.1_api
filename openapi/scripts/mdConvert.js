@@ -168,19 +168,19 @@ let mdConvert = (swaggerFile, wsOptions, store, opt) => {
           else {
             Object.keys(routeRequests[route].schema).forEach(param => {
               prm = routeRequests[route].schema[param];
-              prm.name = param;
+              prm.fieldName = param;
 
               if (
                 Array.isArray(prm) &&
                 prm.length
               ) {
                 prm.type = '**Array of Objects**';
-                prm.name = `**${prm.name}**`;
+                prm.fieldName = `**${prm.fieldName}**`;
                 prm.required = '';
               }
               else if (!prm.type) {
                 prm.type = '**Object**';
-                prm.name = `**${prm.name}**`;
+                prm.fieldName = `**${prm.fieldName}**`;
                 prm.required = '';
               }
               else {
@@ -207,20 +207,15 @@ let mdConvert = (swaggerFile, wsOptions, store, opt) => {
                 prm.desc = prm.description ? prm.description : '';
               };
 
-              mdRouteReplace(reqTag, `|${prm.name}|${prm.type}|${prm.required}|${prm.desc}|\n${reqTag}`, routeStart(), routeEnd(), route);
+              mdRouteReplace(reqTag, `|${prm.fieldName}|${prm.type}|${prm.required}|${prm.desc}|\n${reqTag}`, routeStart(), routeEnd(), route);
 
               // Handle nested structures
               if (prm.type === '**Object**' || prm.type === '**Array of Objects**') {
                 let indicator = prm.type === '**Object**' ? `${nbspMulti}{...}` : `${nbspMulti}[ {...} ]`;
                 if (prm.type == '**Array of Objects**') prm = prm[0];
                 Object.keys(prm).forEach(subKey => {
-                  if (
-                    prm[subKey].type &&
-                    subKey !== 'name' &&
-                    subKey !== 'type' &&
-                    subKey !== 'enum' &&
-                    subKey !== 'description'
-                  ) {
+
+                  if (prm[subKey].type) {
                     subPrm = prm[subKey];
                     subPrm.type = subPrm.type ? capitalize(subPrm.type) : '';
                     subPrm.enum = subPrm.enum ? listEnums(subPrm.enum, route) : '';
@@ -243,6 +238,7 @@ let mdConvert = (swaggerFile, wsOptions, store, opt) => {
 
                     mdRouteReplace(reqTag, `|*${indicator}.${subKey}*|${subPrm.type}|${subPrm.required}|${subPrm.desc}|${subPrm.enum}|\n${reqTag}`, routeStart(), routeEnd(), route);
                   };
+
                 });
               };
             });
@@ -290,20 +286,20 @@ let mdConvert = (swaggerFile, wsOptions, store, opt) => {
 
           Object.keys(routeResponses[route].schema).forEach(param => {
             prm = routeResponses[route].schema[param];
-            prm.name = param;
+            prm.fieldName = param;
 
             if (
               Array.isArray(prm) &&
               prm.length
             ) {
               prm.type = '**Array of Objects**';
-              prm.name = `**${prm.name}**`;
+              prm.fieldName = `**${prm.fieldName}**`;
               prm.required = '';
               prm.enum = '';
             }
             else if (!prm.type) {
               prm.type = '**Object**';
-              prm.name = `**${prm.name}**`;
+              prm.fieldName = `**${prm.fieldName}**`;
               prm.required = '';
               prm.enum = '';
             }
@@ -331,20 +327,15 @@ let mdConvert = (swaggerFile, wsOptions, store, opt) => {
               prm.desc = prm.description ? prm.description : '';
             };
 
-            mdRouteReplace(resTag, `|${prm.name}|${prm.type}|${prm.desc}|${prm.enum}|\n${resTag}`, routeStart(), routeEnd(), route);
+            mdRouteReplace(resTag, `|${prm.fieldName}|${prm.type}|${prm.desc}|${prm.enum}|\n${resTag}`, routeStart(), routeEnd(), route);
 
             // Handle nested structures
             if (prm.type === '**Object**' || prm.type === '**Array of Objects**') {
               let indicator = prm.type === '**Object**' ? `${nbspMulti}{...}` : `${nbspMulti}[ {...} ]`;
               if (prm.type == '**Array of Objects**') prm = prm[0];
               Object.keys(prm).forEach(subKey => {
-                if (
-                  prm[subKey].type &&
-                  subKey !== 'name' &&
-                  subKey !== 'type' &&
-                  subKey !== 'enum' &&
-                  subKey !== 'description'
-                ) {
+
+                if (prm[subKey].type) {
                   subPrm = prm[subKey];
                   subPrm.type = subPrm.type ? capitalize(subPrm.type) : '';
                   subPrm.enum = subPrm.enum ? listEnums(subPrm.enum, route) : '';
@@ -364,6 +355,7 @@ let mdConvert = (swaggerFile, wsOptions, store, opt) => {
                   };
                   mdRouteReplace(resTag, `|*${indicator}.${subKey}*|${subPrm.type}|${subPrm.desc}|${subPrm.enum}|\n${resTag}`, routeStart(), routeEnd(), route);
                 };
+
               });
             };
           });
@@ -463,6 +455,8 @@ let mdConvert = (swaggerFile, wsOptions, store, opt) => {
       // Clean dirty exceptions
       dirtyMD = dirtyMD.replace('|source|path|any|true|The API Key to set as enabled/disabled.|', '');
       dirtyMD = dirtyMD.replace('|source|path|any|true|The API Key to set as learnable/non learnable.|', '');
+      dirtyMD = dirtyMD.replace('title: NamSor API v2 v2.0.15', 'title: NamSor API Documentation');
+      dirtyMD = dirtyMD.replace('NamSor API v2 v2.0.15', 'NamSor API v2.0.15');
 
       // dirtyMD is now the clean converted markdown
       fs.writeFileSync('source/index.md', dirtyMD, 'utf8');

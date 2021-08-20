@@ -1,5 +1,5 @@
 ---
-title: NamSor API v2 v2.0.15
+title: NamSor API Documentation
 language_tabs:
   - shell: Shell
   - java: Java
@@ -25,7 +25,7 @@ headingLevel: 2
 
 <!-- Generator: Widdershins v4.0.1 -->
 
-<h1 id="namsor-api-v2">NamSor API v2 v2.0.15</h1>
+<h1 id="namsor-api-v2">NamSor API v2.0.15</h1>
 
 > Scroll down for code samples, example requests and responses. Select a language for code samples from the tabs above or the mobile navigation menu.
 
@@ -54,7 +54,7 @@ License: <a href="https://v2.namsor.com/NamSorAPIv2/assets/pdf/201803_NamSor_API
 -   All endpoints return JSON containing either an object or a nested array of objects.
 -   Currently certain NamSor API endpoints use nested object structures in their query body and / or responses, please refer yourself to the corresponding code example.
 -   Certain API response code examples have been truncated in order to improve readability. For example the countriesOriginTop, ethnicitiesTop and matchCandidates Array fields have been reduced to 2 elements in length.
--   Be aware that data in the code examples have been URL encoded into the corresponding ASCII code characters when necessary, for example "谢晓亮" is replaced by "%E8%B0%A2%E6%99%93%E4%BA%AE".
+-   Be aware that data in the code examples have been URL encoded into the corresponding ASCII code characters when necessary, for example "谢晓亮" is replaced by "%E8%B0%A2%E6%99%93%E4%BA%AE". URLs cannot contain spaces or non-ASCII characters. When making GET requests to the API use URL encoding to convert non-ASCII characters into a format that can be transmitted over the internet.
 
 <h3 id="privacy">Privacy</h3>
 
@@ -62,7 +62,7 @@ Set learnable=false and anonymized=true for highest privacy (ie. to forget data 
 
 ### Region Classifications
 
-We provide two regions classifications when inferring the origin. These classifications have slightly different enumerators that we have detailed below:
+We provide two regions classifications when inferring the origin. These classifications have slightly different enumerators as detailed below:
 
 #### regionOrigin :
 
@@ -75,6 +75,7 @@ Africa, Americas, Asia, Europe, Oceania, Unclassified
 ### Soft Limit vs Hard Limit
 
 Reaching the soft limit will trigger an email notification.
+
 Reaching the hard limit will trigger an email notification and block the API key.
 
 
@@ -5154,6 +5155,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameMatchBatch", {
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|true|Given name (or first name) in Pinyin||
 |**name2**|**Object**|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|true|Unique identifier||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.name*|String|true|Full name (family name and given name) in Standard Mandarin Chinese||
 
 
 
@@ -7762,6 +7764,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameMatchBatch", {
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|true|Family name (or last name) in latin characters||
 |**name2**|**Object**|||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|true|Unique identifier||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.name*|String|true|Full name (family name and given name) in Kanji||
 
 
 

@@ -79,5 +79,4 @@ TODO 26/04
 * Problem with replacing api_key in script 2
 * Does anonymise = true change records ? repeat operation limits ?
 * Manque ID corridor GET
-* Check pinyin vs SMC
 * Add delete button in search bar
