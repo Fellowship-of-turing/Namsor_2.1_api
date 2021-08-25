@@ -5,9 +5,16 @@ let formatOpenapi = require('./scripts/formatOpenapi');
 let mdConvert = require('./scripts/mdConvert');
 
 /////////////////////////////
-// Func Options
+// FORMAT OPENAPI JSON
 /////////////////////////////
-let opt = {
+
+// Get file and parse for treatment
+const swaggerFile = JSON.parse(
+  fs.readFileSync('openapi/openapi.json', 'utf8')
+);
+
+// Format Options
+let formatOptions = {
   // Log options
   req_no_params: false,
   res_no_schema: false,
@@ -21,28 +28,16 @@ let opt = {
     'authentication.md',
     'errors.md',
   ],
-}
+};
 
-/////////////////////////////
-// FORMAT OPENAPI JSON
-/////////////////////////////
-
-// Get file and parse for treatment
-let targetFile = 'openapi/openapi.json';
-const fileData = fs.readFileSync(targetFile, 'utf8');
-const swaggerFile = JSON.parse(fileData);
-
-let format = formatOpenapi(swaggerFile, opt)
-
-let store = format.store;
-let formatedSwaggerFile = format.swaggerFile;
+let formated = formatOpenapi(swaggerFile, formatOptions)
 
 /////////////////////////////
 // WIDDERSHINS CONVERT TO MD
 /////////////////////////////
 
 // Widdershins Options
-const wsOptions = {
+const widdershinsOptions = {
   language_tabs: [
     { 'shell': "Shell" },
     { 'java': "Java" },
@@ -73,5 +68,10 @@ const wsOptions = {
   ]
 };
 
-mdConvert(formatedSwaggerFile, wsOptions, store, opt)
+mdConvert(
+  formated.swaggerFile,
+  formated.store,
+  widdershinsOptions,
+  formatOptions
+);
 

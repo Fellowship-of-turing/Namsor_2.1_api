@@ -14,7 +14,7 @@ const descr = require('../config/combinedDescriptions');
 
 let nbspMulti = '&nbsp;&nbsp;&nbsp;&nbsp;';
 
-let mdConvert = (swaggerFile, wsOptions, store, opt) => {
+let mdConvert = (swaggerFile, store, wsOptions, opt) => {
 
   let routeMethods = store.routeMethods;
   let routeCosts = store.routeCosts;
