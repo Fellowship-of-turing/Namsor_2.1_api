@@ -65,6 +65,22 @@ const widdershinsOptions = {
       "description": "Get the NamSor Python SDK",
       "url": "https://github.com/namsor/namsor-python-sdk2"
     },
+    {
+      "description": "Get the NamSor Golang SDK",
+      "url": "https://github.com/namsor/namsor-golang-sdk2"
+    },
+    {
+      "description": "Get the NamSor JavaScript SDK",
+      "url": "https://github.com/namsor/namsor-javascript-sdk2"
+    },
+    {
+      "description": "Get the NamSor CLI Toolkit",
+      "url": "https://github.com/namsor/namsor-tools-v2"
+    },
+    {
+      "description": "Get the NamSor Python CLI Toolkit",
+      "url": "https://github.com/namsor/namsor-python-tools-v2"
+    },
   ]
 };
 
