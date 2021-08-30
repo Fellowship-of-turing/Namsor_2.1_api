@@ -186,7 +186,10 @@ let mdConvert = (swaggerFile, store, wsOptions, opt) => {
               else {
                 prm.type = capitalize(prm.type);
                 prm.enum = prm.enum ? listEnums(prm.enum, route) : '';
-                prm.required = prm.required === false ? '' : 'true';
+                prm.required =
+                  prm.required === false ? '' :
+                    prm.name === 'id' ? '' :
+                      'true';
               };
 
               // Get description 
@@ -221,7 +224,10 @@ let mdConvert = (swaggerFile, store, wsOptions, opt) => {
                     subPrm.enum = subPrm.enum ? listEnums(subPrm.enum, route) : '';
                     subPrm.desc = subPrm.description ? subPrm.description : '';
 
-                    subPrm.required = subPrm.required === false ? '' : 'true';
+                    subPrm.required =
+                      subPrm.required === false ? '' :
+                        subPrm.name === 'id' ? '' :
+                          'true';
 
                     // Get description 
                     if (
@@ -294,19 +300,16 @@ let mdConvert = (swaggerFile, store, wsOptions, opt) => {
             ) {
               prm.type = '**Array of Objects**';
               prm.fieldName = `**${prm.fieldName}**`;
-              prm.required = '';
               prm.enum = '';
             }
             else if (!prm.type) {
               prm.type = '**Object**';
               prm.fieldName = `**${prm.fieldName}**`;
-              prm.required = '';
               prm.enum = '';
             }
             else {
               prm.type = capitalize(prm.type);
               prm.enum = prm.enum ? listEnums(prm.enum, route) : '';
-              prm.required = prm.required === false ? '' : 'true';
             };
 
             // Get description 
