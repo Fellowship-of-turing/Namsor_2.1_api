@@ -16,6 +16,14 @@ toc_footers:
     SDK</a>
   - <a href="https://github.com/namsor/namsor-python-sdk2">Get the NamSor Python
     SDK</a>
+  - <a href="https://github.com/namsor/namsor-golang-sdk2">Get the NamSor Golang
+    SDK</a>
+  - <a href="https://github.com/namsor/namsor-javascript-sdk2">Get the NamSor
+    JavaScript SDK</a>
+  - <a href="https://github.com/namsor/namsor-tools-v2">Get the NamSor CLI
+    Toolkit</a>
+  - <a href="https://github.com/namsor/namsor-python-tools-v2">Get the NamSor
+    Python CLI Toolkit</a>
 includes: []
 search: true
 highlight_theme: darkula
