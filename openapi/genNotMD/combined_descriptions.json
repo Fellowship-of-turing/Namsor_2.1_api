@@ -61,7 +61,7 @@
             "probabilityCalibrated": "Higher implies a more reliable result, ranges from 0 to 1 (for countryOrigin)",
             "probabilityAltCalibrated": "Higher implies a more reliable result, ranges from 0 to 1 (for countryOriginAlt)"
         },
-        "summary": "Returns the most likely country of origin of a first name and a last name. Note that the \"Diaspora\" endpoint may be better suited for multicultural countries like the U.S.A, Canada, Australia, New-Zealand, etc."
+        "summary": "Returns the most likely country of origin of a first name and a last name. Note that the \"Diaspora\" endpoint may be better suited for multicultural countries like the U.S.A., Canada, Russia, etc."
     },
     "/api2/json/softwareVersion": {
         "request": {},
@@ -202,7 +202,7 @@
             "anonymized": "Should the API key be set to anonymized"
         },
         "response": {},
-        "summary": "Used to set the anonymized status of an API key. Setting the anonymized parameter of an API key to true will hide the API key in the logs by using a SHA-256 digest of the key instead."
+        "summary": "Used to set the anonymized status of an API key. Setting the anonymized parameter of an API key to true will hide the data processed with this API key in the logs by using a SHA-256 digest of the submissions instead."
     },
     "/api2/json/nameTypeGeo/{properNoun}/{countryIso2}": {
         "request": {

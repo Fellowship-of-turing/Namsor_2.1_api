@@ -506,7 +506,7 @@ fetch("https://v2.namsor.com/NamsorAPIv2/api2/json/origin/Zanele/Muholi", {
 
 
 
-*Returns the most likely country of origin of a first name and a last name. Note that the "Diaspora" endpoint may be better suited for multicultural countries like the U.S.A, Canada, Australia, New-Zealand, etc.*
+*Returns the most likely country of origin of a first name and a last name. Note that the "Diaspora" endpoint may be better suited for multicultural countries like the U.S.A., Canada, Russia, etc.*
 
 *<u>Cost :</u> The processing of each query requires **10** credits.*
 
@@ -3809,8 +3809,8 @@ fetch("https://v2.namsor.com/NamsorAPIv2/api2/json/parseName/John%20Smith", {
 |nameParserType|String|Most likely structure of the name||
 |nameParserTypeAlt|String|Second most likely structure of the name||
 |**firstLastName**|**Object**|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|*** string ***||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|*** string ***||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|First name (or given name)||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|Last name (or family name)||
 |score|Number|Higher implies a more reliable result, score is not normalized||
@@ -3963,8 +3963,8 @@ fetch("https://v2.namsor.com/NamsorAPIv2/api2/json/parseNameBatch", {
 |nameParserType|String|Most likely structure of the name||
 |nameParserTypeAlt|String|Second most likely structure of the name||
 |**firstLastName**|**Object**|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|*** string ***||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|*** string ***||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|First name (or given name)||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|Last name (or family name)||
 |score|Number|Higher implies a more reliable result, score is not normalized||
@@ -4086,8 +4086,8 @@ fetch("https://v2.namsor.com/NamsorAPIv2/api2/json/parseName/Ricardo%20Dar%C3%AD
 |nameParserType|String|Most likely structure of the name||
 |nameParserTypeAlt|String|Second most likely structure of the name||
 |**firstLastName**|**Object**|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|*** string ***||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|*** string ***||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|First name (or given name)||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|Last name (or family name)||
 |score|Number|Higher implies a more reliable result, score is not normalized||
@@ -4243,8 +4243,8 @@ fetch("https://v2.namsor.com/NamsorAPIv2/api2/json/parseNameGeoBatch", {
 |nameParserType|String|Most likely structure of the name||
 |nameParserTypeAlt|String|Second most likely structure of the name||
 |**firstLastName**|**Object**|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|*** string ***||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|*** string ***||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|First name (or given name)||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|Last name (or family name)||
 |score|Number|Higher implies a more reliable result, score is not normalized||
@@ -5772,8 +5772,8 @@ fetch("https://v2.namsor.com/NamsorAPIv2/api2/json/parseJapaneseName/%E5%B0%8F%E
 |nameParserType|String|Most likely structure of the name||
 |nameParserTypeAlt|String|Second most likely structure of the name||
 |**firstLastName**|**Object**|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|*** string ***||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|*** string ***||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|First name (or given name)||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|Last name (or family name)||
 |score|Number|Higher implies a more reliable result, score is not normalized||
@@ -5926,8 +5926,8 @@ fetch("https://v2.namsor.com/NamsorAPIv2/api2/json/parseJapaneseNameBatch", {
 |nameParserType|String|Most likely structure of the name||
 |nameParserTypeAlt|String|Second most likely structure of the name||
 |**firstLastName**|**Object**|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|*** string ***||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|*** string ***||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|First name (or given name)||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|Last name (or family name)||
 |score|Number|Higher implies a more reliable result, score is not normalized||
@@ -7015,8 +7015,8 @@ fetch("https://v2.namsor.com/NamsorAPIv2/api2/json/pinyinChineseName/%E8%B5%B5%E
 |nameParserType|String|Most likely structure of the name||
 |nameParserTypeAlt|String|Second most likely structure of the name||
 |**firstLastName**|**Object**|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|*** string ***||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|*** string ***||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|Most likely first name (or given name) transcription in Pinyin||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|Most likely last name (or family name) transcription in Pinyin||
 |score|Number|Higher implies a more reliable result, score is not normalized||
@@ -7169,8 +7169,8 @@ fetch("https://v2.namsor.com/NamsorAPIv2/api2/json/pinyinChineseNameBatch", {
 |nameParserType|String|Most likely structure of the name||
 |nameParserTypeAlt|String|Second most likely structure of the name||
 |**firstLastName**|**Object**|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|*** string ***||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|*** string ***||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|Most likely first name (or given name) transcription in Pinyin||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|Most likely last name (or family name) transcription in Pinyin||
 |score|Number|Higher implies a more reliable result, score is not normalized||
@@ -7813,8 +7813,8 @@ fetch("https://v2.namsor.com/NamsorAPIv2/api2/json/parseChineseName/%E8%B5%B5%E4
 |nameParserType|String|Most likely structure of the name||
 |nameParserTypeAlt|String|Second most likely structure of the name||
 |**firstLastName**|**Object**|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|*** string ***||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|*** string ***||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|First name (or given name) in Standard Mandarin Chinese||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|Last name (or family name) in Standard Mandarin Chinese||
 |score|Number|Higher implies a more reliable result, score is not normalized||
@@ -7967,8 +7967,8 @@ fetch("https://v2.namsor.com/NamsorAPIv2/api2/json/parseChineseNameBatch", {
 |nameParserType|String|Most likely structure of the name||
 |nameParserTypeAlt|String|Second most likely structure of the name||
 |**firstLastName**|**Object**|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|*** string ***||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|*** string ***||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|First name (or given name) in Standard Mandarin Chinese||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|Last name (or family name) in Standard Mandarin Chinese||
 |score|Number|Higher implies a more reliable result, score is not normalized||
@@ -8078,8 +8078,8 @@ fetch("https://v2.namsor.com/NamsorAPIv2/api2/json/chineseNameMatch/Yu/Hong/%E5%
 
 |Name|Type|Description|Enumerators|
 |---|---|---|---|
-|script|String|||
-|id|String|||
+|script|String|*** string ***||
+|id|String|*** string ***||
 |matchStatus|String|Success status of the match||
 |score|Number|Higher implies a better match, score is not normalized||
 
@@ -8239,8 +8239,8 @@ fetch("https://v2.namsor.com/NamsorAPIv2/api2/json/chineseNameMatchBatch", {
 
 |Name|Type|Description|Enumerators|
 |---|---|---|---|
-|script|String|||
-|id|String|||
+|script|String|*** string ***||
+|id|String|*** string ***||
 |matchStatus|String|Success status of the match||
 |score|Number|Higher implies a better match, score is not normalized||
 
@@ -8495,8 +8495,8 @@ fetch("https://v2.namsor.com/NamsorAPIv2/api2/json/phoneCodeBatch", {
 |lastName|String|true|Last name (or family name)|
 |phoneNumber|String|true|Phone number, formatted or unformatted|
 |**FirstLastNameOriginedOut**|**Object**|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|true|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String||||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|true|*** string ***||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String||*** string ***||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|true|The first name (also known as given name)||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|true|The last name (also known as family name, or surname)||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.countryOrigin*|String|true|Most likely country of Origin||
@@ -8814,8 +8814,8 @@ fetch("https://v2.namsor.com/NamsorAPIv2/api2/json/phoneCodeGeoBatch", {
 |lastName|String|true|Last name (or family name)|
 |phoneNumber|String|true|Phone number, formatted or unformatted|
 |**FirstLastNameOriginedOut**|**Object**|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|true|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String||||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|true|*** string ***||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String||*** string ***||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|true|The first name (also known as given name)||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|true|The last name (also known as family name, or surname)||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.countryOrigin*|String|true|Most likely country of Origin||
@@ -9987,7 +9987,7 @@ fetch("https://v2.namsor.com/NamsorAPIv2/api2/json/anonymize/77afd518a85798fa372
 
 
 
-*Used to set the anonymized status of an API key. Setting the anonymized parameter of an API key to true will hide the API key in the logs by using a SHA-256 digest of the key instead.*
+*Used to set the anonymized status of an API key. Setting the anonymized parameter of an API key to true will hide the data processed with this API key in the logs by using a SHA-256 digest of the submissions instead.*
 
 *<u>Cost :</u> The processing of each query does not require credits.*
 

@@ -61,7 +61,7 @@
             "probabilityCalibrated": "Higher implies a more reliable result, ranges from 0 to 1 (for countryOrigin)",
             "probabilityAltCalibrated": "Higher implies a more reliable result, ranges from 0 to 1 (for countryOriginAlt)"
         },
-        "summary": "Returns the most likely country of origin of a first name and a last name. Note that the \"Diaspora\" endpoint may be better suited for multicultural countries like the U.S.A, Canada, Australia, New-Zealand, etc."
+        "summary": "Returns the most likely country of origin of a first name and a last name. Note that the \"Diaspora\" endpoint may be better suited for multicultural countries like the U.S.A., Canada, Russia, etc."
     },
     "/api2/json/softwareVersion": {
         "request": {},
@@ -202,7 +202,7 @@
             "anonymized": "Should the API key be set to anonymized"
         },
         "response": {},
-        "summary": "Used to set the anonymized status of an API key. Setting the anonymized parameter of an API key to true will hide the API key in the logs by using a SHA-256 digest of the key instead."
+        "summary": "Used to set the anonymized status of an API key. Setting the anonymized parameter of an API key to true will hide the data processed with this API key in the logs by using a SHA-256 digest of the submissions instead."
     },
     "/api2/json/nameTypeGeo/{properNoun}/{countryIso2}": {
         "request": {
@@ -676,8 +676,8 @@
             "nameParserType": "Most likely structure of the name",
             "nameParserTypeAlt": "Second most likely structure of the name",
             "firstLastName": {
-                "script": "",
-                "id": "",
+                "script": "*** string ***",
+                "id": "*** string ***",
                 "firstName": "First name (or given name)",
                 "lastName": "Last name (or family name)"
             },
@@ -697,8 +697,8 @@
             "nameParserType": "Most likely structure of the name",
             "nameParserTypeAlt": "Second most likely structure of the name",
             "firstLastName": {
-                "script": "",
-                "id": "",
+                "script": "*** string ***",
+                "id": "*** string ***",
                 "firstName": "First name (or given name)",
                 "lastName": "Last name (or family name)"
             },
@@ -719,8 +719,8 @@
             "nameParserType": "Most likely structure of the name",
             "nameParserTypeAlt": "Second most likely structure of the name",
             "firstLastName": {
-                "script": "",
-                "id": "",
+                "script": "*** string ***",
+                "id": "*** string ***",
                 "firstName": "First name (or given name)",
                 "lastName": "Last name (or family name)"
             },
@@ -739,8 +739,8 @@
             "nameParserType": "Most likely structure of the name",
             "nameParserTypeAlt": "Second most likely structure of the name",
             "firstLastName": {
-                "script": "",
-                "id": "",
+                "script": "*** string ***",
+                "id": "*** string ***",
                 "firstName": "First name (or given name) in Standard Mandarin Chinese",
                 "lastName": "Last name (or family name) in Standard Mandarin Chinese"
             },
@@ -760,8 +760,8 @@
             "nameParserType": "Most likely structure of the name",
             "nameParserTypeAlt": "Second most likely structure of the name",
             "firstLastName": {
-                "script": "",
-                "id": "",
+                "script": "*** string ***",
+                "id": "*** string ***",
                 "firstName": "First name (or given name) in Standard Mandarin Chinese",
                 "lastName": "Last name (or family name) in Standard Mandarin Chinese"
             },
@@ -780,8 +780,8 @@
             "nameParserType": "Most likely structure of the name",
             "nameParserTypeAlt": "Second most likely structure of the name",
             "firstLastName": {
-                "script": "",
-                "id": "",
+                "script": "*** string ***",
+                "id": "*** string ***",
                 "firstName": "Most likely first name (or given name) transcription in Pinyin",
                 "lastName": "Most likely last name (or family name) transcription in Pinyin"
             },
@@ -801,8 +801,8 @@
             "nameParserType": "Most likely structure of the name",
             "nameParserTypeAlt": "Second most likely structure of the name",
             "firstLastName": {
-                "script": "",
-                "id": "",
+                "script": "*** string ***",
+                "id": "*** string ***",
                 "firstName": "Most likely first name (or given name) transcription in Pinyin",
                 "lastName": "Most likely last name (or family name) transcription in Pinyin"
             },
@@ -817,8 +817,8 @@
             "chineseName": "Full name (family name and given name) in Standard Mandarin Chinese"
         },
         "response": {
-            "script": "",
-            "id": "",
+            "script": "*** string ***",
+            "id": "*** string ***",
             "matchStatus": "Success status of the match",
             "score": "Higher implies a better match, score is not normalized"
         },
@@ -838,8 +838,8 @@
             }
         },
         "response": {
-            "script": "",
-            "id": "",
+            "script": "*** string ***",
+            "id": "*** string ***",
             "matchStatus": "Success status of the match",
             "score": "Higher implies a better match, score is not normalized"
         },
@@ -1006,8 +1006,8 @@
             "nameParserType": "Most likely structure of the name",
             "nameParserTypeAlt": "Second most likely structure of the name",
             "firstLastName": {
-                "script": "",
-                "id": "",
+                "script": "*** string ***",
+                "id": "*** string ***",
                 "firstName": "First name (or given name)",
                 "lastName": "Last name (or family name)"
             },
@@ -1027,8 +1027,8 @@
             "nameParserType": "Most likely structure of the name",
             "nameParserTypeAlt": "Second most likely structure of the name",
             "firstLastName": {
-                "script": "",
-                "id": "",
+                "script": "*** string ***",
+                "id": "*** string ***",
                 "firstName": "First name (or given name)",
                 "lastName": "Last name (or family name)"
             },
@@ -1361,8 +1361,8 @@
             "lastName": "Last name (or family name)",
             "phoneNumber": "Phone number, formatted or unformatted",
             "FirstLastNameOriginedOut": {
-                "script": "",
-                "id": "",
+                "script": "*** string ***",
+                "id": "*** string ***",
                 "firstName": "The first name (also known as given name)",
                 "lastName": "The last name (also known as family name, or surname)",
                 "countryOrigin": "Most likely country of Origin",
@@ -1403,8 +1403,8 @@
             "lastName": "Last name (or family name)",
             "phoneNumber": "Phone number, formatted or unformatted",
             "FirstLastNameOriginedOut": {
-                "script": "",
-                "id": "",
+                "script": "*** string ***",
+                "id": "*** string ***",
                 "firstName": "The first name (also known as given name)",
                 "lastName": "The last name (also known as family name, or surname)",
                 "countryOrigin": "Most likely country of Origin",
@@ -1451,8 +1451,8 @@
             "nameParserType": "Most likely structure of the name",
             "nameParserTypeAlt": "Second most likely structure of the name",
             "firstLastName": {
-                "script": "",
-                "id": "",
+                "script": "*** string ***",
+                "id": "*** string ***",
                 "firstName": "First name (or given name)",
                 "lastName": "Last name (or family name)"
             },

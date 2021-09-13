@@ -155,7 +155,7 @@
                 "tags": [
                     "Origin"
                 ],
-                "summary": "Returns the most likely country of origin of a first name and a last name. Note that the \"Diaspora\" endpoint may be better suited for multicultural countries like the U.S.A, Canada, Australia, New-Zealand, etc.",
+                "summary": "Returns the most likely country of origin of a first name and a last name. Note that the \"Diaspora\" endpoint may be better suited for multicultural countries like the U.S.A., Canada, Russia, etc.",
                 "operationId": "Origin",
                 "parameters": [
                     {
@@ -3675,7 +3675,7 @@
                 "tags": [
                     "Admin"
                 ],
-                "summary": "Used to set the anonymized status of an API key. Setting the anonymized parameter of an API key to true will hide the API key in the logs by using a SHA-256 digest of the key instead.",
+                "summary": "Used to set the anonymized status of an API key. Setting the anonymized parameter of an API key to true will hide the data processed with this API key in the logs by using a SHA-256 digest of the submissions instead.",
                 "operationId": "Anonymize",
                 "parameters": [
                     {
