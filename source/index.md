@@ -127,6 +127,14 @@ For readability purposes the enumerators for certain fields may be omitted in th
 
 female, male, unknown
 
+### Country code
+
+All country codes must be submitted and will be returned using the <a target="blank" href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2">ISO 3166-1 alpha-2</a> standard.
+
+### US Races and Ethnicities
+
+American Indian or Alaska Native (AI_AN), Asian (A), Black or African-American (B_NL), Hispanic or Latino (HL), Native Hawaiian or Pacific Islander (PI), White or European American (W_NL)
+
 ### Region Classifications
 
 <ins>subRegionOrigin :</ins>
@@ -527,7 +535,7 @@ fetch("https://v2.namsor.com/NamsorAPIv2/api2/json/origin/Zanele/Muholi", {
 {
   "script": "LATIN",
   "id": "859e5b4b-1243-4d5a-902d-ac4d46712ce7",
-  "firstName": "Zanele ",
+  "firstName": "Zanele",
   "lastName": "Muholi",
   "countryOrigin": "ZA",
   "countryOriginAlt": "LS",
