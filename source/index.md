@@ -133,7 +133,7 @@ All country codes must be submitted and will be returned using the <a target="bl
 
 ### US Races and Ethnicities
 
-American Indian or Alaska Native (AI_AN), Asian (A), Black or African-American (B_NL), Hispanic or Latino (HL), Native Hawaiian or Pacific Islander (PI), White or European American (W_NL)
+American Indian or Alaska Native (**AI_AN**), Asian (**A**), Black or African-American (**B_NL**), Hispanic or Latino (**HL**), Native Hawaiian or Pacific Islander (**PI**), White or European American (**W_NL**)
 
 ### Region Classifications
 
