@@ -8,6 +8,7 @@ let capitalize = helpers.capitalize;
 // Imports
 const fs = require('fs');
 let routeNames = require('../config/route_names');
+let routeOrdering = require('../config/route_ordering')
 let routeSections = require('../config/route_sections');
 let apiExamples = require('../config/api_examples');
 let descr = require('../config/combined_descriptions.json');
@@ -723,6 +724,13 @@ module.exports = (swaggerFile, opt) => {
 
   // Delete external links
   delete swaggerFile.externalDocs;
+
+  // Change route ordering
+  let routePathData = JSON.parse(JSON.stringify(swaggerFile.paths));
+  swaggerFile.paths = {};
+  routeOrdering.forEach(route => {
+    swaggerFile.paths[route] = routePathData[route];
+  });
 
   // Save intermidiate files
   fs.writeFileSync('openapi/genNotMD/formated_openapi.json', JSON.stringify(swaggerFile, null, 4), 'utf8');

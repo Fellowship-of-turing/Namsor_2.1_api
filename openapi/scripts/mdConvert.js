@@ -426,12 +426,16 @@ let mdConvert = (swaggerFile, store, wsOptions, opt) => {
 
       mdReplace('dec1', '{');
       mdReplace('dec2', '}');
+
       let escapeResponseTarget = 'console.log(response)'.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
       mdReplace(escapeResponseTarget, 'console.log(response.json())');
       mdReplace('Responses</h3>', 'Response</h3>');
       mdReplace('> 200 Response', '');
       let responseTitle = '> The above command returns JSON structured like this:';
       mdReplace('> Example responses', responseTitle);
+      // Target _blank for outgoing urls
+      mdReplace('<a href=', '<a target="_blank" href=');
+
 
       // Insert include files into document
       let contentToInject = '# Introduction\n\n';
