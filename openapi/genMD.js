@@ -26,8 +26,10 @@ let formatOptions = {
   inject_ex: true,
   // Inject sections into intro
   intro_includes: [
-    'information.md',
+    'about.md',
     'authentication.md',
+    'credits.md',
+    'enumerators.md',
     'errors.md',
   ],
 };

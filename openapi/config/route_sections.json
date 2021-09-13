@@ -1,12 +1,12 @@
 {
     "tags": [
-        { "name": "Gender", "description": "$gender" },
         { "name": "Origin", "description": "$origin" },
-        { "name": "Split Name", "description": "$split_name" },
-        { "name": "Chinese", "description": "$chinese" },
-        { "name": "Japanese", "description": "$japanese" },
-        { "name": "Phone", "description": "$phone" },
+        { "name": "Gender", "description": "$gender" },
         { "name": "Name Type", "description": "$name_type" },
+        { "name": "Split Name", "description": "$split_name" },
+        { "name": "Japanese", "description": "$japanese" },
+        { "name": "Chinese", "description": "$chinese" },
+        { "name": "Phone", "description": "$phone" },
         { "name": "Admin", "description": "$admin" }
     ],
 

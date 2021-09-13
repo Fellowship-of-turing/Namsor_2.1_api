@@ -1,17 +1,11 @@
 ## Authentication
 
-The free BASIC subscription allows to classify up to 500 names per month (origin, ethnicity) and 5000 names per month (gender).
-
-<aside class="notice">
-To track credit usage you can either check the provided graphics in your user account or query the appropriate Admin routes.
-</aside>
-
 ### API Key Creation
 
-text here
+To create an API key visit <a target="_blank" href="https://v2.namsor.com">www.namsor.com</a> and create an account. Navigate to the account information page to retrieve your API key. Your newly created account comes with 5000 free credits that you may use immediately with any of Namsor's tools: API, demo page, csv and excel file processor or CLI tools.
 
-### API Key Setup
+### API Key Installation
 
 Your API key must be set in the _header_ of your request using the _X-API-KEY_ property.
 
-Please refer yourself to the provided code samples for correct key installation.
+Please refer yourself to the provided code samples for correct key installation. Just replace "your-api-key" with your NamSor API key.

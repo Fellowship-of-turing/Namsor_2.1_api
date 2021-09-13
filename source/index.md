@@ -57,9 +57,10 @@ License: <a target="_blank" href="https://v2.namsor.com/NamSorAPIv2/assets/pdf/2
 
 
 
-## General Information
+## About the Namsor API
 
 -   The base endpoint URL is: https://v2.namsor.com/NamSorAPIv2
+-   For best results, use Batch endpoint to process multi-entity requests
 -   Batch processing returns the data sorted in the same order as it was sent.
 -   **All endpoints require an API Key.**
 -   Never share your API key to ANYONE.
@@ -67,1130 +68,107 @@ License: <a target="_blank" href="https://v2.namsor.com/NamSorAPIv2/assets/pdf/2
 ### API Requests and Responses
 
 -   All endpoints return JSON containing either an object or a nested array of objects.
+
 -   Currently certain NamSor API endpoints use nested object structures in their query body and / or responses, please refer yourself to the corresponding code example.
+
 -   Certain API response code examples have been truncated in order to improve readability. For example the countriesOriginTop, ethnicitiesTop and matchCandidates Array fields have been reduced to 2 elements in length.
+
 -   Be aware that data in the code examples have been URL encoded into the corresponding ASCII code characters when necessary, for example "谢晓亮" is replaced by "%E8%B0%A2%E6%99%93%E4%BA%AE". URLs cannot contain spaces or non-ASCII characters. When making GET requests to the API use URL encoding to convert non-ASCII characters into a format that can be transmitted over the internet.
 
-<h3 id="privacy">Privacy</h3>
+### Data Privacy
 
-Set learnable=false and anonymized=true for highest privacy (ie. to forget data as it's processed)
+Namsor does not and will never store submitted names, phones or other potentially personal data. The machine learning Algorithm does however improve data evaluation based on the submitted data, it does also keep a history of the services your API key queries.
 
-### Region Classifications
+If you wish to disable machine learning based on your submissions, please set learnable to "false" by using <a href="#learnable">the corresponding Admin route</a>.
 
-We provide two regions classifications when inferring the origin. These classifications have slightly different enumerators as detailed below:
-
-#### regionOrigin :
-
-Africa, Asia, Europe, Latin America and the Caribbean, Northern America, Oceania, Unclassified
-
-#### topRegionOrigin :
-
-Africa, Americas, Asia, Europe, Oceania, Unclassified
-
-### Soft Limit vs Hard Limit
-
-Reaching the soft limit will trigger an email notification.
-
-Reaching the hard limit will trigger an email notification and block the API key.
-
- <!-- We recommend using GET methods for single name queries but suggest using POST methods for large batches of names. -->
-
+If you wish to disable service usage history, please set anonymized to "true" by using <a href="#anonymized">the corresponding Admin route</a>.
 
 
 ## Authentication
 
-The free BASIC subscription allows to classify up to 500 names per month (origin, ethnicity) and 5000 names per month (gender).
-
-<aside class="notice">
-To track credit usage you can either check the provided graphics in your user account or query the appropriate Admin routes.
-</aside>
-
 ### API Key Creation
 
-text here
+To create an API key visit <a target="_blank" href="https://v2.namsor.com">www.namsor.com</a> and create an account. Navigate to the account information page to retrieve your API key. Your newly created account comes with 5000 free credits that you may use immediately with any of Namsor's tools: API, demo page, csv and excel file processor or CLI tools.
 
-### API Key Setup
+### API Key Installation
 
 Your API key must be set in the _header_ of your request using the _X-API-KEY_ property.
 
-Please refer yourself to the provided code samples for correct key installation.
+Please refer yourself to the provided code samples for correct key installation. Just replace "your-api-key" with your NamSor API key.
+
+
+## Credits
+
+### What are Credits
+
+We use a credit system to track usage. Each plan comes with a monthly quantity of credits and a price for request that exceed your monthly allowance. The free Basic subscription plan grants you 5000 credits but <a target="_blank" href="https://www.namsor.com/prices">other plans are available</a> in case you have higher requirements.
+
+As an example, with 5000 credits you can either :
+
+-   Process 5000 names to determine their gender
+-   Process 500 names to determine their origin or ethnicity
+-   Process 250 names to determine their diaspora
+
+Admin routes are free to use.
+
+### Repeated Operations Tolerance
+
+Our API features smart processing and it will not charge for analyzing identical data for up to 20 times. For example if you submit the same full name 5 times in order to infer it's gender then you will only be charged 1 credit.
+
+### Soft Limit vs Hard Limit
+
+In your user account you may set two types of credit usage limits:
+
+-   A soft limit that will trigger an email notification when reached.
+-   A hard limit that will trigger an email notification and block the API key when reached.
+
+### Track Usage
+
+There are two ways to track your credit usage: check the provided graphics in your user account or query the appropriate Admin routes (API Usage, API Usage History and API Usage History Aggregate).
+
+
+## Enumerators
+
+For readability purposes the enumerators for certain fields may be omitted in the request / response tables. We have detailed the most important classification types in the following section.
+
+### Gender
+
+female, male, unknown
+
+### Region Classifications
+
+<ins>subRegionOrigin :</ins>
+
+Southern Asia, Southern Europe, Northern Africa, Middle Africa, Caribbean, South America, Western Asia, Australia and New Zealand, Western Europe, Northern Europe, Eastern Europe, Central America, Western Africa, Southern Africa, South-Eastern Asia, Eastern Africa, Northern America, Eastern Asia, Melanesia, Central Asia, Micronesia, Polynesia, Unclassified
+
+<br>
+
+We provide two regions classifications when inferring the origin. These classifications have slightly different enumerators as detailed below:
+
+<ins>regionOrigin :</ins>
+
+Africa, Asia, Europe, Latin America and the Caribbean, Northern America, Oceania, Unclassified
+
+<ins>topRegionOrigin :</ins>
+
+Africa, Americas, Asia, Europe, Oceania, Unclassified
 
 
 ## Errors
 
 The NamSor API uses the following error codes:
 
-| Error Code | Meaning               | Description                                        |
-| ---------- | --------------------- | -------------------------------------------------- |
-| 401        | Unauthorized          | Missing or incorrect API Key.                      |
-| 403        | Forbidden             | API Limit Reached or API Key Disabled.             |
-| 404        | Not Found             | The specified route could not be found.            |
-| 500        | Internal Server Error | We had a problem with our server. Try again later. |
-
-
-<h1 id="namsor-api-v2-gender">Gender</h1>
-
-Namsor’s name checking API can help you determine the probability of a person being <strong>male or female</strong> based on their <strong>name</strong>. We offer many processing options for <strong>gender determination</strong>, the name can either be provided: as a <strong>full name</strong>, as a <strong>first name and a last name</strong>. In addition to the name you may specify the country of origin to improve accuracy.<br/><br/>Our API also supports Chinese names, Japanese names and a large number of additional alphabets*.<br><br><br><a class='demo-page-button' target='_blank' href='https://namsor.com/'>Try out Gender features</a>
-
-## Gender
-
-<a id="opIdGender"></a>
-
-> **Gender** code sample :
-
-```shell
-curl --request GET \
-  --url https://v2.namsor.com/NamSorAPIv2/api2/json/gender/Rosalind/Franklin \
-  --header 'X-API-KEY: your-api-key' \
-  --header 'Accept: application/json'
-```
-
-```java
-HttpResponse<String> response = Unirest.get("https://v2.namsor.com/NamSorAPIv2/api2/json/gender/Rosalind/Franklin")
-  .header("Accept", "application/json")
-  .header("X-API-KEY", "your-api-key")
-  .asString();
-```
-
-```python
-import requests
-
-url = "https://v2.namsor.com/NamSorAPIv2/api2/json/gender/Rosalind/Franklin"
-
-headers = {
- "Accept": "application/json",
- "X-API-KEY": "your-api-key"
-}
-
-response = requests.request("GET", url, headers=headers)
-
-print(response.text)
-```
-
-```javascript
-fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/gender/Rosalind/Franklin", {
-  "method": "GET",
-  "headers": {
-    "Accept": "application/json",
-    "X-API-KEY": "your-api-key"
-  }
-})
-.then(response => {
-  console.log(response.json());
-})
-.catch(err => {
-  console.error(err);
-});
-```
-
-
-
-*Returns the most likely gender of a first name and a last name.*
-
-*<u>Cost :</u> The processing of each query requires **1** credits.*
-
-<h3 id="gender-requesturl">HTTP Request</h3>
-
-`GET https://v2.namsor.com/NamSorAPIv2/api2/json/gender/{firstName}/{lastName}`
-
-
-
-<h3 id="gender-parameters">Request Parameters</h3>
-
-|Name|Type|Required|Description|
-|---|---|---|---|
-|firstName|String|true|First name (or given name)|
-|lastName|String|true|Last name (or family name)|
-
-
-
-
-
-> The above command returns JSON structured like this:
-
-
-
-```json
-{
-  "script": "LATIN",
-  "id": "86767222-94ba-4ee4-8ade-6755228c77ca",
-  "firstName": "Rosalind",
-  "lastName": "Franklin",
-  "likelyGender": "female",
-  "genderScale": 0.9730217066962004,
-  "score": 21.904701285428477,
-  "probabilityCalibrated": 0.9865108533481002
-}
-```
-
-<h3 id="gender-responses">Response</h3>
-
-*The HTTP response body is an object.*
-
-|Name|Type|Description|Enumerators|
-|---|---|---|---|
-|script|String|Character set used for analysis||
-|id|String|Unique identifier||
-|firstName|String|Submitted first name||
-|lastName|String|Submitted last name||
-|likelyGender|String|Most likely gender|"male", "female" or "unknown"|
-|genderScale|Number|Gender scale ranging from -1 (male) to +1 (female)||
-|score|Number|Higher implies a more reliable result, score is not normalized||
-|probabilityCalibrated|Number|Higher implies a more reliable result, ranges from 0 to 1||
-
-
-
-
-
-
-
-
-
-
-
-## Gender Batch
-
-<a id="opIdGender-Batch"></a>
-
-> **Gender Batch** code sample :
-
-```shell
-curl --request POST \
-  --url https://v2.namsor.com/NamSorAPIv2/api2/json/genderBatch \
-  --header 'X-API-KEY: your-api-key' \
-  --header 'Accept: application/json' \
-  --header 'Content-Type: application/json' \
-  --data '{"personalNames":[{"id":"e630dda5-13b3-42c5-8f1d-648aa8a21c42","firstName":"Rosalind","lastName":"Franklin"}]}'
-```
-
-```java
-HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/api2/json/genderBatch")
-  .header("Content-Type", "application/json")
-  .header("Accept", "application/json")
-  .header("X-API-KEY", "your-api-key")
-  .body("{\"personalNames\":[{\"id\":\"e630dda5-13b3-42c5-8f1d-648aa8a21c42\",\"firstName\":\"Rosalind\",\"lastName\":\"Franklin\"}]}")
-  .asString();
-```
-
-```python
-import requests
-
-url = "https://v2.namsor.com/NamSorAPIv2/api2/json/genderBatch"
-
-payload = {"personalNames": [
-        {
-            "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
-            "firstName": "Rosalind",
-            "lastName": "Franklin"
-        }
-    ]}
-headers = {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-    "X-API-KEY": "your-api-key"
-}
-
-response = requests.request("POST", url, json=payload, headers=headers)
-
-print(response.text)
-```
-
-```javascript
-fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderBatch", {
-  "method": "POST",
-  "headers": {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-    "X-API-KEY": "your-api-key"
-  },
-  "body": "{\"personalNames\":[{\"id\":\"e630dda5-13b3-42c5-8f1d-648aa8a21c42\",\"firstName\":\"Rosalind\",\"lastName\":\"Franklin\"}]}"
-})
-.then(response => {
-  console.log(response.json());
-})
-.catch(err => {
-  console.error(err);
-});
-```
-
-
-
-*Returns the most likely gender of up to 100 first names and last names.*
-
-*<u>Cost :</u> The processing of each object requires **1** credits.*
-
-<h3 id="gender-batch-requesturl">HTTP Request</h3>
-
-`POST https://v2.namsor.com/NamSorAPIv2/api2/json/genderBatch`
-
-
-
-> Body parameter
-
-```json
-{
-  "personalNames": [
-    {
-      "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
-      "firstName": "Rosalind",
-      "lastName": "Franklin"
-    }
-  ]
-}
-```
-
-<h3 id="gender-batch-parameters">Request Body</h3>
-
-*The HTTP request body is required to be a nested array of objects.*
-
-|Name|Type|Required|Description|
-|---|---|---|---|
-|id|String||Unique identifier|
-|firstName|String|true|First name (or given name)|
-|lastName|String|true|Last name (or family name)|
-
-
-
-
-> The above command returns JSON structured like this:
-
-
-
-```json
-{
-  "personalNames": [
-    {
-      "script": "LATIN",
-      "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
-      "firstName": "Rosalind",
-      "lastName": "Franklin",
-      "likelyGender": "female",
-      "genderScale": 0.9730217066962004,
-      "score": 21.904701285428477,
-      "probabilityCalibrated": 0.9865108533481002
-    }
-  ]
-}
-```
-
-<h3 id="gender-batch-responses">Response</h3>
-
-*The HTTP response body is a nested array of objects.*
-
-|Name|Type|Description|Enumerators|
-|---|---|---|---|
-|script|String|Character set used for analysis||
-|id|String|Provided unique identifier||
-|firstName|String|Submitted first name||
-|lastName|String|Submitted last name||
-|likelyGender|String|Most likely gender|"male", "female" or "unknown"|
-|genderScale|Number|Gender scale ranging from -1 (male) to +1 (female)||
-|score|Number|Higher implies a more reliable result, score is not normalized||
-|probabilityCalibrated|Number|Higher implies a more reliable result, ranges from 0 to 1||
-
-
-
-
-
-
-
-
-
-
-
-## Gender Geo
-
-<a id="opIdGender-Geo"></a>
-
-> **Gender Geo** code sample :
-
-```shell
-curl --request GET \
-  --url https://v2.namsor.com/NamSorAPIv2/api2/json/genderGeo/Sofia/Kovalevskaya/RU \
-  --header 'X-API-KEY: your-api-key' \
-  --header 'Accept: application/json'
-```
-
-```java
-HttpResponse<String> response = Unirest.get("https://v2.namsor.com/NamSorAPIv2/api2/json/genderGeo/Sofia/Kovalevskaya/RU")
-  .header("Accept", "application/json")
-  .header("X-API-KEY", "your-api-key")
-  .asString();
-```
-
-```python
-import requests
-
-url = "https://v2.namsor.com/NamSorAPIv2/api2/json/genderGeo/Sofia/Kovalevskaya/RU"
-
-headers = {
- "Accept": "application/json",
- "X-API-KEY": "your-api-key"
-}
-
-response = requests.request("GET", url, headers=headers)
-
-print(response.text)
-```
-
-```javascript
-fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderGeo/Sofia/Kovalevskaya/RU", {
-  "method": "GET",
-  "headers": {
-    "Accept": "application/json",
-    "X-API-KEY": "your-api-key"
-  }
-})
-.then(response => {
-  console.log(response.json());
-})
-.catch(err => {
-  console.error(err);
-});
-```
-
-
-
-*Returns the most likely gender of a first name and a last name using its geographic context.*
-
-*<u>Cost :</u> The processing of each query requires **1** credits.*
-
-<h3 id="gender-geo-requesturl">HTTP Request</h3>
-
-`GET https://v2.namsor.com/NamSorAPIv2/api2/json/genderGeo/{firstName}/{lastName}/{countryIso2}`
-
-
-
-<h3 id="gender-geo-parameters">Request Parameters</h3>
-
-|Name|Type|Required|Description|
-|---|---|---|---|
-|firstName|String|true|First name (or given name)|
-|lastName|String|true|Last name (or family name)|
-|countryIso2|String|true|Most likely country of origin, in ISO 3166-1 alpha-2 format|
-
-
-
-
-
-
-> The above command returns JSON structured like this:
-
-
-
-```json
-{
-  "script": "LATIN",
-  "id": "1524c414-ee6a-4a07-8056-b8dfe483850d",
-  "firstName": "Sofia",
-  "lastName": "Kovalevskaya",
-  "likelyGender": "female",
-  "genderScale": 0.9938175581348969,
-  "score": 39.01304923594625,
-  "probabilityCalibrated": 0.9969087790674485
-}
-```
-
-<h3 id="gender-geo-responses">Response</h3>
-
-*The HTTP response body is an object.*
-
-|Name|Type|Description|Enumerators|
-|---|---|---|---|
-|script|String|Character set used for analysis||
-|id|String|Unique identifier||
-|firstName|String|Submitted first name||
-|lastName|String|Submitted last name||
-|likelyGender|String|Most likely gender|"male", "female" or "unknown"|
-|genderScale|Number|Gender scale ranging from -1 (male) to +1 (female)||
-|score|Number|Higher implies a more reliable result, score is not normalized||
-|probabilityCalibrated|Number|Higher implies a more reliable result, ranges from 0 to 1||
-
-
-
-
-
-
-
-
-
-
-
-## Gender Geo Batch
-
-<a id="opIdGender-Geo-Batch"></a>
-
-> **Gender Geo Batch** code sample :
-
-```shell
-curl --request POST \
-  --url https://v2.namsor.com/NamSorAPIv2/api2/json/genderGeoBatch \
-  --header 'X-API-KEY: your-api-key' \
-  --header 'Accept: application/json' \
-  --header 'Content-Type: application/json' \
-  --data '{"personalNames":[{"id":"e630dda5-13b3-42c5-8f1d-648aa8a21c42","firstName":"Sofia","lastName":"Kovalevskaya","countryIso2":"RU"}]}'
-```
-
-```java
-HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/api2/json/genderGeoBatch")
-  .header("Content-Type", "application/json")
-  .header("Accept", "application/json")
-  .header("X-API-KEY", "your-api-key")
-  .body("{\"personalNames\":[{\"id\":\"e630dda5-13b3-42c5-8f1d-648aa8a21c42\",\"firstName\":\"Sofia\",\"lastName\":\"Kovalevskaya\",\"countryIso2\":\"RU\"}]}")
-  .asString();
-```
-
-```python
-import requests
-
-url = "https://v2.namsor.com/NamSorAPIv2/api2/json/genderGeoBatch"
-
-payload = {"personalNames": [
-        {
-            "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
-            "firstName": "Sofia",
-            "lastName": "Kovalevskaya",
-            "countryIso2": "RU"
-        }
-    ]}
-headers = {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-    "X-API-KEY": "your-api-key"
-}
-
-response = requests.request("POST", url, json=payload, headers=headers)
-
-print(response.text)
-```
-
-```javascript
-fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderGeoBatch", {
-  "method": "POST",
-  "headers": {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-    "X-API-KEY": "your-api-key"
-  },
-  "body": "{\"personalNames\":[{\"id\":\"e630dda5-13b3-42c5-8f1d-648aa8a21c42\",\"firstName\":\"Sofia\",\"lastName\":\"Kovalevskaya\",\"countryIso2\":\"RU\"}]}"
-})
-.then(response => {
-  console.log(response.json());
-})
-.catch(err => {
-  console.error(err);
-});
-```
-
-
-
-*Returns the most likely gender of up to 100 first names and last names using their geographic context.*
-
-*<u>Cost :</u> The processing of each object requires **1** credits.*
-
-<h3 id="gender-geo-batch-requesturl">HTTP Request</h3>
-
-`POST https://v2.namsor.com/NamSorAPIv2/api2/json/genderGeoBatch`
-
-
-
-> Body parameter
-
-```json
-{
-  "personalNames": [
-    {
-      "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
-      "firstName": "Sofia",
-      "lastName": "Kovalevskaya",
-      "countryIso2": "RU"
-    }
-  ]
-}
-```
-
-<h3 id="gender-geo-batch-parameters">Request Body</h3>
-
-*The HTTP request body is required to be a nested array of objects.*
-
-|Name|Type|Required|Description|
-|---|---|---|---|
-|id|String||Unique identifier|
-|firstName|String|true|First name (or given name)|
-|lastName|String|true|Last name (or family name)|
-|countryIso2|String|true|Most likely country of origin, in ISO 3166-1 alpha-2 format|
-
-
-
-
-> The above command returns JSON structured like this:
-
-
-
-```json
-{
-  "personalNames": [
-    {
-      "script": "LATIN",
-      "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
-      "firstName": "Sofia",
-      "lastName": "Kovalevskaya",
-      "likelyGender": "female",
-      "genderScale": 0.9938175581348969,
-      "score": 39.01304923594625,
-      "probabilityCalibrated": 0.9969087790674485
-    }
-  ]
-}
-```
-
-<h3 id="gender-geo-batch-responses">Response</h3>
-
-*The HTTP response body is a nested array of objects.*
-
-|Name|Type|Description|Enumerators|
-|---|---|---|---|
-|script|String|Character set used for analysis||
-|id|String|Provided unique identifier||
-|firstName|String|Submitted first name||
-|lastName|String|Submitted last name||
-|likelyGender|String|Most likely gender|"male", "female" or "unknown"|
-|genderScale|Number|Gender scale ranging from -1 (male) to +1 (female)||
-|score|Number|Higher implies a more reliable result, score is not normalized||
-|probabilityCalibrated|Number|Higher implies a more reliable result, ranges from 0 to 1||
-
-
-
-
-
-
-
-
-
-
-
-## Gender Full
-
-<a id="opIdGender-Full"></a>
-
-> **Gender Full** code sample :
-
-```shell
-curl --request GET \
-  --url https://v2.namsor.com/NamSorAPIv2/api2/json/genderFull/Alan%20Turing \
-  --header 'X-API-KEY: your-api-key' \
-  --header 'Accept: application/json'
-```
-
-```java
-HttpResponse<String> response = Unirest.get("https://v2.namsor.com/NamSorAPIv2/api2/json/genderFull/Alan%20Turing")
-  .header("Accept", "application/json")
-  .header("X-API-KEY", "your-api-key")
-  .asString();
-```
-
-```python
-import requests
-
-url = "https://v2.namsor.com/NamSorAPIv2/api2/json/genderFull/Alan%20Turing"
-
-headers = {
- "Accept": "application/json",
- "X-API-KEY": "your-api-key"
-}
-
-response = requests.request("GET", url, headers=headers)
-
-print(response.text)
-```
-
-```javascript
-fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderFull/Alan%20Turing", {
-  "method": "GET",
-  "headers": {
-    "Accept": "application/json",
-    "X-API-KEY": "your-api-key"
-  }
-})
-.then(response => {
-  console.log(response.json());
-})
-.catch(err => {
-  console.error(err);
-});
-```
-
-
-
-*Returns the most likely gender of a full name.*
-
-*<u>Cost :</u> The processing of each query requires **1** credits.*
-
-<h3 id="gender-full-requesturl">HTTP Request</h3>
-
-`GET https://v2.namsor.com/NamSorAPIv2/api2/json/genderFull/{fullName}`
-
-
-
-<h3 id="gender-full-parameters">Request Parameters</h3>
-
-|Name|Type|Required|Description|
-|---|---|---|---|
-|fullName|String|true|Full name (first name and last name)|
-
-
-
-
-> The above command returns JSON structured like this:
-
-
-
-```json
-{
-  "script": "LATIN",
-  "id": "ad176dc1-0a45-41f6-aa3a-5bdd6246b453",
-  "name": "Alan Turing",
-  "likelyGender": "male",
-  "genderScale": -0.9831427708411884,
-  "score": 19.119365238807685,
-  "probabilityCalibrated": 0.9915713854205942
-}
-```
-
-<h3 id="gender-full-responses">Response</h3>
-
-*The HTTP response body is an object.*
-
-|Name|Type|Description|Enumerators|
-|---|---|---|---|
-|script|String|Character set used for analysis||
-|id|String|Unique identifier||
-|name|String|Submitted full name||
-|likelyGender|String|Most likely gender|"male", "female" or "unknown"|
-|genderScale|Number|Gender scale ranging from -1 (male) to +1 (female)||
-|score|Number|Higher implies a more reliable result, score is not normalized||
-|probabilityCalibrated|Number|Higher implies a more reliable result, ranges from 0 to 1||
-
-
-
-
-
-
-
-
-
-
-
-## Gender Full Batch
-
-<a id="opIdGender-Full-Batch"></a>
-
-> **Gender Full Batch** code sample :
-
-```shell
-curl --request POST \
-  --url https://v2.namsor.com/NamSorAPIv2/api2/json/genderFullBatch \
-  --header 'X-API-KEY: your-api-key' \
-  --header 'Accept: application/json' \
-  --header 'Content-Type: application/json' \
-  --data '{"personalNames":[{"id":"e630dda5-13b3-42c5-8f1d-648aa8a21c42","name":"Alan Turing"}]}'
-```
-
-```java
-HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/api2/json/genderFullBatch")
-  .header("Content-Type", "application/json")
-  .header("Accept", "application/json")
-  .header("X-API-KEY", "your-api-key")
-  .body("{\"personalNames\":[{\"id\":\"e630dda5-13b3-42c5-8f1d-648aa8a21c42\",\"name\":\"Alan Turing\"}]}")
-  .asString();
-```
-
-```python
-import requests
-
-url = "https://v2.namsor.com/NamSorAPIv2/api2/json/genderFullBatch"
-
-payload = {"personalNames": [
-        {
-            "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
-            "name": "Alan Turing"
-        }
-    ]}
-headers = {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-    "X-API-KEY": "your-api-key"
-}
-
-response = requests.request("POST", url, json=payload, headers=headers)
-
-print(response.text)
-```
-
-```javascript
-fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderFullBatch", {
-  "method": "POST",
-  "headers": {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-    "X-API-KEY": "your-api-key"
-  },
-  "body": "{\"personalNames\":[{\"id\":\"e630dda5-13b3-42c5-8f1d-648aa8a21c42\",\"name\":\"Alan Turing\"}]}"
-})
-.then(response => {
-  console.log(response.json());
-})
-.catch(err => {
-  console.error(err);
-});
-```
-
-
-
-*Returns the most likely gender of up to 100 full names.*
-
-*<u>Cost :</u> The processing of each object requires **1** credits.*
-
-<h3 id="gender-full-batch-requesturl">HTTP Request</h3>
-
-`POST https://v2.namsor.com/NamSorAPIv2/api2/json/genderFullBatch`
-
-
-
-> Body parameter
-
-```json
-{
-  "personalNames": [
-    {
-      "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
-      "name": "Alan Turing"
-    }
-  ]
-}
-```
-
-<h3 id="gender-full-batch-parameters">Request Body</h3>
-
-*The HTTP request body is required to be a nested array of objects.*
-
-|Name|Type|Required|Description|
-|---|---|---|---|
-|id|String||Unique identifier|
-|name|String|true|Full name (first name and last name)|
-
-
-
-
-> The above command returns JSON structured like this:
-
-
-
-```json
-{
-  "personalNames": [
-    {
-      "script": "LATIN",
-      "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
-      "name": "Alan Turing",
-      "likelyGender": "male",
-      "genderScale": -0.9831427708411884,
-      "score": 19.119365238807685,
-      "probabilityCalibrated": 0.9915713854205942
-    }
-  ]
-}
-```
-
-<h3 id="gender-full-batch-responses">Response</h3>
-
-*The HTTP response body is a nested array of objects.*
-
-|Name|Type|Description|Enumerators|
-|---|---|---|---|
-|script|String|Character set used for analysis||
-|id|String|Provided unique identifier||
-|name|String|Submitted full name||
-|likelyGender|String|Most likely gender|"male", "female" or "unknown"|
-|genderScale|Number|Gender scale ranging from -1 (male) to +1 (female)||
-|score|Number|Higher implies a more reliable result, score is not normalized||
-|probabilityCalibrated|Number|Higher implies a more reliable result, ranges from 0 to 1||
-
-
-
-
-
-
-
-
-
-
-
-## Gender Full Geo
-
-<a id="opIdGender-Full-Geo"></a>
-
-> **Gender Full Geo** code sample :
-
-```shell
-curl --request GET \
-  --url https://v2.namsor.com/NamSorAPIv2/api2/json/genderFullGeo/Maryam%20Mirzakhani/IR \
-  --header 'X-API-KEY: your-api-key' \
-  --header 'Accept: application/json'
-```
-
-```java
-HttpResponse<String> response = Unirest.get("https://v2.namsor.com/NamSorAPIv2/api2/json/genderFullGeo/Maryam%20Mirzakhani/IR")
-  .header("Accept", "application/json")
-  .header("X-API-KEY", "your-api-key")
-  .asString();
-```
-
-```python
-import requests
-
-url = "https://v2.namsor.com/NamSorAPIv2/api2/json/genderFullGeo/Maryam%20Mirzakhani/IR"
-
-headers = {
- "Accept": "application/json",
- "X-API-KEY": "your-api-key"
-}
-
-response = requests.request("GET", url, headers=headers)
-
-print(response.text)
-```
-
-```javascript
-fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderFullGeo/Maryam%20Mirzakhani/IR", {
-  "method": "GET",
-  "headers": {
-    "Accept": "application/json",
-    "X-API-KEY": "your-api-key"
-  }
-})
-.then(response => {
-  console.log(response.json());
-})
-.catch(err => {
-  console.error(err);
-});
-```
-
-
-
-*Returns the most likely gender of a full name, according to its geographic context.*
-
-*<u>Cost :</u> The processing of each query requires **1** credits.*
-
-<h3 id="gender-full-geo-requesturl">HTTP Request</h3>
-
-`GET https://v2.namsor.com/NamSorAPIv2/api2/json/genderFullGeo/{fullName}/{countryIso2}`
-
-
-
-<h3 id="gender-full-geo-parameters">Request Parameters</h3>
-
-|Name|Type|Required|Description|
-|---|---|---|---|
-|fullName|String|true|Full name (first name and last name)|
-|countryIso2|String|true|Most likely country of origin, in ISO 3166-1 alpha-2 format|
-
-
-
-
-
-> The above command returns JSON structured like this:
-
-
-
-```json
-{
-  "script": "LATIN",
-  "id": "b8737595-afe6-4217-a80e-d1b863de2704",
-  "name": "Maryam Mirzakhani",
-  "likelyGender": "female",
-  "genderScale": 0.7336489993843776,
-  "score": 8.702861844637805,
-  "probabilityCalibrated": 0.8668244996921888
-}
-```
-
-<h3 id="gender-full-geo-responses">Response</h3>
-
-*The HTTP response body is an object.*
-
-|Name|Type|Description|Enumerators|
-|---|---|---|---|
-|script|String|Character set used for analysis||
-|id|String|Unique identifier||
-|name|String|Submitted full name||
-|likelyGender|String|Most likely gender|"male", "female" or "unknown"|
-|genderScale|Number|Gender scale ranging from -1 (male) to +1 (female)||
-|score|Number|Higher implies a more reliable result, score is not normalized||
-|probabilityCalibrated|Number|Higher implies a more reliable result, ranges from 0 to 1||
-
-
-
-
-
-
-
-
-
-
-
-## Gender Full Geo Batch
-
-<a id="opIdGender-Full-Geo-Batch"></a>
-
-> **Gender Full Geo Batch** code sample :
-
-```shell
-curl --request POST \
-  --url https://v2.namsor.com/NamSorAPIv2/api2/json/genderFullGeoBatch \
-  --header 'X-API-KEY: your-api-key' \
-  --header 'Accept: application/json' \
-  --header 'Content-Type: application/json' \
-  --data '{"personalNames":[{"id":"e630dda5-13b3-42c5-8f1d-648aa8a21c42","name":"Maryam Mirzakhani","countryIso2":"IR"}]}'
-```
-
-```java
-HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/api2/json/genderFullGeoBatch")
-  .header("Content-Type", "application/json")
-  .header("Accept", "application/json")
-  .header("X-API-KEY", "your-api-key")
-  .body("{\"personalNames\":[{\"id\":\"e630dda5-13b3-42c5-8f1d-648aa8a21c42\",\"name\":\"Maryam Mirzakhani\",\"countryIso2\":\"IR\"}]}")
-  .asString();
-```
-
-```python
-import requests
-
-url = "https://v2.namsor.com/NamSorAPIv2/api2/json/genderFullGeoBatch"
-
-payload = {"personalNames": [
-        {
-            "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
-            "name": "Maryam Mirzakhani",
-            "countryIso2": "IR"
-        }
-    ]}
-headers = {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-    "X-API-KEY": "your-api-key"
-}
-
-response = requests.request("POST", url, json=payload, headers=headers)
-
-print(response.text)
-```
-
-```javascript
-fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderFullGeoBatch", {
-  "method": "POST",
-  "headers": {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-    "X-API-KEY": "your-api-key"
-  },
-  "body": "{\"personalNames\":[{\"id\":\"e630dda5-13b3-42c5-8f1d-648aa8a21c42\",\"name\":\"Maryam Mirzakhani\",\"countryIso2\":\"IR\"}]}"
-})
-.then(response => {
-  console.log(response.json());
-})
-.catch(err => {
-  console.error(err);
-});
-```
-
-
-
-*Returns the most likely gender of up to 100 full names, according to their geographic context.*
-
-*<u>Cost :</u> The processing of each object requires **1** credits.*
-
-<h3 id="gender-full-geo-batch-requesturl">HTTP Request</h3>
-
-`POST https://v2.namsor.com/NamSorAPIv2/api2/json/genderFullGeoBatch`
-
-
-
-> Body parameter
-
-```json
-{
-  "personalNames": [
-    {
-      "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
-      "name": "Maryam Mirzakhani",
-      "countryIso2": "IR"
-    }
-  ]
-}
-```
-
-<h3 id="gender-full-geo-batch-parameters">Request Body</h3>
-
-*The HTTP request body is required to be a nested array of objects.*
-
-|Name|Type|Required|Description|
-|---|---|---|---|
-|id|String||Unique identifier|
-|name|String|true|Full name (first name and last name)|
-|countryIso2|String|true|Most likely country of origin, in ISO 3166-1 alpha-2 format|
-
-
-
-
-> The above command returns JSON structured like this:
-
-
-
-```json
-{
-  "personalNames": [
-    {
-      "script": "LATIN",
-      "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
-      "name": "Maryam Mirzakhani",
-      "likelyGender": "female",
-      "genderScale": 0.7336489993843776,
-      "score": 8.702861844637805,
-      "probabilityCalibrated": 0.8668244996921888
-    }
-  ]
-}
-```
-
-<h3 id="gender-full-geo-batch-responses">Response</h3>
-
-*The HTTP response body is a nested array of objects.*
-
-|Name|Type|Description|Enumerators|
-|---|---|---|---|
-|script|String|Character set used for analysis||
-|id|String|Provided unique identifier||
-|name|String|Submitted full name||
-|likelyGender|String|Most likely gender|"male", "female" or "unknown"|
-|genderScale|Number|Gender scale ranging from -1 (male) to +1 (female)||
-|score|Number|Higher implies a more reliable result, score is not normalized||
-|probabilityCalibrated|Number|Higher implies a more reliable result, ranges from 0 to 1||
-
-
-
-
-
-
-
-
-
+| Error Code | Meaning               | Description                             |
+| ---------- | --------------------- | --------------------------------------- |
+| 401        | Unauthorized          | Missing or incorrect API Key.           |
+| 403        | Forbidden             | API Limit Reached or API Key Disabled.  |
+| 404        | Not Found             | The specified route could not be found. |
+| 500        | Internal Server Error | Server error. Try again later.          |
 
 
 <h1 id="namsor-api-v2-origin">Origin</h1>
 
-Namsor helps you find thorough information about the <strong>origin of a name</strong> by establishing a name's <strong>country of origin</strong>, the <strong>ethnicity</strong>, the <strong>diaspora</strong> and the <strong>U.S. race classification</strong>. We also provide a corridor evalutation API, to check background information about <strong>international interactions</strong>.<br><br><br><a class='demo-page-button' target='_blank' href='https://namsor.com/'>Try out Origin features</a>
+Namsor helps you find thorough information about the <strong>origin of a name</strong> by establishing a name's <strong>country of origin</strong>, the <strong>ethnicity</strong>, the <strong>diaspora</strong> and the <strong>U.S. race classification</strong>. We also provide a corridor evalutation API, to check background information about <strong>international interactions</strong>.<br><br><br><a class='demo-page-button' target='_blank' href='https://namsor.com/features/origin-name'>Try out Origin features</a>
 
 ## Country
 
@@ -2339,11 +1317,11 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/usRaceEthnicityBatch", {
 
 
 
-## US ZIP Race and Ethnicity
+## US Race and Ethnicity ZIP
 
-<a id="opIdUS-ZIP-Race-and-Ethnicity"></a>
+<a id="opIdUS-Race-and-Ethnicity-ZIP"></a>
 
-> **US ZIP Race and Ethnicity** code sample :
+> **US Race and Ethnicity ZIP** code sample :
 
 ```shell
 curl --request GET \
@@ -2396,13 +1374,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/usRaceEthnicityZIP5/Makoto/Iw
 
 *<u>Cost :</u> The processing of each query requires **10** credits.*
 
-<h3 id="us-zip-race-and-ethnicity-requesturl">HTTP Request</h3>
+<h3 id="us-race-and-ethnicity-zip-requesturl">HTTP Request</h3>
 
 `GET https://v2.namsor.com/NamSorAPIv2/api2/json/usRaceEthnicityZIP5/{firstName}/{lastName}/{zip5Code}`
 
 
 
-<h3 id="us-zip-race-and-ethnicity-parameters">Request Parameters</h3>
+<h3 id="us-race-and-ethnicity-zip-parameters">Request Parameters</h3>
 
 |Name|Type|Required|Description|
 |---|---|---|---|
@@ -2439,7 +1417,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/usRaceEthnicityZIP5/Makoto/Iw
 }
 ```
 
-<h3 id="us-zip-race-and-ethnicity-responses">Response</h3>
+<h3 id="us-race-and-ethnicity-zip-responses">Response</h3>
 
 *The HTTP response body is an object.*
 
@@ -2466,11 +1444,11 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/usRaceEthnicityZIP5/Makoto/Iw
 
 
 
-## US ZIP Race and Ethnicity Batch
+## US Race and Ethnicity ZIP Batch
 
-<a id="opIdUS-ZIP-Race-and-Ethnicity-Batch"></a>
+<a id="opIdUS-Race-and-Ethnicity-ZIP-Batch"></a>
 
-> **US ZIP Race and Ethnicity Batch** code sample :
+> **US Race and Ethnicity ZIP Batch** code sample :
 
 ```shell
 curl --request POST \
@@ -2539,7 +1517,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/usZipRaceEthnicityBatch", {
 
 *<u>Cost :</u> The processing of each object requires **10** credits.*
 
-<h3 id="us-zip-race-and-ethnicity-batch-requesturl">HTTP Request</h3>
+<h3 id="us-race-and-ethnicity-zip-batch-requesturl">HTTP Request</h3>
 
 `POST https://v2.namsor.com/NamSorAPIv2/api2/json/usZipRaceEthnicityBatch`
 
@@ -2561,7 +1539,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/usZipRaceEthnicityBatch", {
 }
 ```
 
-<h3 id="us-zip-race-and-ethnicity-batch-parameters">Request Body</h3>
+<h3 id="us-race-and-ethnicity-zip-batch-parameters">Request Body</h3>
 
 *The HTTP request body is required to be a nested array of objects.*
 
@@ -2604,7 +1582,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/usZipRaceEthnicityBatch", {
 }
 ```
 
-<h3 id="us-zip-race-and-ethnicity-batch-responses">Response</h3>
+<h3 id="us-race-and-ethnicity-zip-batch-responses">Response</h3>
 
 *The HTTP response body is a nested array of objects.*
 
@@ -3147,15 +2125,1590 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/corridorBatch", {
 
 
 
+<h1 id="namsor-api-v2-gender">Gender</h1>
+
+Namsor’s name checking API can help you determine the probability of a person being <strong>male or female</strong> based on their <strong>name</strong>. We offer many processing options for <strong>gender determination</strong>, the name can either be provided: as a <strong>full name</strong>, as a <strong>first name and a last name</strong>. In addition to the name you may specify the country of origin to improve accuracy.<br/><br/>Our API also supports Chinese names, Japanese names and a large number of additional alphabets*.<br><br><br><a class='demo-page-button' target='_blank' href='https://namsor.com/features/gender-name'>Try out Gender features</a>
+
+## Gender
+
+<a id="opIdGender"></a>
+
+> **Gender** code sample :
+
+```shell
+curl --request GET \
+  --url https://v2.namsor.com/NamSorAPIv2/api2/json/gender/Rosalind/Franklin \
+  --header 'X-API-KEY: your-api-key' \
+  --header 'Accept: application/json'
+```
+
+```java
+HttpResponse<String> response = Unirest.get("https://v2.namsor.com/NamSorAPIv2/api2/json/gender/Rosalind/Franklin")
+  .header("Accept", "application/json")
+  .header("X-API-KEY", "your-api-key")
+  .asString();
+```
+
+```python
+import requests
+
+url = "https://v2.namsor.com/NamSorAPIv2/api2/json/gender/Rosalind/Franklin"
+
+headers = {
+ "Accept": "application/json",
+ "X-API-KEY": "your-api-key"
+}
+
+response = requests.request("GET", url, headers=headers)
+
+print(response.text)
+```
+
+```javascript
+fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/gender/Rosalind/Franklin", {
+  "method": "GET",
+  "headers": {
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
+  }
+})
+.then(response => {
+  console.log(response.json());
+})
+.catch(err => {
+  console.error(err);
+});
+```
+
+
+
+*Returns the most likely gender of a first name and a last name.*
+
+*<u>Cost :</u> The processing of each query requires **1** credits.*
+
+<h3 id="gender-requesturl">HTTP Request</h3>
+
+`GET https://v2.namsor.com/NamSorAPIv2/api2/json/gender/{firstName}/{lastName}`
+
+
+
+<h3 id="gender-parameters">Request Parameters</h3>
+
+|Name|Type|Required|Description|
+|---|---|---|---|
+|firstName|String|true|First name (or given name)|
+|lastName|String|true|Last name (or family name)|
+
+
+
+
+
+> The above command returns JSON structured like this:
+
+
+
+```json
+{
+  "script": "LATIN",
+  "id": "86767222-94ba-4ee4-8ade-6755228c77ca",
+  "firstName": "Rosalind",
+  "lastName": "Franklin",
+  "likelyGender": "female",
+  "genderScale": 0.9730217066962004,
+  "score": 21.904701285428477,
+  "probabilityCalibrated": 0.9865108533481002
+}
+```
+
+<h3 id="gender-responses">Response</h3>
+
+*The HTTP response body is an object.*
+
+|Name|Type|Description|Enumerators|
+|---|---|---|---|
+|script|String|Character set used for analysis||
+|id|String|Unique identifier||
+|firstName|String|Submitted first name||
+|lastName|String|Submitted last name||
+|likelyGender|String|Most likely gender|"male", "female" or "unknown"|
+|genderScale|Number|Gender scale ranging from -1 (male) to +1 (female)||
+|score|Number|Higher implies a more reliable result, score is not normalized||
+|probabilityCalibrated|Number|Higher implies a more reliable result, ranges from 0 to 1||
+
+
+
+
+
+
+
+
+
+
+
+## Gender Batch
+
+<a id="opIdGender-Batch"></a>
+
+> **Gender Batch** code sample :
+
+```shell
+curl --request POST \
+  --url https://v2.namsor.com/NamSorAPIv2/api2/json/genderBatch \
+  --header 'X-API-KEY: your-api-key' \
+  --header 'Accept: application/json' \
+  --header 'Content-Type: application/json' \
+  --data '{"personalNames":[{"id":"e630dda5-13b3-42c5-8f1d-648aa8a21c42","firstName":"Rosalind","lastName":"Franklin"}]}'
+```
+
+```java
+HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/api2/json/genderBatch")
+  .header("Content-Type", "application/json")
+  .header("Accept", "application/json")
+  .header("X-API-KEY", "your-api-key")
+  .body("{\"personalNames\":[{\"id\":\"e630dda5-13b3-42c5-8f1d-648aa8a21c42\",\"firstName\":\"Rosalind\",\"lastName\":\"Franklin\"}]}")
+  .asString();
+```
+
+```python
+import requests
+
+url = "https://v2.namsor.com/NamSorAPIv2/api2/json/genderBatch"
+
+payload = {"personalNames": [
+        {
+            "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
+            "firstName": "Rosalind",
+            "lastName": "Franklin"
+        }
+    ]}
+headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
+}
+
+response = requests.request("POST", url, json=payload, headers=headers)
+
+print(response.text)
+```
+
+```javascript
+fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderBatch", {
+  "method": "POST",
+  "headers": {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
+  },
+  "body": "{\"personalNames\":[{\"id\":\"e630dda5-13b3-42c5-8f1d-648aa8a21c42\",\"firstName\":\"Rosalind\",\"lastName\":\"Franklin\"}]}"
+})
+.then(response => {
+  console.log(response.json());
+})
+.catch(err => {
+  console.error(err);
+});
+```
+
+
+
+*Returns the most likely gender of up to 100 first names and last names.*
+
+*<u>Cost :</u> The processing of each object requires **1** credits.*
+
+<h3 id="gender-batch-requesturl">HTTP Request</h3>
+
+`POST https://v2.namsor.com/NamSorAPIv2/api2/json/genderBatch`
+
+
+
+> Body parameter
+
+```json
+{
+  "personalNames": [
+    {
+      "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
+      "firstName": "Rosalind",
+      "lastName": "Franklin"
+    }
+  ]
+}
+```
+
+<h3 id="gender-batch-parameters">Request Body</h3>
+
+*The HTTP request body is required to be a nested array of objects.*
+
+|Name|Type|Required|Description|
+|---|---|---|---|
+|id|String||Unique identifier|
+|firstName|String|true|First name (or given name)|
+|lastName|String|true|Last name (or family name)|
+
+
+
+
+> The above command returns JSON structured like this:
+
+
+
+```json
+{
+  "personalNames": [
+    {
+      "script": "LATIN",
+      "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
+      "firstName": "Rosalind",
+      "lastName": "Franklin",
+      "likelyGender": "female",
+      "genderScale": 0.9730217066962004,
+      "score": 21.904701285428477,
+      "probabilityCalibrated": 0.9865108533481002
+    }
+  ]
+}
+```
+
+<h3 id="gender-batch-responses">Response</h3>
+
+*The HTTP response body is a nested array of objects.*
+
+|Name|Type|Description|Enumerators|
+|---|---|---|---|
+|script|String|Character set used for analysis||
+|id|String|Provided unique identifier||
+|firstName|String|Submitted first name||
+|lastName|String|Submitted last name||
+|likelyGender|String|Most likely gender|"male", "female" or "unknown"|
+|genderScale|Number|Gender scale ranging from -1 (male) to +1 (female)||
+|score|Number|Higher implies a more reliable result, score is not normalized||
+|probabilityCalibrated|Number|Higher implies a more reliable result, ranges from 0 to 1||
+
+
+
+
+
+
+
+
+
+
+
+## Gender Geo
+
+<a id="opIdGender-Geo"></a>
+
+> **Gender Geo** code sample :
+
+```shell
+curl --request GET \
+  --url https://v2.namsor.com/NamSorAPIv2/api2/json/genderGeo/Sofia/Kovalevskaya/RU \
+  --header 'X-API-KEY: your-api-key' \
+  --header 'Accept: application/json'
+```
+
+```java
+HttpResponse<String> response = Unirest.get("https://v2.namsor.com/NamSorAPIv2/api2/json/genderGeo/Sofia/Kovalevskaya/RU")
+  .header("Accept", "application/json")
+  .header("X-API-KEY", "your-api-key")
+  .asString();
+```
+
+```python
+import requests
+
+url = "https://v2.namsor.com/NamSorAPIv2/api2/json/genderGeo/Sofia/Kovalevskaya/RU"
+
+headers = {
+ "Accept": "application/json",
+ "X-API-KEY": "your-api-key"
+}
+
+response = requests.request("GET", url, headers=headers)
+
+print(response.text)
+```
+
+```javascript
+fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderGeo/Sofia/Kovalevskaya/RU", {
+  "method": "GET",
+  "headers": {
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
+  }
+})
+.then(response => {
+  console.log(response.json());
+})
+.catch(err => {
+  console.error(err);
+});
+```
+
+
+
+*Returns the most likely gender of a first name and a last name using its geographic context.*
+
+*<u>Cost :</u> The processing of each query requires **1** credits.*
+
+<h3 id="gender-geo-requesturl">HTTP Request</h3>
+
+`GET https://v2.namsor.com/NamSorAPIv2/api2/json/genderGeo/{firstName}/{lastName}/{countryIso2}`
+
+
+
+<h3 id="gender-geo-parameters">Request Parameters</h3>
+
+|Name|Type|Required|Description|
+|---|---|---|---|
+|firstName|String|true|First name (or given name)|
+|lastName|String|true|Last name (or family name)|
+|countryIso2|String|true|Most likely country of origin, in ISO 3166-1 alpha-2 format|
+
+
+
+
+
+
+> The above command returns JSON structured like this:
+
+
+
+```json
+{
+  "script": "LATIN",
+  "id": "1524c414-ee6a-4a07-8056-b8dfe483850d",
+  "firstName": "Sofia",
+  "lastName": "Kovalevskaya",
+  "likelyGender": "female",
+  "genderScale": 0.9938175581348969,
+  "score": 39.01304923594625,
+  "probabilityCalibrated": 0.9969087790674485
+}
+```
+
+<h3 id="gender-geo-responses">Response</h3>
+
+*The HTTP response body is an object.*
+
+|Name|Type|Description|Enumerators|
+|---|---|---|---|
+|script|String|Character set used for analysis||
+|id|String|Unique identifier||
+|firstName|String|Submitted first name||
+|lastName|String|Submitted last name||
+|likelyGender|String|Most likely gender|"male", "female" or "unknown"|
+|genderScale|Number|Gender scale ranging from -1 (male) to +1 (female)||
+|score|Number|Higher implies a more reliable result, score is not normalized||
+|probabilityCalibrated|Number|Higher implies a more reliable result, ranges from 0 to 1||
+
+
+
+
+
+
+
+
+
+
+
+## Gender Geo Batch
+
+<a id="opIdGender-Geo-Batch"></a>
+
+> **Gender Geo Batch** code sample :
+
+```shell
+curl --request POST \
+  --url https://v2.namsor.com/NamSorAPIv2/api2/json/genderGeoBatch \
+  --header 'X-API-KEY: your-api-key' \
+  --header 'Accept: application/json' \
+  --header 'Content-Type: application/json' \
+  --data '{"personalNames":[{"id":"e630dda5-13b3-42c5-8f1d-648aa8a21c42","firstName":"Sofia","lastName":"Kovalevskaya","countryIso2":"RU"}]}'
+```
+
+```java
+HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/api2/json/genderGeoBatch")
+  .header("Content-Type", "application/json")
+  .header("Accept", "application/json")
+  .header("X-API-KEY", "your-api-key")
+  .body("{\"personalNames\":[{\"id\":\"e630dda5-13b3-42c5-8f1d-648aa8a21c42\",\"firstName\":\"Sofia\",\"lastName\":\"Kovalevskaya\",\"countryIso2\":\"RU\"}]}")
+  .asString();
+```
+
+```python
+import requests
+
+url = "https://v2.namsor.com/NamSorAPIv2/api2/json/genderGeoBatch"
+
+payload = {"personalNames": [
+        {
+            "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
+            "firstName": "Sofia",
+            "lastName": "Kovalevskaya",
+            "countryIso2": "RU"
+        }
+    ]}
+headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
+}
+
+response = requests.request("POST", url, json=payload, headers=headers)
+
+print(response.text)
+```
+
+```javascript
+fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderGeoBatch", {
+  "method": "POST",
+  "headers": {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
+  },
+  "body": "{\"personalNames\":[{\"id\":\"e630dda5-13b3-42c5-8f1d-648aa8a21c42\",\"firstName\":\"Sofia\",\"lastName\":\"Kovalevskaya\",\"countryIso2\":\"RU\"}]}"
+})
+.then(response => {
+  console.log(response.json());
+})
+.catch(err => {
+  console.error(err);
+});
+```
+
+
+
+*Returns the most likely gender of up to 100 first names and last names using their geographic context.*
+
+*<u>Cost :</u> The processing of each object requires **1** credits.*
+
+<h3 id="gender-geo-batch-requesturl">HTTP Request</h3>
+
+`POST https://v2.namsor.com/NamSorAPIv2/api2/json/genderGeoBatch`
+
+
+
+> Body parameter
+
+```json
+{
+  "personalNames": [
+    {
+      "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
+      "firstName": "Sofia",
+      "lastName": "Kovalevskaya",
+      "countryIso2": "RU"
+    }
+  ]
+}
+```
+
+<h3 id="gender-geo-batch-parameters">Request Body</h3>
+
+*The HTTP request body is required to be a nested array of objects.*
+
+|Name|Type|Required|Description|
+|---|---|---|---|
+|id|String||Unique identifier|
+|firstName|String|true|First name (or given name)|
+|lastName|String|true|Last name (or family name)|
+|countryIso2|String|true|Most likely country of origin, in ISO 3166-1 alpha-2 format|
+
+
+
+
+> The above command returns JSON structured like this:
+
+
+
+```json
+{
+  "personalNames": [
+    {
+      "script": "LATIN",
+      "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
+      "firstName": "Sofia",
+      "lastName": "Kovalevskaya",
+      "likelyGender": "female",
+      "genderScale": 0.9938175581348969,
+      "score": 39.01304923594625,
+      "probabilityCalibrated": 0.9969087790674485
+    }
+  ]
+}
+```
+
+<h3 id="gender-geo-batch-responses">Response</h3>
+
+*The HTTP response body is a nested array of objects.*
+
+|Name|Type|Description|Enumerators|
+|---|---|---|---|
+|script|String|Character set used for analysis||
+|id|String|Provided unique identifier||
+|firstName|String|Submitted first name||
+|lastName|String|Submitted last name||
+|likelyGender|String|Most likely gender|"male", "female" or "unknown"|
+|genderScale|Number|Gender scale ranging from -1 (male) to +1 (female)||
+|score|Number|Higher implies a more reliable result, score is not normalized||
+|probabilityCalibrated|Number|Higher implies a more reliable result, ranges from 0 to 1||
+
+
+
+
+
+
+
+
+
+
+
+## Gender Full Name
+
+<a id="opIdGender-Full-Name"></a>
+
+> **Gender Full Name** code sample :
+
+```shell
+curl --request GET \
+  --url https://v2.namsor.com/NamSorAPIv2/api2/json/genderFull/Alan%20Turing \
+  --header 'X-API-KEY: your-api-key' \
+  --header 'Accept: application/json'
+```
+
+```java
+HttpResponse<String> response = Unirest.get("https://v2.namsor.com/NamSorAPIv2/api2/json/genderFull/Alan%20Turing")
+  .header("Accept", "application/json")
+  .header("X-API-KEY", "your-api-key")
+  .asString();
+```
+
+```python
+import requests
+
+url = "https://v2.namsor.com/NamSorAPIv2/api2/json/genderFull/Alan%20Turing"
+
+headers = {
+ "Accept": "application/json",
+ "X-API-KEY": "your-api-key"
+}
+
+response = requests.request("GET", url, headers=headers)
+
+print(response.text)
+```
+
+```javascript
+fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderFull/Alan%20Turing", {
+  "method": "GET",
+  "headers": {
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
+  }
+})
+.then(response => {
+  console.log(response.json());
+})
+.catch(err => {
+  console.error(err);
+});
+```
+
+
+
+*Returns the most likely gender of a full name.*
+
+*<u>Cost :</u> The processing of each query requires **1** credits.*
+
+<h3 id="gender-full-name-requesturl">HTTP Request</h3>
+
+`GET https://v2.namsor.com/NamSorAPIv2/api2/json/genderFull/{fullName}`
+
+
+
+<h3 id="gender-full-name-parameters">Request Parameters</h3>
+
+|Name|Type|Required|Description|
+|---|---|---|---|
+|fullName|String|true|Full name (first name and last name)|
+
+
+
+
+> The above command returns JSON structured like this:
+
+
+
+```json
+{
+  "script": "LATIN",
+  "id": "ad176dc1-0a45-41f6-aa3a-5bdd6246b453",
+  "name": "Alan Turing",
+  "likelyGender": "male",
+  "genderScale": -0.9831427708411884,
+  "score": 19.119365238807685,
+  "probabilityCalibrated": 0.9915713854205942
+}
+```
+
+<h3 id="gender-full-name-responses">Response</h3>
+
+*The HTTP response body is an object.*
+
+|Name|Type|Description|Enumerators|
+|---|---|---|---|
+|script|String|Character set used for analysis||
+|id|String|Unique identifier||
+|name|String|Submitted full name||
+|likelyGender|String|Most likely gender|"male", "female" or "unknown"|
+|genderScale|Number|Gender scale ranging from -1 (male) to +1 (female)||
+|score|Number|Higher implies a more reliable result, score is not normalized||
+|probabilityCalibrated|Number|Higher implies a more reliable result, ranges from 0 to 1||
+
+
+
+
+
+
+
+
+
+
+
+## Gender Full Name Batch
+
+<a id="opIdGender-Full-Name-Batch"></a>
+
+> **Gender Full Name Batch** code sample :
+
+```shell
+curl --request POST \
+  --url https://v2.namsor.com/NamSorAPIv2/api2/json/genderFullBatch \
+  --header 'X-API-KEY: your-api-key' \
+  --header 'Accept: application/json' \
+  --header 'Content-Type: application/json' \
+  --data '{"personalNames":[{"id":"e630dda5-13b3-42c5-8f1d-648aa8a21c42","name":"Alan Turing"}]}'
+```
+
+```java
+HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/api2/json/genderFullBatch")
+  .header("Content-Type", "application/json")
+  .header("Accept", "application/json")
+  .header("X-API-KEY", "your-api-key")
+  .body("{\"personalNames\":[{\"id\":\"e630dda5-13b3-42c5-8f1d-648aa8a21c42\",\"name\":\"Alan Turing\"}]}")
+  .asString();
+```
+
+```python
+import requests
+
+url = "https://v2.namsor.com/NamSorAPIv2/api2/json/genderFullBatch"
+
+payload = {"personalNames": [
+        {
+            "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
+            "name": "Alan Turing"
+        }
+    ]}
+headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
+}
+
+response = requests.request("POST", url, json=payload, headers=headers)
+
+print(response.text)
+```
+
+```javascript
+fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderFullBatch", {
+  "method": "POST",
+  "headers": {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
+  },
+  "body": "{\"personalNames\":[{\"id\":\"e630dda5-13b3-42c5-8f1d-648aa8a21c42\",\"name\":\"Alan Turing\"}]}"
+})
+.then(response => {
+  console.log(response.json());
+})
+.catch(err => {
+  console.error(err);
+});
+```
+
+
+
+*Returns the most likely gender of up to 100 full names.*
+
+*<u>Cost :</u> The processing of each object requires **1** credits.*
+
+<h3 id="gender-full-name-batch-requesturl">HTTP Request</h3>
+
+`POST https://v2.namsor.com/NamSorAPIv2/api2/json/genderFullBatch`
+
+
+
+> Body parameter
+
+```json
+{
+  "personalNames": [
+    {
+      "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
+      "name": "Alan Turing"
+    }
+  ]
+}
+```
+
+<h3 id="gender-full-name-batch-parameters">Request Body</h3>
+
+*The HTTP request body is required to be a nested array of objects.*
+
+|Name|Type|Required|Description|
+|---|---|---|---|
+|id|String||Unique identifier|
+|name|String|true|Full name (first name and last name)|
+
+
+
+
+> The above command returns JSON structured like this:
+
+
+
+```json
+{
+  "personalNames": [
+    {
+      "script": "LATIN",
+      "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
+      "name": "Alan Turing",
+      "likelyGender": "male",
+      "genderScale": -0.9831427708411884,
+      "score": 19.119365238807685,
+      "probabilityCalibrated": 0.9915713854205942
+    }
+  ]
+}
+```
+
+<h3 id="gender-full-name-batch-responses">Response</h3>
+
+*The HTTP response body is a nested array of objects.*
+
+|Name|Type|Description|Enumerators|
+|---|---|---|---|
+|script|String|Character set used for analysis||
+|id|String|Provided unique identifier||
+|name|String|Submitted full name||
+|likelyGender|String|Most likely gender|"male", "female" or "unknown"|
+|genderScale|Number|Gender scale ranging from -1 (male) to +1 (female)||
+|score|Number|Higher implies a more reliable result, score is not normalized||
+|probabilityCalibrated|Number|Higher implies a more reliable result, ranges from 0 to 1||
+
+
+
+
+
+
+
+
+
+
+
+## Gender Full Name Geo
+
+<a id="opIdGender-Full-Name-Geo"></a>
+
+> **Gender Full Name Geo** code sample :
+
+```shell
+curl --request GET \
+  --url https://v2.namsor.com/NamSorAPIv2/api2/json/genderFullGeo/Maryam%20Mirzakhani/IR \
+  --header 'X-API-KEY: your-api-key' \
+  --header 'Accept: application/json'
+```
+
+```java
+HttpResponse<String> response = Unirest.get("https://v2.namsor.com/NamSorAPIv2/api2/json/genderFullGeo/Maryam%20Mirzakhani/IR")
+  .header("Accept", "application/json")
+  .header("X-API-KEY", "your-api-key")
+  .asString();
+```
+
+```python
+import requests
+
+url = "https://v2.namsor.com/NamSorAPIv2/api2/json/genderFullGeo/Maryam%20Mirzakhani/IR"
+
+headers = {
+ "Accept": "application/json",
+ "X-API-KEY": "your-api-key"
+}
+
+response = requests.request("GET", url, headers=headers)
+
+print(response.text)
+```
+
+```javascript
+fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderFullGeo/Maryam%20Mirzakhani/IR", {
+  "method": "GET",
+  "headers": {
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
+  }
+})
+.then(response => {
+  console.log(response.json());
+})
+.catch(err => {
+  console.error(err);
+});
+```
+
+
+
+*Returns the most likely gender of a full name, according to its geographic context.*
+
+*<u>Cost :</u> The processing of each query requires **1** credits.*
+
+<h3 id="gender-full-name-geo-requesturl">HTTP Request</h3>
+
+`GET https://v2.namsor.com/NamSorAPIv2/api2/json/genderFullGeo/{fullName}/{countryIso2}`
+
+
+
+<h3 id="gender-full-name-geo-parameters">Request Parameters</h3>
+
+|Name|Type|Required|Description|
+|---|---|---|---|
+|fullName|String|true|Full name (first name and last name)|
+|countryIso2|String|true|Most likely country of origin, in ISO 3166-1 alpha-2 format|
+
+
+
+
+
+> The above command returns JSON structured like this:
+
+
+
+```json
+{
+  "script": "LATIN",
+  "id": "b8737595-afe6-4217-a80e-d1b863de2704",
+  "name": "Maryam Mirzakhani",
+  "likelyGender": "female",
+  "genderScale": 0.7336489993843776,
+  "score": 8.702861844637805,
+  "probabilityCalibrated": 0.8668244996921888
+}
+```
+
+<h3 id="gender-full-name-geo-responses">Response</h3>
+
+*The HTTP response body is an object.*
+
+|Name|Type|Description|Enumerators|
+|---|---|---|---|
+|script|String|Character set used for analysis||
+|id|String|Unique identifier||
+|name|String|Submitted full name||
+|likelyGender|String|Most likely gender|"male", "female" or "unknown"|
+|genderScale|Number|Gender scale ranging from -1 (male) to +1 (female)||
+|score|Number|Higher implies a more reliable result, score is not normalized||
+|probabilityCalibrated|Number|Higher implies a more reliable result, ranges from 0 to 1||
+
+
+
+
+
+
+
+
+
+
+
+## Gender Full Name Geo Batch
+
+<a id="opIdGender-Full-Name-Geo-Batch"></a>
+
+> **Gender Full Name Geo Batch** code sample :
+
+```shell
+curl --request POST \
+  --url https://v2.namsor.com/NamSorAPIv2/api2/json/genderFullGeoBatch \
+  --header 'X-API-KEY: your-api-key' \
+  --header 'Accept: application/json' \
+  --header 'Content-Type: application/json' \
+  --data '{"personalNames":[{"id":"e630dda5-13b3-42c5-8f1d-648aa8a21c42","name":"Maryam Mirzakhani","countryIso2":"IR"}]}'
+```
+
+```java
+HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/api2/json/genderFullGeoBatch")
+  .header("Content-Type", "application/json")
+  .header("Accept", "application/json")
+  .header("X-API-KEY", "your-api-key")
+  .body("{\"personalNames\":[{\"id\":\"e630dda5-13b3-42c5-8f1d-648aa8a21c42\",\"name\":\"Maryam Mirzakhani\",\"countryIso2\":\"IR\"}]}")
+  .asString();
+```
+
+```python
+import requests
+
+url = "https://v2.namsor.com/NamSorAPIv2/api2/json/genderFullGeoBatch"
+
+payload = {"personalNames": [
+        {
+            "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
+            "name": "Maryam Mirzakhani",
+            "countryIso2": "IR"
+        }
+    ]}
+headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
+}
+
+response = requests.request("POST", url, json=payload, headers=headers)
+
+print(response.text)
+```
+
+```javascript
+fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderFullGeoBatch", {
+  "method": "POST",
+  "headers": {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
+  },
+  "body": "{\"personalNames\":[{\"id\":\"e630dda5-13b3-42c5-8f1d-648aa8a21c42\",\"name\":\"Maryam Mirzakhani\",\"countryIso2\":\"IR\"}]}"
+})
+.then(response => {
+  console.log(response.json());
+})
+.catch(err => {
+  console.error(err);
+});
+```
+
+
+
+*Returns the most likely gender of up to 100 full names, according to their geographic context.*
+
+*<u>Cost :</u> The processing of each object requires **1** credits.*
+
+<h3 id="gender-full-name-geo-batch-requesturl">HTTP Request</h3>
+
+`POST https://v2.namsor.com/NamSorAPIv2/api2/json/genderFullGeoBatch`
+
+
+
+> Body parameter
+
+```json
+{
+  "personalNames": [
+    {
+      "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
+      "name": "Maryam Mirzakhani",
+      "countryIso2": "IR"
+    }
+  ]
+}
+```
+
+<h3 id="gender-full-name-geo-batch-parameters">Request Body</h3>
+
+*The HTTP request body is required to be a nested array of objects.*
+
+|Name|Type|Required|Description|
+|---|---|---|---|
+|id|String||Unique identifier|
+|name|String|true|Full name (first name and last name)|
+|countryIso2|String|true|Most likely country of origin, in ISO 3166-1 alpha-2 format|
+
+
+
+
+> The above command returns JSON structured like this:
+
+
+
+```json
+{
+  "personalNames": [
+    {
+      "script": "LATIN",
+      "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
+      "name": "Maryam Mirzakhani",
+      "likelyGender": "female",
+      "genderScale": 0.7336489993843776,
+      "score": 8.702861844637805,
+      "probabilityCalibrated": 0.8668244996921888
+    }
+  ]
+}
+```
+
+<h3 id="gender-full-name-geo-batch-responses">Response</h3>
+
+*The HTTP response body is a nested array of objects.*
+
+|Name|Type|Description|Enumerators|
+|---|---|---|---|
+|script|String|Character set used for analysis||
+|id|String|Provided unique identifier||
+|name|String|Submitted full name||
+|likelyGender|String|Most likely gender|"male", "female" or "unknown"|
+|genderScale|Number|Gender scale ranging from -1 (male) to +1 (female)||
+|score|Number|Higher implies a more reliable result, score is not normalized||
+|probabilityCalibrated|Number|Higher implies a more reliable result, ranges from 0 to 1||
+
+
+
+
+
+
+
+
+
+
+
+<h1 id="namsor-api-v2-name-type">Name Type</h1>
+
+Namsor provides a specialized <strong>proper name type determination API</strong>, it is trained to <strong>analyse proper names</strong> and infer if they are <strong>personal names</strong> or <strong>brand names</strong>. Differentiate <strong>individuals from companies</strong> base on their name in order to automate processes, evaluate references to names or leverage deeper insight into an audience. To yield improved results you may indicate the name's <strong>country of origin</strong>.<br><br><br><a class='demo-page-button' target='_blank' href='https://namsor.com/features/name-type-recognition'>Try out Name Type features</a>
+
+## Name Type
+
+<a id="opIdName-Type"></a>
+
+> **Name Type** code sample :
+
+```shell
+curl --request GET \
+  --url https://v2.namsor.com/NamSorAPIv2/api2/json/nameType/Zippo \
+  --header 'X-API-KEY: your-api-key' \
+  --header 'Accept: application/json'
+```
+
+```java
+HttpResponse<String> response = Unirest.get("https://v2.namsor.com/NamSorAPIv2/api2/json/nameType/Zippo")
+  .header("Accept", "application/json")
+  .header("X-API-KEY", "your-api-key")
+  .asString();
+```
+
+```python
+import requests
+
+url = "https://v2.namsor.com/NamSorAPIv2/api2/json/nameType/Zippo"
+
+headers = {
+ "Accept": "application/json",
+ "X-API-KEY": "your-api-key"
+}
+
+response = requests.request("GET", url, headers=headers)
+
+print(response.text)
+```
+
+```javascript
+fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/nameType/Zippo", {
+  "method": "GET",
+  "headers": {
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
+  }
+})
+.then(response => {
+  console.log(response.json());
+})
+.catch(err => {
+  console.error(err);
+});
+```
+
+
+
+*Returns the type of a submitted proper noun. Ex: John Smith = personal name, Namsor = brand name.*
+
+*<u>Cost :</u> The processing of each query requires **1** credits.*
+
+<h3 id="name-type-requesturl">HTTP Request</h3>
+
+`GET https://v2.namsor.com/NamSorAPIv2/api2/json/nameType/{properNoun}`
+
+
+
+<h3 id="name-type-parameters">Request Parameters</h3>
+
+|Name|Type|Required|Description|
+|---|---|---|---|
+|properNoun|String|true|A proper noun (person, brand, etc.)|
+
+
+
+
+> The above command returns JSON structured like this:
+
+
+
+```json
+{
+  "script": "LATIN",
+  "id": "a88b1bf1-56f1-40d3-84db-4daf57121b1d",
+  "name": "Zippo",
+  "commonType": "brand-name",
+  "commonTypeAlt": "toponym",
+  "score": 7.717552234146745
+}
+```
+
+<h3 id="name-type-responses">Response</h3>
+
+*The HTTP response body is an object.*
+
+|Name|Type|Description|Enumerators|
+|---|---|---|---|
+|script|String|Character set used for analysis||
+|id|String|Provided unique identifier||
+|name|String|Submitted proper noun||
+|commonType|String|Most likely type of the proper noun||
+|commonTypeAlt|String|Second most likely type of the proper noun||
+|score|Number|Higher implies a more reliable result, score is not normalized||
+
+
+
+
+
+
+
+
+
+
+
+## Name Type Batch
+
+<a id="opIdName-Type-Batch"></a>
+
+> **Name Type Batch** code sample :
+
+```shell
+curl --request POST \
+  --url https://v2.namsor.com/NamSorAPIv2/api2/json/nameTypeBatch \
+  --header 'X-API-KEY: your-api-key' \
+  --header 'Accept: application/json' \
+  --header 'Content-Type: application/json' \
+  --data '{"properNouns":[{"id":"e630dda5-13b3-42c5-8f1d-648aa8a21c42","name":"Zippo"}]}'
+```
+
+```java
+HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/api2/json/nameTypeBatch")
+  .header("Content-Type", "application/json")
+  .header("Accept", "application/json")
+  .header("X-API-KEY", "your-api-key")
+  .body("{\"properNouns\":[{\"id\":\"e630dda5-13b3-42c5-8f1d-648aa8a21c42\",\"name\":\"Zippo\"}]}")
+  .asString();
+```
+
+```python
+import requests
+
+url = "https://v2.namsor.com/NamSorAPIv2/api2/json/nameTypeBatch"
+
+payload = {"properNouns": [
+        {
+            "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
+            "name": "Zippo"
+        }
+    ]}
+headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
+}
+
+response = requests.request("POST", url, json=payload, headers=headers)
+
+print(response.text)
+```
+
+```javascript
+fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/nameTypeBatch", {
+  "method": "POST",
+  "headers": {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
+  },
+  "body": "{\"properNouns\":[{\"id\":\"e630dda5-13b3-42c5-8f1d-648aa8a21c42\",\"name\":\"Zippo\"}]}"
+})
+.then(response => {
+  console.log(response.json());
+})
+.catch(err => {
+  console.error(err);
+});
+```
+
+
+
+*Returns the type of up to 100 submitted proper nouns. Ex: John Smith = personal name, Namsor = brand name.*
+
+*<u>Cost :</u> The processing of each object requires **1** credits.*
+
+<h3 id="name-type-batch-requesturl">HTTP Request</h3>
+
+`POST https://v2.namsor.com/NamSorAPIv2/api2/json/nameTypeBatch`
+
+
+
+> Body parameter
+
+```json
+{
+  "properNouns": [
+    {
+      "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
+      "name": "Zippo"
+    }
+  ]
+}
+```
+
+<h3 id="name-type-batch-parameters">Request Body</h3>
+
+*The HTTP request body is required to be a nested array of objects.*
+
+|Name|Type|Required|Description|
+|---|---|---|---|
+|id|String||Unique identifier|
+|name|String|true|A proper noun (person, brand, etc.)|
+
+
+
+
+> The above command returns JSON structured like this:
+
+
+
+```json
+{
+  "properNouns": [
+    {
+      "script": "LATIN",
+      "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
+      "name": "Zippo",
+      "commonType": "brand-name",
+      "commonTypeAlt": "toponym",
+      "score": 7.717552576402805
+    }
+  ]
+}
+```
+
+<h3 id="name-type-batch-responses">Response</h3>
+
+*The HTTP response body is a nested array of objects.*
+
+|Name|Type|Description|Enumerators|
+|---|---|---|---|
+|script|String|Character set used for analysis||
+|id|String|Provided unique identifier||
+|name|String|Submitted proper noun||
+|commonType|String|Most likely type of the proper noun||
+|commonTypeAlt|String|Second most likely type of the proper noun||
+|score|Number|Higher implies a more reliable result, score is not normalized||
+
+
+
+
+
+
+
+
+
+
+
+## Name Type Geo
+
+<a id="opIdName-Type-Geo"></a>
+
+> **Name Type Geo** code sample :
+
+```shell
+curl --request GET \
+  --url https://v2.namsor.com/NamSorAPIv2/api2/json/nameTypeGeo/Edi%20Gathegi/KE \
+  --header 'X-API-KEY: your-api-key' \
+  --header 'Accept: application/json'
+```
+
+```java
+HttpResponse<String> response = Unirest.get("https://v2.namsor.com/NamSorAPIv2/api2/json/nameTypeGeo/Edi%20Gathegi/KE")
+  .header("Accept", "application/json")
+  .header("X-API-KEY", "your-api-key")
+  .asString();
+```
+
+```python
+import requests
+
+url = "https://v2.namsor.com/NamSorAPIv2/api2/json/nameTypeGeo/Edi%20Gathegi/KE"
+
+headers = {
+ "Accept": "application/json",
+ "X-API-KEY": "your-api-key"
+}
+
+response = requests.request("GET", url, headers=headers)
+
+print(response.text)
+```
+
+```javascript
+fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/nameTypeGeo/Edi%20Gathegi/KE", {
+  "method": "GET",
+  "headers": {
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
+  }
+})
+.then(response => {
+  console.log(response.json());
+})
+.catch(err => {
+  console.error(err);
+});
+```
+
+
+
+*Returns the type of up to 100 submitted proper nouns using its geographic context. Ex: John Smith = personal name, Namsor = brand name.*
+
+*<u>Cost :</u> The processing of each query requires **1** credits.*
+
+<h3 id="name-type-geo-requesturl">HTTP Request</h3>
+
+`GET https://v2.namsor.com/NamSorAPIv2/api2/json/nameTypeGeo/{properNoun}/{countryIso2}`
+
+
+
+<h3 id="name-type-geo-parameters">Request Parameters</h3>
+
+|Name|Type|Required|Description|
+|---|---|---|---|
+|properNoun|String|true|A proper noun (person, brand, etc.)|
+|countryIso2|String|true|Most likely country of origin, in ISO 3166-1 alpha-2 format|
+
+
+
+
+
+> The above command returns JSON structured like this:
+
+
+
+```json
+{
+  "script": "LATIN",
+  "id": "a941ea3f-3b3c-4ff1-af28-c01b086b7d79",
+  "name": "Edi Gathegi",
+  "commonType": "anthroponym",
+  "commonTypeAlt": "brand-name",
+  "score": 18.5790039224226
+}
+```
+
+<h3 id="name-type-geo-responses">Response</h3>
+
+*The HTTP response body is an object.*
+
+|Name|Type|Description|Enumerators|
+|---|---|---|---|
+|script|String|Character set used for analysis||
+|id|String|Provided unique identifier||
+|name|String|Submitted proper noun||
+|commonType|String|Most likely type of the proper noun||
+|commonTypeAlt|String|Second most likely type of the proper noun||
+|score|Number|Higher implies a more reliable result, score is not normalized||
+
+
+
+
+
+
+
+
+
+
+
+## Name Type Geo Batch
+
+<a id="opIdName-Type-Geo-Batch"></a>
+
+> **Name Type Geo Batch** code sample :
+
+```shell
+curl --request POST \
+  --url https://v2.namsor.com/NamSorAPIv2/api2/json/nameTypeGeoBatch \
+  --header 'X-API-KEY: your-api-key' \
+  --header 'Accept: application/json' \
+  --header 'Content-Type: application/json' \
+  --data '{"properNouns":[{"id":"e630dda5-13b3-42c5-8f1d-648aa8a21c42","name":"Edi Gathegi","countryIso2":"KE"}]}'
+```
+
+```java
+HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/api2/json/nameTypeGeoBatch")
+  .header("Content-Type", "application/json")
+  .header("Accept", "application/json")
+  .header("X-API-KEY", "your-api-key")
+  .body("{\"properNouns\":[{\"id\":\"e630dda5-13b3-42c5-8f1d-648aa8a21c42\",\"name\":\"Edi Gathegi\",\"countryIso2\":\"KE\"}]}")
+  .asString();
+```
+
+```python
+import requests
+
+url = "https://v2.namsor.com/NamSorAPIv2/api2/json/nameTypeGeoBatch"
+
+payload = {"properNouns": [
+        {
+            "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
+            "name": "Edi Gathegi",
+            "countryIso2": "KE"
+        }
+    ]}
+headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
+}
+
+response = requests.request("POST", url, json=payload, headers=headers)
+
+print(response.text)
+```
+
+```javascript
+fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/nameTypeGeoBatch", {
+  "method": "POST",
+  "headers": {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
+  },
+  "body": "{\"properNouns\":[{\"id\":\"e630dda5-13b3-42c5-8f1d-648aa8a21c42\",\"name\":\"Edi Gathegi\",\"countryIso2\":\"KE\"}]}"
+})
+.then(response => {
+  console.log(response.json());
+})
+.catch(err => {
+  console.error(err);
+});
+```
+
+
+
+*Returns the type of up to 100 submitted proper nouns using their geographic context. Ex: John Smith = personal name, Namsor = brand name.*
+
+*<u>Cost :</u> The processing of each object requires **1** credits.*
+
+<h3 id="name-type-geo-batch-requesturl">HTTP Request</h3>
+
+`POST https://v2.namsor.com/NamSorAPIv2/api2/json/nameTypeGeoBatch`
+
+
+
+> Body parameter
+
+```json
+{
+  "properNouns": [
+    {
+      "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
+      "name": "Edi Gathegi",
+      "countryIso2": "KE"
+    }
+  ]
+}
+```
+
+<h3 id="name-type-geo-batch-parameters">Request Body</h3>
+
+*The HTTP request body is required to be a nested array of objects.*
+
+|Name|Type|Required|Description|
+|---|---|---|---|
+|id|String||Unique identifier|
+|name|String|true|A proper noun (person, brand, etc.)|
+|countryIso2|String|true|Most likely country of origin, in ISO 3166-1 alpha-2 format|
+
+
+
+
+> The above command returns JSON structured like this:
+
+
+
+```json
+{
+  "properNouns": [
+    {
+      "script": "LATIN",
+      "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
+      "name": "Edi Gathegi",
+      "commonType": "anthroponym",
+      "commonTypeAlt": "brand-name",
+      "score": 18.579081911201673
+    }
+  ]
+}
+```
+
+<h3 id="name-type-geo-batch-responses">Response</h3>
+
+*The HTTP response body is a nested array of objects.*
+
+|Name|Type|Description|Enumerators|
+|---|---|---|---|
+|script|String|Character set used for analysis||
+|id|String|Provided unique identifier||
+|name|String|Submitted proper noun||
+|commonType|String|Most likely type of the proper noun||
+|commonTypeAlt|String|Second most likely type of the proper noun||
+|score|Number|Higher implies a more reliable result, score is not normalized||
+
+
+
+
+
+
+
+
+
+
+
 <h1 id="namsor-api-v2-split-name">Split Name</h1>
 
-Namsor’s software offers a <strong>name separation API</strong>. We are able to take in a full name, and split it into a first name and last name structure. Our API also supports Chinese names, in Pinyin or Mandarin Chinese, and Japanese names written in Kanji characters.<br><br><br><a class='demo-page-button' target='_blank' href='https://namsor.com/'>Try out Name Splitting features</a>
+Namsor’s software offers a <strong>name separation API</strong>. We are able to take in a full name, and split it into a first name and last name structure. Our API also supports Chinese names, in Pinyin or Mandarin Chinese, and Japanese names written in Kanji characters.<br><br><br><a class='demo-page-button' target='_blank' href='https://namsor.com/features/spit-full-name'>Try out Name Splitting features</a>
 
-## Parse Name
+## Split Name
 
-<a id="opIdParse-Name"></a>
+<a id="opIdSplit-Name"></a>
 
-> **Parse Name** code sample :
+> **Split Name** code sample :
 
 ```shell
 curl --request GET \
@@ -3208,13 +3761,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseName/John%20Smith", {
 
 *<u>Cost :</u> The processing of each query requires **1** credits.*
 
-<h3 id="parse-name-requesturl">HTTP Request</h3>
+<h3 id="split-name-requesturl">HTTP Request</h3>
 
 `GET https://v2.namsor.com/NamSorAPIv2/api2/json/parseName/{nameFull}`
 
 
 
-<h3 id="parse-name-parameters">Request Parameters</h3>
+<h3 id="split-name-parameters">Request Parameters</h3>
 
 |Name|Type|Required|Description|
 |---|---|---|---|
@@ -3244,7 +3797,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseName/John%20Smith", {
 }
 ```
 
-<h3 id="parse-name-responses">Response</h3>
+<h3 id="split-name-responses">Response</h3>
 
 *The HTTP response body is an object.*
 
@@ -3272,11 +3825,11 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseName/John%20Smith", {
 
 
 
-## Parse Name Batch
+## Split Name Batch
 
-<a id="opIdParse-Name-Batch"></a>
+<a id="opIdSplit-Name-Batch"></a>
 
-> **Parse Name Batch** code sample :
+> **Split Name Batch** code sample :
 
 ```shell
 curl --request POST \
@@ -3342,7 +3895,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseNameBatch", {
 
 *<u>Cost :</u> The processing of each object requires **1** credits.*
 
-<h3 id="parse-name-batch-requesturl">HTTP Request</h3>
+<h3 id="split-name-batch-requesturl">HTTP Request</h3>
 
 `POST https://v2.namsor.com/NamSorAPIv2/api2/json/parseNameBatch`
 
@@ -3361,7 +3914,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseNameBatch", {
 }
 ```
 
-<h3 id="parse-name-batch-parameters">Request Body</h3>
+<h3 id="split-name-batch-parameters">Request Body</h3>
 
 *The HTTP request body is required to be a nested array of objects.*
 
@@ -3398,7 +3951,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseNameBatch", {
 }
 ```
 
-<h3 id="parse-name-batch-responses">Response</h3>
+<h3 id="split-name-batch-responses">Response</h3>
 
 *The HTTP response body is a nested array of objects.*
 
@@ -3426,11 +3979,11 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseNameBatch", {
 
 
 
-## Parse Name Geo
+## Split Name Geo
 
-<a id="opIdParse-Name-Geo"></a>
+<a id="opIdSplit-Name-Geo"></a>
 
-> **Parse Name Geo** code sample :
+> **Split Name Geo** code sample :
 
 ```shell
 curl --request GET \
@@ -3483,13 +4036,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseName/Ricardo%20Dar%C3%AD
 
 *<u>Cost :</u> The processing of each query requires **1** credits.*
 
-<h3 id="parse-name-geo-requesturl">HTTP Request</h3>
+<h3 id="split-name-geo-requesturl">HTTP Request</h3>
 
 `GET https://v2.namsor.com/NamSorAPIv2/api2/json/parseName/{nameFull}/{countryIso2}`
 
 
 
-<h3 id="parse-name-geo-parameters">Request Parameters</h3>
+<h3 id="split-name-geo-parameters">Request Parameters</h3>
 
 |Name|Type|Required|Description|
 |---|---|---|---|
@@ -3521,7 +4074,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseName/Ricardo%20Dar%C3%AD
 }
 ```
 
-<h3 id="parse-name-geo-responses">Response</h3>
+<h3 id="split-name-geo-responses">Response</h3>
 
 *The HTTP response body is an object.*
 
@@ -3549,11 +4102,11 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseName/Ricardo%20Dar%C3%AD
 
 
 
-## Parse Name Geo Batch
+## Split Name Geo Batch
 
-<a id="opIdParse-Name-Geo-Batch"></a>
+<a id="opIdSplit-Name-Geo-Batch"></a>
 
-> **Parse Name Geo Batch** code sample :
+> **Split Name Geo Batch** code sample :
 
 ```shell
 curl --request POST \
@@ -3620,7 +4173,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseNameGeoBatch", {
 
 *<u>Cost :</u> The processing of each object requires **1** credits.*
 
-<h3 id="parse-name-geo-batch-requesturl">HTTP Request</h3>
+<h3 id="split-name-geo-batch-requesturl">HTTP Request</h3>
 
 `POST https://v2.namsor.com/NamSorAPIv2/api2/json/parseNameGeoBatch`
 
@@ -3640,7 +4193,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseNameGeoBatch", {
 }
 ```
 
-<h3 id="parse-name-geo-batch-parameters">Request Body</h3>
+<h3 id="split-name-geo-batch-parameters">Request Body</h3>
 
 *The HTTP request body is required to be a nested array of objects.*
 
@@ -3678,7 +4231,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseNameGeoBatch", {
 }
 ```
 
-<h3 id="parse-name-geo-batch-responses">Response</h3>
+<h3 id="split-name-geo-batch-responses">Response</h3>
 
 *The HTTP response body is a nested array of objects.*
 
@@ -3706,1952 +4259,15 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseNameGeoBatch", {
 
 
 
-<h1 id="namsor-api-v2-chinese">Chinese</h1>
-
-Namsor provides dedicated <strong>name analysis API</strong> for the processing of Chinese names. Our name recognition AI can <strong>translate Chinese names</strong> to English (Pinyin). Among other features you can: infer the <strong>gender of a Chinese name</strong> or split a Chinese full name into a first name and a last name.<br/><br/>We are also able to rate the <strong>quality of a transcriptions</strong> between a name in Pinyin and a name in Standard Mandarin Chinese.<br><br><br><a class='demo-page-button' target='_blank' href='https://namsor.com/'>Try out Chinese features</a>
-
-## Pinyin Chinese Name
-
-<a id="opIdPinyin-Chinese-Name"></a>
-
-> **Pinyin Chinese Name** code sample :
-
-```shell
-curl --request GET \
-  --url https://v2.namsor.com/NamSorAPIv2/api2/json/pinyinChineseName/%E8%B5%B5%E4%B8%BD%E9%A2%96 \
-  --header 'X-API-KEY: your-api-key' \
-  --header 'Accept: application/json'
-```
-
-```java
-HttpResponse<String> response = Unirest.get("https://v2.namsor.com/NamSorAPIv2/api2/json/pinyinChineseName/%E8%B5%B5%E4%B8%BD%E9%A2%96")
-  .header("Accept", "application/json")
-  .header("X-API-KEY", "your-api-key")
-  .asString();
-```
-
-```python
-import requests
-
-url = "https://v2.namsor.com/NamSorAPIv2/api2/json/pinyinChineseName/%E8%B5%B5%E4%B8%BD%E9%A2%96"
-
-headers = {
- "Accept": "application/json",
- "X-API-KEY": "your-api-key"
-}
-
-response = requests.request("GET", url, headers=headers)
-
-print(response.text)
-```
-
-```javascript
-fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/pinyinChineseName/%E8%B5%B5%E4%B8%BD%E9%A2%96", {
-  "method": "GET",
-  "headers": {
-    "Accept": "application/json",
-    "X-API-KEY": "your-api-key"
-  }
-})
-.then(response => {
-  console.log(response.json());
-})
-.catch(err => {
-  console.error(err);
-});
-```
-
-
-
-*Return the most likely Pinyin transcription of a full name (family name and given name) in Standard Mandarin Chinese.*
-
-*<u>Cost :</u> The processing of each query requires **1** credits.*
-
-<h3 id="pinyin-chinese-name-requesturl">HTTP Request</h3>
-
-`GET https://v2.namsor.com/NamSorAPIv2/api2/json/pinyinChineseName/{chineseName}`
-
-
-
-<h3 id="pinyin-chinese-name-parameters">Request Parameters</h3>
-
-|Name|Type|Required|Description|
-|---|---|---|---|
-|chineseName|String|true|Full name (family name and given name) in Standard Mandarin Chinese|
-
-
-
-
-> The above command returns JSON structured like this:
-
-
-
-```json
-{
-  "script": "HAN",
-  "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
-  "name": "赵丽颖",
-  "nameParserType": "LN1FN1",
-  "nameParserTypeAlt": null,
-  "firstLastName": {
-    "script": null,
-    "id": null,
-    "firstName": "LiYing",
-    "lastName": "Zhao"
-  },
-  "score": 4.641021485371256
-}
-```
-
-<h3 id="pinyin-chinese-name-responses">Response</h3>
-
-*The HTTP response body is an object.*
-
-|Name|Type|Description|Enumerators|
-|---|---|---|---|
-|script|String|Character set used for analysis||
-|id|String|Provided unique identifier||
-|name|String|Submitted full name||
-|nameParserType|String|Most likely structure of the name||
-|nameParserTypeAlt|String|Second most likely structure of the name||
-|**firstLastName**|**Object**|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|Most likely first name (or given name) transcription in Pinyin||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|Most likely last name (or family name) transcription in Pinyin||
-|score|Number|Higher implies a more reliable result, score is not normalized||
-
-
-
-
-
-
-
-
-
-
-
-## Pinyin Chinese Name Batch
-
-<a id="opIdPinyin-Chinese-Name-Batch"></a>
-
-> **Pinyin Chinese Name Batch** code sample :
-
-```shell
-curl --request POST \
-  --url https://v2.namsor.com/NamSorAPIv2/api2/json/pinyinChineseNameBatch \
-  --header 'X-API-KEY: your-api-key' \
-  --header 'Accept: application/json' \
-  --header 'Content-Type: application/json' \
-  --data '{"personalNames":[{"id":"e630dda5-13b3-42c5-8f1d-648aa8a21c42","name":"赵丽颖"}]}'
-```
-
-```java
-HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/api2/json/pinyinChineseNameBatch")
-  .header("Content-Type", "application/json")
-  .header("Accept", "application/json")
-  .header("X-API-KEY", "your-api-key")
-  .body("{\"personalNames\":[{\"id\":\"e630dda5-13b3-42c5-8f1d-648aa8a21c42\",\"name\":\"赵丽颖\"}]}")
-  .asString();
-```
-
-```python
-import requests
-
-url = "https://v2.namsor.com/NamSorAPIv2/api2/json/pinyinChineseNameBatch"
-
-payload = {"personalNames": [
-        {
-            "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
-            "name": "赵丽颖"
-        }
-    ]}
-headers = {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-    "X-API-KEY": "your-api-key"
-}
-
-response = requests.request("POST", url, json=payload, headers=headers)
-
-print(response.text)
-```
-
-```javascript
-fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/pinyinChineseNameBatch", {
-  "method": "POST",
-  "headers": {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-    "X-API-KEY": "your-api-key"
-  },
-  "body": "{\"personalNames\":[{\"id\":\"e630dda5-13b3-42c5-8f1d-648aa8a21c42\",\"name\":\"赵丽颖\"}]}"
-})
-.then(response => {
-  console.log(response.json());
-})
-.catch(err => {
-  console.error(err);
-});
-```
-
-
-
-*Return the most likely Pinyin transcription of up to 100 full names (family names and given names) in Standard Mandarin Chinese.*
-
-*<u>Cost :</u> The processing of each object requires **1** credits.*
-
-<h3 id="pinyin-chinese-name-batch-requesturl">HTTP Request</h3>
-
-`POST https://v2.namsor.com/NamSorAPIv2/api2/json/pinyinChineseNameBatch`
-
-
-
-> Body parameter
-
-```json
-{
-  "personalNames": [
-    {
-      "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
-      "name": "赵丽颖"
-    }
-  ]
-}
-```
-
-<h3 id="pinyin-chinese-name-batch-parameters">Request Body</h3>
-
-*The HTTP request body is required to be a nested array of objects.*
-
-|Name|Type|Required|Description|
-|---|---|---|---|
-|id|String||Unique identifier|
-|name|String|true|Full name (family name and given name) in Standard Mandarin Chinese|
-
-
-
-
-> The above command returns JSON structured like this:
-
-
-
-```json
-{
-  "personalNames": [
-    {
-      "script": "HAN",
-      "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
-      "name": "赵丽颖",
-      "nameParserType": "LN1FN1",
-      "nameParserTypeAlt": null,
-      "firstLastName": {
-        "script": null,
-        "id": null,
-        "firstName": "LiYing",
-        "lastName": "Zhao"
-      },
-      "score": 4.641021485371256
-    }
-  ]
-}
-```
-
-<h3 id="pinyin-chinese-name-batch-responses">Response</h3>
-
-*The HTTP response body is a nested array of objects.*
-
-|Name|Type|Description|Enumerators|
-|---|---|---|---|
-|script|String|Character set used for analysis||
-|id|String|Provided unique identifier||
-|name|String|Submitted full name||
-|nameParserType|String|Most likely structure of the name||
-|nameParserTypeAlt|String|Second most likely structure of the name||
-|**firstLastName**|**Object**|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|Most likely first name (or given name) transcription in Pinyin||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|Most likely last name (or family name) transcription in Pinyin||
-|score|Number|Higher implies a more reliable result, score is not normalized||
-
-
-
-
-
-
-
-
-
-
-
-## Chinese Name Candidates
-
-<a id="opIdChinese-Name-Candidates"></a>
-
-> **Chinese Name Candidates** code sample :
-
-```shell
-curl --request GET \
-  --url https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameCandidates/Zhao/LiYing \
-  --header 'X-API-KEY: your-api-key' \
-  --header 'Accept: application/json'
-```
-
-```java
-HttpResponse<String> response = Unirest.get("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameCandidates/Zhao/LiYing")
-  .header("Accept", "application/json")
-  .header("X-API-KEY", "your-api-key")
-  .asString();
-```
-
-```python
-import requests
-
-url = "https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameCandidates/Zhao/LiYing"
-
-headers = {
- "Accept": "application/json",
- "X-API-KEY": "your-api-key"
-}
-
-response = requests.request("GET", url, headers=headers)
-
-print(response.text)
-```
-
-```javascript
-fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameCandidates/Zhao/LiYing", {
-  "method": "GET",
-  "headers": {
-    "Accept": "application/json",
-    "X-API-KEY": "your-api-key"
-  }
-})
-.then(response => {
-  console.log(response.json());
-})
-.catch(err => {
-  console.error(err);
-});
-```
-
-
-
-*Returns the most likely Standard Mandarin Chinese transcriptions using a surname and a given name in Pinyin.*
-
-*<u>Cost :</u> The processing of each query requires **1** credits.*
-
-<h3 id="chinese-name-candidates-requesturl">HTTP Request</h3>
-
-`GET https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameCandidates/{chineseSurnameLatin}/{chineseGivenNameLatin}`
-
-
-
-<h3 id="chinese-name-candidates-parameters">Request Parameters</h3>
-
-|Name|Type|Required|Description|
-|---|---|---|---|
-|chineseSurnameLatin|String|true|Family name (or last name) in Pinyin|
-|chineseGivenNameLatin|String|true|Given name (or first name) in Pinyin|
-
-
-
-
-
-> The above command returns JSON structured like this:
-
-
-
-```json
-{
-  "script": null,
-  "id": null,
-  "firstName": "LiYing",
-  "lastName": "Zhao",
-  "orderOption": null,
-  "matchCandidates": [
-    {
-      "candidateName": "赵丽英",
-      "probability": 0.26153460755147884,
-      "predScoreGivenName": 0,
-      "predScoreFamilyName": 0
-    },
-    {
-      "candidateName": "赵丽颖",
-      "probability": 0.11856235542333707,
-      "predScoreGivenName": 0,
-      "predScoreFamilyName": 0
-    }
-  ]
-}
-```
-
-<h3 id="chinese-name-candidates-responses">Response</h3>
-
-*The HTTP response body is an object.*
-
-|Name|Type|Description|Enumerators|
-|---|---|---|---|
-|script|String|Character set used for analysis||
-|id|String|Unique identifier||
-|firstName|String|Submitted first name||
-|lastName|String|Submitted last name||
-|orderOption|String|Sorting order for matchCandidates||
-|**matchCandidates**|**Array of Objects**|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].candidateName*|String|Inferred transcription of the full name to Standard Mandarin Chinese||
-|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].probability*|Number|Higher implies a more reliable result, ranges from 0 to 1||
-|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].predScoreGivenName*|Number|Higher implies a more reliable result (for given name or first name)||
-|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].predScoreFamilyName*|Number|Higher implies a more reliable result (for family name or last name)||
-
-
-
-
-
-
-
-
-
-
-
-## Chinese Name Candidates Batch
-
-<a id="opIdChinese-Name-Candidates-Batch"></a>
-
-> **Chinese Name Candidates Batch** code sample :
-
-```shell
-curl --request POST \
-  --url https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameCandidatesBatch \
-  --header 'X-API-KEY: your-api-key' \
-  --header 'Accept: application/json' \
-  --header 'Content-Type: application/json' \
-  --data '{"personalNames":[{"id":"e630dda5-13b3-42c5-8f1d-648aa8a21c42","firstName":"LiYing","lastName":"Zhao"}]}'
-```
-
-```java
-HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameCandidatesBatch")
-  .header("Content-Type", "application/json")
-  .header("Accept", "application/json")
-  .header("X-API-KEY", "your-api-key")
-  .body("{\"personalNames\":[{\"id\":\"e630dda5-13b3-42c5-8f1d-648aa8a21c42\",\"firstName\":\"LiYing\",\"lastName\":\"Zhao\"}]}")
-  .asString();
-```
-
-```python
-import requests
-
-url = "https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameCandidatesBatch"
-
-payload = {"personalNames": [
-        {
-            "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
-            "firstName": "LiYing",
-            "lastName": "Zhao"
-        }
-    ]}
-headers = {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-    "X-API-KEY": "your-api-key"
-}
-
-response = requests.request("POST", url, json=payload, headers=headers)
-
-print(response.text)
-```
-
-```javascript
-fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameCandidatesBatch", {
-  "method": "POST",
-  "headers": {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-    "X-API-KEY": "your-api-key"
-  },
-  "body": "{\"personalNames\":[{\"id\":\"e630dda5-13b3-42c5-8f1d-648aa8a21c42\",\"firstName\":\"LiYing\",\"lastName\":\"Zhao\"}]}"
-})
-.then(response => {
-  console.log(response.json());
-})
-.catch(err => {
-  console.error(err);
-});
-```
-
-
-
-*Returns the most likely Standard Mandarin Chinese transcriptions using up to 100 family names and given names in Pinyin.*
-
-*<u>Cost :</u> The processing of each object requires **1** credits.*
-
-<h3 id="chinese-name-candidates-batch-requesturl">HTTP Request</h3>
-
-`POST https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameCandidatesBatch`
-
-
-
-> Body parameter
-
-```json
-{
-  "personalNames": [
-    {
-      "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
-      "firstName": "LiYing",
-      "lastName": "Zhao"
-    }
-  ]
-}
-```
-
-<h3 id="chinese-name-candidates-batch-parameters">Request Body</h3>
-
-*The HTTP request body is required to be a nested array of objects.*
-
-|Name|Type|Required|Description|
-|---|---|---|---|
-|id|String||Unique identifier|
-|firstName|String|true|Given name (or first name) in Pinyin|
-|lastName|String|true|Family name (or last name) in Pinyin|
-
-
-
-
-> The above command returns JSON structured like this:
-
-
-
-```json
-{
-  "namesAndMatchCandidates": [
-    {
-      "script": null,
-      "id": null,
-      "firstName": "LiYing",
-      "lastName": "Zhao",
-      "orderOption": null,
-      "matchCandidates": [
-        {
-          "candidateName": "赵丽英",
-          "probability": 0.26153460755147884,
-          "predScoreGivenName": 0,
-          "predScoreFamilyName": 0
-        },
-        {
-          "candidateName": "赵丽颖",
-          "probability": 0.11856235542333707,
-          "predScoreGivenName": 0,
-          "predScoreFamilyName": 0
-        }
-      ]
-    }
-  ]
-}
-```
-
-<h3 id="chinese-name-candidates-batch-responses">Response</h3>
-
-*The HTTP response body is a nested array of objects.*
-
-|Name|Type|Description|Enumerators|
-|---|---|---|---|
-|script|String|Character set used for analysis||
-|id|String|Provided unique identifier||
-|firstName|String|Submitted first name||
-|lastName|String|Submitted last name||
-|orderOption|String|Sorting order for matchCandidates||
-|**matchCandidates**|**Array of Objects**|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].candidateName*|String|Inferred transcription of the full name to Standard Mandarin Chinese||
-|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].probability*|Number|Higher implies a more reliable result, ranges from 0 to 1||
-|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].predScoreGivenName*|Number|Higher implies a more reliable result (for given name or first name)||
-|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].predScoreFamilyName*|Number|Higher implies a more reliable result (for family name or last name)||
-
-
-
-
-
-
-
-
-
-
-
-## Chinese Name Gender Candidates
-
-<a id="opIdChinese-Name-Gender-Candidates"></a>
-
-> **Chinese Name Gender Candidates** code sample :
-
-```shell
-curl --request GET \
-  --url https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameGenderCandidates/Fanzhi/Zeng/male \
-  --header 'X-API-KEY: your-api-key' \
-  --header 'Accept: application/json'
-```
-
-```java
-HttpResponse<String> response = Unirest.get("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameGenderCandidates/Fanzhi/Zeng/male")
-  .header("Accept", "application/json")
-  .header("X-API-KEY", "your-api-key")
-  .asString();
-```
-
-```python
-import requests
-
-url = "https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameGenderCandidates/Fanzhi/Zeng/male"
-
-headers = {
- "Accept": "application/json",
- "X-API-KEY": "your-api-key"
-}
-
-response = requests.request("GET", url, headers=headers)
-
-print(response.text)
-```
-
-```javascript
-fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameGenderCandidates/Fanzhi/Zeng/male", {
-  "method": "GET",
-  "headers": {
-    "Accept": "application/json",
-    "X-API-KEY": "your-api-key"
-  }
-})
-.then(response => {
-  console.log(response.json());
-})
-.catch(err => {
-  console.error(err);
-});
-```
-
-
-
-*Returns the most likely Standard Mandarin Chinese transcriptions for a Pinyin first name and last name, according to their gender.*
-
-*<u>Cost :</u> The processing of each query requires **1** credits.*
-
-<h3 id="chinese-name-gender-candidates-requesturl">HTTP Request</h3>
-
-`GET https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameGenderCandidates/{chineseSurnameLatin}/{chineseGivenNameLatin}/{knownGender}`
-
-
-
-<h3 id="chinese-name-gender-candidates-parameters">Request Parameters</h3>
-
-|Name|Type|Required|Description|
-|---|---|---|---|
-|chineseSurnameLatin|String|true|Family name (or last name) in Pinyin|
-|chineseGivenNameLatin|String|true|Given name (or first name) in Pinyin|
-|knownGender|String|true|Gender|
-
-
-
-
-
-
-> The above command returns JSON structured like this:
-
-
-
-```json
-{
-  "script": null,
-  "id": null,
-  "firstName": "Zeng",
-  "lastName": "Fanzhi",
-  "orderOption": null,
-  "matchCandidates": [
-    {
-      "candidateName": "甑范志",
-      "probability": 0.014705882352941176,
-      "predScoreGivenName": 0,
-      "predScoreFamilyName": 0
-    },
-    {
-      "candidateName": "甑凡智",
-      "probability": 0.014705882352941176,
-      "predScoreGivenName": 0,
-      "predScoreFamilyName": 0
-    }
-  ]
-}
-```
-
-<h3 id="chinese-name-gender-candidates-responses">Response</h3>
-
-*The HTTP response body is an object.*
-
-|Name|Type|Description|Enumerators|
-|---|---|---|---|
-|script|String|Character set used for analysis||
-|id|String|Provided unique identifier||
-|firstName|String|First name (or given name)||
-|lastName|String|Last name (or family name)||
-|orderOption|String|Sorting order for matchCandidates||
-|**matchCandidates**|**Array of Objects**|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].candidateName*|String|Inferred transcription of the full name to Standard Mandarin Chinese||
-|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].probability*|Number|Higher implies a more reliable result, ranges from 0 to 1||
-|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].predScoreGivenName*|Number|Higher implies a more reliable result (for given name or first name)||
-|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].predScoreFamilyName*|Number|Higher implies a more reliable result (for family name or last name)||
-
-
-
-
-
-
-
-
-
-
-
-## Chinese Name Candidates Gender Batch
-
-<a id="opIdChinese-Name-Candidates-Gender-Batch"></a>
-
-> **Chinese Name Candidates Gender Batch** code sample :
-
-```shell
-curl --request POST \
-  --url https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameCandidatesGenderBatch \
-  --header 'X-API-KEY: your-api-key' \
-  --header 'Accept: application/json' \
-  --header 'Content-Type: application/json' \
-  --data '{"personalNames":[{"id":"e630dda5-13b3-42c5-8f1d-648aa8a21c42","firstName":"LiYing","lastName":"Zhao","gender":"female"}]}'
-```
-
-```java
-HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameCandidatesGenderBatch")
-  .header("Content-Type", "application/json")
-  .header("Accept", "application/json")
-  .header("X-API-KEY", "your-api-key")
-  .body("{\"personalNames\":[{\"id\":\"e630dda5-13b3-42c5-8f1d-648aa8a21c42\",\"firstName\":\"LiYing\",\"lastName\":\"Zhao\",\"gender\":\"female\"}]}")
-  .asString();
-```
-
-```python
-import requests
-
-url = "https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameCandidatesGenderBatch"
-
-payload = {"personalNames": [
-        {
-            "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
-            "firstName": "LiYing",
-            "lastName": "Zhao",
-            "gender": "female"
-        }
-    ]}
-headers = {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-    "X-API-KEY": "your-api-key"
-}
-
-response = requests.request("POST", url, json=payload, headers=headers)
-
-print(response.text)
-```
-
-```javascript
-fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameCandidatesGenderBatch", {
-  "method": "POST",
-  "headers": {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-    "X-API-KEY": "your-api-key"
-  },
-  "body": "{\"personalNames\":[{\"id\":\"e630dda5-13b3-42c5-8f1d-648aa8a21c42\",\"firstName\":\"LiYing\",\"lastName\":\"Zhao\",\"gender\":\"female\"}]}"
-})
-.then(response => {
-  console.log(response.json());
-})
-.catch(err => {
-  console.error(err);
-});
-```
-
-
-
-*Returns the most likely Standard Mandarin Chinese transcriptions for up to 100 Pinyin first names and last names, according to their gender.*
-
-*<u>Cost :</u> The processing of each object requires **1** credits.*
-
-<h3 id="chinese-name-candidates-gender-batch-requesturl">HTTP Request</h3>
-
-`POST https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameCandidatesGenderBatch`
-
-
-
-> Body parameter
-
-```json
-{
-  "personalNames": [
-    {
-      "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
-      "firstName": "LiYing",
-      "lastName": "Zhao",
-      "gender": "female"
-    }
-  ]
-}
-```
-
-<h3 id="chinese-name-candidates-gender-batch-parameters">Request Body</h3>
-
-*The HTTP request body is required to be a nested array of objects.*
-
-|Name|Type|Required|Description|
-|---|---|---|---|
-|id|String||Unique identifier|
-|firstName|String|true|Given name (or first name) in Pinyin|
-|lastName|String|true|Family name (or last name) in Pinyin|
-|gender|String|true|Gender|
-
-
-
-
-> The above command returns JSON structured like this:
-
-
-
-```json
-{
-  "namesAndMatchCandidates": [
-    {
-      "script": null,
-      "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
-      "firstName": "LiYing",
-      "lastName": "Zhao",
-      "orderOption": null,
-      "matchCandidates": [
-        {
-          "candidateName": "赵丽英",
-          "probability": 0.07949583832056487,
-          "predScoreGivenName": 0,
-          "predScoreFamilyName": 0
-        },
-        {
-          "candidateName": "赵丽颖",
-          "probability": 0.021402725701690543,
-          "predScoreGivenName": 0,
-          "predScoreFamilyName": 0
-        }
-      ]
-    }
-  ]
-}
-```
-
-<h3 id="chinese-name-candidates-gender-batch-responses">Response</h3>
-
-*The HTTP response body is a nested array of objects.*
-
-|Name|Type|Description|Enumerators|
-|---|---|---|---|
-|script|String|Character set used for analysis||
-|id|String|Provided unique identifier||
-|firstName|String|Submitted first name||
-|lastName|String|Submitted last name||
-|orderOption|String|Sorting order for matchCandidates||
-|**matchCandidates**|**Array of Objects**|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].candidateName*|String|Inferred transcription of the full name to Standard Mandarin Chinese||
-|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].probability*|Number|Higher implies a more reliable result, ranges from 0 to 1||
-|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].predScoreGivenName*|Number|Higher implies a more reliable result (for given name or first name)||
-|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].predScoreFamilyName*|Number|Higher implies a more reliable result (for family name or last name)||
-
-
-
-
-
-
-
-
-
-
-
-## Gender Chinese Name Pinyin
-
-<a id="opIdGender-Chinese-Name-Pinyin"></a>
-
-> **Gender Chinese Name Pinyin** code sample :
-
-```shell
-curl --request GET \
-  --url https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseNamePinyin/Q%C4%ABngy%C3%BAn/D%C3%A8ng \
-  --header 'X-API-KEY: your-api-key' \
-  --header 'Accept: application/json'
-```
-
-```java
-HttpResponse<String> response = Unirest.get("https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseNamePinyin/Q%C4%ABngy%C3%BAn/D%C3%A8ng")
-  .header("Accept", "application/json")
-  .header("X-API-KEY", "your-api-key")
-  .asString();
-```
-
-```python
-import requests
-
-url = "https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseNamePinyin/Q%C4%ABngy%C3%BAn/D%C3%A8ng"
-
-headers = {
- "Accept": "application/json",
- "X-API-KEY": "your-api-key"
-}
-
-response = requests.request("GET", url, headers=headers)
-
-print(response.text)
-```
-
-```javascript
-fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseNamePinyin/Q%C4%ABngy%C3%BAn/D%C3%A8ng", {
-  "method": "GET",
-  "headers": {
-    "Accept": "application/json",
-    "X-API-KEY": "your-api-key"
-  }
-})
-.then(response => {
-  console.log(response.json());
-})
-.catch(err => {
-  console.error(err);
-});
-```
-
-
-
-*Return the most likely gender of a family name and a given name in Pinyin.*
-
-*<u>Cost :</u> The processing of each query requires **1** credits.*
-
-<h3 id="gender-chinese-name-pinyin-requesturl">HTTP Request</h3>
-
-`GET https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseNamePinyin/{chineseSurnameLatin}/{chineseGivenNameLatin}`
-
-
-
-<h3 id="gender-chinese-name-pinyin-parameters">Request Parameters</h3>
-
-|Name|Type|Required|Description|
-|---|---|---|---|
-|chineseSurnameLatin|String|true|Family name (or last name) in Pinyin|
-|chineseGivenNameLatin|String|true|Given name (or first name) in Pinyin|
-
-
-
-
-
-> The above command returns JSON structured like this:
-
-
-
-```json
-{
-  "script": "LATIN",
-  "id": "9c1fda7c-54f1-48d1-b082-80cc6148aeb9",
-  "firstName": "Dèng",
-  "lastName": "Qīngyún",
-  "likelyGender": "male",
-  "genderScale": -0.014201270075495653,
-  "score": 1.8597729950048343,
-  "probabilityCalibrated": 0.5071006350377478
-}
-```
-
-<h3 id="gender-chinese-name-pinyin-responses">Response</h3>
-
-*The HTTP response body is an object.*
-
-|Name|Type|Description|Enumerators|
-|---|---|---|---|
-|script|String|Character set used for analysis||
-|id|String|Unique identifier||
-|firstName|String|Submitted first name||
-|lastName|String|Submitted last name||
-|likelyGender|String|Most likely gender|"male", "female" or "unknown"|
-|genderScale|Number|Gender scale ranging from -1 (male) to +1 (female)||
-|score|Number|Higher implies a more reliable result, score is not normalized||
-|probabilityCalibrated|Number|Higher implies a more reliable result, ranges from 0 to 1||
-
-
-
-
-
-
-
-
-
-
-
-## Gender Chinese Name Pinyin Batch
-
-<a id="opIdGender-Chinese-Name-Pinyin-Batch"></a>
-
-> **Gender Chinese Name Pinyin Batch** code sample :
-
-```shell
-curl --request POST \
-  --url https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseNamePinyinBatch \
-  --header 'X-API-KEY: your-api-key' \
-  --header 'Accept: application/json' \
-  --header 'Content-Type: application/json' \
-  --data '{"personalNames":[{"id":"e630dda5-13b3-42c5-8f1d-648aa8a21c42","firstName":"Dèng","lastName":"Qīngyún"}]}'
-```
-
-```java
-HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseNamePinyinBatch")
-  .header("Content-Type", "application/json")
-  .header("Accept", "application/json")
-  .header("X-API-KEY", "your-api-key")
-  .body("{\"personalNames\":[{\"id\":\"e630dda5-13b3-42c5-8f1d-648aa8a21c42\",\"firstName\":\"Dèng\",\"lastName\":\"Qīngyún\"}]}")
-  .asString();
-```
-
-```python
-import requests
-
-url = "https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseNamePinyinBatch"
-
-payload = {"personalNames": [
-        {
-            "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
-            "firstName": "Dèng",
-            "lastName": "Qīngyún"
-        }
-    ]}
-headers = {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-    "X-API-KEY": "your-api-key"
-}
-
-response = requests.request("POST", url, json=payload, headers=headers)
-
-print(response.text)
-```
-
-```javascript
-fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseNamePinyinBatch", {
-  "method": "POST",
-  "headers": {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-    "X-API-KEY": "your-api-key"
-  },
-  "body": "{\"personalNames\":[{\"id\":\"e630dda5-13b3-42c5-8f1d-648aa8a21c42\",\"firstName\":\"Dèng\",\"lastName\":\"Qīngyún\"}]}"
-})
-.then(response => {
-  console.log(response.json());
-})
-.catch(err => {
-  console.error(err);
-});
-```
-
-
-
-*Return the most likely gender of up to 100 family names and a given names in Pinyin.*
-
-*<u>Cost :</u> The processing of each object requires **1** credits.*
-
-<h3 id="gender-chinese-name-pinyin-batch-requesturl">HTTP Request</h3>
-
-`POST https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseNamePinyinBatch`
-
-
-
-> Body parameter
-
-```json
-{
-  "personalNames": [
-    {
-      "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
-      "firstName": "Dèng",
-      "lastName": "Qīngyún"
-    }
-  ]
-}
-```
-
-<h3 id="gender-chinese-name-pinyin-batch-parameters">Request Body</h3>
-
-*The HTTP request body is required to be a nested array of objects.*
-
-|Name|Type|Required|Description|
-|---|---|---|---|
-|id|String||Unique identifier|
-|firstName|String|true|Given name (or first name) in Pinyin|
-|lastName|String|true|Family name (or last name) in Pinyin|
-
-
-
-
-> The above command returns JSON structured like this:
-
-
-
-```json
-{
-  "personalNames": [
-    {
-      "script": "LATIN",
-      "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
-      "firstName": "Dèng",
-      "lastName": "Qīngyún",
-      "likelyGender": "male",
-      "genderScale": -0.3132515162951226,
-      "score": 6.747266465582973,
-      "probabilityCalibrated": 0.6566257581475613
-    }
-  ]
-}
-```
-
-<h3 id="gender-chinese-name-pinyin-batch-responses">Response</h3>
-
-*The HTTP response body is a nested array of objects.*
-
-|Name|Type|Description|Enumerators|
-|---|---|---|---|
-|script|String|Character set used for analysis||
-|id|String|Provided unique identifier||
-|firstName|String|Submitted first name||
-|lastName|String|Submitted last name||
-|likelyGender|String|Most likely gender|"male", "female" or "unknown"|
-|genderScale|Number|Gender scale ranging from -1 (male) to +1 (female)||
-|score|Number|Higher implies a more reliable result, score is not normalized||
-|probabilityCalibrated|Number|Higher implies a more reliable result, ranges from 0 to 1||
-
-
-
-
-
-
-
-
-
-
-
-## Gender Chinese Name
-
-<a id="opIdGender-Chinese-Name"></a>
-
-> **Gender Chinese Name** code sample :
-
-```shell
-curl --request GET \
-  --url https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseName/%E8%B0%A2%E6%99%93%E4%BA%AE \
-  --header 'X-API-KEY: your-api-key' \
-  --header 'Accept: application/json'
-```
-
-```java
-HttpResponse<String> response = Unirest.get("https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseName/%E8%B0%A2%E6%99%93%E4%BA%AE")
-  .header("Accept", "application/json")
-  .header("X-API-KEY", "your-api-key")
-  .asString();
-```
-
-```python
-import requests
-
-url = "https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseName/%E8%B0%A2%E6%99%93%E4%BA%AE"
-
-headers = {
- "Accept": "application/json",
- "X-API-KEY": "your-api-key"
-}
-
-response = requests.request("GET", url, headers=headers)
-
-print(response.text)
-```
-
-```javascript
-fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseName/%E8%B0%A2%E6%99%93%E4%BA%AE", {
-  "method": "GET",
-  "headers": {
-    "Accept": "application/json",
-    "X-API-KEY": "your-api-key"
-  }
-})
-.then(response => {
-  console.log(response.json());
-})
-.catch(err => {
-  console.error(err);
-});
-```
-
-
-
-*Returns the most likely gender of a full name (family name and given name) in Standard Mandarin Chinese.*
-
-*<u>Cost :</u> The processing of each query requires **1** credits.*
-
-<h3 id="gender-chinese-name-requesturl">HTTP Request</h3>
-
-`GET https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseName/{chineseName}`
-
-
-
-<h3 id="gender-chinese-name-parameters">Request Parameters</h3>
-
-|Name|Type|Required|Description|
-|---|---|---|---|
-|chineseName|String|true|Full name (family name and given name) in Standard Mandarin Chinese|
-
-
-
-
-> The above command returns JSON structured like this:
-
-
-
-```json
-{
-  "script": "HAN",
-  "id": "46661b4d-32cf-4ca5-b598-f62a8d7e0667",
-  "name": "谢晓亮",
-  "likelyGender": "male",
-  "genderScale": -0.7130895869378251,
-  "score": 8.286118331853034,
-  "probabilityCalibrated": 0.8565447934689125
-}
-```
-
-<h3 id="gender-chinese-name-responses">Response</h3>
-
-*The HTTP response body is an object.*
-
-|Name|Type|Description|Enumerators|
-|---|---|---|---|
-|script|String|Character set used for analysis||
-|id|String|Unique identifier||
-|name|String|Submitted full name||
-|likelyGender|String|Most likely gender|"male", "female" or "unknown"|
-|genderScale|Number|Gender scale ranging from -1 (male) to +1 (female)||
-|score|Number|Higher implies a more reliable result, score is not normalized||
-|probabilityCalibrated|Number|Higher implies a more reliable result, ranges from 0 to 1||
-
-
-
-
-
-
-
-
-
-
-
-## Gender Chinese Name Batch
-
-<a id="opIdGender-Chinese-Name-Batch"></a>
-
-> **Gender Chinese Name Batch** code sample :
-
-```shell
-curl --request POST \
-  --url https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseNameBatch \
-  --header 'X-API-KEY: your-api-key' \
-  --header 'Accept: application/json' \
-  --header 'Content-Type: application/json' \
-  --data '{"personalNames":[{"id":"e630dda5-13b3-42c5-8f1d-648aa8a21c42","name":"谢晓亮"}]}'
-```
-
-```java
-HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseNameBatch")
-  .header("Content-Type", "application/json")
-  .header("Accept", "application/json")
-  .header("X-API-KEY", "your-api-key")
-  .body("{\"personalNames\":[{\"id\":\"e630dda5-13b3-42c5-8f1d-648aa8a21c42\",\"name\":\"谢晓亮\"}]}")
-  .asString();
-```
-
-```python
-import requests
-
-url = "https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseNameBatch"
-
-payload = {"personalNames": [
-        {
-            "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
-            "name": "谢晓亮"
-        }
-    ]}
-headers = {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-    "X-API-KEY": "your-api-key"
-}
-
-response = requests.request("POST", url, json=payload, headers=headers)
-
-print(response.text)
-```
-
-```javascript
-fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseNameBatch", {
-  "method": "POST",
-  "headers": {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-    "X-API-KEY": "your-api-key"
-  },
-  "body": "{\"personalNames\":[{\"id\":\"e630dda5-13b3-42c5-8f1d-648aa8a21c42\",\"name\":\"谢晓亮\"}]}"
-})
-.then(response => {
-  console.log(response.json());
-})
-.catch(err => {
-  console.error(err);
-});
-```
-
-
-
-*Returns the most likely gender of up to 100 full names (family names and given names) in Standard Mandarin Chinese.*
-
-*<u>Cost :</u> The processing of each object requires **1** credits.*
-
-<h3 id="gender-chinese-name-batch-requesturl">HTTP Request</h3>
-
-`POST https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseNameBatch`
-
-
-
-> Body parameter
-
-```json
-{
-  "personalNames": [
-    {
-      "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
-      "name": "谢晓亮"
-    }
-  ]
-}
-```
-
-<h3 id="gender-chinese-name-batch-parameters">Request Body</h3>
-
-*The HTTP request body is required to be a nested array of objects.*
-
-|Name|Type|Required|Description|
-|---|---|---|---|
-|id|String||Unique identifier|
-|name|String|true|Full name (family name and given name) in Standard Mandarin Chinese|
-
-
-
-
-> The above command returns JSON structured like this:
-
-
-
-```json
-{
-  "personalNames": [
-    {
-      "script": "HAN",
-      "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
-      "name": "谢晓亮",
-      "likelyGender": "male",
-      "genderScale": -0.7130895869378251,
-      "score": 8.286118331853034,
-      "probabilityCalibrated": 0.8565447934689125
-    }
-  ]
-}
-```
-
-<h3 id="gender-chinese-name-batch-responses">Response</h3>
-
-*The HTTP response body is a nested array of objects.*
-
-|Name|Type|Description|Enumerators|
-|---|---|---|---|
-|script|String|Character set used for analysis||
-|id|String|Provided unique identifier||
-|name|String|Submitted full name||
-|likelyGender|String|Most likely gender|"male", "female" or "unknown"|
-|genderScale|Number|Gender scale ranging from -1 (male) to +1 (female)||
-|score|Number|Higher implies a more reliable result, score is not normalized||
-|probabilityCalibrated|Number|Higher implies a more reliable result, ranges from 0 to 1||
-
-
-
-
-
-
-
-
-
-
-
-## Chinese Name Match
-
-<a id="opIdChinese-Name-Match"></a>
-
-> **Chinese Name Match** code sample :
-
-```shell
-curl --request GET \
-  --url https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameMatch/Yu/Hong/%E5%96%BB%E7%BA%A2 \
-  --header 'X-API-KEY: your-api-key' \
-  --header 'Accept: application/json'
-```
-
-```java
-HttpResponse<String> response = Unirest.get("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameMatch/Yu/Hong/%E5%96%BB%E7%BA%A2")
-  .header("Accept", "application/json")
-  .header("X-API-KEY", "your-api-key")
-  .asString();
-```
-
-```python
-import requests
-
-url = "https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameMatch/Yu/Hong/%E5%96%BB%E7%BA%A2"
-
-headers = {
- "Accept": "application/json",
- "X-API-KEY": "your-api-key"
-}
-
-response = requests.request("GET", url, headers=headers)
-
-print(response.text)
-```
-
-```javascript
-fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameMatch/Yu/Hong/%E5%96%BB%E7%BA%A2", {
-  "method": "GET",
-  "headers": {
-    "Accept": "application/json",
-    "X-API-KEY": "your-api-key"
-  }
-})
-.then(response => {
-  console.log(response.json());
-})
-.catch(err => {
-  console.error(err);
-});
-```
-
-
-
-*Matches a full name in Standard Mandarin Chinese against a family name and a given name in Pinyin.*
-
-*<u>Cost :</u> The processing of each query requires **1** credits.*
-
-<h3 id="chinese-name-match-requesturl">HTTP Request</h3>
-
-`GET https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameMatch/{chineseSurnameLatin}/{chineseGivenNameLatin}/{chineseName}`
-
-
-
-<h3 id="chinese-name-match-parameters">Request Parameters</h3>
-
-|Name|Type|Required|Description|
-|---|---|---|---|
-|chineseSurnameLatin|String|true|Family name (or last name) in Pinyin|
-|chineseGivenNameLatin|String|true|Given name (or first name) in Pinyin|
-|chineseName|String|true|Full name (family name and given name) in Standard Mandarin Chinese|
-
-
-
-
-
-
-> The above command returns JSON structured like this:
-
-
-
-```json
-{
-  "script": null,
-  "id": null,
-  "matchStatus": "Match",
-  "score": 1.0017825620273417
-}
-```
-
-<h3 id="chinese-name-match-responses">Response</h3>
-
-*The HTTP response body is an object.*
-
-|Name|Type|Description|Enumerators|
-|---|---|---|---|
-|script|String|||
-|id|String|||
-|matchStatus|String|Success status of the match||
-|score|Number|Higher implies a better match, score is not normalized||
-
-
-
-
-
-
-
-
-
-
-
-## Chinese Name Match Batch
-
-<a id="opIdChinese-Name-Match-Batch"></a>
-
-> **Chinese Name Match Batch** code sample :
-
-```shell
-curl --request POST \
-  --url https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameMatchBatch \
-  --header 'X-API-KEY: your-api-key' \
-  --header 'Accept: application/json' \
-  --header 'Content-Type: application/json' \
-  --data '{"personalNames":[{"id":"e630dda5-13b3-42c5-8f1d-648aa8a21c41","name1":{"id":"e630dda5-13b3-42c5-8f1d-648aa8a21c42","firstName":"Hong","lastName":"Yu"},"name2":{"id":"e630dda5-13b3-42c5-8f1d-648aa8a21c43","name":"喻红"}}]}'
-```
-
-```java
-HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameMatchBatch")
-  .header("Content-Type", "application/json")
-  .header("Accept", "application/json")
-  .header("X-API-KEY", "your-api-key")
-  .body("{\"personalNames\":[{\"id\":\"e630dda5-13b3-42c5-8f1d-648aa8a21c41\",\"name1\":{\"id\":\"e630dda5-13b3-42c5-8f1d-648aa8a21c42\",\"firstName\":\"Hong\",\"lastName\":\"Yu\"},\"name2\":{\"id\":\"e630dda5-13b3-42c5-8f1d-648aa8a21c43\",\"name\":\"喻红\"}}]}")
-  .asString();
-```
-
-```python
-import requests
-
-url = "https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameMatchBatch"
-
-payload = {"personalNames": [
-        {
-            "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c41",
-            "name1": {
-                "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
-                "firstName": "Hong",
-                "lastName": "Yu"
-            },
-            "name2": {
-                "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c43",
-                "name": "喻红"
-            }
-        }
-    ]}
-headers = {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-    "X-API-KEY": "your-api-key"
-}
-
-response = requests.request("POST", url, json=payload, headers=headers)
-
-print(response.text)
-```
-
-```javascript
-fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameMatchBatch", {
-  "method": "POST",
-  "headers": {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-    "X-API-KEY": "your-api-key"
-  },
-  "body": "{\"personalNames\":[{\"id\":\"e630dda5-13b3-42c5-8f1d-648aa8a21c41\",\"name1\":{\"id\":\"e630dda5-13b3-42c5-8f1d-648aa8a21c42\",\"firstName\":\"Hong\",\"lastName\":\"Yu\"},\"name2\":{\"id\":\"e630dda5-13b3-42c5-8f1d-648aa8a21c43\",\"name\":\"喻红\"}}]}"
-})
-.then(response => {
-  console.log(response.json());
-})
-.catch(err => {
-  console.error(err);
-});
-```
-
-
-
-*Matches up to 100 full names in Standard Mandarin Chinese against corresponding family names and given names in Pinyin.*
-
-*<u>Cost :</u> The processing of each object requires **1** credits.*
-
-<h3 id="chinese-name-match-batch-requesturl">HTTP Request</h3>
-
-`POST https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameMatchBatch`
-
-
-
-> Body parameter
-
-```json
-{
-  "personalNames": [
-    {
-      "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c41",
-      "name1": {
-        "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
-        "firstName": "Hong",
-        "lastName": "Yu"
-      },
-      "name2": {
-        "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c43",
-        "name": "喻红"
-      }
-    }
-  ]
-}
-```
-
-<h3 id="chinese-name-match-batch-parameters">Request Body</h3>
-
-*The HTTP request body is required to be a nested array of objects.*
-
-|Name|Type|Required|Description|
-|---|---|---|---|
-|id|String||Unique identifier|
-|**name1**|**Object**|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String||Unique identifier||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|true|Family name (or last name) in Pinyin||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|true|Given name (or first name) in Pinyin||
-|**name2**|**Object**|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String||Unique identifier||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.name*|String|true|Full name (family name and given name) in Standard Mandarin Chinese||
-
-
-
-
-> The above command returns JSON structured like this:
-
-
-
-```json
-{
-  "matchedNames": [
-    {
-      "script": null,
-      "id": null,
-      "matchStatus": "Match",
-      "score": 1.0017825620273417
-    }
-  ]
-}
-```
-
-<h3 id="chinese-name-match-batch-responses">Response</h3>
-
-*The HTTP response body is a nested array of objects.*
-
-|Name|Type|Description|Enumerators|
-|---|---|---|---|
-|script|String|||
-|id|String|||
-|matchStatus|String|Success status of the match||
-|score|Number|Higher implies a better match, score is not normalized||
-
-
-
-
-
-
-
-
-
-
-
-## Parse Chinese Name
-
-<a id="opIdParse-Chinese-Name"></a>
-
-> **Parse Chinese Name** code sample :
-
-```shell
-curl --request GET \
-  --url https://v2.namsor.com/NamSorAPIv2/api2/json/parseChineseName/%E8%B5%B5%E4%B8%BD%E9%A2%96 \
-  --header 'X-API-KEY: your-api-key' \
-  --header 'Accept: application/json'
-```
-
-```java
-HttpResponse<String> response = Unirest.get("https://v2.namsor.com/NamSorAPIv2/api2/json/parseChineseName/%E8%B5%B5%E4%B8%BD%E9%A2%96")
-  .header("Accept", "application/json")
-  .header("X-API-KEY", "your-api-key")
-  .asString();
-```
-
-```python
-import requests
-
-url = "https://v2.namsor.com/NamSorAPIv2/api2/json/parseChineseName/%E8%B5%B5%E4%B8%BD%E9%A2%96"
-
-headers = {
- "Accept": "application/json",
- "X-API-KEY": "your-api-key"
-}
-
-response = requests.request("GET", url, headers=headers)
-
-print(response.text)
-```
-
-```javascript
-fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseChineseName/%E8%B5%B5%E4%B8%BD%E9%A2%96", {
-  "method": "GET",
-  "headers": {
-    "Accept": "application/json",
-    "X-API-KEY": "your-api-key"
-  }
-})
-.then(response => {
-  console.log(response.json());
-})
-.catch(err => {
-  console.error(err);
-});
-```
-
-
-
-*Returns the most likely first name and last name structure of a full name (family name and given name) in Standard Mandarin Chinese.*
-
-*<u>Cost :</u> The processing of each query requires **1** credits.*
-
-<h3 id="parse-chinese-name-requesturl">HTTP Request</h3>
-
-`GET https://v2.namsor.com/NamSorAPIv2/api2/json/parseChineseName/{chineseName}`
-
-
-
-<h3 id="parse-chinese-name-parameters">Request Parameters</h3>
-
-|Name|Type|Required|Description|
-|---|---|---|---|
-|chineseName|String|true|Full name (family name and given name) in Standard Mandarin Chinese|
-
-
-
-
-> The above command returns JSON structured like this:
-
-
-
-```json
-{
-  "script": "HAN",
-  "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
-  "name": "赵丽颖",
-  "nameParserType": "LN1FN1",
-  "nameParserTypeAlt": null,
-  "firstLastName": {
-    "script": null,
-    "id": null,
-    "firstName": "丽颖",
-    "lastName": "赵"
-  },
-  "score": 4.64102036931541
-}
-```
-
-<h3 id="parse-chinese-name-responses">Response</h3>
-
-*The HTTP response body is an object.*
-
-|Name|Type|Description|Enumerators|
-|---|---|---|---|
-|script|String|Character set used for analysis||
-|id|String|Unique identifier||
-|name|String|Submitted full name||
-|nameParserType|String|Most likely structure of the name||
-|nameParserTypeAlt|String|Second most likely structure of the name||
-|**firstLastName**|**Object**|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|First name (or given name) in Standard Mandarin Chinese||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|Last name (or family name) in Standard Mandarin Chinese||
-|score|Number|Higher implies a more reliable result, score is not normalized||
-
-
-
-
-
-
-
-
-
-
-
-## Parse Chinese Name Batch
-
-<a id="opIdParse-Chinese-Name-Batch"></a>
-
-> **Parse Chinese Name Batch** code sample :
-
-```shell
-curl --request POST \
-  --url https://v2.namsor.com/NamSorAPIv2/api2/json/parseChineseNameBatch \
-  --header 'X-API-KEY: your-api-key' \
-  --header 'Accept: application/json' \
-  --header 'Content-Type: application/json' \
-  --data '{"personalNames":[{"id":"e630dda5-13b3-42c5-8f1d-648aa8a21c42","name":"赵丽颖"}]}'
-```
-
-```java
-HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/api2/json/parseChineseNameBatch")
-  .header("Content-Type", "application/json")
-  .header("Accept", "application/json")
-  .header("X-API-KEY", "your-api-key")
-  .body("{\"personalNames\":[{\"id\":\"e630dda5-13b3-42c5-8f1d-648aa8a21c42\",\"name\":\"赵丽颖\"}]}")
-  .asString();
-```
-
-```python
-import requests
-
-url = "https://v2.namsor.com/NamSorAPIv2/api2/json/parseChineseNameBatch"
-
-payload = {"personalNames": [
-        {
-            "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
-            "name": "赵丽颖"
-        }
-    ]}
-headers = {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-    "X-API-KEY": "your-api-key"
-}
-
-response = requests.request("POST", url, json=payload, headers=headers)
-
-print(response.text)
-```
-
-```javascript
-fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseChineseNameBatch", {
-  "method": "POST",
-  "headers": {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-    "X-API-KEY": "your-api-key"
-  },
-  "body": "{\"personalNames\":[{\"id\":\"e630dda5-13b3-42c5-8f1d-648aa8a21c42\",\"name\":\"赵丽颖\"}]}"
-})
-.then(response => {
-  console.log(response.json());
-})
-.catch(err => {
-  console.error(err);
-});
-```
-
-
-
-*Returns the most likely first name and last name structure of up to 100 full names (family names and given names) in Standard Mandarin Chinese.*
-
-*<u>Cost :</u> The processing of each object requires **1** credits.*
-
-<h3 id="parse-chinese-name-batch-requesturl">HTTP Request</h3>
-
-`POST https://v2.namsor.com/NamSorAPIv2/api2/json/parseChineseNameBatch`
-
-
-
-> Body parameter
-
-```json
-{
-  "personalNames": [
-    {
-      "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
-      "name": "赵丽颖"
-    }
-  ]
-}
-```
-
-<h3 id="parse-chinese-name-batch-parameters">Request Body</h3>
-
-*The HTTP request body is required to be a nested array of objects.*
-
-|Name|Type|Required|Description|
-|---|---|---|---|
-|id|String||Unique identifier|
-|name|String|true|Full name (family name and given name) in Standard Mandarin Chinese|
-
-
-
-
-> The above command returns JSON structured like this:
-
-
-
-```json
-{
-  "personalNames": [
-    {
-      "script": "HAN",
-      "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
-      "name": "赵丽颖",
-      "nameParserType": "LN1FN1",
-      "nameParserTypeAlt": null,
-      "firstLastName": {
-        "script": null,
-        "id": null,
-        "firstName": "丽颖",
-        "lastName": "赵"
-      },
-      "score": 4.64102036931541
-    }
-  ]
-}
-```
-
-<h3 id="parse-chinese-name-batch-responses">Response</h3>
-
-*The HTTP response body is a nested array of objects.*
-
-|Name|Type|Description|Enumerators|
-|---|---|---|---|
-|script|String|Character set used for analysis||
-|id|String|Provided unique identifier||
-|name|String|Submitted full name||
-|nameParserType|String|Most likely structure of the name||
-|nameParserTypeAlt|String|Second most likely structure of the name||
-|**firstLastName**|**Object**|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|First name (or given name) in Standard Mandarin Chinese||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|Last name (or family name) in Standard Mandarin Chinese||
-|score|Number|Higher implies a more reliable result, score is not normalized||
-
-
-
-
-
-
-
-
-
-
-
 <h1 id="namsor-api-v2-japanese">Japanese</h1>
 
-Namsor provides a specialized name processing API dedicated to analysing names in the <strong>Japanese language</strong>. We have developed a <strong>name converter</strong>, focused on Japanese names, to help you find the <strong>best transcriptions</strong> possible.<br/><br/>With our API, you can <strong>convert Japanese names</strong> both ways between Kanji and English. You can evaluate the <strong>quality of a transcriptions</strong> between a name in Kanji and a name in Latin characters. It is also possible to split Japansese full names, in either Kanji or Latin characters, into a first name and a last name as well as establish the <strong>gender of a name</strong>.<br><br><br><a class='demo-page-button' target='_blank' href='https://namsor.com/'>Try out Japanese features</a>
+Namsor provides a specialized name processing API dedicated to analysing names in the <strong>Japanese language</strong>. We have developed a <strong>name converter</strong>, focused on Japanese names, to help you find the <strong>best transcriptions</strong> possible.<br/><br/>With our API, you can <strong>convert Japanese names</strong> both ways between Kanji and English. You can evaluate the <strong>quality of a transcriptions</strong> between a name in Kanji and a name in Latin characters. It is also possible to split Japansese full names, in either Kanji or Latin characters, into a first name and a last name as well as establish the <strong>gender of a name</strong>.<br><br><br><a class='demo-page-button' target='_blank' href='https://namsor.com/features/english-japanese-translation'>Try out Japanese features</a>
 
-## Japanese Name Kanji Candidates
+## To Kanji Name
 
-<a id="opIdJapanese-Name-Kanji-Candidates"></a>
+<a id="opIdTo-Kanji-Name"></a>
 
-> **Japanese Name Kanji Candidates** code sample :
+> **To Kanji Name** code sample :
 
 ```shell
 curl --request GET \
@@ -5704,13 +4320,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameKanjiCandidates/Y
 
 *<u>Cost :</u> The processing of each query requires **1** credits.*
 
-<h3 id="japanese-name-kanji-candidates-requesturl">HTTP Request</h3>
+<h3 id="to-kanji-name-requesturl">HTTP Request</h3>
 
 `GET https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameKanjiCandidates/{japaneseSurnameLatin}/{japaneseGivenNameLatin}`
 
 
 
-<h3 id="japanese-name-kanji-candidates-parameters">Request Parameters</h3>
+<h3 id="to-kanji-name-parameters">Request Parameters</h3>
 
 |Name|Type|Required|Description|
 |---|---|---|---|
@@ -5749,7 +4365,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameKanjiCandidates/Y
 }
 ```
 
-<h3 id="japanese-name-kanji-candidates-responses">Response</h3>
+<h3 id="to-kanji-name-responses">Response</h3>
 
 *The HTTP response body is an object.*
 
@@ -5776,11 +4392,11 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameKanjiCandidates/Y
 
 
 
-## Japanese Name Kanji Candidates Batch
+## To Kanji Name Batch
 
-<a id="opIdJapanese-Name-Kanji-Candidates-Batch"></a>
+<a id="opIdTo-Kanji-Name-Batch"></a>
 
-> **Japanese Name Kanji Candidates Batch** code sample :
+> **To Kanji Name Batch** code sample :
 
 ```shell
 curl --request POST \
@@ -5847,7 +4463,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameKanjiCandidatesBa
 
 *<u>Cost :</u> The processing of each object requires **1** credits.*
 
-<h3 id="japanese-name-kanji-candidates-batch-requesturl">HTTP Request</h3>
+<h3 id="to-kanji-name-batch-requesturl">HTTP Request</h3>
 
 `POST https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameKanjiCandidatesBatch`
 
@@ -5867,7 +4483,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameKanjiCandidatesBa
 }
 ```
 
-<h3 id="japanese-name-kanji-candidates-batch-parameters">Request Body</h3>
+<h3 id="to-kanji-name-batch-parameters">Request Body</h3>
 
 *The HTTP request body is required to be a nested array of objects.*
 
@@ -5912,7 +4528,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameKanjiCandidatesBa
 }
 ```
 
-<h3 id="japanese-name-kanji-candidates-batch-responses">Response</h3>
+<h3 id="to-kanji-name-batch-responses">Response</h3>
 
 *The HTTP response body is a nested array of objects.*
 
@@ -5939,303 +4555,11 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameKanjiCandidatesBa
 
 
 
-## Japanese Name Latin Candidates
+## To Kanji Name Gender
 
-<a id="opIdJapanese-Name-Latin-Candidates"></a>
+<a id="opIdTo-Kanji-Name-Gender"></a>
 
-> **Japanese Name Latin Candidates** code sample :
-
-```shell
-curl --request GET \
-  --url https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameLatinCandidates/%E5%8D%83%E6%98%A5/%E5%A1%A9%E7%94%B0 \
-  --header 'X-API-KEY: your-api-key' \
-  --header 'Accept: application/json'
-```
-
-```java
-HttpResponse<String> response = Unirest.get("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameLatinCandidates/%E5%8D%83%E6%98%A5/%E5%A1%A9%E7%94%B0")
-  .header("Accept", "application/json")
-  .header("X-API-KEY", "your-api-key")
-  .asString();
-```
-
-```python
-import requests
-
-url = "https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameLatinCandidates/%E5%8D%83%E6%98%A5/%E5%A1%A9%E7%94%B0"
-
-headers = {
- "Accept": "application/json",
- "X-API-KEY": "your-api-key"
-}
-
-response = requests.request("GET", url, headers=headers)
-
-print(response.text)
-```
-
-```javascript
-fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameLatinCandidates/%E5%8D%83%E6%98%A5/%E5%A1%A9%E7%94%B0", {
-  "method": "GET",
-  "headers": {
-    "Accept": "application/json",
-    "X-API-KEY": "your-api-key"
-  }
-})
-.then(response => {
-  console.log(response.json());
-})
-.catch(err => {
-  console.error(err);
-});
-```
-
-
-
-*Returns the most likely latin transcriptions for a japanese first name and last name in Kanji characters.*
-
-*<u>Cost :</u> The processing of each query requires **1** credits.*
-
-<h3 id="japanese-name-latin-candidates-requesturl">HTTP Request</h3>
-
-`GET https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameLatinCandidates/{japaneseSurnameKanji}/{japaneseGivenNameKanji}`
-
-
-
-<h3 id="japanese-name-latin-candidates-parameters">Request Parameters</h3>
-
-|Name|Type|Required|Description|
-|---|---|---|---|
-|japaneseSurnameKanji|String|true|Family name (or last name) in Kanji|
-|japaneseGivenNameKanji|String|true|Given name (or first name) in Kanji|
-
-
-
-
-
-> The above command returns JSON structured like this:
-
-
-
-```json
-{
-  "script": "HAN",
-  "id": null,
-  "firstName": "塩田",
-  "lastName": "千春",
-  "orderOption": "OrderScoreSquareFNLN",
-  "matchCandidates": [
-    {
-      "candidateName": "chiharu shiota",
-      "probability": 0.5000000149011616,
-      "predScoreGivenName": -0.3543974459171295,
-      "predScoreFamilyName": -0.004423846025019884
-    },
-    {
-      "candidateName": "chiharu shioda",
-      "probability": 0.2500000074505808,
-      "predScoreGivenName": -1.2378724813461304,
-      "predScoreFamilyName": -0.004423846025019884
-    }
-  ]
-}
-```
-
-<h3 id="japanese-name-latin-candidates-responses">Response</h3>
-
-*The HTTP response body is an object.*
-
-|Name|Type|Description|Enumerators|
-|---|---|---|---|
-|script|String|Character set used for analysis||
-|id|String|Unique identifier||
-|firstName|String|Submitted first name||
-|lastName|String|Submitted last name||
-|orderOption|String|Sorting order for matchCandidates||
-|**matchCandidates**|**Array of Objects**|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].candidateName*|String|Inferred transcription of the full name to latin characters||
-|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].probability*|Number|Higher implies a more reliable result, ranges from 0 to 1||
-|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].predScoreGivenName*|Number|Higher implies a more reliable result (for given name or first name)||
-|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].predScoreFamilyName*|Number|Higher implies a more reliable result (for family name or last name)||
-
-
-
-
-
-
-
-
-
-
-
-## Japanese Name Latin Candidates Batch
-
-<a id="opIdJapanese-Name-Latin-Candidates-Batch"></a>
-
-> **Japanese Name Latin Candidates Batch** code sample :
-
-```shell
-curl --request POST \
-  --url https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameLatinCandidatesBatch \
-  --header 'X-API-KEY: your-api-key' \
-  --header 'Accept: application/json' \
-  --header 'Content-Type: application/json' \
-  --data '{"personalNames":[{"id":"e630dda5-13b3-42c5-8f1d-648aa8a21c42","firstName":"塩田","lastName":"千春"}]}'
-```
-
-```java
-HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameLatinCandidatesBatch")
-  .header("Content-Type", "application/json")
-  .header("Accept", "application/json")
-  .header("X-API-KEY", "your-api-key")
-  .body("{\"personalNames\":[{\"id\":\"e630dda5-13b3-42c5-8f1d-648aa8a21c42\",\"firstName\":\"塩田\",\"lastName\":\"千春\"}]}")
-  .asString();
-```
-
-```python
-import requests
-
-url = "https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameLatinCandidatesBatch"
-
-payload = {"personalNames": [
-        {
-            "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
-            "firstName": "塩田",
-            "lastName": "千春"
-        }
-    ]}
-headers = {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-    "X-API-KEY": "your-api-key"
-}
-
-response = requests.request("POST", url, json=payload, headers=headers)
-
-print(response.text)
-```
-
-```javascript
-fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameLatinCandidatesBatch", {
-  "method": "POST",
-  "headers": {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-    "X-API-KEY": "your-api-key"
-  },
-  "body": "{\"personalNames\":[{\"id\":\"e630dda5-13b3-42c5-8f1d-648aa8a21c42\",\"firstName\":\"塩田\",\"lastName\":\"千春\"}]}"
-})
-.then(response => {
-  console.log(response.json());
-})
-.catch(err => {
-  console.error(err);
-});
-```
-
-
-
-*Returns the most likely latin transcriptions for up to 100 japanese first names and last names in Kanji characters.*
-
-*<u>Cost :</u> The processing of each object requires **1** credits.*
-
-<h3 id="japanese-name-latin-candidates-batch-requesturl">HTTP Request</h3>
-
-`POST https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameLatinCandidatesBatch`
-
-
-
-> Body parameter
-
-```json
-{
-  "personalNames": [
-    {
-      "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
-      "firstName": "塩田",
-      "lastName": "千春"
-    }
-  ]
-}
-```
-
-<h3 id="japanese-name-latin-candidates-batch-parameters">Request Body</h3>
-
-*The HTTP request body is required to be a nested array of objects.*
-
-|Name|Type|Required|Description|
-|---|---|---|---|
-|id|String||Unique identifier|
-|firstName|String|true|Given name (or first name) in Kanji|
-|lastName|String|true|Family name (or last name) in Kanji|
-
-
-
-
-> The above command returns JSON structured like this:
-
-
-
-```json
-{
-  "namesAndMatchCandidates": [
-    {
-      "script": "HAN",
-      "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
-      "firstName": "塩田",
-      "lastName": "千春",
-      "orderOption": "OrderScoreSquareFNLN",
-      "matchCandidates": [
-        {
-          "candidateName": "chiharu shiota",
-          "probability": 0.5000000149011616,
-          "predScoreGivenName": -0.3543974459171295,
-          "predScoreFamilyName": -0.004423846025019884
-        },
-        {
-          "candidateName": "chiharu shioda",
-          "probability": 0.2500000074505808,
-          "predScoreGivenName": -1.2378724813461304,
-          "predScoreFamilyName": -0.004423846025019884
-        }
-      ]
-    }
-  ]
-}
-```
-
-<h3 id="japanese-name-latin-candidates-batch-responses">Response</h3>
-
-*The HTTP response body is a nested array of objects.*
-
-|Name|Type|Description|Enumerators|
-|---|---|---|---|
-|script|String|Character set used for analysis||
-|id|String|Provided unique identifier||
-|firstName|String|Submitted first name||
-|lastName|String|Submitted last name||
-|orderOption|String|Sorting order for matchCandidates||
-|**matchCandidates**|**Array of Objects**|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].candidateName*|String|Inferred transcription of the full name to latin characters||
-|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].probability*|Number|Higher implies a more reliable result, ranges from 0 to 1||
-|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].predScoreGivenName*|Number|Higher implies a more reliable result (for given name or first name)||
-|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].predScoreFamilyName*|Number|Higher implies a more reliable result (for family name or last name)||
-
-
-
-
-
-
-
-
-
-
-
-## Japanese Name Gender Kanji Candidates
-
-<a id="opIdJapanese-Name-Gender-Kanji-Candidates"></a>
-
-> **Japanese Name Gender Kanji Candidates** code sample :
+> **To Kanji Name Gender** code sample :
 
 ```shell
 curl --request GET \
@@ -6288,13 +4612,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameKanjiCandidates/Y
 
 *<u>Cost :</u> The processing of each query requires **1** credits.*
 
-<h3 id="japanese-name-gender-kanji-candidates-requesturl">HTTP Request</h3>
+<h3 id="to-kanji-name-gender-requesturl">HTTP Request</h3>
 
 `GET https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameKanjiCandidates/{japaneseSurnameLatin}/{japaneseGivenNameLatin}/{knownGender}`
 
 
 
-<h3 id="japanese-name-gender-kanji-candidates-parameters">Request Parameters</h3>
+<h3 id="to-kanji-name-gender-parameters">Request Parameters</h3>
 
 |Name|Type|Required|Description|
 |---|---|---|---|
@@ -6335,7 +4659,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameKanjiCandidates/Y
 }
 ```
 
-<h3 id="japanese-name-gender-kanji-candidates-responses">Response</h3>
+<h3 id="to-kanji-name-gender-responses">Response</h3>
 
 *The HTTP response body is an object.*
 
@@ -6362,11 +4686,11 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameKanjiCandidates/Y
 
 
 
-## Japanese Name Gender Kanji Candidates Batch
+## To Kanji Name Gender Batch
 
-<a id="opIdJapanese-Name-Gender-Kanji-Candidates-Batch"></a>
+<a id="opIdTo-Kanji-Name-Gender-Batch"></a>
 
-> **Japanese Name Gender Kanji Candidates Batch** code sample :
+> **To Kanji Name Gender Batch** code sample :
 
 ```shell
 curl --request POST \
@@ -6434,7 +4758,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameGenderKanjiCandid
 
 *<u>Cost :</u> The processing of each object requires **1** credits.*
 
-<h3 id="japanese-name-gender-kanji-candidates-batch-requesturl">HTTP Request</h3>
+<h3 id="to-kanji-name-gender-batch-requesturl">HTTP Request</h3>
 
 `POST https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameGenderKanjiCandidatesBatch`
 
@@ -6455,7 +4779,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameGenderKanjiCandid
 }
 ```
 
-<h3 id="japanese-name-gender-kanji-candidates-batch-parameters">Request Body</h3>
+<h3 id="to-kanji-name-gender-batch-parameters">Request Body</h3>
 
 *The HTTP request body is required to be a nested array of objects.*
 
@@ -6501,7 +4825,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameGenderKanjiCandid
 }
 ```
 
-<h3 id="japanese-name-gender-kanji-candidates-batch-responses">Response</h3>
+<h3 id="to-kanji-name-gender-batch-responses">Response</h3>
 
 *The HTTP response body is a nested array of objects.*
 
@@ -6528,11 +4852,303 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameGenderKanjiCandid
 
 
 
-## Gender Japanese Name Latin
+## To Latin Name
 
-<a id="opIdGender-Japanese-Name-Latin"></a>
+<a id="opIdTo-Latin-Name"></a>
 
-> **Gender Japanese Name Latin** code sample :
+> **To Latin Name** code sample :
+
+```shell
+curl --request GET \
+  --url https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameLatinCandidates/%E5%8D%83%E6%98%A5/%E5%A1%A9%E7%94%B0 \
+  --header 'X-API-KEY: your-api-key' \
+  --header 'Accept: application/json'
+```
+
+```java
+HttpResponse<String> response = Unirest.get("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameLatinCandidates/%E5%8D%83%E6%98%A5/%E5%A1%A9%E7%94%B0")
+  .header("Accept", "application/json")
+  .header("X-API-KEY", "your-api-key")
+  .asString();
+```
+
+```python
+import requests
+
+url = "https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameLatinCandidates/%E5%8D%83%E6%98%A5/%E5%A1%A9%E7%94%B0"
+
+headers = {
+ "Accept": "application/json",
+ "X-API-KEY": "your-api-key"
+}
+
+response = requests.request("GET", url, headers=headers)
+
+print(response.text)
+```
+
+```javascript
+fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameLatinCandidates/%E5%8D%83%E6%98%A5/%E5%A1%A9%E7%94%B0", {
+  "method": "GET",
+  "headers": {
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
+  }
+})
+.then(response => {
+  console.log(response.json());
+})
+.catch(err => {
+  console.error(err);
+});
+```
+
+
+
+*Returns the most likely latin transcriptions for a japanese first name and last name in Kanji characters.*
+
+*<u>Cost :</u> The processing of each query requires **1** credits.*
+
+<h3 id="to-latin-name-requesturl">HTTP Request</h3>
+
+`GET https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameLatinCandidates/{japaneseSurnameKanji}/{japaneseGivenNameKanji}`
+
+
+
+<h3 id="to-latin-name-parameters">Request Parameters</h3>
+
+|Name|Type|Required|Description|
+|---|---|---|---|
+|japaneseSurnameKanji|String|true|Family name (or last name) in Kanji|
+|japaneseGivenNameKanji|String|true|Given name (or first name) in Kanji|
+
+
+
+
+
+> The above command returns JSON structured like this:
+
+
+
+```json
+{
+  "script": "HAN",
+  "id": null,
+  "firstName": "塩田",
+  "lastName": "千春",
+  "orderOption": "OrderScoreSquareFNLN",
+  "matchCandidates": [
+    {
+      "candidateName": "chiharu shiota",
+      "probability": 0.5000000149011616,
+      "predScoreGivenName": -0.3543974459171295,
+      "predScoreFamilyName": -0.004423846025019884
+    },
+    {
+      "candidateName": "chiharu shioda",
+      "probability": 0.2500000074505808,
+      "predScoreGivenName": -1.2378724813461304,
+      "predScoreFamilyName": -0.004423846025019884
+    }
+  ]
+}
+```
+
+<h3 id="to-latin-name-responses">Response</h3>
+
+*The HTTP response body is an object.*
+
+|Name|Type|Description|Enumerators|
+|---|---|---|---|
+|script|String|Character set used for analysis||
+|id|String|Unique identifier||
+|firstName|String|Submitted first name||
+|lastName|String|Submitted last name||
+|orderOption|String|Sorting order for matchCandidates||
+|**matchCandidates**|**Array of Objects**|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].candidateName*|String|Inferred transcription of the full name to latin characters||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].probability*|Number|Higher implies a more reliable result, ranges from 0 to 1||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].predScoreGivenName*|Number|Higher implies a more reliable result (for given name or first name)||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].predScoreFamilyName*|Number|Higher implies a more reliable result (for family name or last name)||
+
+
+
+
+
+
+
+
+
+
+
+## To Latin Name Batch
+
+<a id="opIdTo-Latin-Name-Batch"></a>
+
+> **To Latin Name Batch** code sample :
+
+```shell
+curl --request POST \
+  --url https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameLatinCandidatesBatch \
+  --header 'X-API-KEY: your-api-key' \
+  --header 'Accept: application/json' \
+  --header 'Content-Type: application/json' \
+  --data '{"personalNames":[{"id":"e630dda5-13b3-42c5-8f1d-648aa8a21c42","firstName":"塩田","lastName":"千春"}]}'
+```
+
+```java
+HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameLatinCandidatesBatch")
+  .header("Content-Type", "application/json")
+  .header("Accept", "application/json")
+  .header("X-API-KEY", "your-api-key")
+  .body("{\"personalNames\":[{\"id\":\"e630dda5-13b3-42c5-8f1d-648aa8a21c42\",\"firstName\":\"塩田\",\"lastName\":\"千春\"}]}")
+  .asString();
+```
+
+```python
+import requests
+
+url = "https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameLatinCandidatesBatch"
+
+payload = {"personalNames": [
+        {
+            "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
+            "firstName": "塩田",
+            "lastName": "千春"
+        }
+    ]}
+headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
+}
+
+response = requests.request("POST", url, json=payload, headers=headers)
+
+print(response.text)
+```
+
+```javascript
+fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameLatinCandidatesBatch", {
+  "method": "POST",
+  "headers": {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
+  },
+  "body": "{\"personalNames\":[{\"id\":\"e630dda5-13b3-42c5-8f1d-648aa8a21c42\",\"firstName\":\"塩田\",\"lastName\":\"千春\"}]}"
+})
+.then(response => {
+  console.log(response.json());
+})
+.catch(err => {
+  console.error(err);
+});
+```
+
+
+
+*Returns the most likely latin transcriptions for up to 100 japanese first names and last names in Kanji characters.*
+
+*<u>Cost :</u> The processing of each object requires **1** credits.*
+
+<h3 id="to-latin-name-batch-requesturl">HTTP Request</h3>
+
+`POST https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameLatinCandidatesBatch`
+
+
+
+> Body parameter
+
+```json
+{
+  "personalNames": [
+    {
+      "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
+      "firstName": "塩田",
+      "lastName": "千春"
+    }
+  ]
+}
+```
+
+<h3 id="to-latin-name-batch-parameters">Request Body</h3>
+
+*The HTTP request body is required to be a nested array of objects.*
+
+|Name|Type|Required|Description|
+|---|---|---|---|
+|id|String||Unique identifier|
+|firstName|String|true|Given name (or first name) in Kanji|
+|lastName|String|true|Family name (or last name) in Kanji|
+
+
+
+
+> The above command returns JSON structured like this:
+
+
+
+```json
+{
+  "namesAndMatchCandidates": [
+    {
+      "script": "HAN",
+      "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
+      "firstName": "塩田",
+      "lastName": "千春",
+      "orderOption": "OrderScoreSquareFNLN",
+      "matchCandidates": [
+        {
+          "candidateName": "chiharu shiota",
+          "probability": 0.5000000149011616,
+          "predScoreGivenName": -0.3543974459171295,
+          "predScoreFamilyName": -0.004423846025019884
+        },
+        {
+          "candidateName": "chiharu shioda",
+          "probability": 0.2500000074505808,
+          "predScoreGivenName": -1.2378724813461304,
+          "predScoreFamilyName": -0.004423846025019884
+        }
+      ]
+    }
+  ]
+}
+```
+
+<h3 id="to-latin-name-batch-responses">Response</h3>
+
+*The HTTP response body is a nested array of objects.*
+
+|Name|Type|Description|Enumerators|
+|---|---|---|---|
+|script|String|Character set used for analysis||
+|id|String|Provided unique identifier||
+|firstName|String|Submitted first name||
+|lastName|String|Submitted last name||
+|orderOption|String|Sorting order for matchCandidates||
+|**matchCandidates**|**Array of Objects**|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].candidateName*|String|Inferred transcription of the full name to latin characters||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].probability*|Number|Higher implies a more reliable result, ranges from 0 to 1||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].predScoreGivenName*|Number|Higher implies a more reliable result (for given name or first name)||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].predScoreFamilyName*|Number|Higher implies a more reliable result (for family name or last name)||
+
+
+
+
+
+
+
+
+
+
+
+## Gender Name Latin
+
+<a id="opIdGender-Name-Latin"></a>
+
+> **Gender Name Latin** code sample :
 
 ```shell
 curl --request GET \
@@ -6585,13 +5201,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderJapaneseName/Nakamoto/S
 
 *<u>Cost :</u> The processing of each query requires **1** credits.*
 
-<h3 id="gender-japanese-name-latin-requesturl">HTTP Request</h3>
+<h3 id="gender-name-latin-requesturl">HTTP Request</h3>
 
 `GET https://v2.namsor.com/NamSorAPIv2/api2/json/genderJapaneseName/{japaneseSurname}/{japaneseGivenName}`
 
 
 
-<h3 id="gender-japanese-name-latin-parameters">Request Parameters</h3>
+<h3 id="gender-name-latin-parameters">Request Parameters</h3>
 
 |Name|Type|Required|Description|
 |---|---|---|---|
@@ -6619,7 +5235,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderJapaneseName/Nakamoto/S
 }
 ```
 
-<h3 id="gender-japanese-name-latin-responses">Response</h3>
+<h3 id="gender-name-latin-responses">Response</h3>
 
 *The HTTP response body is an object.*
 
@@ -6644,11 +5260,11 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderJapaneseName/Nakamoto/S
 
 
 
-## Gender Japanese Name Latin Batch
+## Gender Name Latin Batch
 
-<a id="opIdGender-Japanese-Name-Latin-Batch"></a>
+<a id="opIdGender-Name-Latin-Batch"></a>
 
-> **Gender Japanese Name Latin Batch** code sample :
+> **Gender Name Latin Batch** code sample :
 
 ```shell
 curl --request POST \
@@ -6715,7 +5331,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderJapaneseNameBatch", {
 
 *<u>Cost :</u> The processing of each object requires **1** credits.*
 
-<h3 id="gender-japanese-name-latin-batch-requesturl">HTTP Request</h3>
+<h3 id="gender-name-latin-batch-requesturl">HTTP Request</h3>
 
 `POST https://v2.namsor.com/NamSorAPIv2/api2/json/genderJapaneseNameBatch`
 
@@ -6735,7 +5351,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderJapaneseNameBatch", {
 }
 ```
 
-<h3 id="gender-japanese-name-latin-batch-parameters">Request Body</h3>
+<h3 id="gender-name-latin-batch-parameters">Request Body</h3>
 
 *The HTTP request body is required to be a nested array of objects.*
 
@@ -6769,7 +5385,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderJapaneseNameBatch", {
 }
 ```
 
-<h3 id="gender-japanese-name-latin-batch-responses">Response</h3>
+<h3 id="gender-name-latin-batch-responses">Response</h3>
 
 *The HTTP response body is a nested array of objects.*
 
@@ -6794,11 +5410,11 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderJapaneseNameBatch", {
 
 
 
-## Gender Japanese Name Full
+## Gender Name Kanji
 
-<a id="opIdGender-Japanese-Name-Full"></a>
+<a id="opIdGender-Name-Kanji"></a>
 
-> **Gender Japanese Name Full** code sample :
+> **Gender Name Kanji** code sample :
 
 ```shell
 curl --request GET \
@@ -6851,13 +5467,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderJapaneseNameFull/%E4%B8
 
 *<u>Cost :</u> The processing of each query requires **1** credits.*
 
-<h3 id="gender-japanese-name-full-requesturl">HTTP Request</h3>
+<h3 id="gender-name-kanji-requesturl">HTTP Request</h3>
 
 `GET https://v2.namsor.com/NamSorAPIv2/api2/json/genderJapaneseNameFull/{japaneseName}`
 
 
 
-<h3 id="gender-japanese-name-full-parameters">Request Parameters</h3>
+<h3 id="gender-name-kanji-parameters">Request Parameters</h3>
 
 |Name|Type|Required|Description|
 |---|---|---|---|
@@ -6882,7 +5498,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderJapaneseNameFull/%E4%B8
 }
 ```
 
-<h3 id="gender-japanese-name-full-responses">Response</h3>
+<h3 id="gender-name-kanji-responses">Response</h3>
 
 *The HTTP response body is an object.*
 
@@ -6906,11 +5522,11 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderJapaneseNameFull/%E4%B8
 
 
 
-## Gender Japanese Name Full Batch
+## Gender Name Kanji Batch
 
-<a id="opIdGender-Japanese-Name-Full-Batch"></a>
+<a id="opIdGender-Name-Kanji-Batch"></a>
 
-> **Gender Japanese Name Full Batch** code sample :
+> **Gender Name Kanji Batch** code sample :
 
 ```shell
 curl --request POST \
@@ -6976,7 +5592,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderJapaneseNameFullBatch",
 
 *<u>Cost :</u> The processing of each object requires **1** credits.*
 
-<h3 id="gender-japanese-name-full-batch-requesturl">HTTP Request</h3>
+<h3 id="gender-name-kanji-batch-requesturl">HTTP Request</h3>
 
 `POST https://v2.namsor.com/NamSorAPIv2/api2/json/genderJapaneseNameFullBatch`
 
@@ -6995,7 +5611,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderJapaneseNameFullBatch",
 }
 ```
 
-<h3 id="gender-japanese-name-full-batch-parameters">Request Body</h3>
+<h3 id="gender-name-kanji-batch-parameters">Request Body</h3>
 
 *The HTTP request body is required to be a nested array of objects.*
 
@@ -7027,7 +5643,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderJapaneseNameFullBatch",
 }
 ```
 
-<h3 id="gender-japanese-name-full-batch-responses">Response</h3>
+<h3 id="gender-name-kanji-batch-responses">Response</h3>
 
 *The HTTP response body is a nested array of objects.*
 
@@ -7051,11 +5667,286 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderJapaneseNameFullBatch",
 
 
 
-## Japanese Name Match
+## Split Japanese Name
 
-<a id="opIdJapanese-Name-Match"></a>
+<a id="opIdSplit-Japanese-Name"></a>
 
-> **Japanese Name Match** code sample :
+> **Split Japanese Name** code sample :
+
+```shell
+curl --request GET \
+  --url https://v2.namsor.com/NamSorAPIv2/api2/json/parseJapaneseName/%E5%B0%8F%E5%B3%B6%20%E7%A7%80%E5%A4%AB \
+  --header 'X-API-KEY: your-api-key' \
+  --header 'Accept: application/json'
+```
+
+```java
+HttpResponse<String> response = Unirest.get("https://v2.namsor.com/NamSorAPIv2/api2/json/parseJapaneseName/%E5%B0%8F%E5%B3%B6%20%E7%A7%80%E5%A4%AB")
+  .header("Accept", "application/json")
+  .header("X-API-KEY", "your-api-key")
+  .asString();
+```
+
+```python
+import requests
+
+url = "https://v2.namsor.com/NamSorAPIv2/api2/json/parseJapaneseName/%E5%B0%8F%E5%B3%B6%20%E7%A7%80%E5%A4%AB"
+
+headers = {
+ "Accept": "application/json",
+ "X-API-KEY": "your-api-key"
+}
+
+response = requests.request("GET", url, headers=headers)
+
+print(response.text)
+```
+
+```javascript
+fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseJapaneseName/%E5%B0%8F%E5%B3%B6%20%E7%A7%80%E5%A4%AB", {
+  "method": "GET",
+  "headers": {
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
+  }
+})
+.then(response => {
+  console.log(response.json());
+})
+.catch(err => {
+  console.error(err);
+});
+```
+
+
+
+*Returns the most likely first name and last name structure of a full name (family name and given name) in Kanji or latin characters.*
+
+*<u>Cost :</u> The processing of each query requires **1** credits.*
+
+<h3 id="split-japanese-name-requesturl">HTTP Request</h3>
+
+`GET https://v2.namsor.com/NamSorAPIv2/api2/json/parseJapaneseName/{japaneseName}`
+
+
+
+<h3 id="split-japanese-name-parameters">Request Parameters</h3>
+
+|Name|Type|Required|Description|
+|---|---|---|---|
+|japaneseName|String|true|Full name (family name and given name) in Kanji or latin characters|
+
+
+
+
+> The above command returns JSON structured like this:
+
+
+
+```json
+{
+  "script": "HAN",
+  "id": "4646501e-33e3-44bc-be6f-66cab4bb5e94",
+  "name": "小島 秀夫",
+  "nameParserType": "LN1FN1",
+  "nameParserTypeAlt": null,
+  "firstLastName": {
+    "script": null,
+    "id": null,
+    "firstName": "秀夫",
+    "lastName": "小島"
+  },
+  "score": 100
+}
+```
+
+<h3 id="split-japanese-name-responses">Response</h3>
+
+*The HTTP response body is an object.*
+
+|Name|Type|Description|Enumerators|
+|---|---|---|---|
+|script|String|Character set used for analysis||
+|id|String|Provided unique identifier||
+|name|String|Submitted full name||
+|nameParserType|String|Most likely structure of the name||
+|nameParserTypeAlt|String|Second most likely structure of the name||
+|**firstLastName**|**Object**|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|First name (or given name)||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|Last name (or family name)||
+|score|Number|Higher implies a more reliable result, score is not normalized||
+
+
+
+
+
+
+
+
+
+
+
+## Split Japanese Name Batch
+
+<a id="opIdSplit-Japanese-Name-Batch"></a>
+
+> **Split Japanese Name Batch** code sample :
+
+```shell
+curl --request POST \
+  --url https://v2.namsor.com/NamSorAPIv2/api2/json/parseJapaneseNameBatch \
+  --header 'X-API-KEY: your-api-key' \
+  --header 'Accept: application/json' \
+  --header 'Content-Type: application/json' \
+  --data '{"personalNames":[{"id":"e630dda5-13b3-42c5-8f1d-648aa8a21c42","name":"小島 秀夫"}]}'
+```
+
+```java
+HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/api2/json/parseJapaneseNameBatch")
+  .header("Content-Type", "application/json")
+  .header("Accept", "application/json")
+  .header("X-API-KEY", "your-api-key")
+  .body("{\"personalNames\":[{\"id\":\"e630dda5-13b3-42c5-8f1d-648aa8a21c42\",\"name\":\"小島 秀夫\"}]}")
+  .asString();
+```
+
+```python
+import requests
+
+url = "https://v2.namsor.com/NamSorAPIv2/api2/json/parseJapaneseNameBatch"
+
+payload = {"personalNames": [
+        {
+            "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
+            "name": "小島 秀夫"
+        }
+    ]}
+headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
+}
+
+response = requests.request("POST", url, json=payload, headers=headers)
+
+print(response.text)
+```
+
+```javascript
+fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseJapaneseNameBatch", {
+  "method": "POST",
+  "headers": {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
+  },
+  "body": "{\"personalNames\":[{\"id\":\"e630dda5-13b3-42c5-8f1d-648aa8a21c42\",\"name\":\"小島 秀夫\"}]}"
+})
+.then(response => {
+  console.log(response.json());
+})
+.catch(err => {
+  console.error(err);
+});
+```
+
+
+
+*Returns the most likely first name and last name structure of up to 100 full names (family names and given names) in Kanji or latin characters.*
+
+*<u>Cost :</u> The processing of each object requires **1** credits.*
+
+<h3 id="split-japanese-name-batch-requesturl">HTTP Request</h3>
+
+`POST https://v2.namsor.com/NamSorAPIv2/api2/json/parseJapaneseNameBatch`
+
+
+
+> Body parameter
+
+```json
+{
+  "personalNames": [
+    {
+      "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
+      "name": "小島 秀夫"
+    }
+  ]
+}
+```
+
+<h3 id="split-japanese-name-batch-parameters">Request Body</h3>
+
+*The HTTP request body is required to be a nested array of objects.*
+
+|Name|Type|Required|Description|
+|---|---|---|---|
+|id|String||Unique identifier|
+|name|String|true|Full name (family name and given name) in Kanji or latin characters|
+
+
+
+
+> The above command returns JSON structured like this:
+
+
+
+```json
+{
+  "personalNames": [
+    {
+      "script": "HAN",
+      "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
+      "name": "小島 秀夫",
+      "nameParserType": "LN1FN1",
+      "nameParserTypeAlt": null,
+      "firstLastName": {
+        "script": null,
+        "id": null,
+        "firstName": "秀夫",
+        "lastName": "小島"
+      },
+      "score": 100
+    }
+  ]
+}
+```
+
+<h3 id="split-japanese-name-batch-responses">Response</h3>
+
+*The HTTP response body is a nested array of objects.*
+
+|Name|Type|Description|Enumerators|
+|---|---|---|---|
+|script|String|Character set used for analysis||
+|id|String|Provided unique identifier||
+|name|String|Submitted full name||
+|nameParserType|String|Most likely structure of the name||
+|nameParserTypeAlt|String|Second most likely structure of the name||
+|**firstLastName**|**Object**|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|First name (or given name)||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|Last name (or family name)||
+|score|Number|Higher implies a more reliable result, score is not normalized||
+
+
+
+
+
+
+
+
+
+
+
+## Match Japanese Name
+
+<a id="opIdMatch-Japanese-Name"></a>
+
+> **Match Japanese Name** code sample :
 
 ```shell
 curl --request GET \
@@ -7108,13 +5999,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameMatch/Tomioka/Tes
 
 *<u>Cost :</u> The processing of each query requires **1** credits.*
 
-<h3 id="japanese-name-match-requesturl">HTTP Request</h3>
+<h3 id="match-japanese-name-requesturl">HTTP Request</h3>
 
 `GET https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameMatch/{japaneseSurnameLatin}/{japaneseGivenNameLatin}/{japaneseName}`
 
 
 
-<h3 id="japanese-name-match-parameters">Request Parameters</h3>
+<h3 id="match-japanese-name-parameters">Request Parameters</h3>
 
 |Name|Type|Required|Description|
 |---|---|---|---|
@@ -7140,7 +6031,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameMatch/Tomioka/Tes
 }
 ```
 
-<h3 id="japanese-name-match-responses">Response</h3>
+<h3 id="match-japanese-name-responses">Response</h3>
 
 *The HTTP response body is an object.*
 
@@ -7161,11 +6052,11 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameMatch/Tomioka/Tes
 
 
 
-## Japanese Name Match Batch
+## Match Japanese Name Batch
 
-<a id="opIdJapanese-Name-Match-Batch"></a>
+<a id="opIdMatch-Japanese-Name-Batch"></a>
 
-> **Japanese Name Match Batch** code sample :
+> **Match Japanese Name Batch** code sample :
 
 ```shell
 curl --request POST \
@@ -7239,7 +6130,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameMatchBatch", {
 
 *<u>Cost :</u> The processing of each object requires **1** credits.*
 
-<h3 id="japanese-name-match-batch-requesturl">HTTP Request</h3>
+<h3 id="match-japanese-name-batch-requesturl">HTTP Request</h3>
 
 `POST https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameMatchBatch`
 
@@ -7266,7 +6157,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameMatchBatch", {
 }
 ```
 
-<h3 id="japanese-name-match-batch-parameters">Request Body</h3>
+<h3 id="match-japanese-name-batch-parameters">Request Body</h3>
 
 *The HTTP request body is required to be a nested array of objects.*
 
@@ -7301,7 +6192,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameMatchBatch", {
 }
 ```
 
-<h3 id="japanese-name-match-batch-responses">Response</h3>
+<h3 id="match-japanese-name-batch-responses">Response</h3>
 
 *The HTTP response body is a nested array of objects.*
 
@@ -7322,286 +6213,11 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameMatchBatch", {
 
 
 
-## Parse Japanese Name
+## Match Name Feedback Loop
 
-<a id="opIdParse-Japanese-Name"></a>
+<a id="opIdMatch-Name-Feedback-Loop"></a>
 
-> **Parse Japanese Name** code sample :
-
-```shell
-curl --request GET \
-  --url https://v2.namsor.com/NamSorAPIv2/api2/json/parseJapaneseName/%E5%B0%8F%E5%B3%B6%20%E7%A7%80%E5%A4%AB \
-  --header 'X-API-KEY: your-api-key' \
-  --header 'Accept: application/json'
-```
-
-```java
-HttpResponse<String> response = Unirest.get("https://v2.namsor.com/NamSorAPIv2/api2/json/parseJapaneseName/%E5%B0%8F%E5%B3%B6%20%E7%A7%80%E5%A4%AB")
-  .header("Accept", "application/json")
-  .header("X-API-KEY", "your-api-key")
-  .asString();
-```
-
-```python
-import requests
-
-url = "https://v2.namsor.com/NamSorAPIv2/api2/json/parseJapaneseName/%E5%B0%8F%E5%B3%B6%20%E7%A7%80%E5%A4%AB"
-
-headers = {
- "Accept": "application/json",
- "X-API-KEY": "your-api-key"
-}
-
-response = requests.request("GET", url, headers=headers)
-
-print(response.text)
-```
-
-```javascript
-fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseJapaneseName/%E5%B0%8F%E5%B3%B6%20%E7%A7%80%E5%A4%AB", {
-  "method": "GET",
-  "headers": {
-    "Accept": "application/json",
-    "X-API-KEY": "your-api-key"
-  }
-})
-.then(response => {
-  console.log(response.json());
-})
-.catch(err => {
-  console.error(err);
-});
-```
-
-
-
-*Returns the most likely first name and last name structure of a full name (family name and given name) in Kanji or latin characters.*
-
-*<u>Cost :</u> The processing of each query requires **1** credits.*
-
-<h3 id="parse-japanese-name-requesturl">HTTP Request</h3>
-
-`GET https://v2.namsor.com/NamSorAPIv2/api2/json/parseJapaneseName/{japaneseName}`
-
-
-
-<h3 id="parse-japanese-name-parameters">Request Parameters</h3>
-
-|Name|Type|Required|Description|
-|---|---|---|---|
-|japaneseName|String|true|Full name (family name and given name) in Kanji or latin characters|
-
-
-
-
-> The above command returns JSON structured like this:
-
-
-
-```json
-{
-  "script": "HAN",
-  "id": "4646501e-33e3-44bc-be6f-66cab4bb5e94",
-  "name": "小島 秀夫",
-  "nameParserType": "LN1FN1",
-  "nameParserTypeAlt": null,
-  "firstLastName": {
-    "script": null,
-    "id": null,
-    "firstName": "秀夫",
-    "lastName": "小島"
-  },
-  "score": 100
-}
-```
-
-<h3 id="parse-japanese-name-responses">Response</h3>
-
-*The HTTP response body is an object.*
-
-|Name|Type|Description|Enumerators|
-|---|---|---|---|
-|script|String|Character set used for analysis||
-|id|String|Provided unique identifier||
-|name|String|Submitted full name||
-|nameParserType|String|Most likely structure of the name||
-|nameParserTypeAlt|String|Second most likely structure of the name||
-|**firstLastName**|**Object**|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|First name (or given name)||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|Last name (or family name)||
-|score|Number|Higher implies a more reliable result, score is not normalized||
-
-
-
-
-
-
-
-
-
-
-
-## Parse Japanese Name Batch
-
-<a id="opIdParse-Japanese-Name-Batch"></a>
-
-> **Parse Japanese Name Batch** code sample :
-
-```shell
-curl --request POST \
-  --url https://v2.namsor.com/NamSorAPIv2/api2/json/parseJapaneseNameBatch \
-  --header 'X-API-KEY: your-api-key' \
-  --header 'Accept: application/json' \
-  --header 'Content-Type: application/json' \
-  --data '{"personalNames":[{"id":"e630dda5-13b3-42c5-8f1d-648aa8a21c42","name":"小島 秀夫"}]}'
-```
-
-```java
-HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/api2/json/parseJapaneseNameBatch")
-  .header("Content-Type", "application/json")
-  .header("Accept", "application/json")
-  .header("X-API-KEY", "your-api-key")
-  .body("{\"personalNames\":[{\"id\":\"e630dda5-13b3-42c5-8f1d-648aa8a21c42\",\"name\":\"小島 秀夫\"}]}")
-  .asString();
-```
-
-```python
-import requests
-
-url = "https://v2.namsor.com/NamSorAPIv2/api2/json/parseJapaneseNameBatch"
-
-payload = {"personalNames": [
-        {
-            "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
-            "name": "小島 秀夫"
-        }
-    ]}
-headers = {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-    "X-API-KEY": "your-api-key"
-}
-
-response = requests.request("POST", url, json=payload, headers=headers)
-
-print(response.text)
-```
-
-```javascript
-fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseJapaneseNameBatch", {
-  "method": "POST",
-  "headers": {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-    "X-API-KEY": "your-api-key"
-  },
-  "body": "{\"personalNames\":[{\"id\":\"e630dda5-13b3-42c5-8f1d-648aa8a21c42\",\"name\":\"小島 秀夫\"}]}"
-})
-.then(response => {
-  console.log(response.json());
-})
-.catch(err => {
-  console.error(err);
-});
-```
-
-
-
-*Returns the most likely first name and last name structure of up to 100 full names (family names and given names) in Kanji or latin characters.*
-
-*<u>Cost :</u> The processing of each object requires **1** credits.*
-
-<h3 id="parse-japanese-name-batch-requesturl">HTTP Request</h3>
-
-`POST https://v2.namsor.com/NamSorAPIv2/api2/json/parseJapaneseNameBatch`
-
-
-
-> Body parameter
-
-```json
-{
-  "personalNames": [
-    {
-      "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
-      "name": "小島 秀夫"
-    }
-  ]
-}
-```
-
-<h3 id="parse-japanese-name-batch-parameters">Request Body</h3>
-
-*The HTTP request body is required to be a nested array of objects.*
-
-|Name|Type|Required|Description|
-|---|---|---|---|
-|id|String||Unique identifier|
-|name|String|true|Full name (family name and given name) in Kanji or latin characters|
-
-
-
-
-> The above command returns JSON structured like this:
-
-
-
-```json
-{
-  "personalNames": [
-    {
-      "script": "HAN",
-      "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
-      "name": "小島 秀夫",
-      "nameParserType": "LN1FN1",
-      "nameParserTypeAlt": null,
-      "firstLastName": {
-        "script": null,
-        "id": null,
-        "firstName": "秀夫",
-        "lastName": "小島"
-      },
-      "score": 100
-    }
-  ]
-}
-```
-
-<h3 id="parse-japanese-name-batch-responses">Response</h3>
-
-*The HTTP response body is a nested array of objects.*
-
-|Name|Type|Description|Enumerators|
-|---|---|---|---|
-|script|String|Character set used for analysis||
-|id|String|Provided unique identifier||
-|name|String|Submitted full name||
-|nameParserType|String|Most likely structure of the name||
-|nameParserTypeAlt|String|Second most likely structure of the name||
-|**firstLastName**|**Object**|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|First name (or given name)||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|Last name (or family name)||
-|score|Number|Higher implies a more reliable result, score is not normalized||
-
-
-
-
-
-
-
-
-
-
-
-## Japanese Name Match Feedback Loop
-
-<a id="opIdJapanese-Name-Match-Feedback-Loop"></a>
-
-> **Japanese Name Match Feedback Loop** code sample :
+> **Match Name Feedback Loop** code sample :
 
 ```shell
 curl --request GET \
@@ -7654,13 +6270,13 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameMatchFeedbackLoop
 
 *<u>Cost :</u> The processing of each query requires **1** credits.*
 
-<h3 id="japanese-name-match-feedback-loop-requesturl">HTTP Request</h3>
+<h3 id="match-name-feedback-loop-requesturl">HTTP Request</h3>
 
 `GET https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameMatchFeedbackLoop/{japaneseSurnameLatin}/{japaneseGivenNameLatin}/{japaneseName}`
 
 
 
-<h3 id="japanese-name-match-feedback-loop-parameters">Request Parameters</h3>
+<h3 id="match-name-feedback-loop-parameters">Request Parameters</h3>
 
 |Name|Type|Required|Description|
 |---|---|---|---|
@@ -7683,7 +6299,7 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameMatchFeedbackLoop
 }
 ```
 
-<h3 id="japanese-name-match-feedback-loop-responses">Response</h3>
+<h3 id="match-name-feedback-loop-responses">Response</h3>
 
 *The HTTP response body is an object.*
 
@@ -7701,9 +6317,1946 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/japaneseNameMatchFeedbackLoop
 
 
 
+<h1 id="namsor-api-v2-chinese">Chinese</h1>
+
+Namsor provides dedicated <strong>name analysis API</strong> for the processing of Chinese names. Our name recognition AI can <strong>translate Chinese names</strong> to English (Pinyin). Among other features you can: infer the <strong>gender of a Chinese name</strong> or split a Chinese full name into a first name and a last name.<br/><br/>We are also able to rate the <strong>quality of a transcriptions</strong> between a name in Pinyin and a name in Standard Mandarin Chinese.<br><br><br><a class='demo-page-button' target='_blank' href='https://namsor.com/features/english-chinese-translation'>Try out Chinese features</a>
+
+## To Mandarin Name
+
+<a id="opIdTo-Mandarin-Name"></a>
+
+> **To Mandarin Name** code sample :
+
+```shell
+curl --request GET \
+  --url https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameCandidates/Zhao/LiYing \
+  --header 'X-API-KEY: your-api-key' \
+  --header 'Accept: application/json'
+```
+
+```java
+HttpResponse<String> response = Unirest.get("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameCandidates/Zhao/LiYing")
+  .header("Accept", "application/json")
+  .header("X-API-KEY", "your-api-key")
+  .asString();
+```
+
+```python
+import requests
+
+url = "https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameCandidates/Zhao/LiYing"
+
+headers = {
+ "Accept": "application/json",
+ "X-API-KEY": "your-api-key"
+}
+
+response = requests.request("GET", url, headers=headers)
+
+print(response.text)
+```
+
+```javascript
+fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameCandidates/Zhao/LiYing", {
+  "method": "GET",
+  "headers": {
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
+  }
+})
+.then(response => {
+  console.log(response.json());
+})
+.catch(err => {
+  console.error(err);
+});
+```
+
+
+
+*Returns the most likely Standard Mandarin Chinese transcriptions using a surname and a given name in Pinyin.*
+
+*<u>Cost :</u> The processing of each query requires **1** credits.*
+
+<h3 id="to-mandarin-name-requesturl">HTTP Request</h3>
+
+`GET https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameCandidates/{chineseSurnameLatin}/{chineseGivenNameLatin}`
+
+
+
+<h3 id="to-mandarin-name-parameters">Request Parameters</h3>
+
+|Name|Type|Required|Description|
+|---|---|---|---|
+|chineseSurnameLatin|String|true|Family name (or last name) in Pinyin|
+|chineseGivenNameLatin|String|true|Given name (or first name) in Pinyin|
+
+
+
+
+
+> The above command returns JSON structured like this:
+
+
+
+```json
+{
+  "script": null,
+  "id": null,
+  "firstName": "LiYing",
+  "lastName": "Zhao",
+  "orderOption": null,
+  "matchCandidates": [
+    {
+      "candidateName": "赵丽英",
+      "probability": 0.26153460755147884,
+      "predScoreGivenName": 0,
+      "predScoreFamilyName": 0
+    },
+    {
+      "candidateName": "赵丽颖",
+      "probability": 0.11856235542333707,
+      "predScoreGivenName": 0,
+      "predScoreFamilyName": 0
+    }
+  ]
+}
+```
+
+<h3 id="to-mandarin-name-responses">Response</h3>
+
+*The HTTP response body is an object.*
+
+|Name|Type|Description|Enumerators|
+|---|---|---|---|
+|script|String|Character set used for analysis||
+|id|String|Unique identifier||
+|firstName|String|Submitted first name||
+|lastName|String|Submitted last name||
+|orderOption|String|Sorting order for matchCandidates||
+|**matchCandidates**|**Array of Objects**|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].candidateName*|String|Inferred transcription of the full name to Standard Mandarin Chinese||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].probability*|Number|Higher implies a more reliable result, ranges from 0 to 1||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].predScoreGivenName*|Number|Higher implies a more reliable result (for given name or first name)||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].predScoreFamilyName*|Number|Higher implies a more reliable result (for family name or last name)||
+
+
+
+
+
+
+
+
+
+
+
+## To Mandarin Name Batch
+
+<a id="opIdTo-Mandarin-Name-Batch"></a>
+
+> **To Mandarin Name Batch** code sample :
+
+```shell
+curl --request POST \
+  --url https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameCandidatesBatch \
+  --header 'X-API-KEY: your-api-key' \
+  --header 'Accept: application/json' \
+  --header 'Content-Type: application/json' \
+  --data '{"personalNames":[{"id":"e630dda5-13b3-42c5-8f1d-648aa8a21c42","firstName":"LiYing","lastName":"Zhao"}]}'
+```
+
+```java
+HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameCandidatesBatch")
+  .header("Content-Type", "application/json")
+  .header("Accept", "application/json")
+  .header("X-API-KEY", "your-api-key")
+  .body("{\"personalNames\":[{\"id\":\"e630dda5-13b3-42c5-8f1d-648aa8a21c42\",\"firstName\":\"LiYing\",\"lastName\":\"Zhao\"}]}")
+  .asString();
+```
+
+```python
+import requests
+
+url = "https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameCandidatesBatch"
+
+payload = {"personalNames": [
+        {
+            "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
+            "firstName": "LiYing",
+            "lastName": "Zhao"
+        }
+    ]}
+headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
+}
+
+response = requests.request("POST", url, json=payload, headers=headers)
+
+print(response.text)
+```
+
+```javascript
+fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameCandidatesBatch", {
+  "method": "POST",
+  "headers": {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
+  },
+  "body": "{\"personalNames\":[{\"id\":\"e630dda5-13b3-42c5-8f1d-648aa8a21c42\",\"firstName\":\"LiYing\",\"lastName\":\"Zhao\"}]}"
+})
+.then(response => {
+  console.log(response.json());
+})
+.catch(err => {
+  console.error(err);
+});
+```
+
+
+
+*Returns the most likely Standard Mandarin Chinese transcriptions using up to 100 family names and given names in Pinyin.*
+
+*<u>Cost :</u> The processing of each object requires **1** credits.*
+
+<h3 id="to-mandarin-name-batch-requesturl">HTTP Request</h3>
+
+`POST https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameCandidatesBatch`
+
+
+
+> Body parameter
+
+```json
+{
+  "personalNames": [
+    {
+      "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
+      "firstName": "LiYing",
+      "lastName": "Zhao"
+    }
+  ]
+}
+```
+
+<h3 id="to-mandarin-name-batch-parameters">Request Body</h3>
+
+*The HTTP request body is required to be a nested array of objects.*
+
+|Name|Type|Required|Description|
+|---|---|---|---|
+|id|String||Unique identifier|
+|firstName|String|true|Given name (or first name) in Pinyin|
+|lastName|String|true|Family name (or last name) in Pinyin|
+
+
+
+
+> The above command returns JSON structured like this:
+
+
+
+```json
+{
+  "namesAndMatchCandidates": [
+    {
+      "script": null,
+      "id": null,
+      "firstName": "LiYing",
+      "lastName": "Zhao",
+      "orderOption": null,
+      "matchCandidates": [
+        {
+          "candidateName": "赵丽英",
+          "probability": 0.26153460755147884,
+          "predScoreGivenName": 0,
+          "predScoreFamilyName": 0
+        },
+        {
+          "candidateName": "赵丽颖",
+          "probability": 0.11856235542333707,
+          "predScoreGivenName": 0,
+          "predScoreFamilyName": 0
+        }
+      ]
+    }
+  ]
+}
+```
+
+<h3 id="to-mandarin-name-batch-responses">Response</h3>
+
+*The HTTP response body is a nested array of objects.*
+
+|Name|Type|Description|Enumerators|
+|---|---|---|---|
+|script|String|Character set used for analysis||
+|id|String|Provided unique identifier||
+|firstName|String|Submitted first name||
+|lastName|String|Submitted last name||
+|orderOption|String|Sorting order for matchCandidates||
+|**matchCandidates**|**Array of Objects**|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].candidateName*|String|Inferred transcription of the full name to Standard Mandarin Chinese||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].probability*|Number|Higher implies a more reliable result, ranges from 0 to 1||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].predScoreGivenName*|Number|Higher implies a more reliable result (for given name or first name)||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].predScoreFamilyName*|Number|Higher implies a more reliable result (for family name or last name)||
+
+
+
+
+
+
+
+
+
+
+
+## To Mandarin Name Gender
+
+<a id="opIdTo-Mandarin-Name-Gender"></a>
+
+> **To Mandarin Name Gender** code sample :
+
+```shell
+curl --request GET \
+  --url https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameGenderCandidates/Fanzhi/Zeng/male \
+  --header 'X-API-KEY: your-api-key' \
+  --header 'Accept: application/json'
+```
+
+```java
+HttpResponse<String> response = Unirest.get("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameGenderCandidates/Fanzhi/Zeng/male")
+  .header("Accept", "application/json")
+  .header("X-API-KEY", "your-api-key")
+  .asString();
+```
+
+```python
+import requests
+
+url = "https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameGenderCandidates/Fanzhi/Zeng/male"
+
+headers = {
+ "Accept": "application/json",
+ "X-API-KEY": "your-api-key"
+}
+
+response = requests.request("GET", url, headers=headers)
+
+print(response.text)
+```
+
+```javascript
+fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameGenderCandidates/Fanzhi/Zeng/male", {
+  "method": "GET",
+  "headers": {
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
+  }
+})
+.then(response => {
+  console.log(response.json());
+})
+.catch(err => {
+  console.error(err);
+});
+```
+
+
+
+*Returns the most likely Standard Mandarin Chinese transcriptions for a Pinyin first name and last name, according to their gender.*
+
+*<u>Cost :</u> The processing of each query requires **1** credits.*
+
+<h3 id="to-mandarin-name-gender-requesturl">HTTP Request</h3>
+
+`GET https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameGenderCandidates/{chineseSurnameLatin}/{chineseGivenNameLatin}/{knownGender}`
+
+
+
+<h3 id="to-mandarin-name-gender-parameters">Request Parameters</h3>
+
+|Name|Type|Required|Description|
+|---|---|---|---|
+|chineseSurnameLatin|String|true|Family name (or last name) in Pinyin|
+|chineseGivenNameLatin|String|true|Given name (or first name) in Pinyin|
+|knownGender|String|true|Gender|
+
+
+
+
+
+
+> The above command returns JSON structured like this:
+
+
+
+```json
+{
+  "script": null,
+  "id": null,
+  "firstName": "Zeng",
+  "lastName": "Fanzhi",
+  "orderOption": null,
+  "matchCandidates": [
+    {
+      "candidateName": "甑范志",
+      "probability": 0.014705882352941176,
+      "predScoreGivenName": 0,
+      "predScoreFamilyName": 0
+    },
+    {
+      "candidateName": "甑凡智",
+      "probability": 0.014705882352941176,
+      "predScoreGivenName": 0,
+      "predScoreFamilyName": 0
+    }
+  ]
+}
+```
+
+<h3 id="to-mandarin-name-gender-responses">Response</h3>
+
+*The HTTP response body is an object.*
+
+|Name|Type|Description|Enumerators|
+|---|---|---|---|
+|script|String|Character set used for analysis||
+|id|String|Provided unique identifier||
+|firstName|String|First name (or given name)||
+|lastName|String|Last name (or family name)||
+|orderOption|String|Sorting order for matchCandidates||
+|**matchCandidates**|**Array of Objects**|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].candidateName*|String|Inferred transcription of the full name to Standard Mandarin Chinese||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].probability*|Number|Higher implies a more reliable result, ranges from 0 to 1||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].predScoreGivenName*|Number|Higher implies a more reliable result (for given name or first name)||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].predScoreFamilyName*|Number|Higher implies a more reliable result (for family name or last name)||
+
+
+
+
+
+
+
+
+
+
+
+## To Mandarin Name Gender Batch
+
+<a id="opIdTo-Mandarin-Name-Gender-Batch"></a>
+
+> **To Mandarin Name Gender Batch** code sample :
+
+```shell
+curl --request POST \
+  --url https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameCandidatesGenderBatch \
+  --header 'X-API-KEY: your-api-key' \
+  --header 'Accept: application/json' \
+  --header 'Content-Type: application/json' \
+  --data '{"personalNames":[{"id":"e630dda5-13b3-42c5-8f1d-648aa8a21c42","firstName":"LiYing","lastName":"Zhao","gender":"female"}]}'
+```
+
+```java
+HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameCandidatesGenderBatch")
+  .header("Content-Type", "application/json")
+  .header("Accept", "application/json")
+  .header("X-API-KEY", "your-api-key")
+  .body("{\"personalNames\":[{\"id\":\"e630dda5-13b3-42c5-8f1d-648aa8a21c42\",\"firstName\":\"LiYing\",\"lastName\":\"Zhao\",\"gender\":\"female\"}]}")
+  .asString();
+```
+
+```python
+import requests
+
+url = "https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameCandidatesGenderBatch"
+
+payload = {"personalNames": [
+        {
+            "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
+            "firstName": "LiYing",
+            "lastName": "Zhao",
+            "gender": "female"
+        }
+    ]}
+headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
+}
+
+response = requests.request("POST", url, json=payload, headers=headers)
+
+print(response.text)
+```
+
+```javascript
+fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameCandidatesGenderBatch", {
+  "method": "POST",
+  "headers": {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
+  },
+  "body": "{\"personalNames\":[{\"id\":\"e630dda5-13b3-42c5-8f1d-648aa8a21c42\",\"firstName\":\"LiYing\",\"lastName\":\"Zhao\",\"gender\":\"female\"}]}"
+})
+.then(response => {
+  console.log(response.json());
+})
+.catch(err => {
+  console.error(err);
+});
+```
+
+
+
+*Returns the most likely Standard Mandarin Chinese transcriptions for up to 100 Pinyin first names and last names, according to their gender.*
+
+*<u>Cost :</u> The processing of each object requires **1** credits.*
+
+<h3 id="to-mandarin-name-gender-batch-requesturl">HTTP Request</h3>
+
+`POST https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameCandidatesGenderBatch`
+
+
+
+> Body parameter
+
+```json
+{
+  "personalNames": [
+    {
+      "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
+      "firstName": "LiYing",
+      "lastName": "Zhao",
+      "gender": "female"
+    }
+  ]
+}
+```
+
+<h3 id="to-mandarin-name-gender-batch-parameters">Request Body</h3>
+
+*The HTTP request body is required to be a nested array of objects.*
+
+|Name|Type|Required|Description|
+|---|---|---|---|
+|id|String||Unique identifier|
+|firstName|String|true|Given name (or first name) in Pinyin|
+|lastName|String|true|Family name (or last name) in Pinyin|
+|gender|String|true|Gender|
+
+
+
+
+> The above command returns JSON structured like this:
+
+
+
+```json
+{
+  "namesAndMatchCandidates": [
+    {
+      "script": null,
+      "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
+      "firstName": "LiYing",
+      "lastName": "Zhao",
+      "orderOption": null,
+      "matchCandidates": [
+        {
+          "candidateName": "赵丽英",
+          "probability": 0.07949583832056487,
+          "predScoreGivenName": 0,
+          "predScoreFamilyName": 0
+        },
+        {
+          "candidateName": "赵丽颖",
+          "probability": 0.021402725701690543,
+          "predScoreGivenName": 0,
+          "predScoreFamilyName": 0
+        }
+      ]
+    }
+  ]
+}
+```
+
+<h3 id="to-mandarin-name-gender-batch-responses">Response</h3>
+
+*The HTTP response body is a nested array of objects.*
+
+|Name|Type|Description|Enumerators|
+|---|---|---|---|
+|script|String|Character set used for analysis||
+|id|String|Provided unique identifier||
+|firstName|String|Submitted first name||
+|lastName|String|Submitted last name||
+|orderOption|String|Sorting order for matchCandidates||
+|**matchCandidates**|**Array of Objects**|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].candidateName*|String|Inferred transcription of the full name to Standard Mandarin Chinese||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].probability*|Number|Higher implies a more reliable result, ranges from 0 to 1||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].predScoreGivenName*|Number|Higher implies a more reliable result (for given name or first name)||
+|*&nbsp;&nbsp;&nbsp;&nbsp;[ {...} ].predScoreFamilyName*|Number|Higher implies a more reliable result (for family name or last name)||
+
+
+
+
+
+
+
+
+
+
+
+## To Pinyin Name
+
+<a id="opIdTo-Pinyin-Name"></a>
+
+> **To Pinyin Name** code sample :
+
+```shell
+curl --request GET \
+  --url https://v2.namsor.com/NamSorAPIv2/api2/json/pinyinChineseName/%E8%B5%B5%E4%B8%BD%E9%A2%96 \
+  --header 'X-API-KEY: your-api-key' \
+  --header 'Accept: application/json'
+```
+
+```java
+HttpResponse<String> response = Unirest.get("https://v2.namsor.com/NamSorAPIv2/api2/json/pinyinChineseName/%E8%B5%B5%E4%B8%BD%E9%A2%96")
+  .header("Accept", "application/json")
+  .header("X-API-KEY", "your-api-key")
+  .asString();
+```
+
+```python
+import requests
+
+url = "https://v2.namsor.com/NamSorAPIv2/api2/json/pinyinChineseName/%E8%B5%B5%E4%B8%BD%E9%A2%96"
+
+headers = {
+ "Accept": "application/json",
+ "X-API-KEY": "your-api-key"
+}
+
+response = requests.request("GET", url, headers=headers)
+
+print(response.text)
+```
+
+```javascript
+fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/pinyinChineseName/%E8%B5%B5%E4%B8%BD%E9%A2%96", {
+  "method": "GET",
+  "headers": {
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
+  }
+})
+.then(response => {
+  console.log(response.json());
+})
+.catch(err => {
+  console.error(err);
+});
+```
+
+
+
+*Return the most likely Pinyin transcription of a full name (family name and given name) in Standard Mandarin Chinese.*
+
+*<u>Cost :</u> The processing of each query requires **1** credits.*
+
+<h3 id="to-pinyin-name-requesturl">HTTP Request</h3>
+
+`GET https://v2.namsor.com/NamSorAPIv2/api2/json/pinyinChineseName/{chineseName}`
+
+
+
+<h3 id="to-pinyin-name-parameters">Request Parameters</h3>
+
+|Name|Type|Required|Description|
+|---|---|---|---|
+|chineseName|String|true|Full name (family name and given name) in Standard Mandarin Chinese|
+
+
+
+
+> The above command returns JSON structured like this:
+
+
+
+```json
+{
+  "script": "HAN",
+  "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
+  "name": "赵丽颖",
+  "nameParserType": "LN1FN1",
+  "nameParserTypeAlt": null,
+  "firstLastName": {
+    "script": null,
+    "id": null,
+    "firstName": "LiYing",
+    "lastName": "Zhao"
+  },
+  "score": 4.641021485371256
+}
+```
+
+<h3 id="to-pinyin-name-responses">Response</h3>
+
+*The HTTP response body is an object.*
+
+|Name|Type|Description|Enumerators|
+|---|---|---|---|
+|script|String|Character set used for analysis||
+|id|String|Provided unique identifier||
+|name|String|Submitted full name||
+|nameParserType|String|Most likely structure of the name||
+|nameParserTypeAlt|String|Second most likely structure of the name||
+|**firstLastName**|**Object**|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|Most likely first name (or given name) transcription in Pinyin||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|Most likely last name (or family name) transcription in Pinyin||
+|score|Number|Higher implies a more reliable result, score is not normalized||
+
+
+
+
+
+
+
+
+
+
+
+## To Pinyin Name Batch
+
+<a id="opIdTo-Pinyin-Name-Batch"></a>
+
+> **To Pinyin Name Batch** code sample :
+
+```shell
+curl --request POST \
+  --url https://v2.namsor.com/NamSorAPIv2/api2/json/pinyinChineseNameBatch \
+  --header 'X-API-KEY: your-api-key' \
+  --header 'Accept: application/json' \
+  --header 'Content-Type: application/json' \
+  --data '{"personalNames":[{"id":"e630dda5-13b3-42c5-8f1d-648aa8a21c42","name":"赵丽颖"}]}'
+```
+
+```java
+HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/api2/json/pinyinChineseNameBatch")
+  .header("Content-Type", "application/json")
+  .header("Accept", "application/json")
+  .header("X-API-KEY", "your-api-key")
+  .body("{\"personalNames\":[{\"id\":\"e630dda5-13b3-42c5-8f1d-648aa8a21c42\",\"name\":\"赵丽颖\"}]}")
+  .asString();
+```
+
+```python
+import requests
+
+url = "https://v2.namsor.com/NamSorAPIv2/api2/json/pinyinChineseNameBatch"
+
+payload = {"personalNames": [
+        {
+            "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
+            "name": "赵丽颖"
+        }
+    ]}
+headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
+}
+
+response = requests.request("POST", url, json=payload, headers=headers)
+
+print(response.text)
+```
+
+```javascript
+fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/pinyinChineseNameBatch", {
+  "method": "POST",
+  "headers": {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
+  },
+  "body": "{\"personalNames\":[{\"id\":\"e630dda5-13b3-42c5-8f1d-648aa8a21c42\",\"name\":\"赵丽颖\"}]}"
+})
+.then(response => {
+  console.log(response.json());
+})
+.catch(err => {
+  console.error(err);
+});
+```
+
+
+
+*Return the most likely Pinyin transcription of up to 100 full names (family names and given names) in Standard Mandarin Chinese.*
+
+*<u>Cost :</u> The processing of each object requires **1** credits.*
+
+<h3 id="to-pinyin-name-batch-requesturl">HTTP Request</h3>
+
+`POST https://v2.namsor.com/NamSorAPIv2/api2/json/pinyinChineseNameBatch`
+
+
+
+> Body parameter
+
+```json
+{
+  "personalNames": [
+    {
+      "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
+      "name": "赵丽颖"
+    }
+  ]
+}
+```
+
+<h3 id="to-pinyin-name-batch-parameters">Request Body</h3>
+
+*The HTTP request body is required to be a nested array of objects.*
+
+|Name|Type|Required|Description|
+|---|---|---|---|
+|id|String||Unique identifier|
+|name|String|true|Full name (family name and given name) in Standard Mandarin Chinese|
+
+
+
+
+> The above command returns JSON structured like this:
+
+
+
+```json
+{
+  "personalNames": [
+    {
+      "script": "HAN",
+      "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
+      "name": "赵丽颖",
+      "nameParserType": "LN1FN1",
+      "nameParserTypeAlt": null,
+      "firstLastName": {
+        "script": null,
+        "id": null,
+        "firstName": "LiYing",
+        "lastName": "Zhao"
+      },
+      "score": 4.641021485371256
+    }
+  ]
+}
+```
+
+<h3 id="to-pinyin-name-batch-responses">Response</h3>
+
+*The HTTP response body is a nested array of objects.*
+
+|Name|Type|Description|Enumerators|
+|---|---|---|---|
+|script|String|Character set used for analysis||
+|id|String|Provided unique identifier||
+|name|String|Submitted full name||
+|nameParserType|String|Most likely structure of the name||
+|nameParserTypeAlt|String|Second most likely structure of the name||
+|**firstLastName**|**Object**|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|Most likely first name (or given name) transcription in Pinyin||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|Most likely last name (or family name) transcription in Pinyin||
+|score|Number|Higher implies a more reliable result, score is not normalized||
+
+
+
+
+
+
+
+
+
+
+
+## Gender Name Pinyin
+
+<a id="opIdGender-Name-Pinyin"></a>
+
+> **Gender Name Pinyin** code sample :
+
+```shell
+curl --request GET \
+  --url https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseNamePinyin/Q%C4%ABngy%C3%BAn/D%C3%A8ng \
+  --header 'X-API-KEY: your-api-key' \
+  --header 'Accept: application/json'
+```
+
+```java
+HttpResponse<String> response = Unirest.get("https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseNamePinyin/Q%C4%ABngy%C3%BAn/D%C3%A8ng")
+  .header("Accept", "application/json")
+  .header("X-API-KEY", "your-api-key")
+  .asString();
+```
+
+```python
+import requests
+
+url = "https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseNamePinyin/Q%C4%ABngy%C3%BAn/D%C3%A8ng"
+
+headers = {
+ "Accept": "application/json",
+ "X-API-KEY": "your-api-key"
+}
+
+response = requests.request("GET", url, headers=headers)
+
+print(response.text)
+```
+
+```javascript
+fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseNamePinyin/Q%C4%ABngy%C3%BAn/D%C3%A8ng", {
+  "method": "GET",
+  "headers": {
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
+  }
+})
+.then(response => {
+  console.log(response.json());
+})
+.catch(err => {
+  console.error(err);
+});
+```
+
+
+
+*Return the most likely gender of a family name and a given name in Pinyin.*
+
+*<u>Cost :</u> The processing of each query requires **1** credits.*
+
+<h3 id="gender-name-pinyin-requesturl">HTTP Request</h3>
+
+`GET https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseNamePinyin/{chineseSurnameLatin}/{chineseGivenNameLatin}`
+
+
+
+<h3 id="gender-name-pinyin-parameters">Request Parameters</h3>
+
+|Name|Type|Required|Description|
+|---|---|---|---|
+|chineseSurnameLatin|String|true|Family name (or last name) in Pinyin|
+|chineseGivenNameLatin|String|true|Given name (or first name) in Pinyin|
+
+
+
+
+
+> The above command returns JSON structured like this:
+
+
+
+```json
+{
+  "script": "LATIN",
+  "id": "9c1fda7c-54f1-48d1-b082-80cc6148aeb9",
+  "firstName": "Dèng",
+  "lastName": "Qīngyún",
+  "likelyGender": "male",
+  "genderScale": -0.014201270075495653,
+  "score": 1.8597729950048343,
+  "probabilityCalibrated": 0.5071006350377478
+}
+```
+
+<h3 id="gender-name-pinyin-responses">Response</h3>
+
+*The HTTP response body is an object.*
+
+|Name|Type|Description|Enumerators|
+|---|---|---|---|
+|script|String|Character set used for analysis||
+|id|String|Unique identifier||
+|firstName|String|Submitted first name||
+|lastName|String|Submitted last name||
+|likelyGender|String|Most likely gender|"male", "female" or "unknown"|
+|genderScale|Number|Gender scale ranging from -1 (male) to +1 (female)||
+|score|Number|Higher implies a more reliable result, score is not normalized||
+|probabilityCalibrated|Number|Higher implies a more reliable result, ranges from 0 to 1||
+
+
+
+
+
+
+
+
+
+
+
+## Gender Name Pinyin Batch
+
+<a id="opIdGender-Name-Pinyin-Batch"></a>
+
+> **Gender Name Pinyin Batch** code sample :
+
+```shell
+curl --request POST \
+  --url https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseNamePinyinBatch \
+  --header 'X-API-KEY: your-api-key' \
+  --header 'Accept: application/json' \
+  --header 'Content-Type: application/json' \
+  --data '{"personalNames":[{"id":"e630dda5-13b3-42c5-8f1d-648aa8a21c42","firstName":"Dèng","lastName":"Qīngyún"}]}'
+```
+
+```java
+HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseNamePinyinBatch")
+  .header("Content-Type", "application/json")
+  .header("Accept", "application/json")
+  .header("X-API-KEY", "your-api-key")
+  .body("{\"personalNames\":[{\"id\":\"e630dda5-13b3-42c5-8f1d-648aa8a21c42\",\"firstName\":\"Dèng\",\"lastName\":\"Qīngyún\"}]}")
+  .asString();
+```
+
+```python
+import requests
+
+url = "https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseNamePinyinBatch"
+
+payload = {"personalNames": [
+        {
+            "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
+            "firstName": "Dèng",
+            "lastName": "Qīngyún"
+        }
+    ]}
+headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
+}
+
+response = requests.request("POST", url, json=payload, headers=headers)
+
+print(response.text)
+```
+
+```javascript
+fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseNamePinyinBatch", {
+  "method": "POST",
+  "headers": {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
+  },
+  "body": "{\"personalNames\":[{\"id\":\"e630dda5-13b3-42c5-8f1d-648aa8a21c42\",\"firstName\":\"Dèng\",\"lastName\":\"Qīngyún\"}]}"
+})
+.then(response => {
+  console.log(response.json());
+})
+.catch(err => {
+  console.error(err);
+});
+```
+
+
+
+*Return the most likely gender of up to 100 family names and a given names in Pinyin.*
+
+*<u>Cost :</u> The processing of each object requires **1** credits.*
+
+<h3 id="gender-name-pinyin-batch-requesturl">HTTP Request</h3>
+
+`POST https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseNamePinyinBatch`
+
+
+
+> Body parameter
+
+```json
+{
+  "personalNames": [
+    {
+      "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
+      "firstName": "Dèng",
+      "lastName": "Qīngyún"
+    }
+  ]
+}
+```
+
+<h3 id="gender-name-pinyin-batch-parameters">Request Body</h3>
+
+*The HTTP request body is required to be a nested array of objects.*
+
+|Name|Type|Required|Description|
+|---|---|---|---|
+|id|String||Unique identifier|
+|firstName|String|true|Given name (or first name) in Pinyin|
+|lastName|String|true|Family name (or last name) in Pinyin|
+
+
+
+
+> The above command returns JSON structured like this:
+
+
+
+```json
+{
+  "personalNames": [
+    {
+      "script": "LATIN",
+      "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
+      "firstName": "Dèng",
+      "lastName": "Qīngyún",
+      "likelyGender": "male",
+      "genderScale": -0.3132515162951226,
+      "score": 6.747266465582973,
+      "probabilityCalibrated": 0.6566257581475613
+    }
+  ]
+}
+```
+
+<h3 id="gender-name-pinyin-batch-responses">Response</h3>
+
+*The HTTP response body is a nested array of objects.*
+
+|Name|Type|Description|Enumerators|
+|---|---|---|---|
+|script|String|Character set used for analysis||
+|id|String|Provided unique identifier||
+|firstName|String|Submitted first name||
+|lastName|String|Submitted last name||
+|likelyGender|String|Most likely gender|"male", "female" or "unknown"|
+|genderScale|Number|Gender scale ranging from -1 (male) to +1 (female)||
+|score|Number|Higher implies a more reliable result, score is not normalized||
+|probabilityCalibrated|Number|Higher implies a more reliable result, ranges from 0 to 1||
+
+
+
+
+
+
+
+
+
+
+
+## Gender Name Mandarin
+
+<a id="opIdGender-Name-Mandarin"></a>
+
+> **Gender Name Mandarin** code sample :
+
+```shell
+curl --request GET \
+  --url https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseName/%E8%B0%A2%E6%99%93%E4%BA%AE \
+  --header 'X-API-KEY: your-api-key' \
+  --header 'Accept: application/json'
+```
+
+```java
+HttpResponse<String> response = Unirest.get("https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseName/%E8%B0%A2%E6%99%93%E4%BA%AE")
+  .header("Accept", "application/json")
+  .header("X-API-KEY", "your-api-key")
+  .asString();
+```
+
+```python
+import requests
+
+url = "https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseName/%E8%B0%A2%E6%99%93%E4%BA%AE"
+
+headers = {
+ "Accept": "application/json",
+ "X-API-KEY": "your-api-key"
+}
+
+response = requests.request("GET", url, headers=headers)
+
+print(response.text)
+```
+
+```javascript
+fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseName/%E8%B0%A2%E6%99%93%E4%BA%AE", {
+  "method": "GET",
+  "headers": {
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
+  }
+})
+.then(response => {
+  console.log(response.json());
+})
+.catch(err => {
+  console.error(err);
+});
+```
+
+
+
+*Returns the most likely gender of a full name (family name and given name) in Standard Mandarin Chinese.*
+
+*<u>Cost :</u> The processing of each query requires **1** credits.*
+
+<h3 id="gender-name-mandarin-requesturl">HTTP Request</h3>
+
+`GET https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseName/{chineseName}`
+
+
+
+<h3 id="gender-name-mandarin-parameters">Request Parameters</h3>
+
+|Name|Type|Required|Description|
+|---|---|---|---|
+|chineseName|String|true|Full name (family name and given name) in Standard Mandarin Chinese|
+
+
+
+
+> The above command returns JSON structured like this:
+
+
+
+```json
+{
+  "script": "HAN",
+  "id": "46661b4d-32cf-4ca5-b598-f62a8d7e0667",
+  "name": "谢晓亮",
+  "likelyGender": "male",
+  "genderScale": -0.7130895869378251,
+  "score": 8.286118331853034,
+  "probabilityCalibrated": 0.8565447934689125
+}
+```
+
+<h3 id="gender-name-mandarin-responses">Response</h3>
+
+*The HTTP response body is an object.*
+
+|Name|Type|Description|Enumerators|
+|---|---|---|---|
+|script|String|Character set used for analysis||
+|id|String|Unique identifier||
+|name|String|Submitted full name||
+|likelyGender|String|Most likely gender|"male", "female" or "unknown"|
+|genderScale|Number|Gender scale ranging from -1 (male) to +1 (female)||
+|score|Number|Higher implies a more reliable result, score is not normalized||
+|probabilityCalibrated|Number|Higher implies a more reliable result, ranges from 0 to 1||
+
+
+
+
+
+
+
+
+
+
+
+## Gender Name Mandarin Batch
+
+<a id="opIdGender-Name-Mandarin-Batch"></a>
+
+> **Gender Name Mandarin Batch** code sample :
+
+```shell
+curl --request POST \
+  --url https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseNameBatch \
+  --header 'X-API-KEY: your-api-key' \
+  --header 'Accept: application/json' \
+  --header 'Content-Type: application/json' \
+  --data '{"personalNames":[{"id":"e630dda5-13b3-42c5-8f1d-648aa8a21c42","name":"谢晓亮"}]}'
+```
+
+```java
+HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseNameBatch")
+  .header("Content-Type", "application/json")
+  .header("Accept", "application/json")
+  .header("X-API-KEY", "your-api-key")
+  .body("{\"personalNames\":[{\"id\":\"e630dda5-13b3-42c5-8f1d-648aa8a21c42\",\"name\":\"谢晓亮\"}]}")
+  .asString();
+```
+
+```python
+import requests
+
+url = "https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseNameBatch"
+
+payload = {"personalNames": [
+        {
+            "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
+            "name": "谢晓亮"
+        }
+    ]}
+headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
+}
+
+response = requests.request("POST", url, json=payload, headers=headers)
+
+print(response.text)
+```
+
+```javascript
+fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseNameBatch", {
+  "method": "POST",
+  "headers": {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
+  },
+  "body": "{\"personalNames\":[{\"id\":\"e630dda5-13b3-42c5-8f1d-648aa8a21c42\",\"name\":\"谢晓亮\"}]}"
+})
+.then(response => {
+  console.log(response.json());
+})
+.catch(err => {
+  console.error(err);
+});
+```
+
+
+
+*Returns the most likely gender of up to 100 full names (family names and given names) in Standard Mandarin Chinese.*
+
+*<u>Cost :</u> The processing of each object requires **1** credits.*
+
+<h3 id="gender-name-mandarin-batch-requesturl">HTTP Request</h3>
+
+`POST https://v2.namsor.com/NamSorAPIv2/api2/json/genderChineseNameBatch`
+
+
+
+> Body parameter
+
+```json
+{
+  "personalNames": [
+    {
+      "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
+      "name": "谢晓亮"
+    }
+  ]
+}
+```
+
+<h3 id="gender-name-mandarin-batch-parameters">Request Body</h3>
+
+*The HTTP request body is required to be a nested array of objects.*
+
+|Name|Type|Required|Description|
+|---|---|---|---|
+|id|String||Unique identifier|
+|name|String|true|Full name (family name and given name) in Standard Mandarin Chinese|
+
+
+
+
+> The above command returns JSON structured like this:
+
+
+
+```json
+{
+  "personalNames": [
+    {
+      "script": "HAN",
+      "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
+      "name": "谢晓亮",
+      "likelyGender": "male",
+      "genderScale": -0.7130895869378251,
+      "score": 8.286118331853034,
+      "probabilityCalibrated": 0.8565447934689125
+    }
+  ]
+}
+```
+
+<h3 id="gender-name-mandarin-batch-responses">Response</h3>
+
+*The HTTP response body is a nested array of objects.*
+
+|Name|Type|Description|Enumerators|
+|---|---|---|---|
+|script|String|Character set used for analysis||
+|id|String|Provided unique identifier||
+|name|String|Submitted full name||
+|likelyGender|String|Most likely gender|"male", "female" or "unknown"|
+|genderScale|Number|Gender scale ranging from -1 (male) to +1 (female)||
+|score|Number|Higher implies a more reliable result, score is not normalized||
+|probabilityCalibrated|Number|Higher implies a more reliable result, ranges from 0 to 1||
+
+
+
+
+
+
+
+
+
+
+
+## Split Chinese Name
+
+<a id="opIdSplit-Chinese-Name"></a>
+
+> **Split Chinese Name** code sample :
+
+```shell
+curl --request GET \
+  --url https://v2.namsor.com/NamSorAPIv2/api2/json/parseChineseName/%E8%B5%B5%E4%B8%BD%E9%A2%96 \
+  --header 'X-API-KEY: your-api-key' \
+  --header 'Accept: application/json'
+```
+
+```java
+HttpResponse<String> response = Unirest.get("https://v2.namsor.com/NamSorAPIv2/api2/json/parseChineseName/%E8%B5%B5%E4%B8%BD%E9%A2%96")
+  .header("Accept", "application/json")
+  .header("X-API-KEY", "your-api-key")
+  .asString();
+```
+
+```python
+import requests
+
+url = "https://v2.namsor.com/NamSorAPIv2/api2/json/parseChineseName/%E8%B5%B5%E4%B8%BD%E9%A2%96"
+
+headers = {
+ "Accept": "application/json",
+ "X-API-KEY": "your-api-key"
+}
+
+response = requests.request("GET", url, headers=headers)
+
+print(response.text)
+```
+
+```javascript
+fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseChineseName/%E8%B5%B5%E4%B8%BD%E9%A2%96", {
+  "method": "GET",
+  "headers": {
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
+  }
+})
+.then(response => {
+  console.log(response.json());
+})
+.catch(err => {
+  console.error(err);
+});
+```
+
+
+
+*Returns the most likely first name and last name structure of a full name (family name and given name) in Standard Mandarin Chinese.*
+
+*<u>Cost :</u> The processing of each query requires **1** credits.*
+
+<h3 id="split-chinese-name-requesturl">HTTP Request</h3>
+
+`GET https://v2.namsor.com/NamSorAPIv2/api2/json/parseChineseName/{chineseName}`
+
+
+
+<h3 id="split-chinese-name-parameters">Request Parameters</h3>
+
+|Name|Type|Required|Description|
+|---|---|---|---|
+|chineseName|String|true|Full name (family name and given name) in Standard Mandarin Chinese|
+
+
+
+
+> The above command returns JSON structured like this:
+
+
+
+```json
+{
+  "script": "HAN",
+  "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
+  "name": "赵丽颖",
+  "nameParserType": "LN1FN1",
+  "nameParserTypeAlt": null,
+  "firstLastName": {
+    "script": null,
+    "id": null,
+    "firstName": "丽颖",
+    "lastName": "赵"
+  },
+  "score": 4.64102036931541
+}
+```
+
+<h3 id="split-chinese-name-responses">Response</h3>
+
+*The HTTP response body is an object.*
+
+|Name|Type|Description|Enumerators|
+|---|---|---|---|
+|script|String|Character set used for analysis||
+|id|String|Unique identifier||
+|name|String|Submitted full name||
+|nameParserType|String|Most likely structure of the name||
+|nameParserTypeAlt|String|Second most likely structure of the name||
+|**firstLastName**|**Object**|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|First name (or given name) in Standard Mandarin Chinese||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|Last name (or family name) in Standard Mandarin Chinese||
+|score|Number|Higher implies a more reliable result, score is not normalized||
+
+
+
+
+
+
+
+
+
+
+
+## Split Chinese Name Batch
+
+<a id="opIdSplit-Chinese-Name-Batch"></a>
+
+> **Split Chinese Name Batch** code sample :
+
+```shell
+curl --request POST \
+  --url https://v2.namsor.com/NamSorAPIv2/api2/json/parseChineseNameBatch \
+  --header 'X-API-KEY: your-api-key' \
+  --header 'Accept: application/json' \
+  --header 'Content-Type: application/json' \
+  --data '{"personalNames":[{"id":"e630dda5-13b3-42c5-8f1d-648aa8a21c42","name":"赵丽颖"}]}'
+```
+
+```java
+HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/api2/json/parseChineseNameBatch")
+  .header("Content-Type", "application/json")
+  .header("Accept", "application/json")
+  .header("X-API-KEY", "your-api-key")
+  .body("{\"personalNames\":[{\"id\":\"e630dda5-13b3-42c5-8f1d-648aa8a21c42\",\"name\":\"赵丽颖\"}]}")
+  .asString();
+```
+
+```python
+import requests
+
+url = "https://v2.namsor.com/NamSorAPIv2/api2/json/parseChineseNameBatch"
+
+payload = {"personalNames": [
+        {
+            "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
+            "name": "赵丽颖"
+        }
+    ]}
+headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
+}
+
+response = requests.request("POST", url, json=payload, headers=headers)
+
+print(response.text)
+```
+
+```javascript
+fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/parseChineseNameBatch", {
+  "method": "POST",
+  "headers": {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
+  },
+  "body": "{\"personalNames\":[{\"id\":\"e630dda5-13b3-42c5-8f1d-648aa8a21c42\",\"name\":\"赵丽颖\"}]}"
+})
+.then(response => {
+  console.log(response.json());
+})
+.catch(err => {
+  console.error(err);
+});
+```
+
+
+
+*Returns the most likely first name and last name structure of up to 100 full names (family names and given names) in Standard Mandarin Chinese.*
+
+*<u>Cost :</u> The processing of each object requires **1** credits.*
+
+<h3 id="split-chinese-name-batch-requesturl">HTTP Request</h3>
+
+`POST https://v2.namsor.com/NamSorAPIv2/api2/json/parseChineseNameBatch`
+
+
+
+> Body parameter
+
+```json
+{
+  "personalNames": [
+    {
+      "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
+      "name": "赵丽颖"
+    }
+  ]
+}
+```
+
+<h3 id="split-chinese-name-batch-parameters">Request Body</h3>
+
+*The HTTP request body is required to be a nested array of objects.*
+
+|Name|Type|Required|Description|
+|---|---|---|---|
+|id|String||Unique identifier|
+|name|String|true|Full name (family name and given name) in Standard Mandarin Chinese|
+
+
+
+
+> The above command returns JSON structured like this:
+
+
+
+```json
+{
+  "personalNames": [
+    {
+      "script": "HAN",
+      "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
+      "name": "赵丽颖",
+      "nameParserType": "LN1FN1",
+      "nameParserTypeAlt": null,
+      "firstLastName": {
+        "script": null,
+        "id": null,
+        "firstName": "丽颖",
+        "lastName": "赵"
+      },
+      "score": 4.64102036931541
+    }
+  ]
+}
+```
+
+<h3 id="split-chinese-name-batch-responses">Response</h3>
+
+*The HTTP response body is a nested array of objects.*
+
+|Name|Type|Description|Enumerators|
+|---|---|---|---|
+|script|String|Character set used for analysis||
+|id|String|Provided unique identifier||
+|name|String|Submitted full name||
+|nameParserType|String|Most likely structure of the name||
+|nameParserTypeAlt|String|Second most likely structure of the name||
+|**firstLastName**|**Object**|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|First name (or given name) in Standard Mandarin Chinese||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|Last name (or family name) in Standard Mandarin Chinese||
+|score|Number|Higher implies a more reliable result, score is not normalized||
+
+
+
+
+
+
+
+
+
+
+
+## Match Chinese Name
+
+<a id="opIdMatch-Chinese-Name"></a>
+
+> **Match Chinese Name** code sample :
+
+```shell
+curl --request GET \
+  --url https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameMatch/Yu/Hong/%E5%96%BB%E7%BA%A2 \
+  --header 'X-API-KEY: your-api-key' \
+  --header 'Accept: application/json'
+```
+
+```java
+HttpResponse<String> response = Unirest.get("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameMatch/Yu/Hong/%E5%96%BB%E7%BA%A2")
+  .header("Accept", "application/json")
+  .header("X-API-KEY", "your-api-key")
+  .asString();
+```
+
+```python
+import requests
+
+url = "https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameMatch/Yu/Hong/%E5%96%BB%E7%BA%A2"
+
+headers = {
+ "Accept": "application/json",
+ "X-API-KEY": "your-api-key"
+}
+
+response = requests.request("GET", url, headers=headers)
+
+print(response.text)
+```
+
+```javascript
+fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameMatch/Yu/Hong/%E5%96%BB%E7%BA%A2", {
+  "method": "GET",
+  "headers": {
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
+  }
+})
+.then(response => {
+  console.log(response.json());
+})
+.catch(err => {
+  console.error(err);
+});
+```
+
+
+
+*Matches a full name in Standard Mandarin Chinese against a family name and a given name in Pinyin.*
+
+*<u>Cost :</u> The processing of each query requires **1** credits.*
+
+<h3 id="match-chinese-name-requesturl">HTTP Request</h3>
+
+`GET https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameMatch/{chineseSurnameLatin}/{chineseGivenNameLatin}/{chineseName}`
+
+
+
+<h3 id="match-chinese-name-parameters">Request Parameters</h3>
+
+|Name|Type|Required|Description|
+|---|---|---|---|
+|chineseSurnameLatin|String|true|Family name (or last name) in Pinyin|
+|chineseGivenNameLatin|String|true|Given name (or first name) in Pinyin|
+|chineseName|String|true|Full name (family name and given name) in Standard Mandarin Chinese|
+
+
+
+
+
+
+> The above command returns JSON structured like this:
+
+
+
+```json
+{
+  "script": null,
+  "id": null,
+  "matchStatus": "Match",
+  "score": 1.0017825620273417
+}
+```
+
+<h3 id="match-chinese-name-responses">Response</h3>
+
+*The HTTP response body is an object.*
+
+|Name|Type|Description|Enumerators|
+|---|---|---|---|
+|script|String|||
+|id|String|||
+|matchStatus|String|Success status of the match||
+|score|Number|Higher implies a better match, score is not normalized||
+
+
+
+
+
+
+
+
+
+
+
+## Match Chinese Name Batch
+
+<a id="opIdMatch-Chinese-Name-Batch"></a>
+
+> **Match Chinese Name Batch** code sample :
+
+```shell
+curl --request POST \
+  --url https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameMatchBatch \
+  --header 'X-API-KEY: your-api-key' \
+  --header 'Accept: application/json' \
+  --header 'Content-Type: application/json' \
+  --data '{"personalNames":[{"id":"e630dda5-13b3-42c5-8f1d-648aa8a21c41","name1":{"id":"e630dda5-13b3-42c5-8f1d-648aa8a21c42","firstName":"Hong","lastName":"Yu"},"name2":{"id":"e630dda5-13b3-42c5-8f1d-648aa8a21c43","name":"喻红"}}]}'
+```
+
+```java
+HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameMatchBatch")
+  .header("Content-Type", "application/json")
+  .header("Accept", "application/json")
+  .header("X-API-KEY", "your-api-key")
+  .body("{\"personalNames\":[{\"id\":\"e630dda5-13b3-42c5-8f1d-648aa8a21c41\",\"name1\":{\"id\":\"e630dda5-13b3-42c5-8f1d-648aa8a21c42\",\"firstName\":\"Hong\",\"lastName\":\"Yu\"},\"name2\":{\"id\":\"e630dda5-13b3-42c5-8f1d-648aa8a21c43\",\"name\":\"喻红\"}}]}")
+  .asString();
+```
+
+```python
+import requests
+
+url = "https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameMatchBatch"
+
+payload = {"personalNames": [
+        {
+            "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c41",
+            "name1": {
+                "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
+                "firstName": "Hong",
+                "lastName": "Yu"
+            },
+            "name2": {
+                "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c43",
+                "name": "喻红"
+            }
+        }
+    ]}
+headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
+}
+
+response = requests.request("POST", url, json=payload, headers=headers)
+
+print(response.text)
+```
+
+```javascript
+fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameMatchBatch", {
+  "method": "POST",
+  "headers": {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
+  },
+  "body": "{\"personalNames\":[{\"id\":\"e630dda5-13b3-42c5-8f1d-648aa8a21c41\",\"name1\":{\"id\":\"e630dda5-13b3-42c5-8f1d-648aa8a21c42\",\"firstName\":\"Hong\",\"lastName\":\"Yu\"},\"name2\":{\"id\":\"e630dda5-13b3-42c5-8f1d-648aa8a21c43\",\"name\":\"喻红\"}}]}"
+})
+.then(response => {
+  console.log(response.json());
+})
+.catch(err => {
+  console.error(err);
+});
+```
+
+
+
+*Matches up to 100 full names in Standard Mandarin Chinese against corresponding family names and given names in Pinyin.*
+
+*<u>Cost :</u> The processing of each object requires **1** credits.*
+
+<h3 id="match-chinese-name-batch-requesturl">HTTP Request</h3>
+
+`POST https://v2.namsor.com/NamSorAPIv2/api2/json/chineseNameMatchBatch`
+
+
+
+> Body parameter
+
+```json
+{
+  "personalNames": [
+    {
+      "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c41",
+      "name1": {
+        "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
+        "firstName": "Hong",
+        "lastName": "Yu"
+      },
+      "name2": {
+        "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c43",
+        "name": "喻红"
+      }
+    }
+  ]
+}
+```
+
+<h3 id="match-chinese-name-batch-parameters">Request Body</h3>
+
+*The HTTP request body is required to be a nested array of objects.*
+
+|Name|Type|Required|Description|
+|---|---|---|---|
+|id|String||Unique identifier|
+|**name1**|**Object**|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String||Unique identifier||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|true|Family name (or last name) in Pinyin||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|true|Given name (or first name) in Pinyin||
+|**name2**|**Object**|||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String||Unique identifier||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.name*|String|true|Full name (family name and given name) in Standard Mandarin Chinese||
+
+
+
+
+> The above command returns JSON structured like this:
+
+
+
+```json
+{
+  "matchedNames": [
+    {
+      "script": null,
+      "id": null,
+      "matchStatus": "Match",
+      "score": 1.0017825620273417
+    }
+  ]
+}
+```
+
+<h3 id="match-chinese-name-batch-responses">Response</h3>
+
+*The HTTP response body is a nested array of objects.*
+
+|Name|Type|Description|Enumerators|
+|---|---|---|---|
+|script|String|||
+|id|String|||
+|matchStatus|String|Success status of the match||
+|score|Number|Higher implies a better match, score is not normalized||
+
+
+
+
+
+
+
+
+
+
+
 <h1 id="namsor-api-v2-phone">Phone</h1>
 
-The Namsor name analysis software has been trained to evaluate formated, as well as unformatted, phone numbers. It is able to <strong>process a first name, last name and phone number</strong> in order to establish its <strong>phone prefix</strong> and <strong>country code</strong> as well as <strong>determine the structure</strong> of the phone number and <strong>check if it is valid</strong>.<br><br><br><a class='demo-page-button' target='_blank' href='https://namsor.com/'>Try out Phone features</a>
+The Namsor name analysis software has been trained to evaluate formated, as well as unformatted, phone numbers. It is able to <strong>process a first name, last name and phone number</strong> in order to establish its <strong>phone prefix</strong> and <strong>country code</strong> as well as <strong>determine the structure</strong> of the phone number and <strong>check if it is valid</strong>.<br><br><br><a class='demo-page-button' target='_blank' href='https://namsor.com/features/phone-number-format'>Try out Phone features</a>
 
 ## Phone Code
 
@@ -8453,521 +9006,6 @@ fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/phoneCodeGeoFeedbackLoop/Dieg
 |verified|Boolean|Indicates if the phone number could be positively verified using Libphonenumber||
 |score|Number|Higher implies a more reliable result, but score is not normalized. Use probabilityCalibrated if available||
 |countryIso2|String|Most likely country of origin, in ISO 3166-1 alpha-2 format||
-
-
-
-
-
-
-
-
-
-
-
-<h1 id="namsor-api-v2-name-type">Name Type</h1>
-
-Namsor provides a specialized <strong>proper name type determination API</strong>, it is trained to <strong>analyse proper names</strong> and infer if they are <strong>personal names</strong> or <strong>brand names</strong>. Differentiate <strong>individuals from companies</strong> base on their name in order to automate processes, evaluate references to names or leverage deeper insight into an audience. To yield improved results you may indicate the name's <strong>country of origin</strong>.<br><br><br><a class='demo-page-button' target='_blank' href='https://namsor.com/'>Try out Name Type features</a>
-
-## Name Type
-
-<a id="opIdName-Type"></a>
-
-> **Name Type** code sample :
-
-```shell
-curl --request GET \
-  --url https://v2.namsor.com/NamSorAPIv2/api2/json/nameType/Zippo \
-  --header 'X-API-KEY: your-api-key' \
-  --header 'Accept: application/json'
-```
-
-```java
-HttpResponse<String> response = Unirest.get("https://v2.namsor.com/NamSorAPIv2/api2/json/nameType/Zippo")
-  .header("Accept", "application/json")
-  .header("X-API-KEY", "your-api-key")
-  .asString();
-```
-
-```python
-import requests
-
-url = "https://v2.namsor.com/NamSorAPIv2/api2/json/nameType/Zippo"
-
-headers = {
- "Accept": "application/json",
- "X-API-KEY": "your-api-key"
-}
-
-response = requests.request("GET", url, headers=headers)
-
-print(response.text)
-```
-
-```javascript
-fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/nameType/Zippo", {
-  "method": "GET",
-  "headers": {
-    "Accept": "application/json",
-    "X-API-KEY": "your-api-key"
-  }
-})
-.then(response => {
-  console.log(response.json());
-})
-.catch(err => {
-  console.error(err);
-});
-```
-
-
-
-*Returns the type of a submitted proper noun. Ex: John Smith = personal name, Namsor = brand name.*
-
-*<u>Cost :</u> The processing of each query requires **1** credits.*
-
-<h3 id="name-type-requesturl">HTTP Request</h3>
-
-`GET https://v2.namsor.com/NamSorAPIv2/api2/json/nameType/{properNoun}`
-
-
-
-<h3 id="name-type-parameters">Request Parameters</h3>
-
-|Name|Type|Required|Description|
-|---|---|---|---|
-|properNoun|String|true|A proper noun (person, brand, etc.)|
-
-
-
-
-> The above command returns JSON structured like this:
-
-
-
-```json
-{
-  "script": "LATIN",
-  "id": "a88b1bf1-56f1-40d3-84db-4daf57121b1d",
-  "name": "Zippo",
-  "commonType": "brand-name",
-  "commonTypeAlt": "toponym",
-  "score": 7.717552234146745
-}
-```
-
-<h3 id="name-type-responses">Response</h3>
-
-*The HTTP response body is an object.*
-
-|Name|Type|Description|Enumerators|
-|---|---|---|---|
-|script|String|Character set used for analysis||
-|id|String|Provided unique identifier||
-|name|String|Submitted proper noun||
-|commonType|String|Most likely type of the proper noun||
-|commonTypeAlt|String|Second most likely type of the proper noun||
-|score|Number|Higher implies a more reliable result, score is not normalized||
-
-
-
-
-
-
-
-
-
-
-
-## Name Type Batch
-
-<a id="opIdName-Type-Batch"></a>
-
-> **Name Type Batch** code sample :
-
-```shell
-curl --request POST \
-  --url https://v2.namsor.com/NamSorAPIv2/api2/json/nameTypeBatch \
-  --header 'X-API-KEY: your-api-key' \
-  --header 'Accept: application/json' \
-  --header 'Content-Type: application/json' \
-  --data '{"properNouns":[{"id":"e630dda5-13b3-42c5-8f1d-648aa8a21c42","name":"Zippo"}]}'
-```
-
-```java
-HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/api2/json/nameTypeBatch")
-  .header("Content-Type", "application/json")
-  .header("Accept", "application/json")
-  .header("X-API-KEY", "your-api-key")
-  .body("{\"properNouns\":[{\"id\":\"e630dda5-13b3-42c5-8f1d-648aa8a21c42\",\"name\":\"Zippo\"}]}")
-  .asString();
-```
-
-```python
-import requests
-
-url = "https://v2.namsor.com/NamSorAPIv2/api2/json/nameTypeBatch"
-
-payload = {"properNouns": [
-        {
-            "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
-            "name": "Zippo"
-        }
-    ]}
-headers = {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-    "X-API-KEY": "your-api-key"
-}
-
-response = requests.request("POST", url, json=payload, headers=headers)
-
-print(response.text)
-```
-
-```javascript
-fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/nameTypeBatch", {
-  "method": "POST",
-  "headers": {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-    "X-API-KEY": "your-api-key"
-  },
-  "body": "{\"properNouns\":[{\"id\":\"e630dda5-13b3-42c5-8f1d-648aa8a21c42\",\"name\":\"Zippo\"}]}"
-})
-.then(response => {
-  console.log(response.json());
-})
-.catch(err => {
-  console.error(err);
-});
-```
-
-
-
-*Returns the type of up to 100 submitted proper nouns. Ex: John Smith = personal name, Namsor = brand name.*
-
-*<u>Cost :</u> The processing of each object requires **1** credits.*
-
-<h3 id="name-type-batch-requesturl">HTTP Request</h3>
-
-`POST https://v2.namsor.com/NamSorAPIv2/api2/json/nameTypeBatch`
-
-
-
-> Body parameter
-
-```json
-{
-  "properNouns": [
-    {
-      "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
-      "name": "Zippo"
-    }
-  ]
-}
-```
-
-<h3 id="name-type-batch-parameters">Request Body</h3>
-
-*The HTTP request body is required to be a nested array of objects.*
-
-|Name|Type|Required|Description|
-|---|---|---|---|
-|id|String||Unique identifier|
-|name|String|true|A proper noun (person, brand, etc.)|
-
-
-
-
-> The above command returns JSON structured like this:
-
-
-
-```json
-{
-  "properNouns": [
-    {
-      "script": "LATIN",
-      "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
-      "name": "Zippo",
-      "commonType": "brand-name",
-      "commonTypeAlt": "toponym",
-      "score": 7.717552576402805
-    }
-  ]
-}
-```
-
-<h3 id="name-type-batch-responses">Response</h3>
-
-*The HTTP response body is a nested array of objects.*
-
-|Name|Type|Description|Enumerators|
-|---|---|---|---|
-|script|String|Character set used for analysis||
-|id|String|Provided unique identifier||
-|name|String|Submitted proper noun||
-|commonType|String|Most likely type of the proper noun||
-|commonTypeAlt|String|Second most likely type of the proper noun||
-|score|Number|Higher implies a more reliable result, score is not normalized||
-
-
-
-
-
-
-
-
-
-
-
-## Name Type Geo
-
-<a id="opIdName-Type-Geo"></a>
-
-> **Name Type Geo** code sample :
-
-```shell
-curl --request GET \
-  --url https://v2.namsor.com/NamSorAPIv2/api2/json/nameTypeGeo/Edi%20Gathegi/KE \
-  --header 'X-API-KEY: your-api-key' \
-  --header 'Accept: application/json'
-```
-
-```java
-HttpResponse<String> response = Unirest.get("https://v2.namsor.com/NamSorAPIv2/api2/json/nameTypeGeo/Edi%20Gathegi/KE")
-  .header("Accept", "application/json")
-  .header("X-API-KEY", "your-api-key")
-  .asString();
-```
-
-```python
-import requests
-
-url = "https://v2.namsor.com/NamSorAPIv2/api2/json/nameTypeGeo/Edi%20Gathegi/KE"
-
-headers = {
- "Accept": "application/json",
- "X-API-KEY": "your-api-key"
-}
-
-response = requests.request("GET", url, headers=headers)
-
-print(response.text)
-```
-
-```javascript
-fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/nameTypeGeo/Edi%20Gathegi/KE", {
-  "method": "GET",
-  "headers": {
-    "Accept": "application/json",
-    "X-API-KEY": "your-api-key"
-  }
-})
-.then(response => {
-  console.log(response.json());
-})
-.catch(err => {
-  console.error(err);
-});
-```
-
-
-
-*Returns the type of up to 100 submitted proper nouns using its geographic context. Ex: John Smith = personal name, Namsor = brand name.*
-
-*<u>Cost :</u> The processing of each query requires **1** credits.*
-
-<h3 id="name-type-geo-requesturl">HTTP Request</h3>
-
-`GET https://v2.namsor.com/NamSorAPIv2/api2/json/nameTypeGeo/{properNoun}/{countryIso2}`
-
-
-
-<h3 id="name-type-geo-parameters">Request Parameters</h3>
-
-|Name|Type|Required|Description|
-|---|---|---|---|
-|properNoun|String|true|A proper noun (person, brand, etc.)|
-|countryIso2|String|true|Most likely country of origin, in ISO 3166-1 alpha-2 format|
-
-
-
-
-
-> The above command returns JSON structured like this:
-
-
-
-```json
-{
-  "script": "LATIN",
-  "id": "a941ea3f-3b3c-4ff1-af28-c01b086b7d79",
-  "name": "Edi Gathegi",
-  "commonType": "anthroponym",
-  "commonTypeAlt": "brand-name",
-  "score": 18.5790039224226
-}
-```
-
-<h3 id="name-type-geo-responses">Response</h3>
-
-*The HTTP response body is an object.*
-
-|Name|Type|Description|Enumerators|
-|---|---|---|---|
-|script|String|Character set used for analysis||
-|id|String|Provided unique identifier||
-|name|String|Submitted proper noun||
-|commonType|String|Most likely type of the proper noun||
-|commonTypeAlt|String|Second most likely type of the proper noun||
-|score|Number|Higher implies a more reliable result, score is not normalized||
-
-
-
-
-
-
-
-
-
-
-
-## Name Type Geo Batch
-
-<a id="opIdName-Type-Geo-Batch"></a>
-
-> **Name Type Geo Batch** code sample :
-
-```shell
-curl --request POST \
-  --url https://v2.namsor.com/NamSorAPIv2/api2/json/nameTypeGeoBatch \
-  --header 'X-API-KEY: your-api-key' \
-  --header 'Accept: application/json' \
-  --header 'Content-Type: application/json' \
-  --data '{"properNouns":[{"id":"e630dda5-13b3-42c5-8f1d-648aa8a21c42","name":"Edi Gathegi","countryIso2":"KE"}]}'
-```
-
-```java
-HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamSorAPIv2/api2/json/nameTypeGeoBatch")
-  .header("Content-Type", "application/json")
-  .header("Accept", "application/json")
-  .header("X-API-KEY", "your-api-key")
-  .body("{\"properNouns\":[{\"id\":\"e630dda5-13b3-42c5-8f1d-648aa8a21c42\",\"name\":\"Edi Gathegi\",\"countryIso2\":\"KE\"}]}")
-  .asString();
-```
-
-```python
-import requests
-
-url = "https://v2.namsor.com/NamSorAPIv2/api2/json/nameTypeGeoBatch"
-
-payload = {"properNouns": [
-        {
-            "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
-            "name": "Edi Gathegi",
-            "countryIso2": "KE"
-        }
-    ]}
-headers = {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-    "X-API-KEY": "your-api-key"
-}
-
-response = requests.request("POST", url, json=payload, headers=headers)
-
-print(response.text)
-```
-
-```javascript
-fetch("https://v2.namsor.com/NamSorAPIv2/api2/json/nameTypeGeoBatch", {
-  "method": "POST",
-  "headers": {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-    "X-API-KEY": "your-api-key"
-  },
-  "body": "{\"properNouns\":[{\"id\":\"e630dda5-13b3-42c5-8f1d-648aa8a21c42\",\"name\":\"Edi Gathegi\",\"countryIso2\":\"KE\"}]}"
-})
-.then(response => {
-  console.log(response.json());
-})
-.catch(err => {
-  console.error(err);
-});
-```
-
-
-
-*Returns the type of up to 100 submitted proper nouns using their geographic context. Ex: John Smith = personal name, Namsor = brand name.*
-
-*<u>Cost :</u> The processing of each object requires **1** credits.*
-
-<h3 id="name-type-geo-batch-requesturl">HTTP Request</h3>
-
-`POST https://v2.namsor.com/NamSorAPIv2/api2/json/nameTypeGeoBatch`
-
-
-
-> Body parameter
-
-```json
-{
-  "properNouns": [
-    {
-      "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
-      "name": "Edi Gathegi",
-      "countryIso2": "KE"
-    }
-  ]
-}
-```
-
-<h3 id="name-type-geo-batch-parameters">Request Body</h3>
-
-*The HTTP request body is required to be a nested array of objects.*
-
-|Name|Type|Required|Description|
-|---|---|---|---|
-|id|String||Unique identifier|
-|name|String|true|A proper noun (person, brand, etc.)|
-|countryIso2|String|true|Most likely country of origin, in ISO 3166-1 alpha-2 format|
-
-
-
-
-> The above command returns JSON structured like this:
-
-
-
-```json
-{
-  "properNouns": [
-    {
-      "script": "LATIN",
-      "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
-      "name": "Edi Gathegi",
-      "commonType": "anthroponym",
-      "commonTypeAlt": "brand-name",
-      "score": 18.579081911201673
-    }
-  ]
-}
-```
-
-<h3 id="name-type-geo-batch-responses">Response</h3>
-
-*The HTTP response body is a nested array of objects.*
-
-|Name|Type|Description|Enumerators|
-|---|---|---|---|
-|script|String|Character set used for analysis||
-|id|String|Provided unique identifier||
-|name|String|Submitted proper noun||
-|commonType|String|Most likely type of the proper noun||
-|commonTypeAlt|String|Second most likely type of the proper noun||
-|score|Number|Higher implies a more reliable result, score is not normalized||
 
 
 

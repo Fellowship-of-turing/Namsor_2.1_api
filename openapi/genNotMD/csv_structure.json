@@ -328,7 +328,7 @@
                     }
                 ]
             },
-            "operationName": "Gender Full Batch",
+            "operationName": "Gender Full Name Batch",
             "summary": "Returns the most likely gender of  full names.",
             "reqMetaKey": "personalNames",
             "reqKeys": [
@@ -372,7 +372,7 @@
                     }
                 ]
             },
-            "operationName": "Gender Full Geo Batch",
+            "operationName": "Gender Full Name Geo Batch",
             "summary": "Returns the most likely gender of  full names, according to their geographic context.",
             "reqMetaKey": "personalNames",
             "reqKeys": [
@@ -585,7 +585,7 @@
                     }
                 ]
             },
-            "operationName": "US ZIP Race and Ethnicity Batch",
+            "operationName": "US Race and Ethnicity ZIP Batch",
             "summary": "Returns the most likely U.S. race or ethnicity of  U.S. resident's first names and last names, using their ZIP code.",
             "reqMetaKey": "personalNames",
             "reqKeys": [
@@ -692,7 +692,7 @@
                     }
                 ]
             },
-            "operationName": "Parse Name Batch",
+            "operationName": "Split Name Batch",
             "summary": "Returns the most likely first name and last name structure of  full names.",
             "reqMetaKey": "personalNames",
             "reqKeys": [
@@ -744,7 +744,7 @@
                     }
                 ]
             },
-            "operationName": "Parse Name Geo Batch",
+            "operationName": "Split Name Geo Batch",
             "summary": "Returns the most likely first name and last name structure of  full names using their geographic context.",
             "reqMetaKey": "personalNames",
             "reqKeys": [
@@ -796,7 +796,7 @@
                     }
                 ]
             },
-            "operationName": "Parse Chinese Name Batch",
+            "operationName": "Split Chinese Name Batch",
             "summary": "Returns the most likely first name and last name structure of  full names (family names and given names) in Standard Mandarin Chinese.",
             "reqMetaKey": "personalNames",
             "reqKeys": [
@@ -847,7 +847,7 @@
                     }
                 ]
             },
-            "operationName": "Pinyin Chinese Name Batch",
+            "operationName": "To Pinyin Name Batch",
             "summary": "Return the most likely Pinyin transcription of  full names (family names and given names) in Standard Mandarin Chinese.",
             "reqMetaKey": "personalNames",
             "reqKeys": [
@@ -898,7 +898,7 @@
                     }
                 ]
             },
-            "operationName": "Chinese Name Match Batch",
+            "operationName": "Match Chinese Name Batch",
             "summary": "Matches  full names in Standard Mandarin Chinese against corresponding family names and given names in Pinyin.",
             "reqMetaKey": "personalNames",
             "reqKeys": [
@@ -944,7 +944,7 @@
                     }
                 ]
             },
-            "operationName": "Gender Chinese Name Pinyin Batch",
+            "operationName": "Gender Name Pinyin Batch",
             "summary": "Return the most likely gender of  family names and a given names in Pinyin.",
             "reqMetaKey": "personalNames",
             "reqKeys": [
@@ -989,7 +989,7 @@
                     }
                 ]
             },
-            "operationName": "Gender Chinese Name Batch",
+            "operationName": "Gender Name Mandarin Batch",
             "summary": "Returns the most likely gender of  full names (family names and given names) in Standard Mandarin Chinese.",
             "reqMetaKey": "personalNames",
             "reqKeys": [
@@ -1039,7 +1039,7 @@
                     }
                 ]
             },
-            "operationName": "Chinese Name Candidates Batch",
+            "operationName": "To Mandarin Name Batch",
             "summary": "Returns the most likely Standard Mandarin Chinese transcriptions using  family names and given names in Pinyin.",
             "reqMetaKey": "personalNames",
             "reqKeys": [
@@ -1090,7 +1090,7 @@
                     }
                 ]
             },
-            "operationName": "Chinese Name Candidates Gender Batch",
+            "operationName": "To Mandarin Name Gender Batch",
             "summary": "Returns the most likely Standard Mandarin Chinese transcriptions for  Pinyin first names and last names, according to their gender.",
             "reqMetaKey": "personalNames",
             "reqKeys": [
@@ -1139,7 +1139,7 @@
                     }
                 ]
             },
-            "operationName": "Parse Japanese Name Batch",
+            "operationName": "Split Japanese Name Batch",
             "summary": "Returns the most likely first name and last name structure of  full names (family names and given names) in Kanji or latin characters.",
             "reqMetaKey": "personalNames",
             "reqKeys": [
@@ -1192,7 +1192,7 @@
                     }
                 ]
             },
-            "operationName": "Japanese Name Kanji Candidates Batch",
+            "operationName": "To Kanji Name Batch",
             "summary": "Returns the most likely Kanji transcriptions for  japanese first names and last names in latin characters.",
             "reqMetaKey": "personalNames",
             "reqKeys": [
@@ -1243,7 +1243,7 @@
                     }
                 ]
             },
-            "operationName": "Japanese Name Gender Kanji Candidates Batch",
+            "operationName": "To Kanji Name Gender Batch",
             "summary": "Returns the most likely Kanji transcriptions for  japanese first names and last names in latin characters, according to their gender.",
             "reqMetaKey": "personalNames",
             "reqKeys": [
@@ -1294,7 +1294,7 @@
                     }
                 ]
             },
-            "operationName": "Japanese Name Latin Candidates Batch",
+            "operationName": "To Latin Name Batch",
             "summary": "Returns the most likely latin transcriptions for  japanese first names and last names in Kanji characters.",
             "reqMetaKey": "personalNames",
             "reqKeys": [
@@ -1342,7 +1342,7 @@
                     }
                 ]
             },
-            "operationName": "Japanese Name Match Batch",
+            "operationName": "Match Japanese Name Batch",
             "summary": "Matches  full names in Kanji against corresponding family names and given names in latin characters.",
             "reqMetaKey": "personalNames",
             "reqKeys": [
@@ -1388,7 +1388,7 @@
                     }
                 ]
             },
-            "operationName": "Gender Japanese Name Latin Batch",
+            "operationName": "Gender Name Latin Batch",
             "summary": "Return the most likely gender of  japanese family names and a given names in latin characters.",
             "reqMetaKey": "personalNames",
             "reqKeys": [
@@ -1433,7 +1433,7 @@
                     }
                 ]
             },
-            "operationName": "Gender Japanese Name Full Batch",
+            "operationName": "Gender Name Kanji Batch",
             "summary": "Find the most likely gender of  Japanese full names (surnames and given names), written in Kanji characters.",
             "reqMetaKey": "personalNames",
             "reqKeys": [
