@@ -28,31 +28,43 @@
     ],
     "tags": [
         {
-            "name": "Personal",
-            "description": "Personal names (anthroponyms) : gender, country origin/ethnicity, diaspora, US 'race'/ethniciy"
+            "name": "Gender",
+            "description": "$gender"
         },
         {
-            "name": "Social",
-            "description": "Social media and pseudonyms"
+            "name": "Origin",
+            "description": "$origin"
+        },
+        {
+            "name": "Split Name",
+            "description": "$split_name"
         },
         {
             "name": "Chinese",
-            "description": "CHINESE special features"
+            "description": "$chinese"
         },
         {
             "name": "Japanese",
-            "description": "JAPANESE special features"
+            "description": "$japanese"
+        },
+        {
+            "name": "Phone",
+            "description": "$phone"
+        },
+        {
+            "name": "Name Type",
+            "description": "$name_type"
         },
         {
             "name": "Admin",
-            "description": "Administrative, system management."
+            "description": "$admin"
         }
     ],
     "paths": {
         "/api2/json/country/{personalNameFull}": {
             "get": {
                 "tags": [
-                    "Personal"
+                    "Origin"
                 ],
                 "summary": "Returns the most likely geographic context of a full name (first name and last name) or a surname.",
                 "operationId": "Country",
@@ -96,7 +108,7 @@
         "/api2/json/nameType/{properNoun}": {
             "get": {
                 "tags": [
-                    "General"
+                    "Name Type"
                 ],
                 "summary": "Returns the type of a submitted proper noun. Ex: John Smith = personal name, Namsor = brand name.",
                 "operationId": "Name-Type",
@@ -162,9 +174,9 @@
         "/api2/json/origin/{firstName}/{lastName}": {
             "get": {
                 "tags": [
-                    "Personal"
+                    "Origin"
                 ],
-                "summary": "Returns the most likely country of origin of a first name and a last name. Note that the \"Diaspora\" endpoint may be better suited for countries like U.S.A, Canada, Australia, New-Zealand and other melting-pots.",
+                "summary": "Returns the most likely country of origin of a first name and a last name. Note that the \"Diaspora\" endpoint may be better suited for multicultural countries like the U.S.A, Canada, Australia, New-Zealand, etc.",
                 "operationId": "Origin",
                 "parameters": [
                     {
@@ -416,28 +428,30 @@
                         "description": "Print historical API usage (NB. new output format form v2.0.15)",
                         "content": {
                             "application/json": {
-                                "schema": [
-                                    {
-                                        "apiKey": {
-                                            "userId": null,
-                                            "admin": false,
-                                            "vetted": false,
-                                            "learnable": true,
-                                            "anonymized": false,
-                                            "partner": false,
-                                            "striped": false,
-                                            "corporate": false,
-                                            "disabled": false,
-                                            "api_key": "b214894824e1c4762fb650866fea8f3c"
-                                        },
-                                        "apiService": "personalname_us_race_ethnicity",
-                                        "createdDateTime": 1620385794616,
-                                        "totalUsage": 1,
-                                        "lastFlushedDateTime": 1620386273418,
-                                        "lastUsedDateTime": 1620386699945,
-                                        "serviceFeaturesUsage": {}
-                                    }
-                                ]
+                                "schema": {
+                                    "detailedUsage": [
+                                        {
+                                            "apiKey": {
+                                                "userId": null,
+                                                "admin": false,
+                                                "vetted": false,
+                                                "learnable": true,
+                                                "anonymized": false,
+                                                "partner": false,
+                                                "striped": false,
+                                                "corporate": false,
+                                                "disabled": false,
+                                                "api_key": "b214894824e1c4762fb650866fea8f3c"
+                                            },
+                                            "apiService": "personalname_us_race_ethnicity",
+                                            "createdDateTime": 1620385794616,
+                                            "totalUsage": 1,
+                                            "lastFlushedDateTime": 1620386273418,
+                                            "lastUsedDateTime": 1620386699945,
+                                            "serviceFeaturesUsage": {}
+                                        }
+                                    ]
+                                }
                             }
                         }
                     }
@@ -458,24 +472,24 @@
                             "application/json": {
                                 "schema": {
                                     "timeUnit": "DAY",
-                                    "periodStart": 1602703703373,
-                                    "periodEnd": 1620386273418,
-                                    "totalUsage": 262,
+                                    "periodStart": 1600616581000,
+                                    "periodEnd": 1600702981000,
+                                    "totalUsage": 42,
                                     "historyTruncated": false,
                                     "data": [
                                         [
                                             0,
                                             0,
                                             0,
-                                            4,
-                                            3,
+                                            10,
+                                            10,
                                             0,
                                             0,
                                             0,
                                             0,
-                                            6,
-                                            4,
-                                            5
+                                            10,
+                                            10,
+                                            2
                                         ]
                                     ],
                                     "colHeaders": [
@@ -493,7 +507,7 @@
                                         "personalname_us_race_ethnicity"
                                     ],
                                     "rowHeaders": [
-                                        "2018-05-05"
+                                        "2020-09-20"
                                     ]
                                 }
                             }
@@ -566,7 +580,7 @@
         "/api2/json/nameTypeGeo/{properNoun}/{countryIso2}": {
             "get": {
                 "tags": [
-                    "General"
+                    "Name Type"
                 ],
                 "summary": "Returns the type of up to 100 submitted proper nouns using its geographic context. Ex: John Smith = personal name, Namsor = brand name.",
                 "operationId": "Name-Type-Geo",
@@ -608,7 +622,7 @@
         "/api2/json/nameTypeBatch": {
             "post": {
                 "tags": [
-                    "General"
+                    "Name Type"
                 ],
                 "summary": "Returns the type of up to 100 submitted proper nouns. Ex: John Smith = personal name, Namsor = brand name.",
                 "operationId": "Name-Type-Batch",
@@ -653,7 +667,7 @@
         "/api2/json/nameTypeGeoBatch": {
             "post": {
                 "tags": [
-                    "General"
+                    "Name Type"
                 ],
                 "summary": "Returns the type of up to 100 submitted proper nouns using their geographic context. Ex: John Smith = personal name, Namsor = brand name.",
                 "operationId": "Name-Type-Geo-Batch",
@@ -699,7 +713,7 @@
         "/api2/json/corridor/{countryIso2From}/{firstNameFrom}/{lastNameFrom}/{countryIso2To}/{firstNameTo}/{lastNameTo}": {
             "get": {
                 "tags": [
-                    "Personal"
+                    "Origin"
                 ],
                 "summary": "Returns complete analysis of a cross border interactions between two names using their geographic context. The sender is the one who initiated the interaction (from) while the receiver is the one intended to receive the interaction (to).",
                 "operationId": "Corridor",
@@ -850,7 +864,7 @@
         "/api2/json/corridorBatch": {
             "post": {
                 "tags": [
-                    "Personal"
+                    "Origin"
                 ],
                 "summary": "Returns complete analysis of up to 100 cross border interactions between two names using their geographic context. The sender is the one who initiated the interaction (from) while the receiver is the one intended to receive the interaction (to).",
                 "operationId": "Corridor-Batch",
@@ -987,7 +1001,7 @@
         "/api2/json/gender/{firstName}/{lastName}": {
             "get": {
                 "tags": [
-                    "Personal"
+                    "Gender"
                 ],
                 "summary": "Returns the most likely gender of a first name and a last name.",
                 "operationId": "Gender",
@@ -1031,7 +1045,7 @@
         "/api2/json/genderGeo/{firstName}/{lastName}/{countryIso2}": {
             "get": {
                 "tags": [
-                    "Personal"
+                    "Gender"
                 ],
                 "summary": "Returns the most likely gender of a first name and a last name using its geographic context.",
                 "operationId": "Gender-Geo",
@@ -1082,7 +1096,7 @@
         "/api2/json/genderGeoBatch": {
             "post": {
                 "tags": [
-                    "Personal"
+                    "Gender"
                 ],
                 "summary": "Returns the most likely gender of up to 100 first names and last names using their geographic context.",
                 "operationId": "Gender-Geo-Batch",
@@ -1131,7 +1145,7 @@
         "/api2/json/genderBatch": {
             "post": {
                 "tags": [
-                    "Personal"
+                    "Gender"
                 ],
                 "summary": "Returns the most likely gender of up to 100 first names and last names.",
                 "operationId": "Gender-Batch",
@@ -1179,7 +1193,7 @@
         "/api2/json/genderFullGeo/{fullName}/{countryIso2}": {
             "get": {
                 "tags": [
-                    "Personal"
+                    "Gender"
                 ],
                 "summary": "Returns the most likely gender of a full name, according to its geographic context.",
                 "operationId": "Gender-Full-Geo",
@@ -1222,7 +1236,7 @@
         "/api2/json/genderFull/{fullName}": {
             "get": {
                 "tags": [
-                    "Personal"
+                    "Gender"
                 ],
                 "summary": "Returns the most likely gender of a full name.",
                 "operationId": "Gender-Full",
@@ -1258,7 +1272,7 @@
         "/api2/json/genderFullBatch": {
             "post": {
                 "tags": [
-                    "Personal"
+                    "Gender"
                 ],
                 "summary": "Returns the most likely gender of up to 100 full names.",
                 "operationId": "Gender-Full-Batch",
@@ -1304,7 +1318,7 @@
         "/api2/json/genderFullGeoBatch": {
             "post": {
                 "tags": [
-                    "Personal"
+                    "Gender"
                 ],
                 "summary": "Returns the most likely gender of up to 100 full names, according to their geographic context.",
                 "operationId": "Gender-Full-Geo-Batch",
@@ -1351,7 +1365,7 @@
         "/api2/json/originBatch": {
             "post": {
                 "tags": [
-                    "Personal"
+                    "Origin"
                 ],
                 "summary": "Returns the most likely country of origin of up to 100 first names and a last names. Note that the \"Diaspora\" endpoint may be better suited for countries like U.S.A, Canada, Australia, New-Zealand and other melting-pots.",
                 "operationId": "Origin-Batch",
@@ -1407,7 +1421,7 @@
         "/api2/json/countryBatch": {
             "post": {
                 "tags": [
-                    "Personal"
+                    "Origin"
                 ],
                 "summary": "Returns the most likely geographic context of up to 100 full names (first names and last names) or surnames.",
                 "operationId": "Country-Batch",
@@ -1461,7 +1475,7 @@
         "/api2/json/usRaceEthnicity/{firstName}/{lastName}": {
             "get": {
                 "tags": [
-                    "Personal"
+                    "Origin"
                 ],
                 "summary": "Returns the most likely U.S. race or ethnicity of a U.S. resident's first name and last name.",
                 "operationId": "US-Race-and-Ethnicity",
@@ -1512,7 +1526,7 @@
         "/api2/json/usRaceEthnicityZIP5/{firstName}/{lastName}/{zip5Code}": {
             "get": {
                 "tags": [
-                    "Personal"
+                    "Origin"
                 ],
                 "summary": "Returns the most likely U.S. race or ethnicity of a U.S. resident's first name and last name, using their ZIP code.",
                 "operationId": "US-ZIP-Race-and-Ethnicity",
@@ -1570,7 +1584,7 @@
         "/api2/json/usRaceEthnicityBatch": {
             "post": {
                 "tags": [
-                    "Personal"
+                    "Origin"
                 ],
                 "summary": "Returns the most likely U.S. race or ethnicity of up to 100 U.S. resident's first names and last names.",
                 "operationId": "US-Race-and-Ethnicity-Batch",
@@ -1626,7 +1640,7 @@
         "/api2/json/usZipRaceEthnicityBatch": {
             "post": {
                 "tags": [
-                    "Personal"
+                    "Origin"
                 ],
                 "summary": "Returns the most likely U.S. race or ethnicity of up to 100 U.S. resident's first names and last names, using their ZIP code.",
                 "operationId": "US-ZIP-Race-and-Ethnicity-Batch",
@@ -1683,7 +1697,7 @@
         "/api2/json/diaspora/{countryIso2}/{firstName}/{lastName}": {
             "get": {
                 "tags": [
-                    "Personal"
+                    "Origin"
                 ],
                 "summary": "Returns the most likely ethnicity or diaspora of a first name and last name, according to the country of residence.",
                 "operationId": "Diaspora",
@@ -1739,7 +1753,7 @@
         "/api2/json/diasporaBatch": {
             "post": {
                 "tags": [
-                    "Personal"
+                    "Origin"
                 ],
                 "summary": "Returns the most likely ethnicity or diaspora of up to 100 first names and last names, according to their country of residence.",
                 "operationId": "Diaspora-Batch",
@@ -1793,7 +1807,7 @@
         "/api2/json/parseName/{nameFull}/{countryIso2}": {
             "get": {
                 "tags": [
-                    "Personal"
+                    "Split Name"
                 ],
                 "summary": "Returns the most likely first name and last name structure of a full name using its geographic context.",
                 "operationId": "Parse-Name-Geo",
@@ -1841,7 +1855,7 @@
         "/api2/json/parseNameBatch": {
             "post": {
                 "tags": [
-                    "Personal"
+                    "Split Name"
                 ],
                 "summary": "Returns the most likely first name and last name structure of up to 100 full names.",
                 "operationId": "Parse-Name-Batch",
@@ -1892,7 +1906,7 @@
         "/api2/json/parseNameGeoBatch": {
             "post": {
                 "tags": [
-                    "Personal"
+                    "Split Name"
                 ],
                 "summary": "Returns the most likely first name and last name structure of up to 100 full names using their geographic context.",
                 "operationId": "Parse-Name-Geo-Batch",
@@ -3394,7 +3408,7 @@
         "/api2/json/phoneCode/{firstName}/{lastName}/{phoneNumber}": {
             "get": {
                 "tags": [
-                    "Social"
+                    "Phone"
                 ],
                 "summary": "Returns the most likely phone prefix, country of origin and format of a phone number using a first name and a last name.",
                 "operationId": "Phone-Code",
@@ -3452,7 +3466,7 @@
         "/api2/json/phoneCodeGeo/{firstName}/{lastName}/{phoneNumber}/{countryIso2}": {
             "get": {
                 "tags": [
-                    "Social"
+                    "Phone"
                 ],
                 "summary": "Returns the most likely phone prefix and format of a phone number using a first name, last name and geographic context.",
                 "operationId": "Phone-Code-Geo",
@@ -3517,7 +3531,7 @@
         "/api2/json/phoneCodeGeoFeedbackLoop/{firstName}/{lastName}/{phoneNumber}/{phoneNumberE164}/{countryIso2}": {
             "get": {
                 "tags": [
-                    "Social"
+                    "Phone"
                 ],
                 "summary": "Submit a phone number and its matching first name, last name, country of origin in ISO 3166-1 alpha-2 format and formated version in E.164. This help us improve our name matching tool and in return your can earn extra credits if the match is correct.",
                 "operationId": "Phone-Code-Geo-Feedback-Loop",
@@ -3575,7 +3589,7 @@
         "/api2/json/phoneCodeBatch": {
             "post": {
                 "tags": [
-                    "Social"
+                    "Phone"
                 ],
                 "summary": "Returns the most likely phone prefix, country of origin and format of up to 100 phone numbers using first names and last names.",
                 "operationId": "Phone-Code-Batch",
@@ -3631,7 +3645,7 @@
         "/api2/json/phoneCodeGeoBatch": {
             "post": {
                 "tags": [
-                    "Social"
+                    "Phone"
                 ],
                 "summary": "Returns the most likely phone prefix and format of up to 100 phone numbers using first names, last names and geographic context.",
                 "operationId": "Phone-Code-Geo-Batch",
@@ -3688,7 +3702,7 @@
         "/api2/json/parseName/{nameFull}": {
             "get": {
                 "tags": [
-                    "Personal"
+                    "Split Name"
                 ],
                 "summary": "Returns the most likely first name and last name structure of a full name.",
                 "operationId": "Parse-Name",

@@ -33,3 +33,11 @@ or
 -   Be sure any newly added routes have proper data in openapi/config/descriptions.js
 -   Be sure any newly added routes have proper data in openapi/config/routeNames.js
 -   Run `npm run genmd`
+
+## Deploying
+
+-   At the root of the project run "npm run deploy" it will automatically build & deploy to the build repository.
+
+## Other helpful links
+
+https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site

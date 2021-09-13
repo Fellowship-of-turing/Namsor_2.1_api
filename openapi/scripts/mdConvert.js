@@ -1,3 +1,5 @@
+var colors = require('colors/safe');
+
 // Helper imports
 let helpers = require('../helpers');
 let capitalize = helpers.capitalize;
@@ -6,7 +8,8 @@ let listEnums = helpers.listEnums;
 // Imports
 const fs = require('fs');
 const widdershins = require('widdershins');
-const descr = require('../config/combinedDescriptions');
+const descr = require('../config/combined_descriptions');
+let sectionIntro = require('../config/section_intros');
 
 /************************************************/
 /**************** MD Conversion ****************/
@@ -59,10 +62,10 @@ let mdConvert = (swaggerFile, store, wsOptions, opt) => {
           target.length &&
           (indexTarget + target.length) > endIndex
         ) {
-          if (opt.replace_outofbounds) console.log(`\u001b[31mError\u001b[m\nRoute Replace - target "${target}" in ${route} is out of bounds`);
+          if (opt.replace_outofbounds) console.log(`${colors.red("Error")}\nRoute Replace - target "${target}" in ${route} is out of bounds`);
         }
         else if (indexTarget === -1) {
-          if (opt.replace_notarget) console.log(`\u001b[31mError\u001b[m\nRoute Replace - unable to find target "${target}" in ${route}`);
+          if (opt.replace_notarget) console.log(`${colors.red("Error")}\nRoute Replace - unable to find target "${target}" in ${route}`);
         }
         else {
           dirtyMD = `${dirtyMD.slice(0, indexTarget)}${input}${dirtyMD.slice(indexTarget + target.length, dirtyMD.length)}`
@@ -72,6 +75,11 @@ let mdConvert = (swaggerFile, store, wsOptions, opt) => {
       //////////////////////
       //ROUTE INFORMATION//
       ////////////////////
+
+      // Inject section descriptions
+      sectionIntro.forEach(section => {
+        dirtyMD = dirtyMD.replace(section.tag, section.text);
+      });
 
       // Links to http code standars
       let contentToSwap = [
@@ -130,7 +138,7 @@ let mdConvert = (swaggerFile, store, wsOptions, opt) => {
           };
         }
         else {
-          // console.log('No request schema: ', route);
+          console.log(`${colors.yellow("Warn - No REQUEST schema for :")}\n${route}`);
         };
 
         // Insert new table
@@ -146,6 +154,7 @@ let mdConvert = (swaggerFile, store, wsOptions, opt) => {
           mdRouteReplace(reqTag, `|Name|Type|Required|Description|\n${reqTag}`, routeStart(), routeEnd(), route);
           mdRouteReplace(reqTag, `|---|---|---|---|\n${reqTag}`, routeStart(), routeEnd(), route);
 
+          // Table for a GET request 
           if (routeRequests[route].type === 'param') {
             Object.keys(routeRequests[route].schema).forEach(param => {
               prm = routeRequests[route].schema[param];
@@ -165,6 +174,7 @@ let mdConvert = (swaggerFile, store, wsOptions, opt) => {
               mdRouteReplace(reqTag, `|${prm.name}|${prm.type}|${prm.required}|${prm.desc}|\n${reqTag}`, routeStart(), routeEnd(), route);
             });
           }
+          // Table for a POST request 
           else {
             Object.keys(routeRequests[route].schema).forEach(param => {
               prm = routeRequests[route].schema[param];
@@ -188,7 +198,7 @@ let mdConvert = (swaggerFile, store, wsOptions, opt) => {
                 prm.enum = prm.enum ? listEnums(prm.enum, route) : '';
                 prm.required =
                   prm.required === false ? '' :
-                    prm.name === 'id' ? '' :
+                    prm.fieldName === 'id' ? '' :
                       'true';
               };
 
@@ -226,7 +236,7 @@ let mdConvert = (swaggerFile, store, wsOptions, opt) => {
 
                     subPrm.required =
                       subPrm.required === false ? '' :
-                        subPrm.name === 'id' ? '' :
+                        subKey === 'id' ? '' :
                           'true';
 
                     // Get description 
@@ -243,6 +253,9 @@ let mdConvert = (swaggerFile, store, wsOptions, opt) => {
                     };
 
                     mdRouteReplace(reqTag, `|*${indicator}.${subKey}*|${subPrm.type}|${subPrm.required}|${subPrm.desc}|${subPrm.enum}|\n${reqTag}`, routeStart(), routeEnd(), route);
+                  }
+                  else {
+
                   };
 
                 });
@@ -367,21 +380,34 @@ let mdConvert = (swaggerFile, store, wsOptions, opt) => {
         }
         else {
           mdRouteReplace(resTag, 'In case of a success the API will respond with an HTTP 200 code.', routeStart(), routeEnd(), route);
-          console.log('Warn - No response table found for :', route);
+          console.log(`${colors.yellow("Warn - No RESPONSE schema for :")}\n${route}`);
         };
 
         /***********************
             REQUETS COST
         ************************/
         let costLine;
-        if (routeCosts[route]) {
-          costLine = `*<u>Cost :</u> The processing of each name requires **${routeCosts[route]}** credits.*`
+        let costUnit = routeMethods[route] === 'get' ? "query" : "object";
+        let routeSummary = routeContent.summary;
+
+        if (routeCosts[route] > 0) {
+          costLine = `*<u>Cost :</u> The processing of each ${costUnit} requires **${routeCosts[route]}** credits.*`
         }
         else {
-          costLine = `*<u>Cost :</u> The processing of each name requires **1** credit.*`
+          costLine = `*<u>Cost :</u> The processing of each ${costUnit} does not require credits.*`
         };
-        mdRouteReplace(paramTitle, `${costLine}\n\n${urlRequestBlock}\n\n${paramTitle}`, routeStart(), routeEnd(), route);
 
+
+        // Inject cost and titles
+        mdRouteReplace(
+          `${routeSummary}*`,
+          `${routeSummary}*\n\n${costLine}\n\n${urlRequestBlock}\n\n${paramTitle}`,
+          routeStart(),
+          routeEnd(),
+          route
+        );
+
+        mdRouteReplace(paramTitle, '', routeStart(), routeEnd(), route);
         mdRouteReplace(contentToSwap[0], '', routeStart(), routeEnd(), route);
         mdRouteReplace(contentToSwap[1], '', routeStart(), routeEnd(), route);
         mdRouteReplace(contentToSwap[2], '', routeStart(), routeEnd(), route);
@@ -463,8 +489,8 @@ let mdConvert = (swaggerFile, store, wsOptions, opt) => {
 
       // dirtyMD is now the clean converted markdown
       fs.writeFileSync('source/index.md', dirtyMD, 'utf8');
-      console.log('\u001b[32m--> Generation Completed\u001b[0m');
-      console.log('\u001b[32mYour file has been saved to: source/index.md\u001b[0m');
+      console.log(`${colors.green("--> Generation Completed")}`);
+      console.log(`${colors.green("Your file has been saved to: source/index.md")}`);
     })
     .catch(err => {
       console.log('MD Convert Catch Error: ', err);

@@ -1,3 +1,5 @@
+var colors = require('colors/safe');
+
 const fs = require('fs');
 
 // Main scripts
@@ -56,6 +58,14 @@ const widdershinsOptions = {
     {
       "description": "Visit namsor.com",
       "url": "https://v2.namsor.com"
+    },
+    {
+      "description": "Get your API key now",
+      "url": "https://v2.namsor.com/NamSorAPIv2/sign-in.html"
+    },
+    {
+      "description": "View all our tools on Github",
+      "url": "https://github.com/namsor"
     },
     {
       "description": "Get our SDK for Java",

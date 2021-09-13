@@ -1,0 +1,1463 @@
+{
+    "/api2/json/country/{personalNameFull}": {
+        "request": {
+            "personalNameFull": "Full name (first name and last name) or surname"
+        },
+        "response": {
+            "script": "Character set used for analysis",
+            "id": "Unique identifier",
+            "name": "The provided full name",
+            "score": "Higher implies a more reliable result, but score is not normalized. Use probabilityCalibrated if available",
+            "country": "Most likely country of origin, in ISO 3166-1 alpha-2 format",
+            "countryAlt": "Second most likely country of origin, in ISO 3166-1 alpha-2 format",
+            "region": "Most likely region of origin",
+            "topRegion": "Most likely region of origin (alternative classification)",
+            "subRegion": "Most likely sub region of origin",
+            "countriesTop": "Top 10 most likely countries of origin, in ISO 3166-1 alpha-2 format, sorted from most likely to least likely",
+            "probabilityCalibrated": "Higher implies a more reliable result, ranges from 0 to 1 (for country)",
+            "probabilityAltCalibrated": "Higher implies a more reliable result, ranges from 0 to 1 (for countryAlt)"
+        },
+        "summary": "Returns the most likely geographic context of a full name (first name and last name) or a surname."
+    },
+    "/api2/json/nameType/{properNoun}": {
+        "request": {
+            "properNoun": "A proper noun (person, brand, etc.)"
+        },
+        "response": {
+            "script": "Character set used for analysis",
+            "id": "Provided unique identifier",
+            "name": "Submitted proper noun",
+            "commonType": "Most likely type of the proper noun",
+            "commonTypeAlt": "Second most likely type of the proper noun",
+            "score": "Higher implies a more reliable result, score is not normalized"
+        },
+        "summary": "Returns the type of a submitted proper noun. Ex: John Smith = personal name, Namsor = brand name."
+    },
+    "/api2/json/disable/{source}/{disabled}": {
+        "request": {
+            "source": "The API Key to set as enabled or disabled",
+            "disabled": "Should the API key be set to disabled"
+        },
+        "response": {},
+        "summary": "Used to enable or disable an API key. Setting the disabled parameter of an API key to true will prevent its usage."
+    },
+    "/api2/json/origin/{firstName}/{lastName}": {
+        "request": {
+            "firstName": "First name (or given name)",
+            "lastName": "Last name (or family name)"
+        },
+        "response": {
+            "script": "Character set used for analysis",
+            "id": "Provided unique identifier",
+            "firstName": "Submitted first name",
+            "lastName": "Submitted last name",
+            "countryOrigin": "Most likely country of origin, in ISO 3166-1 alpha-2 format",
+            "countryOriginAlt": "Second most likely country of origin, in ISO 3166-1 alpha-2 format",
+            "countriesOriginTop": "Top 10 most likely countries of origin, in ISO 3166-1 alpha-2 format, sorted from most likely to least likely",
+            "score": "Higher implies a more reliable result, score is not normalized",
+            "regionOrigin": "Most likely region of origin",
+            "topRegionOrigin": "Most likely region of origin (alternative classification)",
+            "subRegionOrigin": "Most likely subregion of origin",
+            "probabilityCalibrated": "Higher implies a more reliable result, ranges from 0 to 1 (for countryOrigin)",
+            "probabilityAltCalibrated": "Higher implies a more reliable result, ranges from 0 to 1 (for countryOriginAlt)"
+        },
+        "summary": "Returns the most likely country of origin of a first name and a last name. Note that the \"Diaspora\" endpoint may be better suited for multicultural countries like the U.S.A, Canada, Australia, New-Zealand, etc."
+    },
+    "/api2/json/softwareVersion": {
+        "request": {},
+        "response": {
+            "softwareNameAndVersion": "Name and version of the API",
+            "softwareVersion": "Software version, as an array (major, minor and patch)"
+        },
+        "summary": "Returns the current version of the Namsor software."
+    },
+    "/api2/json/apiStatus": {
+        "request": {},
+        "response": {
+            "softwareVersion": {
+                "softwareNameAndVersion": "Name and version of the API",
+                "softwareVersion": "Software version, as an array (major, minor and patch)"
+            },
+            "classifiers": {
+                "classifierName": "Name of the classifier / service",
+                "serving": "True if the classifier is serving requests (has reached minimal learning, is not shutting down)",
+                "learning": "True if the classifier is learning",
+                "shuttingDown": "True if the classifier is shutting down",
+                "probabilityCalibrated": "True if the classifier has finished the initial learning and has calibrated probabilities (during initial learning, calibrated probabilities will be equal to -1)"
+            }
+        },
+        "summary": "Returns the current version of the Namsor software and the status of the classifiers (API services)."
+    },
+    "/api2/json/apiServices": {
+        "request": {},
+        "response": {
+            "serviceName": "Name of the classifier / service",
+            "serviceGroup": "Group the classifier / service belong to",
+            "costInUnits": "Usage cost of the service, in credits"
+        },
+        "summary": "Returns a list of the API services (classifiers) and their usage costs in credits."
+    },
+    "/api2/json/taxonomyClasses/{classifierName}": {
+        "request": {
+            "classifierName": "Name of the classifier"
+        },
+        "response": {
+            "classifierName": "Name of the submitted classifier",
+            "taxonomyClasses": "Possible enumerators for this classifier"
+        },
+        "summary": "Returns a list of the possible enumerators for a given classifier."
+    },
+    "/api2/json/apiUsage": {
+        "request": {},
+        "response": {
+            "subscription": {
+                "apiKey": "Your Namsor API key",
+                "planStarted": "Start date of the plan, in UNIX time format",
+                "priorPlanStarted": "Datetime when the user subscribed to the prior plan",
+                "planEnded": "End date of the plan, in UNIX time format",
+                "taxRate": "Applicable tax rate for the plan",
+                "planName": "Name of the plan",
+                "planBaseFeesKey": "Current plan key (as in Stripe product)",
+                "planStatus": "Plan status",
+                "planQuota": "Total number of credits associated with this plan",
+                "priceUSD": "Price in U.S. dollars ($)",
+                "priceOverageUSD": "Overage price in U.S. dollars ($)",
+                "price": "Price in the user's preferred currency",
+                "priceOverage": "Overaged price in the user's preferred currency",
+                "currency": "The user's preferred currency",
+                "currencyFactor": "For USD, GBP, EUR - the factor is 1",
+                "stripeCustomerId": "Unique Stripe Customer identifier",
+                "stripeStatus": "Stripe status",
+                "stripeSubscription": "Stripe subscription identifier",
+                "userId": "Unique user identifier"
+            },
+            "billingPeriod": {
+                "apiKey": "Your Namsor API key",
+                "subscriptionStarted": "Subscription start date, in UNIX time format",
+                "periodStarted": "Subscription period start date, in UNIX time format",
+                "periodEnded": "Subscription end date, in UNIX time format",
+                "stripeCurrentPeriodEnd": "End of the current plan in Stripe",
+                "stripeCurrentPeriodStart": "Start of the current plan in Stripe",
+                "billingStatus": "Status of the current period billing",
+                "usage": "Number of credits used so far",
+                "softLimit": "Current soft limit for the period",
+                "hardLimit": "Current hard limit for the period"
+            },
+            "overageExclTax": "Overage amount including any tax",
+            "overageInclTax": "Overage amount including tax (if applicable)",
+            "overageCurrency": "Currency of the overage amount",
+            "overageQuantity": "Quantity above monthly quota of the current subscritpion, in credits"
+        },
+        "summary": "Returns information on your subscription plan, billing period and current API usage."
+    },
+    "/api2/json/apiUsageHistory": {
+        "request": {},
+        "response": {
+            "apiKey": {
+                "apiKey": "The user API Key.",
+                "userId": "Unique user identifier",
+                "admin": "Does the API Key have admin priviledges",
+                "vetted": "Is the API Key vetted for machine learning",
+                "learnable": "Is the API Key authorised to feed the machine learning",
+                "anonymized": "Is the API Key anonymized (using its SHA-256 digest for logging)",
+                "partner": "Does the API Key have a partnership role",
+                "striped": "Is the API Key associated to a valid Stripe account",
+                "corporate": "Does the API Key have a corporate role",
+                "disabled": "Is the API Key temporarily or permanently disabled"
+            },
+            "apiService": "Name of the service requested",
+            "createdDateTime": "Date of the analysis, in UNIX time format",
+            "totalUsage": "Total cost of the analysis in credits",
+            "lastFlushedDateTime": "Last time the counter was reset, in UNIX time format",
+            "lastUsedDateTime": "Last time the API key was used, in UNIX time format",
+            "serviceFeaturesUsage": "Details regarding usage of special features"
+        },
+        "summary": "Returns the detailed usage history, indicating what services where called and what API key parameters where applied."
+    },
+    "/api2/json/apiUsageHistoryAggregate": {
+        "request": {},
+        "response": {
+            "timeUnit": "Unit of time used in the \"rowHeaders\" field. May vary depending on API usage (\"DAY\", \"WEEK\" or \"MONTH\")",
+            "periodStart": "Start of the reporting period, in UNIX time format",
+            "periodEnd": "End of the reporting period, in UNIX time format",
+            "totalUsage": "Total usage during the current period",
+            "historyTruncated": "Indicates if returned data was truncaded due to size limits",
+            "data": "Aggregated API usage, formated as an array of data points (or array of arrays)",
+            "colHeaders": "Column headers used to link API services to the values in each data point",
+            "rowHeaders": "Row headers used to link a period of time to a data point"
+        },
+        "summary": "Returns the aggregated API usage history detailing usage per service. For each data point in the \"data\" field there is a corresponding row header in the \"rowHeaders\" field. For each value in a data point in the \"data\" field there is a corresponding column header in the \"colHeaders\" field. Ex: To find the period of data[0], lookup rowHeaders[0]. To find the service corresponding to data[0][3], lookup colHeaders[3]."
+    },
+    "/api2/json/learnable/{source}/{learnable}": {
+        "request": {
+            "source": "The API Key to set as learnable or non-learnable",
+            "learnable": "Should the API key be set to learnable"
+        },
+        "response": {},
+        "summary": "Used to set the learnable status of an API key. Setting the learnable parameter of an API key to false will prevent the submitted data from feeding the machine learning."
+    },
+    "/api2/json/anonymize/{source}/{anonymized}": {
+        "request": {
+            "source": "The API Key to set as anonymized or non-anonymized",
+            "anonymized": "Should the API key be set to anonymized"
+        },
+        "response": {},
+        "summary": "Used to set the anonymized status of an API key. Setting the anonymized parameter of an API key to true will hide the API key in the logs by using a SHA-256 digest of the key instead."
+    },
+    "/api2/json/nameTypeGeo/{properNoun}/{countryIso2}": {
+        "request": {
+            "properNoun": "A proper noun (person, brand, etc.)",
+            "countryIso2": "Most likely country of origin, in ISO 3166-1 alpha-2 format"
+        },
+        "response": {
+            "script": "Character set used for analysis",
+            "id": "Provided unique identifier",
+            "name": "Submitted proper noun",
+            "commonType": "Most likely type of the proper noun",
+            "commonTypeAlt": "Second most likely type of the proper noun",
+            "score": "Higher implies a more reliable result, score is not normalized"
+        },
+        "summary": "Returns the type of up to 100 submitted proper nouns using its geographic context. Ex: John Smith = personal name, Namsor = brand name."
+    },
+    "/api2/json/nameTypeBatch": {
+        "request": {
+            "id": "Unique identifier",
+            "name": "A proper noun (person, brand, etc.)"
+        },
+        "response": {
+            "script": "Character set used for analysis",
+            "id": "Provided unique identifier",
+            "name": "Submitted proper noun",
+            "commonType": "Most likely type of the proper noun",
+            "commonTypeAlt": "Second most likely type of the proper noun",
+            "score": "Higher implies a more reliable result, score is not normalized"
+        },
+        "summary": "Returns the type of up to 100 submitted proper nouns. Ex: John Smith = personal name, Namsor = brand name."
+    },
+    "/api2/json/nameTypeGeoBatch": {
+        "request": {
+            "id": "Unique identifier",
+            "name": "A proper noun (person, brand, etc.)",
+            "countryIso2": "Most likely country of origin, in ISO 3166-1 alpha-2 format"
+        },
+        "response": {
+            "script": "Character set used for analysis",
+            "id": "Provided unique identifier",
+            "name": "Submitted proper noun",
+            "commonType": "Most likely type of the proper noun",
+            "commonTypeAlt": "Second most likely type of the proper noun",
+            "score": "Higher implies a more reliable result, score is not normalized"
+        },
+        "summary": "Returns the type of up to 100 submitted proper nouns using their geographic context. Ex: John Smith = personal name, Namsor = brand name."
+    },
+    "/api2/json/corridor/{countryIso2From}/{firstNameFrom}/{lastNameFrom}/{countryIso2To}/{firstNameTo}/{lastNameTo}": {
+        "request": {
+            "countryIso2From": "Country of origin of the sender, in ISO 3166-1 alpha-2 format",
+            "firstNameFrom": "First name (or given name) of the sender",
+            "lastNameFrom": "Last name (or family name) of the sender",
+            "countryIso2To": "Country of origin of the receiver, in ISO 3166-1 alpha-2 format",
+            "firstNameTo": "First name (or given name) of the receiver",
+            "lastNameTo": "Last name (or family name) of the receiver"
+        },
+        "response": {
+            "id": "Unique identifier",
+            "FirstLastNameGenderedOut": {
+                "script": "Character set used for analysis",
+                "id": "Unique identifier",
+                "firstName": "First name (or given name)",
+                "lastName": "Last name (or family name)",
+                "likelyGender": "Most likely gender",
+                "genderScale": "Gender scale ranging from -1 (male) to +1 (female)",
+                "score": "Higher implies a more reliable result, but score is not normalized. Use probabilityCalibrated if available",
+                "probabilityCalibrated": "Higher implies a more reliable result, ranges from 0 to 1"
+            },
+            "FirstLastNameOriginedOut": {
+                "script": "Character set used for analysis",
+                "id": "Unique identifier",
+                "firstName": "First name (or given name)",
+                "lastName": "Last name (or family name)",
+                "countryOrigin": "Most likely country of origin, in ISO 3166-1 alpha-2 format",
+                "countryOriginAlt": "Second most likely country of origin, in ISO 3166-1 alpha-2 format",
+                "countriesOriginTop": "Top 10 most likely countries of origin, in ISO 3166-1 alpha-2 format, sorted from most likely to least likely",
+                "score": "Higher implies a more reliable result, but score is not normalized. Use probabilityCalibrated if available",
+                "regionOrigin": "Most likely region of origin",
+                "topRegionOrigin": "Most likely region of origin (alternative classification)",
+                "subRegionOrigin": "Most likely subregion of origin",
+                "probabilityCalibrated": "Higher implies a more reliable result, ranges from 0 to 1 (for countryOrigin)",
+                "probabilityAltCalibrated": "Higher implies a more reliable result, ranges from 0 to 1 (for countryOriginAlt)"
+            },
+            "FirstLastNameDiasporaedOut": {
+                "script": "Character set used for analysis",
+                "id": "Unique identifier",
+                "firstName": "First name (or given name)",
+                "lastName": "Last name (or family name)",
+                "score": "Higher implies a more reliable result, but score is not normalized. Use probabilityCalibrated if available",
+                "ethnicityAlt": "Second most likely ethnicity",
+                "ethnicity": "Most likely ethnicity",
+                "lifted": "Indicates if the output ethnicity is based on machine learning only, or further lifted as a known fact by a country-specific rule",
+                "countryIso2": "Most likely country of origin, in ISO 3166-1 alpha-2 format",
+                "ethnicitiesTop": "Top 10 most likely etchnicities, order from most likely to least likely"
+            },
+            "script": "Character set used for analysis"
+        },
+        "summary": "Returns complete analysis of a cross border interactions between two names using their geographic context. The sender is the one who initiated the interaction (from) while the receiver is the one intended to receive the interaction (to)."
+    },
+    "/api2/json/corridorBatch": {
+        "request": {
+            "id": "Unique identifier",
+            "firstLastNameGeoFrom": {
+                "id": "Unique identifier",
+                "firstName": "First name (or given name) of the sender",
+                "lastName": "Last name (or family name) of the sender",
+                "countryIso2": "Country of origin of the sender, in ISO 3166-1 alpha-2 format"
+            },
+            "firstLastNameGeoTo": {
+                "id": "Unique identifier",
+                "firstName": "First name (or given name) of the receiver",
+                "lastName": "Last name (or family name) of the receiver",
+                "countryIso2": "Country of origin of the receiver, in ISO 3166-1 alpha-2 format"
+            }
+        },
+        "response": {
+            "id": "Unique identifier",
+            "FirstLastNameGenderedOut": {
+                "script": "Character set used for analysis",
+                "id": "Unique identifier",
+                "firstName": "First name (or given name)",
+                "lastName": "Last name (or family name)",
+                "likelyGender": "Most likely gender",
+                "genderScale": "Gender scale ranging from -1 (male) to +1 (female)",
+                "score": "Higher implies a more reliable result, but score is not normalized. Use probabilityCalibrated if available",
+                "probabilityCalibrated": "Higher implies a more reliable result, ranges from 0 to 1"
+            },
+            "FirstLastNameOriginedOut": {
+                "script": "Character set used for analysis",
+                "id": "Unique identifier",
+                "firstName": "First name (or given name)",
+                "lastName": "Last name (or family name)",
+                "countryOrigin": "Most likely country of origin, in ISO 3166-1 alpha-2 format",
+                "countryOriginAlt": "Second most likely country of origin, in ISO 3166-1 alpha-2 format",
+                "countriesOriginTop": "Top 10 most likely countries of origin, in ISO 3166-1 alpha-2 format, sorted from most likely to least likely",
+                "score": "Higher implies a more reliable result, but score is not normalized. Use probabilityCalibrated if available",
+                "regionOrigin": "Most likely region of origin",
+                "topRegionOrigin": "Most likely region of origin (alternative classification)",
+                "subRegionOrigin": "Most likely subregion of origin",
+                "probabilityCalibrated": "Higher implies a more reliable result, ranges from 0 to 1 (for countryOrigin)",
+                "probabilityAltCalibrated": "Higher implies a more reliable result, ranges from 0 to 1 (for countryOriginAlt)"
+            },
+            "FirstLastNameDiasporaedOut": {
+                "script": "Character set used for analysis",
+                "id": "Unique identifier",
+                "firstName": "First name (or given name)",
+                "lastName": "Last name (or family name)",
+                "score": "Higher implies a more reliable result, but score is not normalized. Use probabilityCalibrated if available",
+                "ethnicityAlt": "Second most likely ethnicity",
+                "ethnicity": "Most likely ethnicity",
+                "lifted": "Indicates if the output ethnicity is based on machine learning only, or further lifted as a known fact by a country-specific rule",
+                "countryIso2": "Most likely country of origin, in ISO 3166-1 alpha-2 format",
+                "ethnicitiesTop": "Top 10 most likely etchnicities, order from most likely to least likely"
+            },
+            "script": "Character set used for analysis"
+        },
+        "summary": "Returns complete analysis of up to 100 cross border interactions between two names using their geographic context. The sender is the one who initiated the interaction (from) while the receiver is the one intended to receive the interaction (to)."
+    },
+    "/api2/json/gender/{firstName}/{lastName}": {
+        "request": {
+            "firstName": "First name (or given name)",
+            "lastName": "Last name (or family name)"
+        },
+        "response": {
+            "script": "Character set used for analysis",
+            "id": "Unique identifier",
+            "firstName": "Submitted first name",
+            "lastName": "Submitted last name",
+            "likelyGender": "Most likely gender",
+            "genderScale": "Gender scale ranging from -1 (male) to +1 (female)",
+            "score": "Higher implies a more reliable result, score is not normalized",
+            "probabilityCalibrated": "Higher implies a more reliable result, ranges from 0 to 1"
+        },
+        "summary": "Returns the most likely gender of a first name and a last name."
+    },
+    "/api2/json/genderGeo/{firstName}/{lastName}/{countryIso2}": {
+        "request": {
+            "firstName": "First name (or given name)",
+            "lastName": "Last name (or family name)",
+            "countryIso2": "Most likely country of origin, in ISO 3166-1 alpha-2 format"
+        },
+        "response": {
+            "script": "Character set used for analysis",
+            "id": "Unique identifier",
+            "firstName": "Submitted first name",
+            "lastName": "Submitted last name",
+            "likelyGender": "Most likely gender",
+            "genderScale": "Gender scale ranging from -1 (male) to +1 (female)",
+            "score": "Higher implies a more reliable result, score is not normalized",
+            "probabilityCalibrated": "Higher implies a more reliable result, ranges from 0 to 1"
+        },
+        "summary": "Returns the most likely gender of a first name and a last name using its geographic context."
+    },
+    "/api2/json/genderGeoBatch": {
+        "request": {
+            "id": "Unique identifier",
+            "firstName": "First name (or given name)",
+            "lastName": "Last name (or family name)",
+            "countryIso2": "Most likely country of origin, in ISO 3166-1 alpha-2 format"
+        },
+        "response": {
+            "script": "Character set used for analysis",
+            "id": "Provided unique identifier",
+            "firstName": "Submitted first name",
+            "lastName": "Submitted last name",
+            "likelyGender": "Most likely gender",
+            "genderScale": "Gender scale ranging from -1 (male) to +1 (female)",
+            "score": "Higher implies a more reliable result, score is not normalized",
+            "probabilityCalibrated": "Higher implies a more reliable result, ranges from 0 to 1"
+        },
+        "summary": "Returns the most likely gender of up to 100 first names and last names using their geographic context."
+    },
+    "/api2/json/genderBatch": {
+        "request": {
+            "id": "Unique identifier",
+            "firstName": "First name (or given name)",
+            "lastName": "Last name (or family name)"
+        },
+        "response": {
+            "script": "Character set used for analysis",
+            "id": "Provided unique identifier",
+            "firstName": "Submitted first name",
+            "lastName": "Submitted last name",
+            "likelyGender": "Most likely gender",
+            "genderScale": "Gender scale ranging from -1 (male) to +1 (female)",
+            "score": "Higher implies a more reliable result, score is not normalized",
+            "probabilityCalibrated": "Higher implies a more reliable result, ranges from 0 to 1"
+        },
+        "summary": "Returns the most likely gender of up to 100 first names and last names."
+    },
+    "/api2/json/genderFullGeo/{fullName}/{countryIso2}": {
+        "request": {
+            "fullName": "Full name (first name and last name)",
+            "countryIso2": "Most likely country of origin, in ISO 3166-1 alpha-2 format"
+        },
+        "response": {
+            "script": "Character set used for analysis",
+            "id": "Unique identifier",
+            "name": "Submitted full name",
+            "likelyGender": "Most likely gender",
+            "genderScale": "Gender scale ranging from -1 (male) to +1 (female)",
+            "score": "Higher implies a more reliable result, score is not normalized",
+            "probabilityCalibrated": "Higher implies a more reliable result, ranges from 0 to 1"
+        },
+        "summary": "Returns the most likely gender of a full name, according to its geographic context."
+    },
+    "/api2/json/genderFull/{fullName}": {
+        "request": {
+            "fullName": "Full name (first name and last name)"
+        },
+        "response": {
+            "script": "Character set used for analysis",
+            "id": "Unique identifier",
+            "name": "Submitted full name",
+            "likelyGender": "Most likely gender",
+            "genderScale": "Gender scale ranging from -1 (male) to +1 (female)",
+            "score": "Higher implies a more reliable result, score is not normalized",
+            "probabilityCalibrated": "Higher implies a more reliable result, ranges from 0 to 1"
+        },
+        "summary": "Returns the most likely gender of a full name."
+    },
+    "/api2/json/genderFullBatch": {
+        "request": {
+            "id": "Unique identifier",
+            "name": "Full name (first name and last name)"
+        },
+        "response": {
+            "script": "Character set used for analysis",
+            "id": "Provided unique identifier",
+            "name": "Submitted full name",
+            "likelyGender": "Most likely gender",
+            "genderScale": "Gender scale ranging from -1 (male) to +1 (female)",
+            "score": "Higher implies a more reliable result, score is not normalized",
+            "probabilityCalibrated": "Higher implies a more reliable result, ranges from 0 to 1"
+        },
+        "summary": "Returns the most likely gender of up to 100 full names."
+    },
+    "/api2/json/genderFullGeoBatch": {
+        "request": {
+            "id": "Unique identifier",
+            "name": "Full name (first name and last name)",
+            "countryIso2": "Most likely country of origin, in ISO 3166-1 alpha-2 format"
+        },
+        "response": {
+            "script": "Character set used for analysis",
+            "id": "Provided unique identifier",
+            "name": "Submitted full name",
+            "likelyGender": "Most likely gender",
+            "genderScale": "Gender scale ranging from -1 (male) to +1 (female)",
+            "score": "Higher implies a more reliable result, score is not normalized",
+            "probabilityCalibrated": "Higher implies a more reliable result, ranges from 0 to 1"
+        },
+        "summary": "Returns the most likely gender of up to 100 full names, according to their geographic context."
+    },
+    "/api2/json/originBatch": {
+        "request": {
+            "id": "Unique identifier",
+            "firstName": "First name (or given name)",
+            "lastName": "Last name (or family name)"
+        },
+        "response": {
+            "script": "Character set used for analysis",
+            "id": "Provided unique identifier",
+            "firstName": "Submitted first name",
+            "lastName": "Submitted last name",
+            "countryOrigin": "Most likely country of origin, in ISO 3166-1 alpha-2 format",
+            "countryOriginAlt": "Second most likely country of origin, in ISO 3166-1 alpha-2 format",
+            "countriesOriginTop": "Top 10 most likely countries of origin, in ISO 3166-1 alpha-2 format, sorted from most likely to least likely",
+            "score": "Higher implies a more reliable result, score is not normalized",
+            "regionOrigin": "Most likely region of origin",
+            "topRegionOrigin": "Most likely region of origin (alternative classification)",
+            "subRegionOrigin": "Most likely subregion of origin",
+            "probabilityCalibrated": "Higher implies a more reliable result, ranges from 0 to 1 (for countryOrigin)",
+            "probabilityAltCalibrated": "Higher implies a more reliable result, ranges from 0 to 1 (for countryOriginAlt)"
+        },
+        "summary": "Returns the most likely country of origin of up to 100 first names and a last names. Note that the \"Diaspora\" endpoint may be better suited for countries like U.S.A, Canada, Australia, New-Zealand and other melting-pots."
+    },
+    "/api2/json/countryBatch": {
+        "request": {
+            "id": "Unique identifier",
+            "name": "Full name (first name and last name) or surname"
+        },
+        "response": {
+            "script": "Character set used for analysis",
+            "id": "Provided unique identifier",
+            "name": "Submitted full name",
+            "score": "Higher implies a more reliable result, score is not normalized",
+            "country": "Most likely country of origin, in ISO 3166-1 alpha-2 format",
+            "countryAlt": "Second most likely country of origin, in ISO 3166-1 alpha-2 format",
+            "region": "Most likely region of origin",
+            "topRegion": "Most likely region of origin (alternative classification)",
+            "subRegion": "Most likely subregion of origin",
+            "countriesTop": "Top 10 most likely countries of origin, in ISO 3166-1 alpha-2 format, sorted from most likely to least likely",
+            "probabilityCalibrated": "Higher implies a more reliable result, ranges from 0 to 1 (for country)",
+            "probabilityAltCalibrated": "Higher implies a more reliable result, ranges from 0 to 1 (for countryAlt)"
+        },
+        "summary": "Returns the most likely geographic context of up to 100 full names (first names and last names) or surnames."
+    },
+    "/api2/json/usRaceEthnicity/{firstName}/{lastName}": {
+        "request": {
+            "firstName": "First name (or given name)",
+            "lastName": "Last name (or family name)"
+        },
+        "response": {
+            "script": "Character set used for analysis",
+            "id": "Unique identifier",
+            "firstName": "Submitted first name",
+            "lastName": "Submitted last name",
+            "raceEthnicityAlt": "Second most likely ethnicity (U.S. race and ethnicity categorization)",
+            "raceEthnicity": "Most likely ethnicity (U.S. race and ethnicity categorization)",
+            "score": "Higher implies a more reliable result, score is not normalized",
+            "raceEthnicitiesTop": "Most likely ethnicity, sorted from most likely to least likely (U.S. race and ethnicity categorization)",
+            "probabilityCalibrated": "Higher implies a more reliable result, ranges from 0 to 1 (for raceEthnicity)",
+            "probabilityAltCalibrated": "Higher implies a more reliable result, ranges from 0 to 1 (for raceEthnicityAlt)"
+        },
+        "summary": "Returns the most likely U.S. race or ethnicity of a U.S. resident's first name and last name."
+    },
+    "/api2/json/usRaceEthnicityZIP5/{firstName}/{lastName}/{zip5Code}": {
+        "request": {
+            "firstName": "First name (or given name)",
+            "lastName": "Last name (or family name)",
+            "zip5Code": "5 digit zip code"
+        },
+        "response": {
+            "script": "Character set used for analysis",
+            "id": "Unique identifier",
+            "firstName": "Submitted first name",
+            "lastName": "Submitted last name",
+            "raceEthnicityAlt": "Second most likely ethnicity (U.S. race and ethnicity categorization)",
+            "raceEthnicity": "Most likely ethnicity (U.S. race and ethnicity categorization)",
+            "score": "Higher implies a more reliable result, score is not normalized",
+            "raceEthnicitiesTop": "Most likely ethnicity, sorted from most likely to least likely (U.S. race and ethnicity categorization)",
+            "probabilityCalibrated": "Higher implies a more reliable result, ranges from 0 to 1 (for raceEthnicity)",
+            "probabilityAltCalibrated": "Higher implies a more reliable result, ranges from 0 to 1 (for raceEthnicityAlt)"
+        },
+        "summary": "Returns the most likely U.S. race or ethnicity of a U.S. resident's first name and last name, using their ZIP code."
+    },
+    "/api2/json/usRaceEthnicityBatch": {
+        "request": {
+            "id": "Unique identifier",
+            "firstName": "First name (or given name)",
+            "lastName": "Last name (or family name)",
+            "countryIso2": "Most likely country of origin, in ISO 3166-1 alpha-2 format"
+        },
+        "response": {
+            "script": "Character set used for analysis",
+            "id": "Provided unique identifier",
+            "firstName": "Submitted first name",
+            "lastName": "Submitted last name",
+            "raceEthnicityAlt": "Second most likely ethnicity (U.S. race and ethnicity categorization)",
+            "raceEthnicity": "Most likely ethnicity (U.S. race and ethnicity categorization)",
+            "score": "Higher implies a more reliable result, score is not normalized",
+            "raceEthnicitiesTop": "Most likely ethnicity, sorted from most likely to least likely (U.S. race and ethnicity categorization)",
+            "probabilityCalibrated": "Higher implies a more reliable result, ranges from 0 to 1 (for raceEthnicity)",
+            "probabilityAltCalibrated": "Higher implies a more reliable result, ranges from 0 to 1 (for raceEthnicityAlt)"
+        },
+        "summary": "Returns the most likely U.S. race or ethnicity of up to 100 U.S. resident's first names and last names."
+    },
+    "/api2/json/usZipRaceEthnicityBatch": {
+        "request": {
+            "id": "Unique identifier",
+            "firstName": "First name (or given name)",
+            "lastName": "Last name (or family name)",
+            "countryIso2": "Most likely country of origin, in ISO 3166-1 alpha-2 format",
+            "zipCode": "5 digit zip code"
+        },
+        "response": {
+            "script": "Character set used for analysis",
+            "id": "Provided unique identifier",
+            "firstName": "First name (or given name)",
+            "lastName": "Last name (or family name)",
+            "raceEthnicityAlt": "Second most likely ethnicity (U.S. race and ethnicity categorization)",
+            "raceEthnicity": "Most likely ethnicity (U.S. race and ethnicity categorization)",
+            "score": "Higher implies a more reliable result, score is not normalized",
+            "raceEthnicitiesTop": "Most likely ethnicity, sorted from most likely to least likely (U.S. race and ethnicity categorization)",
+            "probabilityCalibrated": "Higher implies a more reliable result, ranges from 0 to 1 (for raceEthnicity)",
+            "probabilityAltCalibrated": "Higher implies a more reliable result, ranges from 0 to 1 (for raceEthnicityAlt)"
+        },
+        "summary": "Returns the most likely U.S. race or ethnicity of up to 100 U.S. resident's first names and last names, using their ZIP code."
+    },
+    "/api2/json/diaspora/{countryIso2}/{firstName}/{lastName}": {
+        "request": {
+            "countryIso2": "Country of residence, in ISO 3166-1 alpha-2 format",
+            "firstName": "First name (or given name)",
+            "lastName": "Last name (or family name)"
+        },
+        "response": {
+            "script": "Character set used for analysis",
+            "id": "Unique identifier",
+            "firstName": "Submitted first name",
+            "lastName": "Submitted last name",
+            "score": "Higher implies a more reliable result, score is not normalized",
+            "ethnicityAlt": "Second most likely ethnicity",
+            "ethnicity": "Most likely ethnicity",
+            "lifted": "Indicates if the result of the \"ethnicity\" field is based on machine learning only, or further lifted as a known fact by a country-specific rule",
+            "countryIso2": "Country of residence, in ISO 3166-1 alpha-2 format",
+            "ethnicitiesTop": "Top 10 most likely etchnicities, order from most likely to least likely"
+        },
+        "summary": "Returns the most likely ethnicity or diaspora of a first name and last name, according to the country of residence."
+    },
+    "/api2/json/diasporaBatch": {
+        "request": {
+            "id": "Unique identifier",
+            "firstName": "First name (or given name)",
+            "lastName": "Last name (or family name)",
+            "countryIso2": "Country of residence, in ISO 3166-1 alpha-2 format"
+        },
+        "response": {
+            "script": "Character set used for analysis",
+            "id": "Provided unique identifier",
+            "firstName": "Submitted first name",
+            "lastName": "Submitted last name",
+            "score": "Higher implies a more reliable result, score is not normalized",
+            "ethnicityAlt": "Second most likely ethnicity",
+            "ethnicity": "Most likely ethnicity",
+            "lifted": "Indicates if the output ethnicity is based on machine learning only, or further lifted as a known fact by a country-specific rule",
+            "countryIso2": "Country of residence, in ISO 3166-1 alpha-2 format",
+            "ethnicitiesTop": "Top 10 most likely etchnicities, order from most likely to least likely"
+        },
+        "summary": "Returns the most likely ethnicity or diaspora of up to 100 first names and last names, according to their country of residence."
+    },
+    "/api2/json/parseName/{nameFull}/{countryIso2}": {
+        "request": {
+            "nameFull": "Full name (first name and last name)",
+            "countryIso2": "Most likely country of origin, in ISO 3166-1 alpha-2 format"
+        },
+        "response": {
+            "script": "Character set used for analysis",
+            "id": "Unique identifier",
+            "name": "Submitted full name",
+            "nameParserType": "Most likely structure of the name",
+            "nameParserTypeAlt": "Second most likely structure of the name",
+            "firstLastName": {
+                "script": "",
+                "id": "",
+                "firstName": "First name (or given name)",
+                "lastName": "Last name (or family name)"
+            },
+            "score": "Higher implies a more reliable result, score is not normalized"
+        },
+        "summary": "Returns the most likely first name and last name structure of a full name using its geographic context."
+    },
+    "/api2/json/parseNameBatch": {
+        "request": {
+            "id": "Unique identifier",
+            "name": "Full name (first name and last name)"
+        },
+        "response": {
+            "script": "Character set used for analysis",
+            "id": "Provided unique identifier",
+            "name": "Submitted full name",
+            "nameParserType": "Most likely structure of the name",
+            "nameParserTypeAlt": "Second most likely structure of the name",
+            "firstLastName": {
+                "script": "",
+                "id": "",
+                "firstName": "First name (or given name)",
+                "lastName": "Last name (or family name)"
+            },
+            "score": "Higher implies a more reliable result, score is not normalized"
+        },
+        "summary": "Returns the most likely first name and last name structure of up to 100 full names."
+    },
+    "/api2/json/parseNameGeoBatch": {
+        "request": {
+            "id": "Unique identifier",
+            "name": "Full name (first name and last name)",
+            "countryIso2": "Most likely country of origin, in ISO 3166-1 alpha-2 format"
+        },
+        "response": {
+            "script": "Character set used for analysis",
+            "id": "Provided unique identifier",
+            "name": "Submitted full name",
+            "nameParserType": "Most likely structure of the name",
+            "nameParserTypeAlt": "Second most likely structure of the name",
+            "firstLastName": {
+                "script": "",
+                "id": "",
+                "firstName": "First name (or given name)",
+                "lastName": "Last name (or family name)"
+            },
+            "score": "Higher implies a more reliable result, score is not normalized"
+        },
+        "summary": "Returns the most likely first name and last name structure of up to 100 full names using their geographic context."
+    },
+    "/api2/json/parseChineseName/{chineseName}": {
+        "request": {
+            "chineseName": "Full name (family name and given name) in Standard Mandarin Chinese"
+        },
+        "response": {
+            "script": "Character set used for analysis",
+            "id": "Unique identifier",
+            "name": "Submitted full name",
+            "nameParserType": "Most likely structure of the name",
+            "nameParserTypeAlt": "Second most likely structure of the name",
+            "firstLastName": {
+                "script": "",
+                "id": "",
+                "firstName": "First name (or given name) in Standard Mandarin Chinese",
+                "lastName": "Last name (or family name) in Standard Mandarin Chinese"
+            },
+            "score": "Higher implies a more reliable result, score is not normalized"
+        },
+        "summary": "Returns the most likely first name and last name structure of a full name (family name and given name) in Standard Mandarin Chinese."
+    },
+    "/api2/json/parseChineseNameBatch": {
+        "request": {
+            "id": "Unique identifier",
+            "name": "Full name (family name and given name) in Standard Mandarin Chinese"
+        },
+        "response": {
+            "script": "Character set used for analysis",
+            "id": "Provided unique identifier",
+            "name": "Submitted full name",
+            "nameParserType": "Most likely structure of the name",
+            "nameParserTypeAlt": "Second most likely structure of the name",
+            "firstLastName": {
+                "script": "",
+                "id": "",
+                "firstName": "First name (or given name) in Standard Mandarin Chinese",
+                "lastName": "Last name (or family name) in Standard Mandarin Chinese"
+            },
+            "score": "Higher implies a more reliable result, score is not normalized"
+        },
+        "summary": "Returns the most likely first name and last name structure of up to 100 full names (family names and given names) in Standard Mandarin Chinese."
+    },
+    "/api2/json/pinyinChineseName/{chineseName}": {
+        "request": {
+            "chineseName": "Full name (family name and given name) in Standard Mandarin Chinese"
+        },
+        "response": {
+            "script": "Character set used for analysis",
+            "id": "Provided unique identifier",
+            "name": "Submitted full name",
+            "nameParserType": "Most likely structure of the name",
+            "nameParserTypeAlt": "Second most likely structure of the name",
+            "firstLastName": {
+                "script": "",
+                "id": "",
+                "firstName": "Most likely first name (or given name) transcription in Pinyin",
+                "lastName": "Most likely last name (or family name) transcription in Pinyin"
+            },
+            "score": "Higher implies a more reliable result, score is not normalized"
+        },
+        "summary": "Return the most likely Pinyin transcription of a full name (family name and given name) in Standard Mandarin Chinese."
+    },
+    "/api2/json/pinyinChineseNameBatch": {
+        "request": {
+            "id": "Unique identifier",
+            "name": "Full name (family name and given name) in Standard Mandarin Chinese"
+        },
+        "response": {
+            "script": "Character set used for analysis",
+            "id": "Provided unique identifier",
+            "name": "Submitted full name",
+            "nameParserType": "Most likely structure of the name",
+            "nameParserTypeAlt": "Second most likely structure of the name",
+            "firstLastName": {
+                "script": "",
+                "id": "",
+                "firstName": "Most likely first name (or given name) transcription in Pinyin",
+                "lastName": "Most likely last name (or family name) transcription in Pinyin"
+            },
+            "score": "Higher implies a more reliable result, score is not normalized"
+        },
+        "summary": "Return the most likely Pinyin transcription of up to 100 full names (family names and given names) in Standard Mandarin Chinese."
+    },
+    "/api2/json/chineseNameMatch/{chineseSurnameLatin}/{chineseGivenNameLatin}/{chineseName}": {
+        "request": {
+            "chineseSurnameLatin": "Family name (or last name) in Pinyin",
+            "chineseGivenNameLatin": "Given name (or first name) in Pinyin",
+            "chineseName": "Full name (family name and given name) in Standard Mandarin Chinese"
+        },
+        "response": {
+            "script": "",
+            "id": "",
+            "matchStatus": "Success status of the match",
+            "score": "Higher implies a better match, score is not normalized"
+        },
+        "summary": "Matches a full name in Standard Mandarin Chinese against a family name and a given name in Pinyin."
+    },
+    "/api2/json/chineseNameMatchBatch": {
+        "request": {
+            "id": "Unique identifier",
+            "name1": {
+                "id": "Unique identifier",
+                "firstName": "Family name (or last name) in Pinyin",
+                "lastName": "Given name (or first name) in Pinyin"
+            },
+            "name2": {
+                "id": "Unique identifier",
+                "name": "Full name (family name and given name) in Standard Mandarin Chinese"
+            }
+        },
+        "response": {
+            "script": "",
+            "id": "",
+            "matchStatus": "Success status of the match",
+            "score": "Higher implies a better match, score is not normalized"
+        },
+        "summary": "Matches up to 100 full names in Standard Mandarin Chinese against corresponding family names and given names in Pinyin."
+    },
+    "/api2/json/genderChineseNamePinyin/{chineseSurnameLatin}/{chineseGivenNameLatin}": {
+        "request": {
+            "chineseSurnameLatin": "Family name (or last name) in Pinyin",
+            "chineseGivenNameLatin": "Given name (or first name) in Pinyin"
+        },
+        "response": {
+            "script": "Character set used for analysis",
+            "id": "Unique identifier",
+            "firstName": "Submitted first name",
+            "lastName": "Submitted last name",
+            "likelyGender": "Most likely gender",
+            "genderScale": "Gender scale ranging from -1 (male) to +1 (female)",
+            "score": "Higher implies a more reliable result, score is not normalized",
+            "probabilityCalibrated": "Higher implies a more reliable result, ranges from 0 to 1"
+        },
+        "summary": "Return the most likely gender of a family name and a given name in Pinyin."
+    },
+    "/api2/json/genderChineseNamePinyinBatch": {
+        "request": {
+            "id": "Unique identifier",
+            "firstName": "Given name (or first name) in Pinyin",
+            "lastName": "Family name (or last name) in Pinyin"
+        },
+        "response": {
+            "script": "Character set used for analysis",
+            "id": "Provided unique identifier",
+            "firstName": "Submitted first name",
+            "lastName": "Submitted last name",
+            "likelyGender": "Most likely gender",
+            "genderScale": "Gender scale ranging from -1 (male) to +1 (female)",
+            "score": "Higher implies a more reliable result, score is not normalized",
+            "probabilityCalibrated": "Higher implies a more reliable result, ranges from 0 to 1"
+        },
+        "summary": "Return the most likely gender of up to 100 family names and a given names in Pinyin."
+    },
+    "/api2/json/genderChineseName/{chineseName}": {
+        "request": {
+            "chineseName": "Full name (family name and given name) in Standard Mandarin Chinese"
+        },
+        "response": {
+            "script": "Character set used for analysis",
+            "id": "Unique identifier",
+            "name": "Submitted full name",
+            "likelyGender": "Most likely gender",
+            "genderScale": "Gender scale ranging from -1 (male) to +1 (female)",
+            "score": "Higher implies a more reliable result, score is not normalized",
+            "probabilityCalibrated": "Higher implies a more reliable result, ranges from 0 to 1"
+        },
+        "summary": "Returns the most likely gender of a full name (family name and given name) in Standard Mandarin Chinese."
+    },
+    "/api2/json/genderChineseNameBatch": {
+        "request": {
+            "id": "Unique identifier",
+            "name": "Full name (family name and given name) in Standard Mandarin Chinese"
+        },
+        "response": {
+            "script": "Character set used for analysis",
+            "id": "Provided unique identifier",
+            "name": "Submitted full name",
+            "likelyGender": "Most likely gender",
+            "genderScale": "Gender scale ranging from -1 (male) to +1 (female)",
+            "score": "Higher implies a more reliable result, score is not normalized",
+            "probabilityCalibrated": "Higher implies a more reliable result, ranges from 0 to 1"
+        },
+        "summary": "Returns the most likely gender of up to 100 full names (family names and given names) in Standard Mandarin Chinese."
+    },
+    "/api2/json/chineseNameCandidates/{chineseSurnameLatin}/{chineseGivenNameLatin}": {
+        "request": {
+            "chineseSurnameLatin": "Family name (or last name) in Pinyin",
+            "chineseGivenNameLatin": "Given name (or first name) in Pinyin"
+        },
+        "response": {
+            "script": "Character set used for analysis",
+            "id": "Unique identifier",
+            "firstName": "Submitted first name",
+            "lastName": "Submitted last name",
+            "orderOption": "Sorting order for matchCandidates",
+            "matchCandidates": {
+                "candidateName": "Inferred transcription of the full name to Standard Mandarin Chinese",
+                "probability": "Higher implies a more reliable result, ranges from 0 to 1",
+                "predScoreGivenName": "Higher implies a more reliable result (for given name or first name)",
+                "predScoreFamilyName": "Higher implies a more reliable result (for family name or last name)"
+            }
+        },
+        "summary": "Returns the most likely Standard Mandarin Chinese transcriptions using a surname and a given name in Pinyin."
+    },
+    "/api2/json/chineseNameCandidatesBatch": {
+        "request": {
+            "id": "Unique identifier",
+            "firstName": "Given name (or first name) in Pinyin",
+            "lastName": "Family name (or last name) in Pinyin"
+        },
+        "response": {
+            "script": "Character set used for analysis",
+            "id": "Provided unique identifier",
+            "firstName": "Submitted first name",
+            "lastName": "Submitted last name",
+            "orderOption": "Sorting order for matchCandidates",
+            "matchCandidates": {
+                "candidateName": "Inferred transcription of the full name to Standard Mandarin Chinese",
+                "probability": "Higher implies a more reliable result, ranges from 0 to 1",
+                "predScoreGivenName": "Higher implies a more reliable result (for given name or first name)",
+                "predScoreFamilyName": "Higher implies a more reliable result (for family name or last name)"
+            }
+        },
+        "summary": "Returns the most likely Standard Mandarin Chinese transcriptions using up to 100 family names and given names in Pinyin."
+    },
+    "/api2/json/chineseNameGenderCandidates/{chineseSurnameLatin}/{chineseGivenNameLatin}/{knownGender}": {
+        "request": {
+            "chineseSurnameLatin": "Family name (or last name) in Pinyin",
+            "chineseGivenNameLatin": "Given name (or first name) in Pinyin",
+            "knownGender": "Gender"
+        },
+        "response": {
+            "script": "Character set used for analysis",
+            "id": "Provided unique identifier",
+            "firstName": "First name (or given name)",
+            "lastName": "Last name (or family name)",
+            "orderOption": "Sorting order for matchCandidates",
+            "matchCandidates": {
+                "candidateName": "Inferred transcription of the full name to Standard Mandarin Chinese",
+                "probability": "Higher implies a more reliable result, ranges from 0 to 1",
+                "predScoreGivenName": "Higher implies a more reliable result (for given name or first name)",
+                "predScoreFamilyName": "Higher implies a more reliable result (for family name or last name)"
+            }
+        },
+        "summary": "Returns the most likely Standard Mandarin Chinese transcriptions for a Pinyin first name and last name, according to their gender."
+    },
+    "/api2/json/chineseNameCandidatesGenderBatch": {
+        "request": {
+            "id": "Unique identifier",
+            "firstName": "Given name (or first name) in Pinyin",
+            "lastName": "Family name (or last name) in Pinyin",
+            "gender": "Gender"
+        },
+        "response": {
+            "script": "Character set used for analysis",
+            "id": "Provided unique identifier",
+            "firstName": "Submitted first name",
+            "lastName": "Submitted last name",
+            "orderOption": "Sorting order for matchCandidates",
+            "matchCandidates": {
+                "candidateName": "Inferred transcription of the full name to Standard Mandarin Chinese",
+                "probability": "Higher implies a more reliable result, ranges from 0 to 1",
+                "predScoreGivenName": "Higher implies a more reliable result (for given name or first name)",
+                "predScoreFamilyName": "Higher implies a more reliable result (for family name or last name)"
+            }
+        },
+        "summary": "Returns the most likely Standard Mandarin Chinese transcriptions for up to 100 Pinyin first names and last names, according to their gender."
+    },
+    "/api2/json/parseJapaneseName/{japaneseName}": {
+        "request": {
+            "japaneseName": "Full name (family name and given name) in Kanji or latin characters"
+        },
+        "response": {
+            "script": "Character set used for analysis",
+            "id": "Provided unique identifier",
+            "name": "Submitted full name",
+            "nameParserType": "Most likely structure of the name",
+            "nameParserTypeAlt": "Second most likely structure of the name",
+            "firstLastName": {
+                "script": "",
+                "id": "",
+                "firstName": "First name (or given name)",
+                "lastName": "Last name (or family name)"
+            },
+            "score": "Higher implies a more reliable result, score is not normalized"
+        },
+        "summary": "Returns the most likely first name and last name structure of a full name (family name and given name) in Kanji or latin characters."
+    },
+    "/api2/json/parseJapaneseNameBatch": {
+        "request": {
+            "id": "Unique identifier",
+            "name": "Full name (family name and given name) in Kanji or latin characters"
+        },
+        "response": {
+            "script": "Character set used for analysis",
+            "id": "Provided unique identifier",
+            "name": "Submitted full name",
+            "nameParserType": "Most likely structure of the name",
+            "nameParserTypeAlt": "Second most likely structure of the name",
+            "firstLastName": {
+                "script": "",
+                "id": "",
+                "firstName": "First name (or given name)",
+                "lastName": "Last name (or family name)"
+            },
+            "score": "Higher implies a more reliable result, score is not normalized"
+        },
+        "summary": "Returns the most likely first name and last name structure of up to 100 full names (family names and given names) in Kanji or latin characters."
+    },
+    "/api2/json/japaneseNameKanjiCandidates/{japaneseSurnameLatin}/{japaneseGivenNameLatin}/{knownGender}": {
+        "request": {
+            "japaneseSurnameLatin": "Family name (or last name) in latin characters",
+            "japaneseGivenNameLatin": "Given name (or first name) in latin characters",
+            "knownGender": "Gender"
+        },
+        "response": {
+            "script": "Character set used for analysis",
+            "id": "Unique identifier",
+            "firstName": "Submitted first name",
+            "lastName": "Submitted last name",
+            "orderOption": "Sorting order for matchCandidates",
+            "matchCandidates": {
+                "candidateName": "Inferred transcription of the full name to Kanji",
+                "probability": "Higher implies a more reliable result, ranges from 0 to 1",
+                "predScoreGivenName": "Higher implies a more reliable result (for given name or first name)",
+                "predScoreFamilyName": "Higher implies a more reliable result (for family name or last name)"
+            }
+        },
+        "summary": "Returns the most likely Kanji transcriptions for a japanese first name and last name in latin characters, according to their gender."
+    },
+    "/api2/json/japaneseNameKanjiCandidates/{japaneseSurnameLatin}/{japaneseGivenNameLatin}": {
+        "request": {
+            "japaneseSurnameLatin": "Family name (or last name) in latin characters",
+            "japaneseGivenNameLatin": "Given name (or first name) in latin characters"
+        },
+        "response": {
+            "script": "Character set used for analysis",
+            "id": "Unique identifier",
+            "firstName": "Submitted first name",
+            "lastName": "Submitted last name",
+            "orderOption": "Sorting order for matchCandidates",
+            "matchCandidates": {
+                "candidateName": "Inferred transcription of the full name to Kanji",
+                "probability": "Higher implies a more reliable result, ranges from 0 to 1",
+                "predScoreGivenName": "Higher implies a more reliable result (for given name or first name)",
+                "predScoreFamilyName": "Higher implies a more reliable result (for family name or last name)"
+            }
+        },
+        "summary": "Returns the most likely Kanji transcriptions for a japanese first name and last name in latin characters."
+    },
+    "/api2/json/japaneseNameLatinCandidates/{japaneseSurnameKanji}/{japaneseGivenNameKanji}": {
+        "request": {
+            "japaneseSurnameKanji": "Family name (or last name) in Kanji",
+            "japaneseGivenNameKanji": "Given name (or first name) in Kanji"
+        },
+        "response": {
+            "script": "Character set used for analysis",
+            "id": "Unique identifier",
+            "firstName": "Submitted first name",
+            "lastName": "Submitted last name",
+            "orderOption": "Sorting order for matchCandidates",
+            "matchCandidates": {
+                "candidateName": "Inferred transcription of the full name to latin characters",
+                "probability": "Higher implies a more reliable result, ranges from 0 to 1",
+                "predScoreGivenName": "Higher implies a more reliable result (for given name or first name)",
+                "predScoreFamilyName": "Higher implies a more reliable result (for family name or last name)"
+            }
+        },
+        "summary": "Returns the most likely latin transcriptions for a japanese first name and last name in Kanji characters."
+    },
+    "/api2/json/japaneseNameKanjiCandidatesBatch": {
+        "request": {
+            "id": "Unique identifier",
+            "firstName": "Given name (or first name) in latin characters",
+            "lastName": "Family name (or last name) in latin characters"
+        },
+        "response": {
+            "script": "Character set used for analysis",
+            "id": "Provided unique identifier",
+            "firstName": "Submitted first name",
+            "lastName": "Submitted last name",
+            "orderOption": "Sorting order for matchCandidates",
+            "matchCandidates": {
+                "candidateName": "Inferred transcription of the full name to Kanji",
+                "probability": "Higher implies a more reliable result, ranges from 0 to 1",
+                "predScoreGivenName": "Higher implies a more reliable result (for given name or first name)",
+                "predScoreFamilyName": "Higher implies a more reliable result (for family name or last name)"
+            }
+        },
+        "summary": "Returns the most likely Kanji transcriptions for up to 100 japanese first names and last names in latin characters."
+    },
+    "/api2/json/japaneseNameGenderKanjiCandidatesBatch": {
+        "request": {
+            "id": "Unique identifier",
+            "firstName": "Given name (or first name) in latin characters",
+            "lastName": "Family name (or last name) in latin characters",
+            "gender": "Gender"
+        },
+        "response": {
+            "script": "Character set used for analysis",
+            "id": "Provided unique identifier",
+            "firstName": "Submitted first name",
+            "lastName": "Submitted last name",
+            "orderOption": "Sorting order for matchCandidates",
+            "matchCandidates": {
+                "candidateName": "Inferred transcription of the full name to Kanji",
+                "probability": "Higher implies a more reliable result, ranges from 0 to 1",
+                "predScoreGivenName": "Higher implies a more reliable result (for given name or first name)",
+                "predScoreFamilyName": "Higher implies a more reliable result (for family name or last name)"
+            }
+        },
+        "summary": "Returns the most likely Kanji transcriptions for up to 100 japanese first names and last names in latin characters, according to their gender."
+    },
+    "/api2/json/japaneseNameLatinCandidatesBatch": {
+        "request": {
+            "id": "Unique identifier",
+            "firstName": "Given name (or first name) in Kanji",
+            "lastName": "Family name (or last name) in Kanji"
+        },
+        "response": {
+            "script": "Character set used for analysis",
+            "id": "Provided unique identifier",
+            "firstName": "Submitted first name",
+            "lastName": "Submitted last name",
+            "orderOption": "Sorting order for matchCandidates",
+            "matchCandidates": {
+                "candidateName": "Inferred transcription of the full name to latin characters",
+                "probability": "Higher implies a more reliable result, ranges from 0 to 1",
+                "predScoreGivenName": "Higher implies a more reliable result (for given name or first name)",
+                "predScoreFamilyName": "Higher implies a more reliable result (for family name or last name)"
+            }
+        },
+        "summary": "Returns the most likely latin transcriptions for up to 100 japanese first names and last names in Kanji characters."
+    },
+    "/api2/json/japaneseNameMatch/{japaneseSurnameLatin}/{japaneseGivenNameLatin}/{japaneseName}": {
+        "request": {
+            "japaneseSurnameLatin": "Family name (or last name) in latin characters",
+            "japaneseGivenNameLatin": "Given name (or first name) in latin characters",
+            "japaneseName": "Full name (family name and given name) in Kanji"
+        },
+        "response": {
+            "script": "Character set used for analysis",
+            "id": "Unique identifier",
+            "matchStatus": "Success status of the match",
+            "score": "Higher implies a better match, score is not normalized"
+        },
+        "summary": "Matches a full name in Kanji against a family name and a given name in latin characters."
+    },
+    "/api2/json/japaneseNameMatchFeedbackLoop/{japaneseSurnameLatin}/{japaneseGivenNameLatin}/{japaneseName}": {
+        "request": {
+            "japaneseSurnameLatin": "Family name (or last name) in latin characters",
+            "japaneseGivenNameLatin": "Given name (or first name) in latin characters",
+            "japaneseName": "Full name (family name and given name) in Kanji"
+        },
+        "response": {
+            "feedbackCredits": "Number of credits awarded"
+        },
+        "summary": "Submit a Japanese family name and given name in latin caracters and its matching full name in Kanji. This help us improve our name matching tool and in return your can earn extra credits if the match is correct."
+    },
+    "/api2/json/japaneseNameMatchBatch": {
+        "request": {
+            "id": "Unique identifier",
+            "name1": {
+                "id": "Unique identifier",
+                "firstName": "Given name (or first name) in latin characters",
+                "lastName": "Family name (or last name) in latin characters"
+            },
+            "name2": {
+                "id": "Unique identifier",
+                "name": "Full name (family name and given name) in Kanji"
+            }
+        },
+        "response": {
+            "script": "Character set used for analysis",
+            "id": "Provided unique identifier",
+            "matchStatus": "Success status of the match",
+            "score": "Higher implies a better match, score is not normalized"
+        },
+        "summary": "Matches up to 100 full names in Kanji against corresponding family names and given names in latin characters."
+    },
+    "/api2/json/genderJapaneseName/{japaneseSurname}/{japaneseGivenName}": {
+        "request": {
+            "japaneseSurname": "Family name (or last name) in latin characters",
+            "japaneseGivenName": "Given name (or first name) in latin characters"
+        },
+        "response": {
+            "script": "Character set used for analysis",
+            "id": "Unique identifier",
+            "firstName": "Submitted first name",
+            "lastName": "Submitted last name",
+            "likelyGender": "Most likely gender",
+            "genderScale": "Gender scale ranging from -1 (male) to +1 (female)",
+            "score": "Higher implies a more reliable result, score is not normalized",
+            "probabilityCalibrated": "Higher implies a more reliable result, ranges from 0 to 1"
+        },
+        "summary": "Return the most likely gender of a japanese family name and a given name in latin characters."
+    },
+    "/api2/json/genderJapaneseNameBatch": {
+        "request": {
+            "id": "Unique identifier",
+            "firstName": "Given name (or first name) in latin characters",
+            "lastName": "Family name (or last name) in latin characters"
+        },
+        "response": {
+            "script": "Character set used for analysis",
+            "id": "Provided unique identifier",
+            "firstName": "Submitted first name",
+            "lastName": "Submitted last name",
+            "likelyGender": "Most likely gender",
+            "genderScale": "Gender scale ranging from -1 (male) to +1 (female)",
+            "score": "Higher implies a more reliable result, score is not normalized",
+            "probabilityCalibrated": "Higher implies a more reliable result, ranges from 0 to 1"
+        },
+        "summary": "Return the most likely gender of up to 100 japanese family names and a given names in latin characters."
+    },
+    "/api2/json/genderJapaneseNameFull/{japaneseName}": {
+        "request": {
+            "japaneseName": "Full name (family name and given name) in Kanji"
+        },
+        "response": {
+            "script": "Character set used for analysis",
+            "id": "Unique identifier",
+            "name": "Submitted full name",
+            "likelyGender": "Most likely gender",
+            "genderScale": "Gender scale ranging from -1 (male) to +1 (female)",
+            "score": "Higher implies a more reliable result, score is not normalized",
+            "probabilityCalibrated": "Higher implies a more reliable result, ranges from 0 to 1"
+        },
+        "summary": "Find the most likely gender of a Japanese full name (surname and given name), written in Kanji characters."
+    },
+    "/api2/json/genderJapaneseNameFullBatch": {
+        "request": {
+            "id": "Unique identifier",
+            "name": "Full name (family name and given name) in Kanji"
+        },
+        "response": {
+            "script": "Character set used for analysis",
+            "id": "Provided unique identifier",
+            "name": "Submitted full name",
+            "likelyGender": "Most likely gender",
+            "genderScale": "Gender scale ranging from -1 (male) to +1 (female)",
+            "score": "Higher implies a more reliable result, score is not normalized",
+            "probabilityCalibrated": "Higher implies a more reliable result, ranges from 0 to 1"
+        },
+        "summary": "Find the most likely gender of up to 100 Japanese full names (surnames and given names), written in Kanji characters."
+    },
+    "/api2/json/phoneCode/{firstName}/{lastName}/{phoneNumber}": {
+        "request": {
+            "firstName": "First name (or given name)",
+            "lastName": "Last name (or family name)",
+            "phoneNumber": "Phone number, formatted or unformatted"
+        },
+        "response": {
+            "script": "Character set used for analysis",
+            "id": "Unique identifier",
+            "firstName": "Submitted first name",
+            "lastName": "Submitted last name",
+            "internationalPhoneNumberVerified": "Phone number, in E.164 format",
+            "phoneCountryIso2Verified": "Country of origin of the phone number, in ISO 3166-1 alpha-2 format (according to Libphonenumber)",
+            "phoneCountryCode": "Most likely country calling code",
+            "phoneCountryCodeAlt": "Second most likely country calling code",
+            "phoneCountryIso2": "Most likely country of origin of the phone number, in ISO 3166-1 alpha-2 format",
+            "phoneCountryIso2Alt": "Second most likely country of origin of the phone number, in ISO 3166-1 alpha-2 format",
+            "originCountryIso2": "Most likely country of origin of the name, in ISO 3166-1 alpha-2 format",
+            "originCountryIso2Alt": "Second most likely country of origin of the name, in ISO 3166-1 alpha-2 format",
+            "phoneNumber": "Submitted phone number",
+            "verified": "Indicates if the phone number could be positively verified using Libphonenumber",
+            "score": "Higher implies a more reliable result, score is not normalized",
+            "countryIso2": "Most likely country of origin, in ISO 3166-1 alpha-2 format"
+        },
+        "summary": "Returns the most likely phone prefix, country of origin and format of a phone number using a first name and a last name."
+    },
+    "/api2/json/phoneCodeGeo/{firstName}/{lastName}/{phoneNumber}/{countryIso2}": {
+        "request": {
+            "firstName": "First name (or given name)",
+            "lastName": "Last name (or family name)",
+            "phoneNumber": "Phone number, formatted or unformatted",
+            "countryIso2": "Most likely country of origin, in ISO 3166-1 alpha-2 format"
+        },
+        "response": {
+            "script": "Character set used for analysis",
+            "id": "Unique identifier",
+            "firstName": "Submitted first name",
+            "lastName": "Submitted last name",
+            "internationalPhoneNumberVerified": "Phone number, in E.164 format",
+            "phoneCountryIso2Verified": "Country of origin of the phone number, in ISO 3166-1 alpha-2 format (according to Libphonenumber)",
+            "phoneCountryCode": "Most likely country calling code",
+            "phoneCountryCodeAlt": "Second most likely country calling code",
+            "phoneCountryIso2": "Most likely country of origin of the phone number, in ISO 3166-1 alpha-2 format",
+            "phoneCountryIso2Alt": "Second most likely country of origin of the phone number, in ISO 3166-1 alpha-2 format",
+            "originCountryIso2": "Most likely country of origin of the name, in ISO 3166-1 alpha-2 format",
+            "originCountryIso2Alt": "Second most likely country of origin of the name, in ISO 3166-1 alpha-2 format",
+            "phoneNumber": "Submitted phone number",
+            "verified": "Indicates if the phone number could be positively verified using Libphonenumber",
+            "score": "Higher implies a more reliable result, score is not normalized",
+            "countryIso2": "Most likely country of origin, in ISO 3166-1 alpha-2 format"
+        },
+        "summary": "Returns the most likely phone prefix and format of a phone number using a first name, last name and geographic context."
+    },
+    "/api2/json/phoneCodeGeoFeedbackLoop/{firstName}/{lastName}/{phoneNumber}/{phoneNumberE164}/{countryIso2}": {
+        "request": {
+            "firstName": "First name (or given name)",
+            "lastName": "Last name (or family name)",
+            "phoneNumber": "Phone number, formatted or unformatted",
+            "phoneNumberE164": "Phone number, in E.164 format",
+            "countryIso2": "Country of origin, in ISO 3166-1 alpha-2 format"
+        },
+        "response": {
+            "script": "Character set used for analysis",
+            "id": "Unique identifier",
+            "firstName": "First name (or given name)",
+            "lastName": "Last name (or family name)",
+            "internationalPhoneNumberVerified": "Phone number, in E.164 format",
+            "phoneCountryIso2Verified": "Country of origin of the phone number, in ISO 3166-1 alpha-2 format (according to Libphonenumber)",
+            "phoneCountryCode": "Most likely country calling code",
+            "phoneCountryCodeAlt": "Second most likely country calling code",
+            "phoneCountryIso2": "Most likely country of origin of the phone number, in ISO 3166-1 alpha-2 format",
+            "phoneCountryIso2Alt": "Second most likely country of origin of the phone number, in ISO 3166-1 alpha-2 format",
+            "originCountryIso2": "Most likely country of origin of the name, in ISO 3166-1 alpha-2 format",
+            "originCountryIso2Alt": "Second most likely country of origin of the name, in ISO 3166-1 alpha-2 format",
+            "phoneNumber": "Submitted phone number",
+            "verified": "Indicates if the phone number could be positively verified using Libphonenumber",
+            "score": "Higher implies a more reliable result, but score is not normalized. Use probabilityCalibrated if available",
+            "countryIso2": "Most likely country of origin, in ISO 3166-1 alpha-2 format"
+        },
+        "summary": "Submit a phone number and its matching first name, last name, country of origin in ISO 3166-1 alpha-2 format and formated version in E.164. This help us improve our name matching tool and in return your can earn extra credits if the match is correct."
+    },
+    "/api2/json/phoneCodeBatch": {
+        "request": {
+            "id": "Unique identifier",
+            "firstName": "First name (or given name)",
+            "lastName": "Last name (or family name)",
+            "phoneNumber": "Phone number, formatted or unformatted",
+            "FirstLastNameOriginedOut": {
+                "script": "",
+                "id": "",
+                "firstName": "The first name (also known as given name)",
+                "lastName": "The last name (also known as family name, or surname)",
+                "countryOrigin": "Most likely country of Origin",
+                "countryOriginAlt": "Second best alternative : country of Origin",
+                "countriesOriginTop": "List countries of Origin (top 10)",
+                "score": "Compatibility to NamSor_v1 Origin score value. Higher score is better, but score is not normalized. Use calibratedProbability if available. ",
+                "regionOrigin": "Most likely region of Origin (based on countryOrigin ISO2 code)",
+                "topRegionOrigin": "Most likely top region of Origin (based on countryOrigin ISO2 code)",
+                "subRegionOrigin": "Most likely sub region of Origin (based on countryOrigin ISO2 code)",
+                "probabilityCalibrated": "The calibrated probability for countryOrigin to have been guessed correctly.",
+                "probabilityAltCalibrated": "The calibrated probability for countryOrigin OR countryOriginAlt to have been guessed correctly."
+            }
+        },
+        "response": {
+            "script": "Character set used for analysis",
+            "id": "Provided unique identifier",
+            "firstName": "First name (or given name)",
+            "lastName": "Last name (or family name)",
+            "internationalPhoneNumberVerified": "Phone number, in E.164 format",
+            "phoneCountryIso2Verified": "Country of origin of the phone number, in ISO 3166-1 alpha-2 format (according to Libphonenumber)",
+            "phoneCountryCode": "Most likely country calling code",
+            "phoneCountryCodeAlt": "Second most likely country calling code",
+            "phoneCountryIso2": "Most likely country of origin of the phone number, in ISO 3166-1 alpha-2 format",
+            "phoneCountryIso2Alt": "Second most likely country of origin of the phone number, in ISO 3166-1 alpha-2 format",
+            "originCountryIso2": "Most likely country of origin of the name, in ISO 3166-1 alpha-2 format",
+            "originCountryIso2Alt": "Second most likely country of origin of the name, in ISO 3166-1 alpha-2 format",
+            "phoneNumber": "Submitted phone number",
+            "verified": "Indicates if the phone number could be positively verified using Libphonenumber",
+            "score": "Higher implies a more reliable result, score is not normalized",
+            "countryIso2": "Most likely country of origin, in ISO 3166-1 alpha-2 format"
+        },
+        "summary": "Returns the most likely phone prefix, country of origin and format of up to 100 phone numbers using first names and last names."
+    },
+    "/api2/json/phoneCodeGeoBatch": {
+        "request": {
+            "id": "Unique identifier",
+            "firstName": "First name (or given name)",
+            "lastName": "Last name (or family name)",
+            "phoneNumber": "Phone number, formatted or unformatted",
+            "FirstLastNameOriginedOut": {
+                "script": "",
+                "id": "",
+                "firstName": "The first name (also known as given name)",
+                "lastName": "The last name (also known as family name, or surname)",
+                "countryOrigin": "Most likely country of Origin",
+                "countryOriginAlt": "Second best alternative : country of Origin",
+                "countriesOriginTop": "List countries of Origin (top 10)",
+                "score": "Compatibility to NamSor_v1 Origin score value. Higher score is better, but score is not normalized. Use calibratedProbability if available. ",
+                "regionOrigin": "Most likely region of Origin (based on countryOrigin ISO2 code)",
+                "topRegionOrigin": "Most likely top region of Origin (based on countryOrigin ISO2 code)",
+                "subRegionOrigin": "Most likely sub region of Origin (based on countryOrigin ISO2 code)",
+                "probabilityCalibrated": "The calibrated probability for countryOrigin to have been guessed correctly.",
+                "probabilityAltCalibrated": "The calibrated probability for countryOrigin OR countryOriginAlt to have been guessed correctly."
+            },
+            "countryIso2": "Most likely country of origin, in ISO 3166-1 alpha-2 format",
+            "countryIso2Alt": "Second most likely country of origin, in ISO 3166-1 alpha-2 format"
+        },
+        "response": {
+            "script": "Character set used for analysis",
+            "id": "Provided unique identifier",
+            "firstName": "First name (or given name)",
+            "lastName": "Last name (or family name)",
+            "internationalPhoneNumberVerified": "Phone number, in E.164 format",
+            "phoneCountryIso2Verified": "Country of origin of the phone number, in ISO 3166-1 alpha-2 format (according to Libphonenumber)",
+            "phoneCountryCode": "Most likely country calling code",
+            "phoneCountryCodeAlt": "Second most likely country calling code",
+            "phoneCountryIso2": "Most likely country of origin of the phone number, in ISO 3166-1 alpha-2 format",
+            "phoneCountryIso2Alt": "Second most likely country of origin of the phone number, in ISO 3166-1 alpha-2 format",
+            "originCountryIso2": "Most likely country of origin of the name, in ISO 3166-1 alpha-2 format",
+            "originCountryIso2Alt": "Second most likely country of origin of the name, in ISO 3166-1 alpha-2 format",
+            "phoneNumber": "Submitted phone number",
+            "verified": "Indicates if the phone number could be positively verified using Libphonenumber",
+            "score": "Higher implies a more reliable result, score is not normalized",
+            "countryIso2": "Most likely country of origin, in ISO 3166-1 alpha-2 format"
+        },
+        "summary": "Returns the most likely phone prefix and format of up to 100 phone numbers using first names, last names and geographic context."
+    },
+    "/api2/json/parseName/{nameFull}": {
+        "request": {
+            "nameFull": "Full name (first name and last name)"
+        },
+        "response": {
+            "script": "Character set used for analysis",
+            "id": "Provided unique identifier",
+            "name": "Submitted full name",
+            "nameParserType": "Most likely structure of the name",
+            "nameParserTypeAlt": "Second most likely structure of the name",
+            "firstLastName": {
+                "script": "",
+                "id": "",
+                "firstName": "First name (or given name)",
+                "lastName": "Last name (or family name)"
+            },
+            "score": "Higher implies a more reliable result, score is not normalized"
+        },
+        "summary": "Returns the most likely first name and last name structure of a full name."
+    }
+}

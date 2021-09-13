@@ -23,7 +23,7 @@
         "serve": "npm run build.sass && npx eleventy --input=source/*.md --serve --port=3001",
         "serve.local": "cross-var npm run build.sass.local && npx eleventy --input=$SLATEDIR/*.md --output=$SLATEDIR/_site --serve --port=3001",
         "genmd": "node openapi/genMD.js",
-        "deploy": "npm run build && cd _site && git add . && git commit -m \"auto deploy\" && git push origin master && cd .."
+        "deploy": "npm run build --clean && cd _site && git add . && git commit -m \"auto deploy\" && git push origin master && cd .."
     },
     "keywords": [
         "slate",
@@ -38,16 +38,17 @@
     ],
     "license": "Apache-2.0",
     "dependencies": {
-        "@11ty/eleventy": "^0.11.1",
+        "@11ty/eleventy": "^0.12.1",
         "@11ty/eleventy-plugin-syntaxhighlight": "^3.0.4",
-        "cheerio": "^1.0.0-rc.3",
+        "cheerio": "^1.0.0-rc.10",
+        "colors": "^1.4.0",
         "cross-var": "^1.1.0",
         "imagesloaded": "^4.1.4",
         "jquery": "^3.6.0",
         "lunr": "^2.3.9",
         "markdown-it": "^12.0.3",
         "markdown-it-anchor": "^7.0.0",
-        "markdown-it-prism": "^2.1.4",
+        "markdown-it-prism": "^2.2.0",
         "sass": "^1.30.0",
         "shelljs": "^0.8.4",
         "widdershins": "^4.0.1"

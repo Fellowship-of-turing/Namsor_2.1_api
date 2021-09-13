@@ -1,3 +1,5 @@
+var colors = require('colors/safe');
+
 // Helper imports
 let helpers = require('../helpers');
 let capitalize = helpers.capitalize;
@@ -5,9 +7,10 @@ let capitalize = helpers.capitalize;
 
 // Imports
 const fs = require('fs');
-let routeNames = require('../config/routeNames');
-let apiExamples = require('../config/apiExamples');
-let descr = require('../config/combinedDescriptions.json');
+let routeNames = require('../config/route_names');
+let routeSections = require('../config/route_sections');
+let apiExamples = require('../config/api_examples');
+let descr = require('../config/combined_descriptions.json');
 
 /***************************************************/
 /**************** Openapi.json Mod ****************/
@@ -15,13 +18,17 @@ let descr = require('../config/combinedDescriptions.json');
 // Prefix Lengh of schemas
 let prefixLenght = '#/components/schemas/'.length;
 
-// Stores the method of each route
+// Stores the data of each route
 let routeMethods = {};
 let routeCosts = {};
 let routeRequests = {};
 let routeResponses = {};
 let DESCR = {};
 let STRUCT = {};
+
+///////////////
+//FUNCTIONS//
+/////////////
 
 //Fonction pour trouver toutes les clés d'un objet
 const getDeepKeys = (obj, strictKey, findObject) => {
@@ -58,6 +65,13 @@ const getDeepKeys = (obj, strictKey, findObject) => {
 ////////////////////////////////////////////////
 // Description file generator /////////////////
 //////////////////////////////////////////////
+// @dev Priority is given to combinedDescriptions then openapi, 
+// @dev if nothing is found a "*** ${type} ***" placeholder is injected
+//
+// @dev The process takes config/combinedDescriptions and openapi.json
+// @dev This creates the combinedDescriptions files saved to genNotMD
+// @dev This file if correct should replace config/combinedDescriptions
+// @dev You may modify config/combinedDescriptions to override / modify descriptions
 let descrGen = (io, route, type, hasDescr, key, subkey) => {
   let DESCR_RES = DESCR[route].response;
   let DESCR_REQ = DESCR[route].request;
@@ -160,10 +174,16 @@ let descrGen = (io, route, type, hasDescr, key, subkey) => {
 
   };
 };
-//////////////////////////////////////////////
 
-let formatOpenapi = (swaggerFile, opt) => {
+///////////////
+//CORE//
+/////////////
+
+module.exports = (swaggerFile, opt) => {
   let routes = Object.keys(swaggerFile.paths);
+
+  // Replace section descriptions
+  swaggerFile.tags = routeSections.tags;
 
   // Capitalize tag names
   for (let i = 0; i < swaggerFile.tags.length; i++) {
@@ -177,7 +197,7 @@ let formatOpenapi = (swaggerFile, opt) => {
     let methodPath = swaggerFile.paths[routes[i]];
     let method = methodPath.get ? 'get' : methodPath.post ? 'post' : 'err';
     if (method === "err") {
-      console.log(`\u001b[31mError\u001b[m\nRoute ${routes[i]} - Unexpected method, must be either 'get' or 'post'`);
+      console.log(`${colors.red("Error")}\nRoute ${routes[i]} - Unexpected method, must be either 'get' or 'post'`);
     }
     else {
       let route = methodPath[method];
@@ -215,7 +235,7 @@ let formatOpenapi = (swaggerFile, opt) => {
 
       // Swap operation ID for dash separated names
       if (!routeNames[route.operationId]) {
-        console.log(`\u001b[31mError\u001b[m\nRoute ${routes[i]} - No route name found for this operation id.`);
+        console.log(`${colors.red("Error")}\nRoute ${routes[i]} - No route name found for this operation id.`);
       };
       swaggerFile.paths[routes[i]][method].operationId = routeNames[route.operationId];
       ROUTE_STRUCT.operationName = route.operationId; // data location post renaming above
@@ -231,15 +251,28 @@ let formatOpenapi = (swaggerFile, opt) => {
       if (route.summary.indexOf('[USES') !== - 1) {
         let costEnd = route.summary.indexOf(']');
         let costText = route.summary.slice(0, costEnd + 2);
-        routeCosts[routes[i]] = costText.slice(costText.indexOf('USES') + 5, costText.indexOf('UNITS') - 1);
+        routeCosts[routes[i]] = costText.slice(costText.indexOf('USES') + 5, costText.indexOf('UNITS') - 1) * 1;
         route.summary = route.summary.slice(costEnd + 2, route.summary.length);
-      };
-
-      if (route.summary.indexOf('[CREDIT') !== - 1) {
+      }
+      else if (route.summary.indexOf('[CREDIT') !== - 1) {
         let costEnd = route.summary.indexOf(']');
         let costText = route.summary.slice(0, costEnd + 2);
-        routeCosts[routes[i]] = costText.slice(costText.indexOf('CREDIT') + 7, costText.indexOf('UNIT') - 1);
+        routeCosts[routes[i]] = costText.slice(costText.indexOf('CREDIT') + 7, costText.indexOf('UNIT') - 1) * 1;
         route.summary = route.summary.slice(costEnd + 2, route.summary.length);
+      }
+      else if (route.tags[0] === 'Admin') {
+        routeCosts[routes[i]] = 0;
+      }
+      else {
+        routeCosts[routes[i]] = 1;
+      };
+
+      // Save route section information
+      if (routeSections[routes[i]]) {
+        swaggerFile.paths[routes[i]][method].tags = [routeSections[routes[i]]];
+      }
+      else {
+        [routeSections[routes[i]]] = swaggerFile.paths[routes[i]][method].tags;
       };
 
       // Replace route summary
@@ -256,7 +289,7 @@ let formatOpenapi = (swaggerFile, opt) => {
         // GET REQUEST //
         ////////////////
         if (!route.parameters) {
-          if (opt.req_no_params) console.log(`\u001b[34mWarning\u001b[m\nRoute ${routes[i]} - No request parameters where found`);
+          if (opt.req_no_params) console.log(`${colors.yellow('Warning')}\nRoute ${routes[i]} - No request parameters where found`);
         }
         else {
           // SAVE Request
@@ -305,7 +338,7 @@ let formatOpenapi = (swaggerFile, opt) => {
         /////////////////
         let requestAccept = Object.keys(route.requestBody.content);
         if (requestAccept.length !== 1) {
-          console.log(`\u001b[31mError\u001b[m\nRoute ${routes[i]} - Multiple request content accept types`);
+          console.log(`${colors.red("Error")}\nRoute ${routes[i]} - Multiple request content accept types`);
         }
         else {
           let requestSchemaPath = route.requestBody.content[requestAccept[0]].schema;
@@ -330,7 +363,7 @@ let formatOpenapi = (swaggerFile, opt) => {
               let requestSubSchema = schemas[requestSubSchemaName];
 
               if (!requestSubSchema.type === 'object') {
-                console.log(`\u001b[31mError\u001b[m\nRoute ${routes[i]} - Expected sub schema to be an object`);
+                console.log(`${colors.red("Error")}\nRoute ${routes[i]} - Expected sub schema to be an object`);
               }
               else {
 
@@ -461,11 +494,11 @@ let formatOpenapi = (swaggerFile, opt) => {
               ROUTE_STRUCT.req = REQ_STRUCT;
             }
             else {
-              // console.log(`\u001b[31mError\u001b[m\nRoute ${routes[i]} - Unexpected $ref request structure must be either an object or an array`);
+              // console.log(`${colors.red("Error")}\nRoute ${routes[i]} - Unexpected $ref request structure must be either an object or an array`);
             };
           }
           else {
-            // console.log(`\u001b[31mError\u001b[m\nRoute ${routes[i]} - Unexpected request structure must be either an object or an array`);
+            // console.log(`${colors.red("Error")}\nRoute ${routes[i]} - Unexpected request structure must be either an object or an array`);
           };
         };
       };
@@ -480,7 +513,7 @@ let formatOpenapi = (swaggerFile, opt) => {
         !route.responses['200'].content['application/json'].schema ||
         !route.responses['200'].content['application/json'].schema.$ref
       ) {
-        if (opt.res_no_schema) console.log(`\u001b[31mError\u001b[m\nRoute ${routes[i]} - Unable to find response schema`);
+        if (opt.res_no_schema) console.log(`${colors.red("Error")}\nRoute ${routes[i]} - Unable to find response schema`);
       }
       else {
         let responseSchemaPath = route.responses['200'].content['application/json'].schema.$ref;
@@ -502,7 +535,7 @@ let formatOpenapi = (swaggerFile, opt) => {
           let responseSubSchema = schemas[responseSubSchemaName];
 
           if (!responseSubSchema.type === 'object') {
-            console.log(`\u001b[31mError\u001b[m\nRoute ${routes[i]} - Expected sub schema to be an object`);
+            console.log(`${colors.red("Error")}\nRoute ${routes[i]} - Expected sub schema to be an object`);
           }
           else {
 
@@ -679,7 +712,7 @@ let formatOpenapi = (swaggerFile, opt) => {
           ROUTE_STRUCT.res = RES_STRUCT;
         }
         else {
-          // console.log(`\u001b[31mError\u001b[m\nRoute ${routes[i]} - Unexpected $ref response structure must be either an object or an array`);
+          // console.log(`${colors.red("Error")}\nRoute ${routes[i]} - Unexpected $ref response structure must be either an object or an array`);
         };
       };
     };
@@ -692,10 +725,12 @@ let formatOpenapi = (swaggerFile, opt) => {
   delete swaggerFile.externalDocs;
 
   // Save intermidiate files
-  fs.writeFileSync('openapi/genNotMD/premarkdown.json', JSON.stringify(swaggerFile, null, 4), 'utf8');
-  fs.writeFileSync('openapi/genNotMD/routeRequests.json', JSON.stringify(routeRequests, null, 4), 'utf8');
-  fs.writeFileSync('openapi/genNotMD/routeResponses.json', JSON.stringify(routeResponses, null, 4), 'utf8');
-  fs.writeFileSync('openapi/genNotMD/combinedDescriptions.json', JSON.stringify(DESCR, null, 4), 'utf8');
+  fs.writeFileSync('openapi/genNotMD/formated_openapi.json', JSON.stringify(swaggerFile, null, 4), 'utf8');
+  fs.writeFileSync('openapi/genNotMD/route_requests.json', JSON.stringify(routeRequests, null, 4), 'utf8');
+  fs.writeFileSync('openapi/genNotMD/route_responses.json', JSON.stringify(routeResponses, null, 4), 'utf8');
+  fs.writeFileSync('openapi/genNotMD/combined_descriptions.json', JSON.stringify(DESCR, null, 4), 'utf8');
+  fs.writeFileSync('openapi/genNotMD/route_sections.json', JSON.stringify(routeSections, null, 4), 'utf8');
+  fs.writeFileSync('openapi/genNotMD/route_costs.json', JSON.stringify(routeCosts, null, 4), 'utf8');
   // fs.writeFileSync('openapi/genNotMD/io_schemes.json', JSON.stringify(STRUCT, null, 4), 'utf8');
 
   // Generate config for CSV module
@@ -708,6 +743,9 @@ let formatOpenapi = (swaggerFile, opt) => {
       csvData[key].operationName = csvData[key].operationName.replace(/-/g, ' ');
       csvData[key].summary = descr[csvData[key].url].summary;
 
+      // Remove referece to 100 unit calls
+      csvData[key].summary = csvData[key].summary.replace("up to 100", "");
+
       // Req / Res structures formated for api_caller
       let reqMetaKey = csvData[key].reqMetaKey = Object.keys(csvData[key].req)[0];
       csvData[key].reqKeys = getDeepKeys(csvData[key].req[reqMetaKey][0], false, false);
@@ -717,10 +755,8 @@ let formatOpenapi = (swaggerFile, opt) => {
       // Route costs
       if (routeCosts[csvData[key].url]) {
         csvData[key].cost = routeCosts[csvData[key].url] * 1;
-      }
-      else {
-        csvData[key].cost = 1;
       };
+
     };
   });
   let csvStructure = {
@@ -731,7 +767,7 @@ let formatOpenapi = (swaggerFile, opt) => {
     },
     routes: csvData
   };
-  fs.writeFileSync('openapi/genNotMD/csvStructure.json', JSON.stringify(csvStructure, null, 4), 'utf8');
+  fs.writeFileSync('openapi/genNotMD/csv_structure.json', JSON.stringify(csvStructure, null, 4), 'utf8');
 
   // Return stored values
   let formatedResult = {
@@ -745,5 +781,3 @@ let formatOpenapi = (swaggerFile, opt) => {
   };
   return formatedResult;
 };
-
-module.exports = formatOpenapi;

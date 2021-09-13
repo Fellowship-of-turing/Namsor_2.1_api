@@ -80,52 +80,54 @@ module.exports = {
     },
     //////////////////////////////////////////////////////////////////////////////////////////// OK2
     "/api2/json/apiUsageHistory": {
-        "output": [
-            {
-                "apiKey": {
-                    "userId": null,
-                    "admin": false,
-                    "vetted": false,
-                    "learnable": true,
-                    "anonymized": false,
-                    "partner": false,
-                    "striped": false,
-                    "corporate": false,
-                    "disabled": false,
-                    "api_key": "b214894824e1c4762fb650866fea8f3c"
-                },
-                "apiService": "personalname_us_race_ethnicity",
-                "createdDateTime": 1620385794616,
-                "totalUsage": 1,
-                "lastFlushedDateTime": 1620386273418,
-                "lastUsedDateTime": 1620386699945,
-                "serviceFeaturesUsage": {}
-            }
-        ]
+        "output": {
+            "detailedUsage": [
+                {
+                    "apiKey": {
+                        "userId": null,
+                        "admin": false,
+                        "vetted": false,
+                        "learnable": true,
+                        "anonymized": false,
+                        "partner": false,
+                        "striped": false,
+                        "corporate": false,
+                        "disabled": false,
+                        "api_key": "b214894824e1c4762fb650866fea8f3c"
+                    },
+                    "apiService": "personalname_us_race_ethnicity",
+                    "createdDateTime": 1620385794616,
+                    "totalUsage": 1,
+                    "lastFlushedDateTime": 1620386273418,
+                    "lastUsedDateTime": 1620386699945,
+                    "serviceFeaturesUsage": {}
+                }
+            ]
+        }
     },
     // note not same response from live API
     //////////////////////////////////////////////////////////////////////////////////////////// OK2
     "/api2/json/apiUsageHistoryAggregate": {
         "output": {
             "timeUnit": "DAY",
-            "periodStart": 1602703703373,
-            "periodEnd": 1620386273418,
-            "totalUsage": 262,
+            "periodStart": 1600616581000,
+            "periodEnd": 1600702981000,
+            "totalUsage": 42,
             "historyTruncated": false,
             "data": [
                 [
                     0,
                     0,
                     0,
-                    4,
-                    3,
+                    10,
+                    10,
                     0,
                     0,
                     0,
                     0,
-                    6,
-                    4,
-                    5
+                    10,
+                    10,
+                    2
                 ]
             ],
             "colHeaders": [
@@ -143,7 +145,7 @@ module.exports = {
                 "personalname_us_race_ethnicity"
             ],
             "rowHeaders": [
-                "2018-05-05"
+                "2020-09-20"
             ]
         }
     },

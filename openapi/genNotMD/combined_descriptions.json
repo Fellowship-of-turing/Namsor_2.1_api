@@ -61,7 +61,7 @@
             "probabilityCalibrated": "Higher implies a more reliable result, ranges from 0 to 1 (for countryOrigin)",
             "probabilityAltCalibrated": "Higher implies a more reliable result, ranges from 0 to 1 (for countryOriginAlt)"
         },
-        "summary": "Returns the most likely country of origin of a first name and a last name. Note that the \"Diaspora\" endpoint may be better suited for countries like U.S.A, Canada, Australia, New-Zealand and other melting-pots."
+        "summary": "Returns the most likely country of origin of a first name and a last name. Note that the \"Diaspora\" endpoint may be better suited for multicultural countries like the U.S.A, Canada, Australia, New-Zealand, etc."
     },
     "/api2/json/softwareVersion": {
         "request": {},
@@ -625,7 +625,7 @@
     },
     "/api2/json/diaspora/{countryIso2}/{firstName}/{lastName}": {
         "request": {
-            "countryIso2": "Most likely country of origin, in ISO 3166-1 alpha-2 format",
+            "countryIso2": "Country of residence, in ISO 3166-1 alpha-2 format",
             "firstName": "First name (or given name)",
             "lastName": "Last name (or family name)"
         },
@@ -638,7 +638,7 @@
             "ethnicityAlt": "Second most likely ethnicity",
             "ethnicity": "Most likely ethnicity",
             "lifted": "Indicates if the result of the \"ethnicity\" field is based on machine learning only, or further lifted as a known fact by a country-specific rule",
-            "countryIso2": "Most likely country of origin, in ISO 3166-1 alpha-2 format",
+            "countryIso2": "Country of residence, in ISO 3166-1 alpha-2 format",
             "ethnicitiesTop": "Top 10 most likely etchnicities, order from most likely to least likely"
         },
         "summary": "Returns the most likely ethnicity or diaspora of a first name and last name, according to the country of residence."
@@ -648,7 +648,7 @@
             "id": "Unique identifier",
             "firstName": "First name (or given name)",
             "lastName": "Last name (or family name)",
-            "countryIso2": "Most likely country of origin, in ISO 3166-1 alpha-2 format"
+            "countryIso2": "Country of residence, in ISO 3166-1 alpha-2 format"
         },
         "response": {
             "script": "Character set used for analysis",
@@ -659,7 +659,7 @@
             "ethnicityAlt": "Second most likely ethnicity",
             "ethnicity": "Most likely ethnicity",
             "lifted": "Indicates if the output ethnicity is based on machine learning only, or further lifted as a known fact by a country-specific rule",
-            "countryIso2": "Most likely country of origin, in ISO 3166-1 alpha-2 format",
+            "countryIso2": "Country of residence, in ISO 3166-1 alpha-2 format",
             "ethnicitiesTop": "Top 10 most likely etchnicities, order from most likely to least likely"
         },
         "summary": "Returns the most likely ethnicity or diaspora of up to 100 first names and last names, according to their country of residence."

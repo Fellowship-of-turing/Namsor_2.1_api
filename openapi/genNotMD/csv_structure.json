@@ -29,7 +29,7 @@
                 ]
             },
             "operationName": "Name Type Batch",
-            "summary": "Returns the type of up to 100 submitted proper nouns. Ex: John Smith = personal name, Namsor = brand name.",
+            "summary": "Returns the type of  submitted proper nouns. Ex: John Smith = personal name, Namsor = brand name.",
             "reqMetaKey": "properNouns",
             "reqKeys": [
                 "id",
@@ -71,7 +71,7 @@
                 ]
             },
             "operationName": "Name Type Geo Batch",
-            "summary": "Returns the type of up to 100 submitted proper nouns using their geographic context. Ex: John Smith = personal name, Namsor = brand name.",
+            "summary": "Returns the type of  submitted proper nouns using their geographic context. Ex: John Smith = personal name, Namsor = brand name.",
             "reqMetaKey": "properNouns",
             "reqKeys": [
                 "id",
@@ -157,7 +157,7 @@
                 ]
             },
             "operationName": "Corridor Batch",
-            "summary": "Returns complete analysis of up to 100 cross border interactions between two names using their geographic context. The sender is the one who initiated the interaction (from) while the receiver is the one intended to receive the interaction (to).",
+            "summary": "Returns complete analysis of  cross border interactions between two names using their geographic context. The sender is the one who initiated the interaction (from) while the receiver is the one intended to receive the interaction (to).",
             "reqMetaKey": "corridorFromTo",
             "reqKeys": [
                 "id",
@@ -236,7 +236,7 @@
                 ]
             },
             "operationName": "Gender Geo Batch",
-            "summary": "Returns the most likely gender of up to 100 first names and last names using their geographic context.",
+            "summary": "Returns the most likely gender of  first names and last names using their geographic context.",
             "reqMetaKey": "personalNames",
             "reqKeys": [
                 "id",
@@ -284,7 +284,7 @@
                 ]
             },
             "operationName": "Gender Batch",
-            "summary": "Returns the most likely gender of up to 100 first names and last names.",
+            "summary": "Returns the most likely gender of  first names and last names.",
             "reqMetaKey": "personalNames",
             "reqKeys": [
                 "id",
@@ -329,7 +329,7 @@
                 ]
             },
             "operationName": "Gender Full Batch",
-            "summary": "Returns the most likely gender of up to 100 full names.",
+            "summary": "Returns the most likely gender of  full names.",
             "reqMetaKey": "personalNames",
             "reqKeys": [
                 "id",
@@ -373,7 +373,7 @@
                 ]
             },
             "operationName": "Gender Full Geo Batch",
-            "summary": "Returns the most likely gender of up to 100 full names, according to their geographic context.",
+            "summary": "Returns the most likely gender of  full names, according to their geographic context.",
             "reqMetaKey": "personalNames",
             "reqKeys": [
                 "id",
@@ -424,7 +424,7 @@
                 ]
             },
             "operationName": "Origin Batch",
-            "summary": "Returns the most likely country of origin of up to 100 first names and a last names. Note that the \"Diaspora\" endpoint may be better suited for countries like U.S.A, Canada, Australia, New-Zealand and other melting-pots.",
+            "summary": "Returns the most likely country of origin of  first names and a last names. Note that the \"Diaspora\" endpoint may be better suited for countries like U.S.A, Canada, Australia, New-Zealand and other melting-pots.",
             "reqMetaKey": "personalNames",
             "reqKeys": [
                 "id",
@@ -479,7 +479,7 @@
                 ]
             },
             "operationName": "Country Batch",
-            "summary": "Returns the most likely geographic context of up to 100 full names (first names and last names) or surnames.",
+            "summary": "Returns the most likely geographic context of  full names (first names and last names) or surnames.",
             "reqMetaKey": "personalNames",
             "reqKeys": [
                 "id",
@@ -532,7 +532,7 @@
                 ]
             },
             "operationName": "US Race and Ethnicity Batch",
-            "summary": "Returns the most likely U.S. race or ethnicity of up to 100 U.S. resident's first names and last names.",
+            "summary": "Returns the most likely U.S. race or ethnicity of  U.S. resident's first names and last names.",
             "reqMetaKey": "personalNames",
             "reqKeys": [
                 "id",
@@ -586,7 +586,7 @@
                 ]
             },
             "operationName": "US ZIP Race and Ethnicity Batch",
-            "summary": "Returns the most likely U.S. race or ethnicity of up to 100 U.S. resident's first names and last names, using their ZIP code.",
+            "summary": "Returns the most likely U.S. race or ethnicity of  U.S. resident's first names and last names, using their ZIP code.",
             "reqMetaKey": "personalNames",
             "reqKeys": [
                 "id",
@@ -640,7 +640,7 @@
                 ]
             },
             "operationName": "Diaspora Batch",
-            "summary": "Returns the most likely ethnicity or diaspora of up to 100 first names and last names, according to their country of residence.",
+            "summary": "Returns the most likely ethnicity or diaspora of  first names and last names, according to their country of residence.",
             "reqMetaKey": "personalNames",
             "reqKeys": [
                 "id",
@@ -693,7 +693,7 @@
                 ]
             },
             "operationName": "Parse Name Batch",
-            "summary": "Returns the most likely first name and last name structure of up to 100 full names.",
+            "summary": "Returns the most likely first name and last name structure of  full names.",
             "reqMetaKey": "personalNames",
             "reqKeys": [
                 "id",
@@ -745,7 +745,7 @@
                 ]
             },
             "operationName": "Parse Name Geo Batch",
-            "summary": "Returns the most likely first name and last name structure of up to 100 full names using their geographic context.",
+            "summary": "Returns the most likely first name and last name structure of  full names using their geographic context.",
             "reqMetaKey": "personalNames",
             "reqKeys": [
                 "id",
@@ -797,7 +797,7 @@
                 ]
             },
             "operationName": "Parse Chinese Name Batch",
-            "summary": "Returns the most likely first name and last name structure of up to 100 full names (family names and given names) in Standard Mandarin Chinese.",
+            "summary": "Returns the most likely first name and last name structure of  full names (family names and given names) in Standard Mandarin Chinese.",
             "reqMetaKey": "personalNames",
             "reqKeys": [
                 "id",
@@ -848,7 +848,7 @@
                 ]
             },
             "operationName": "Pinyin Chinese Name Batch",
-            "summary": "Return the most likely Pinyin transcription of up to 100 full names (family names and given names) in Standard Mandarin Chinese.",
+            "summary": "Return the most likely Pinyin transcription of  full names (family names and given names) in Standard Mandarin Chinese.",
             "reqMetaKey": "personalNames",
             "reqKeys": [
                 "id",
@@ -899,7 +899,7 @@
                 ]
             },
             "operationName": "Chinese Name Match Batch",
-            "summary": "Matches up to 100 full names in Standard Mandarin Chinese against corresponding family names and given names in Pinyin.",
+            "summary": "Matches  full names in Standard Mandarin Chinese against corresponding family names and given names in Pinyin.",
             "reqMetaKey": "personalNames",
             "reqKeys": [
                 "id",
@@ -945,7 +945,7 @@
                 ]
             },
             "operationName": "Gender Chinese Name Pinyin Batch",
-            "summary": "Return the most likely gender of up to 100 family names and a given names in Pinyin.",
+            "summary": "Return the most likely gender of  family names and a given names in Pinyin.",
             "reqMetaKey": "personalNames",
             "reqKeys": [
                 "id",
@@ -990,7 +990,7 @@
                 ]
             },
             "operationName": "Gender Chinese Name Batch",
-            "summary": "Returns the most likely gender of up to 100 full names (family names and given names) in Standard Mandarin Chinese.",
+            "summary": "Returns the most likely gender of  full names (family names and given names) in Standard Mandarin Chinese.",
             "reqMetaKey": "personalNames",
             "reqKeys": [
                 "id",
@@ -1040,7 +1040,7 @@
                 ]
             },
             "operationName": "Chinese Name Candidates Batch",
-            "summary": "Returns the most likely Standard Mandarin Chinese transcriptions using up to 100 family names and given names in Pinyin.",
+            "summary": "Returns the most likely Standard Mandarin Chinese transcriptions using  family names and given names in Pinyin.",
             "reqMetaKey": "personalNames",
             "reqKeys": [
                 "id",
@@ -1091,7 +1091,7 @@
                 ]
             },
             "operationName": "Chinese Name Candidates Gender Batch",
-            "summary": "Returns the most likely Standard Mandarin Chinese transcriptions for up to 100 Pinyin first names and last names, according to their gender.",
+            "summary": "Returns the most likely Standard Mandarin Chinese transcriptions for  Pinyin first names and last names, according to their gender.",
             "reqMetaKey": "personalNames",
             "reqKeys": [
                 "id",
@@ -1140,7 +1140,7 @@
                 ]
             },
             "operationName": "Parse Japanese Name Batch",
-            "summary": "Returns the most likely first name and last name structure of up to 100 full names (family names and given names) in Kanji or latin characters.",
+            "summary": "Returns the most likely first name and last name structure of  full names (family names and given names) in Kanji or latin characters.",
             "reqMetaKey": "personalNames",
             "reqKeys": [
                 "id",
@@ -1193,7 +1193,7 @@
                 ]
             },
             "operationName": "Japanese Name Kanji Candidates Batch",
-            "summary": "Returns the most likely Kanji transcriptions for up to 100 japanese first names and last names in latin characters.",
+            "summary": "Returns the most likely Kanji transcriptions for  japanese first names and last names in latin characters.",
             "reqMetaKey": "personalNames",
             "reqKeys": [
                 "id",
@@ -1244,7 +1244,7 @@
                 ]
             },
             "operationName": "Japanese Name Gender Kanji Candidates Batch",
-            "summary": "Returns the most likely Kanji transcriptions for up to 100 japanese first names and last names in latin characters, according to their gender.",
+            "summary": "Returns the most likely Kanji transcriptions for  japanese first names and last names in latin characters, according to their gender.",
             "reqMetaKey": "personalNames",
             "reqKeys": [
                 "id",
@@ -1295,7 +1295,7 @@
                 ]
             },
             "operationName": "Japanese Name Latin Candidates Batch",
-            "summary": "Returns the most likely latin transcriptions for up to 100 japanese first names and last names in Kanji characters.",
+            "summary": "Returns the most likely latin transcriptions for  japanese first names and last names in Kanji characters.",
             "reqMetaKey": "personalNames",
             "reqKeys": [
                 "id",
@@ -1343,7 +1343,7 @@
                 ]
             },
             "operationName": "Japanese Name Match Batch",
-            "summary": "Matches up to 100 full names in Kanji against corresponding family names and given names in latin characters.",
+            "summary": "Matches  full names in Kanji against corresponding family names and given names in latin characters.",
             "reqMetaKey": "personalNames",
             "reqKeys": [
                 "id",
@@ -1389,7 +1389,7 @@
                 ]
             },
             "operationName": "Gender Japanese Name Latin Batch",
-            "summary": "Return the most likely gender of up to 100 japanese family names and a given names in latin characters.",
+            "summary": "Return the most likely gender of  japanese family names and a given names in latin characters.",
             "reqMetaKey": "personalNames",
             "reqKeys": [
                 "id",
@@ -1434,7 +1434,7 @@
                 ]
             },
             "operationName": "Gender Japanese Name Full Batch",
-            "summary": "Find the most likely gender of up to 100 Japanese full names (surnames and given names), written in Kanji characters.",
+            "summary": "Find the most likely gender of  Japanese full names (surnames and given names), written in Kanji characters.",
             "reqMetaKey": "personalNames",
             "reqKeys": [
                 "id",
@@ -1503,7 +1503,7 @@
                 ]
             },
             "operationName": "Phone Code Batch",
-            "summary": "Returns the most likely phone prefix, country of origin and format of up to 100 phone numbers using first names and last names.",
+            "summary": "Returns the most likely phone prefix, country of origin and format of  phone numbers using first names and last names.",
             "reqMetaKey": "personalNamesWithPhoneNumbers",
             "reqKeys": [
                 "id",
@@ -1598,7 +1598,7 @@
                 ]
             },
             "operationName": "Phone Code Geo Batch",
-            "summary": "Returns the most likely phone prefix and format of up to 100 phone numbers using first names, last names and geographic context.",
+            "summary": "Returns the most likely phone prefix and format of  phone numbers using first names, last names and geographic context.",
             "reqMetaKey": "personalNamesWithPhoneNumbers",
             "reqKeys": [
                 "id",

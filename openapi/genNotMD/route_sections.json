@@ -1,0 +1,108 @@
+{
+    "tags": [
+        {
+            "name": "Gender",
+            "description": "$gender"
+        },
+        {
+            "name": "Origin",
+            "description": "$origin"
+        },
+        {
+            "name": "Split Name",
+            "description": "$split_name"
+        },
+        {
+            "name": "Chinese",
+            "description": "$chinese"
+        },
+        {
+            "name": "Japanese",
+            "description": "$japanese"
+        },
+        {
+            "name": "Phone",
+            "description": "$phone"
+        },
+        {
+            "name": "Name Type",
+            "description": "$name_type"
+        },
+        {
+            "name": "Admin",
+            "description": "$admin"
+        }
+    ],
+    "/api2/json/country/{personalNameFull}": "Origin",
+    "/api2/json/nameType/{properNoun}": "Name Type",
+    "/api2/json/disable/{source}/{disabled}": "Admin",
+    "/api2/json/origin/{firstName}/{lastName}": "Origin",
+    "/api2/json/softwareVersion": "Admin",
+    "/api2/json/apiStatus": "Admin",
+    "/api2/json/apiServices": "Admin",
+    "/api2/json/taxonomyClasses/{classifierName}": "Admin",
+    "/api2/json/apiUsage": "Admin",
+    "/api2/json/apiUsageHistory": "Admin",
+    "/api2/json/apiUsageHistoryAggregate": "Admin",
+    "/api2/json/learnable/{source}/{learnable}": "Admin",
+    "/api2/json/anonymize/{source}/{anonymized}": "Admin",
+    "/api2/json/nameTypeGeo/{properNoun}/{countryIso2}": "Name Type",
+    "/api2/json/nameTypeBatch": "Name Type",
+    "/api2/json/nameTypeGeoBatch": "Name Type",
+    "/api2/json/corridor/{countryIso2From}/{firstNameFrom}/{lastNameFrom}/{countryIso2To}/{firstNameTo}/{lastNameTo}": "Origin",
+    "/api2/json/corridorBatch": "Origin",
+    "/api2/json/gender/{firstName}/{lastName}": "Gender",
+    "/api2/json/genderGeo/{firstName}/{lastName}/{countryIso2}": "Gender",
+    "/api2/json/genderGeoBatch": "Gender",
+    "/api2/json/genderBatch": "Gender",
+    "/api2/json/genderFullGeo/{fullName}/{countryIso2}": "Gender",
+    "/api2/json/genderFull/{fullName}": "Gender",
+    "/api2/json/genderFullBatch": "Gender",
+    "/api2/json/genderFullGeoBatch": "Gender",
+    "/api2/json/originBatch": "Origin",
+    "/api2/json/countryBatch": "Origin",
+    "/api2/json/usRaceEthnicity/{firstName}/{lastName}": "Origin",
+    "/api2/json/usRaceEthnicityZIP5/{firstName}/{lastName}/{zip5Code}": "Origin",
+    "/api2/json/usRaceEthnicityBatch": "Origin",
+    "/api2/json/usZipRaceEthnicityBatch": "Origin",
+    "/api2/json/diaspora/{countryIso2}/{firstName}/{lastName}": "Origin",
+    "/api2/json/diasporaBatch": "Origin",
+    "/api2/json/parseName/{nameFull}/{countryIso2}": "Split Name",
+    "/api2/json/parseNameBatch": "Split Name",
+    "/api2/json/parseNameGeoBatch": "Split Name",
+    "/api2/json/parseChineseName/{chineseName}": "Chinese",
+    "/api2/json/parseChineseNameBatch": "Chinese",
+    "/api2/json/pinyinChineseName/{chineseName}": "Chinese",
+    "/api2/json/pinyinChineseNameBatch": "Chinese",
+    "/api2/json/chineseNameMatch/{chineseSurnameLatin}/{chineseGivenNameLatin}/{chineseName}": "Chinese",
+    "/api2/json/chineseNameMatchBatch": "Chinese",
+    "/api2/json/genderChineseNamePinyin/{chineseSurnameLatin}/{chineseGivenNameLatin}": "Chinese",
+    "/api2/json/genderChineseNamePinyinBatch": "Chinese",
+    "/api2/json/genderChineseName/{chineseName}": "Chinese",
+    "/api2/json/genderChineseNameBatch": "Chinese",
+    "/api2/json/chineseNameCandidates/{chineseSurnameLatin}/{chineseGivenNameLatin}": "Chinese",
+    "/api2/json/chineseNameCandidatesBatch": "Chinese",
+    "/api2/json/chineseNameGenderCandidates/{chineseSurnameLatin}/{chineseGivenNameLatin}/{knownGender}": "Chinese",
+    "/api2/json/chineseNameCandidatesGenderBatch": "Chinese",
+    "/api2/json/parseJapaneseName/{japaneseName}": "Japanese",
+    "/api2/json/parseJapaneseNameBatch": "Japanese",
+    "/api2/json/japaneseNameKanjiCandidates/{japaneseSurnameLatin}/{japaneseGivenNameLatin}/{knownGender}": "Japanese",
+    "/api2/json/japaneseNameKanjiCandidates/{japaneseSurnameLatin}/{japaneseGivenNameLatin}": "Japanese",
+    "/api2/json/japaneseNameLatinCandidates/{japaneseSurnameKanji}/{japaneseGivenNameKanji}": "Japanese",
+    "/api2/json/japaneseNameKanjiCandidatesBatch": "Japanese",
+    "/api2/json/japaneseNameGenderKanjiCandidatesBatch": "Japanese",
+    "/api2/json/japaneseNameLatinCandidatesBatch": "Japanese",
+    "/api2/json/japaneseNameMatch/{japaneseSurnameLatin}/{japaneseGivenNameLatin}/{japaneseName}": "Japanese",
+    "/api2/json/japaneseNameMatchFeedbackLoop/{japaneseSurnameLatin}/{japaneseGivenNameLatin}/{japaneseName}": "Japanese",
+    "/api2/json/japaneseNameMatchBatch": "Japanese",
+    "/api2/json/genderJapaneseName/{japaneseSurname}/{japaneseGivenName}": "Japanese",
+    "/api2/json/genderJapaneseNameBatch": "Japanese",
+    "/api2/json/genderJapaneseNameFull/{japaneseName}": "Japanese",
+    "/api2/json/genderJapaneseNameFullBatch": "Japanese",
+    "/api2/json/phoneCode/{firstName}/{lastName}/{phoneNumber}": "Phone",
+    "/api2/json/phoneCodeGeo/{firstName}/{lastName}/{phoneNumber}/{countryIso2}": "Phone",
+    "/api2/json/phoneCodeGeoFeedbackLoop/{firstName}/{lastName}/{phoneNumber}/{phoneNumberE164}/{countryIso2}": "Phone",
+    "/api2/json/phoneCodeBatch": "Phone",
+    "/api2/json/phoneCodeGeoBatch": "Phone",
+    "/api2/json/parseName/{nameFull}": "Split Name"
+}
