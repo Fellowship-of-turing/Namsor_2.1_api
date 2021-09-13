@@ -1,4 +1,4 @@
-## About the Namsor API
+## About
 
 -   The base endpoint URL is: https://v2.namsor.com/NamSorAPIv2
 -   For best results, use Batch endpoint to process multi-entity requests
@@ -18,8 +18,8 @@
 
 ### Data Privacy
 
-Namsor does not and will never store submitted names, phones or other potentially personal data. The machine learning Algorithm does however improve data evaluation based on the submitted data, it does also keep a history of the services your API key queries.
+By default Namsor's machine learning algorithm may improve data evaluation based on the data inputs and does store logs of submitted request. You may change these setting either in your user account or by calling the dedicated API endpoints. All data logs are secured using AES encryption before being stored.
 
-If you wish to disable machine learning based on your submissions, please set learnable to "false" by using <a href="#learnable">the corresponding Admin route</a>.
+If you wish to disable machine learning based on your submissions, please set learnable to "false" by using <a href="#learnable">the corresponding Admin route</a>. When set to false for an API key, the data processed using that key will not feed the machine learning algorithm.
 
-If you wish to disable service usage history, please set anonymized to "true" by using <a href="#anonymized">the corresponding Admin route</a>.
+If you wish to disable service usage history, please set anonymized to "true" by using <a href="#anonymized">the corresponding Admin route</a>. When set to true for an API key, the data processed using that key will be irreversibly anonymised using SHA encryption. Note that the smart processing for redundant queries will still work even if your data is anonymised.

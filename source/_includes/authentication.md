@@ -6,6 +6,6 @@ To create an API key visit <a target="_blank" href="https://v2.namsor.com">www.n
 
 ### API Key Installation
 
-Your API key must be set in the _header_ of your request using the _X-API-KEY_ property.
+Your API key must be set in the _header_ of your request using the _X-API-KEY_ property. Please refer yourself to the provided code samples for correct key installation.
 
-Please refer yourself to the provided code samples for correct key installation. Just replace "your-api-key" with your NamSor API key.
+<aside class="notice">You must replace "your-api-key" with your NamSor API key.</aside>

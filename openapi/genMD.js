@@ -81,22 +81,22 @@ const widdershinsOptions = {
       "description": "Get our SDK for Golang",
       "url": "https://github.com/namsor/namsor-golang-sdk2"
     },
-    {
-      "description": "Get our SDK for JavaScript",
-      "url": "https://github.com/namsor/namsor-javascript-sdk2"
-    },
-    {
-      "description": "Get our SDK for PHP",
-      "url": "https://github.com/namsor/namsor-php-sdk2"
-    },
-    {
-      "description": "Get our SDK for Ruby",
-      "url": "https://github.com/namsor/namsor-ruby-sdk2"
-    },
-    {
-      "description": "Get our SDK for C#",
-      "url": "https://github.com/namsor/namsor-csharp-sdk2"
-    },
+    // {
+    //   "description": "Get our SDK for JavaScript",
+    //   "url": "https://github.com/namsor/namsor-javascript-sdk2"
+    // },
+    // {
+    //   "description": "Get our SDK for PHP",
+    //   "url": "https://github.com/namsor/namsor-php-sdk2"
+    // },
+    // {
+    //   "description": "Get our SDK for Ruby",
+    //   "url": "https://github.com/namsor/namsor-ruby-sdk2"
+    // },
+    // {
+    //   "description": "Get our SDK for C#",
+    //   "url": "https://github.com/namsor/namsor-csharp-sdk2"
+    // },
     {
       "description": "Get our CLI Toolkit for Java",
       "url": "https://github.com/namsor/namsor-tools-v2"

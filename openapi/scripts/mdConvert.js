@@ -8,6 +8,7 @@ let listEnums = helpers.listEnums;
 // Imports
 const fs = require('fs');
 const widdershins = require('widdershins');
+
 const descr = require('../config/combined_descriptions');
 let sectionIntro = require('../config/section_intros');
 
@@ -435,6 +436,8 @@ let mdConvert = (swaggerFile, store, wsOptions, opt) => {
       mdReplace('> Example responses', responseTitle);
       // Target _blank for outgoing urls
       mdReplace('<a href=', '<a target="_blank" href=');
+      // Apply correct Namsor casing name
+      mdReplace('NamSor', 'Namsor');
 
 
       // Insert include files into document
@@ -444,7 +447,7 @@ let mdConvert = (swaggerFile, store, wsOptions, opt) => {
         contentToInject = `${contentToInject}\n\n${getFile}`;
       });
 
-      dirtyMD = dirtyMD.replace('<h1 id="namsor-api-v2-', `${contentToInject}\n\n<h1 id="namsor-api-v2-`);
+      dirtyMD = dirtyMD.replace('<h1 id="namsor-api-', `${contentToInject}\n\n<h1 id="namsor-api-`);
 
       // Insert API keys in examples
       let apiKeyTags = {
@@ -486,6 +489,8 @@ let mdConvert = (swaggerFile, store, wsOptions, opt) => {
       });
 
       // Clean dirty exceptions
+      dirtyMD = dirtyMD.replace('Base URLs:', '');
+      dirtyMD = dirtyMD.replace('* <a target="_blank" href="https://v2.namsor.com/NamsorAPIv2">https://v2.namsor.com/NamsorAPIv2</a>', '');
       dirtyMD = dirtyMD.replace('|source|path|any|true|The API Key to set as enabled/disabled.|', '');
       dirtyMD = dirtyMD.replace('|source|path|any|true|The API Key to set as learnable/non learnable.|', '');
       dirtyMD = dirtyMD.replace('title: NamSor API v2 v2.0.15', 'title: NamSor API Documentation');

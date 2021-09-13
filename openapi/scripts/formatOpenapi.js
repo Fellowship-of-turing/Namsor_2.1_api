@@ -7,6 +7,7 @@ let capitalize = helpers.capitalize;
 
 // Imports
 const fs = require('fs');
+let docIntro = require('../config/documentation_intro');
 let routeNames = require('../config/route_names');
 let routeOrdering = require('../config/route_ordering')
 let routeSections = require('../config/route_sections');
@@ -724,6 +725,15 @@ module.exports = (swaggerFile, opt) => {
 
   // Delete external links
   delete swaggerFile.externalDocs;
+
+  // Insert new intro
+  swaggerFile.info.title = docIntro.title;
+  swaggerFile.info.description = docIntro.description;
+
+  // Delete unused intro data
+  delete swaggerFile.info.contact;
+  delete swaggerFile.info.license;
+  // delete swaggerFile.servers;
 
   // Change route ordering
   let routePathData = JSON.parse(JSON.stringify(swaggerFile.paths));

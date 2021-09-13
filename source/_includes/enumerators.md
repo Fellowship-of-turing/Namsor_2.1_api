@@ -4,10 +4,6 @@ For readability purposes the enumerators for certain fields may be omitted in th
 
 ### Gender
 
-
-
-### Gender
-
 female, male, unknown
 
 ### Region Classifications
