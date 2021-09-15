@@ -10,7 +10,7 @@ As an example, with 5000 credits you can either :
 -   Process 500 names to determine their origin or ethnicity
 -   Process 250 names to determine their diaspora
 
-Admin routes are free to use.
+<aside class="notice">Admin routes are free.</aside>
 
 ### Repeated Operations Tolerance
 
