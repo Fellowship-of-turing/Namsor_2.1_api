@@ -73,7 +73,7 @@ By default Namsor's machine learning algorithm may improve data evaluation based
 
 If you wish to disable machine learning based on your submissions, please set learnable to "false" by using <a href="#learnable">the corresponding Admin route</a>. When set to false for an API key, the data processed using that key will not feed the machine learning algorithm.
 
-If you wish to disable service usage history, please set anonymized to "true" by using <a href="#anonymized">the corresponding Admin route</a>. When set to true for an API key, the data processed using that key will be irreversibly anonymised using SHA encryption. Note that the smart processing for redundant queries will still work even if your data is anonymised.
+If you wish to disable service usage history, please set anonymized to "true" by using <a href="#anonymize">the corresponding Admin route</a>. When set to true for an API key, the data processed using that key will be irreversibly anonymised using SHA encryption. Note that the smart processing for redundant queries will still work even if your data is anonymised.
 
 
 ## Authentication
