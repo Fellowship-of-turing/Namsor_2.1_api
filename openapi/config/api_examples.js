@@ -1,5 +1,5 @@
 module.exports = {
-    ////////////////////////////////////////////////////////////////////////////////////////////// what is route ???
+    ////////////////////////////////////////////////////////////////////////////////////////////// 
     // - - - GET
     "/api2/json/anonymize/{source}/{anonymized}": {
         "input": {
@@ -1306,7 +1306,7 @@ module.exports = {
         },
         "output": { "feedbackCredits": 1 }
     },
-    //////////////////////////////////////////////////////////////////////////////////////////// what is route ??? 
+    //////////////////////////////////////////////////////////////////////////////////////////// 
     // - - - GET
     "/api2/json/learnable/{source}/{learnable}": {
         "input": {
@@ -1449,6 +1449,81 @@ module.exports = {
                     "subRegionOrigin": "Southern Africa",
                     "probabilityCalibrated": 0.7807734140304999,
                     "probabilityAltCalibrated": 0.8559822288694453
+                }
+            ]
+        }
+    },
+    //////////////////////////////////////////////////////////////////////////////////////////// OK2
+    // - - - GET
+    "/api2/json/subclassification/{countryIso2}/{firstName}/{lastName}": {
+        "input": {
+            "countryIso2": "IN",
+            "firstName": "Amitabh",
+            "lastName": "Bachchan",
+        },
+        "output": {
+            "script": "LATIN",
+            "id": "5dd784f2-d1d3-41b8-bba5-c064a836646b",
+            "firstName": "Amitabh",
+            "lastName": "Bachchan",
+            "countryIso2": "IN",
+            "subClassification": "IN-CH",
+            "subClassificationAlt": "IN-UT",
+            "subclassificationTop": [
+                "IN-CH",
+                "IN-UT",
+                "IN-AN",
+                "IN-UP",
+                "IN-DL",
+                "IN-HR",
+                "IN-RJ",
+                "IN-HP",
+                "IN-BR",
+                "IN-KL"
+            ],
+            "score": 8.02456285165782,
+            "probabilityCalibrated": 0.5561082178046067,
+            "probabilityAltCalibrated": 0.698831534498132
+        }
+    },
+    //////////////////////////////////////////////////////////////////////////////////////////// OK2
+    // - - - POST 
+    "/api2/json/subclassificationBatch": {
+        "input": {
+            "personalNames": [
+                {
+                    "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
+                    "countryIso2": "IN",
+                    "firstName": "Jannat",
+                    "lastName": "Rahmani",
+                }
+            ]
+        },
+        "output": {
+            "personalNames": [
+                {
+                    "script": "LATIN",
+                    "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
+                    "firstName": "Jannat",
+                    "lastName": "Rahmani",
+                    "countryIso2": "IN",
+                    "subClassification": "IN-CH",
+                    "subClassificationAlt": "IN-PY",
+                    "subclassificationTop": [
+                        "IN-CH",
+                        "IN-PY",
+                        "IN-UP",
+                        "IN-AN",
+                        "IN-RJ",
+                        "IN-JH",
+                        "IN-KL",
+                        "IN-BR",
+                        "IN-DL",
+                        "IN-UT"
+                    ],
+                    "score": 2.5087208339960445,
+                    "probabilityCalibrated": 0.3684249074494664,
+                    "probabilityAltCalibrated": 0.4738687735374875
                 }
             ]
         }
@@ -1679,7 +1754,7 @@ module.exports = {
             "score": 7.659341221254624
         }
     },
-    //////////////////////////////////////////////////////////////////////////////////////////// schema origin why here ???
+    //////////////////////////////////////////////////////////////////////////////////////////// 
     // - - - POST 
     "/api2/json/phoneCodeBatch": {
         "input": {
@@ -1741,7 +1816,7 @@ module.exports = {
             "score": 2.362918055640346
         }
     },
-    //////////////////////////////////////////////////////////////////////////////////////////// schema origin why here ???
+    //////////////////////////////////////////////////////////////////////////////////////////// 
     // - - - POST 
     "/api2/json/phoneCodeGeoBatch": {
         "input": {
@@ -1777,7 +1852,7 @@ module.exports = {
             ]
         }
     },
-    //////////////////////////////////////////////////////////////////////////////////////////// reponse incoherente ???
+    //////////////////////////////////////////////////////////////////////////////////////////// 
     // - - - GET
     "/api2/json/phoneCodeGeoFeedbackLoop/{firstName}/{lastName}/{phoneNumber}/{phoneNumberE164}/{countryIso2}": {
         "input": {

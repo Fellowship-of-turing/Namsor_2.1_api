@@ -1,5 +1,5 @@
 ---
-title: Namsor API v2.0.15
+title: Namsor API v2.0.16
 language_tabs:
   - shell: Shell
   - java: Java
@@ -35,7 +35,7 @@ headingLevel: 2
 
 <!-- Generator: Widdershins v4.0.1 -->
 
-<h1 id="namsor-api">Namsor API v2.0.15</h1>
+<h1 id="namsor-api">Namsor API v2.0.16</h1>
 
 > Scroll down for code samples, example requests and responses. Select a language for code samples from the tabs above or the mobile navigation menu.
 
@@ -453,6 +453,311 @@ fetch("https://v2.namsor.com/NamsorAPIv2/api2/json/countryBatch", {
 
 
 
+## Country Subclassification
+
+<a id="opIdCountry-Subclassification"></a>
+
+> **Country Subclassification** code sample :
+
+```shell
+curl --request GET \
+  --url https://v2.namsor.com/NamsorAPIv2/api2/json/subclassification/IN/Amitabh/Bachchan \
+  --header 'X-API-KEY: your-api-key' \
+  --header 'Accept: application/json'
+```
+
+```java
+HttpResponse<String> response = Unirest.get("https://v2.namsor.com/NamsorAPIv2/api2/json/subclassification/IN/Amitabh/Bachchan")
+  .header("Accept", "application/json")
+  .header("X-API-KEY", "your-api-key")
+  .asString();
+```
+
+```python
+import requests
+
+url = "https://v2.namsor.com/NamsorAPIv2/api2/json/subclassification/IN/Amitabh/Bachchan"
+
+headers = {
+ "Accept": "application/json",
+ "X-API-KEY": "your-api-key"
+}
+
+response = requests.request("GET", url, headers=headers)
+
+print(response.text)
+```
+
+```javascript
+fetch("https://v2.namsor.com/NamsorAPIv2/api2/json/subclassification/IN/Amitabh/Bachchan", {
+  "method": "GET",
+  "headers": {
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
+  }
+})
+.then(response => {
+  console.log(response.json());
+})
+.catch(err => {
+  console.error(err);
+});
+```
+
+
+
+*Returns the most likely geographic subdivision context of a first name and a last name. Subdivision are either a country's states or regions. At the moment this is only supported for India (ISO 3166-1 alpha-2 code "IN").*
+
+*<u>Cost :</u> The processing of each query requires **10** credits.*
+
+<h3 id="country-subclassification-requesturl">HTTP Request</h3>
+
+`GET https://v2.namsor.com/NamsorAPIv2/api2/json/subclassification/{countryIso2}/{firstName}/{lastName}`
+
+
+
+<h3 id="country-subclassification-parameters">Request Parameters</h3>
+
+|Name|Type|Required|Description|
+|---|---|---|---|
+|countryIso2|String|true|Most likely country of origin, in ISO 3166-1 alpha-2 format|
+|firstName|String|true|First name (or given name)|
+|lastName|String|true|Last name (or family name)|
+
+
+
+
+
+
+> The above command returns JSON structured like this:
+
+
+
+```json
+{
+  "script": "LATIN",
+  "id": "5dd784f2-d1d3-41b8-bba5-c064a836646b",
+  "firstName": "Amitabh",
+  "lastName": "Bachchan",
+  "countryIso2": "IN",
+  "subClassification": "IN-CH",
+  "subClassificationAlt": "IN-UT",
+  "subclassificationTop": [
+    "IN-CH",
+    "IN-UT",
+    "IN-AN",
+    "IN-UP",
+    "IN-DL",
+    "IN-HR",
+    "IN-RJ",
+    "IN-HP",
+    "IN-BR",
+    "IN-KL"
+  ],
+  "score": 8.02456285165782,
+  "probabilityCalibrated": 0.5561082178046067,
+  "probabilityAltCalibrated": 0.698831534498132
+}
+```
+
+<h3 id="country-subclassification-responses">Response</h3>
+
+*The HTTP response body is an object.*
+
+|Name|Type|Description|Enumerators|
+|---|---|---|---|
+|script|String|Character set used for analysis||
+|id|String|Provided unique identifier||
+|firstName|String|Submitted first name||
+|lastName|String|Submitted last name||
+|countryIso2|String|Submitted country of origin, in ISO 3166-1 alpha-2 format||
+|subClassification|String|Most likely subclassification, in ISO 3166-2 alpha-2 format (country-region)||
+|subClassificationAlt|String|Second most likely subclassification, in ISO 3166-2 alpha-2 format (country-region)||
+|subclassificationTop|Array|Top 10 most likely subclassification, in ISO 3166-2 alpha-2 format (country-region), sorted from most likely to least likely||
+|score|Number|Higher implies a more reliable result, score is not normalized||
+|probabilityCalibrated|Number|Higher implies a more reliable result, ranges from 0 to 1 (for subClassification)||
+|probabilityAltCalibrated|Number|Higher implies a more reliable result, ranges from 0 to 1 (for subClassificationAlt)||
+
+
+
+
+
+
+
+
+
+
+
+## Country Subclassification Batch
+
+<a id="opIdCountry-Subclassification-Batch"></a>
+
+> **Country Subclassification Batch** code sample :
+
+```shell
+curl --request POST \
+  --url https://v2.namsor.com/NamsorAPIv2/api2/json/subclassificationBatch \
+  --header 'X-API-KEY: your-api-key' \
+  --header 'Accept: application/json' \
+  --header 'Content-Type: application/json' \
+  --data '{"personalNames":[{"id":"e630dda5-13b3-42c5-8f1d-648aa8a21c42","countryIso2":"IN","firstName":"Jannat","lastName":"Rahmani"}]}'
+```
+
+```java
+HttpResponse<String> response = Unirest.post("https://v2.namsor.com/NamsorAPIv2/api2/json/subclassificationBatch")
+  .header("Content-Type", "application/json")
+  .header("Accept", "application/json")
+  .header("X-API-KEY", "your-api-key")
+  .body("{\"personalNames\":[{\"id\":\"e630dda5-13b3-42c5-8f1d-648aa8a21c42\",\"countryIso2\":\"IN\",\"firstName\":\"Jannat\",\"lastName\":\"Rahmani\"}]}")
+  .asString();
+```
+
+```python
+import requests
+
+url = "https://v2.namsor.com/NamsorAPIv2/api2/json/subclassificationBatch"
+
+payload = {"personalNames": [
+        {
+            "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
+            "countryIso2": "IN",
+            "firstName": "Jannat",
+            "lastName": "Rahmani"
+        }
+    ]}
+headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
+}
+
+response = requests.request("POST", url, json=payload, headers=headers)
+
+print(response.text)
+```
+
+```javascript
+fetch("https://v2.namsor.com/NamsorAPIv2/api2/json/subclassificationBatch", {
+  "method": "POST",
+  "headers": {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+    "X-API-KEY": "your-api-key"
+  },
+  "body": "{\"personalNames\":[{\"id\":\"e630dda5-13b3-42c5-8f1d-648aa8a21c42\",\"countryIso2\":\"IN\",\"firstName\":\"Jannat\",\"lastName\":\"Rahmani\"}]}"
+})
+.then(response => {
+  console.log(response.json());
+})
+.catch(err => {
+  console.error(err);
+});
+```
+
+
+
+*Returns the most likely geographic subdivision context of of up to 100 first names and a last names. Subdivision are either a country's states or regions. At the moment this is only supported for India (ISO 3166-1 alpha-2 code "IN").*
+
+*<u>Cost :</u> The processing of each object requires **10** credits.*
+
+<h3 id="country-subclassification-batch-requesturl">HTTP Request</h3>
+
+`POST https://v2.namsor.com/NamsorAPIv2/api2/json/subclassificationBatch`
+
+
+
+> Body parameter
+
+```json
+{
+  "personalNames": [
+    {
+      "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
+      "countryIso2": "IN",
+      "firstName": "Jannat",
+      "lastName": "Rahmani"
+    }
+  ]
+}
+```
+
+<h3 id="country-subclassification-batch-parameters">Request Body</h3>
+
+*The HTTP request body is required to be a nested array of objects.*
+
+|Name|Type|Required|Description|
+|---|---|---|---|
+|id|String||Provided unique identifier|
+|firstName|String|true|First name (or given name)|
+|lastName|String|true|Last name (or family name)|
+|countryIso2|String|true|Most likely country of origin, in ISO 3166-1 alpha-2 format|
+
+
+
+
+> The above command returns JSON structured like this:
+
+
+
+```json
+{
+  "personalNames": [
+    {
+      "script": "LATIN",
+      "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
+      "firstName": "Jannat",
+      "lastName": "Rahmani",
+      "countryIso2": "IN",
+      "subClassification": "IN-CH",
+      "subClassificationAlt": "IN-PY",
+      "subclassificationTop": [
+        "IN-CH",
+        "IN-PY",
+        "IN-UP",
+        "IN-AN",
+        "IN-RJ",
+        "IN-JH",
+        "IN-KL",
+        "IN-BR",
+        "IN-DL",
+        "IN-UT"
+      ],
+      "score": 2.5087208339960445,
+      "probabilityCalibrated": 0.3684249074494664,
+      "probabilityAltCalibrated": 0.4738687735374875
+    }
+  ]
+}
+```
+
+<h3 id="country-subclassification-batch-responses">Response</h3>
+
+*The HTTP response body is a nested array of objects.*
+
+|Name|Type|Description|Enumerators|
+|---|---|---|---|
+|script|String|Character set used for analysis||
+|id|String|Provided unique identifier||
+|firstName|String|Submitted first name||
+|lastName|String|Submitted last name||
+|countryIso2|String|Submitted country of origin, in ISO 3166-1 alpha-2 format||
+|subClassification|String|Most likely subclassification, in ISO 3166-2 alpha-2 format (country-region)||
+|subClassificationAlt|String|Second most likely subclassification, in ISO 3166-2 alpha-2 format (country-region)||
+|subclassificationTop|Array|Top 10 most likely subclassification, in ISO 3166-2 alpha-2 format (country-region), sorted from most likely to least likely||
+|score|Number|Higher implies a more reliable result, score is not normalized||
+|probabilityCalibrated|Number|Higher implies a more reliable result, ranges from 0 to 1 (for subClassification)||
+|probabilityAltCalibrated|Number|Higher implies a more reliable result, ranges from 0 to 1 (for subClassificationAlt)||
+
+
+
+
+
+
+
+
+
+
+
 ## Origin
 
 <a id="opIdOrigin"></a>
@@ -859,6 +1164,8 @@ fetch("https://v2.namsor.com/NamsorAPIv2/api2/json/diaspora/US/Subrahmanyan/Chan
 |lifted|Boolean|Indicates if the result of the "ethnicity" field is based on machine learning only, or further lifted as a known fact by a country-specific rule||
 |countryIso2|String|Country of residence, in ISO 3166-1 alpha-2 format||
 |ethnicitiesTop|Array|Top 10 most likely etchnicities, order from most likely to least likely||
+|probabilityCalibrated|Number|The calibrated probability for ethnicity to have been guessed correctly. -1 = still calibrating. ||
+|probabilityAltCalibrated|Number|The calibrated probability for ethnicity OR ethnicityAlt to have been guessed correctly. -1 = still calibrating. ||
 
 
 
@@ -1019,6 +1326,8 @@ fetch("https://v2.namsor.com/NamsorAPIv2/api2/json/diasporaBatch", {
 |lifted|Boolean|Indicates if the output ethnicity is based on machine learning only, or further lifted as a known fact by a country-specific rule||
 |countryIso2|String|Country of residence, in ISO 3166-1 alpha-2 format||
 |ethnicitiesTop|Array|Top 10 most likely etchnicities, order from most likely to least likely||
+|probabilityCalibrated|Number|The calibrated probability for ethnicity to have been guessed correctly. -1 = still calibrating. ||
+|probabilityAltCalibrated|Number|The calibrated probability for ethnicity OR ethnicityAlt to have been guessed correctly. -1 = still calibrating. ||
 
 
 
@@ -1828,6 +2137,8 @@ fetch("https://v2.namsor.com/NamsorAPIv2/api2/json/corridor/GB/Ada/Lovelace/US/N
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lifted*|Boolean|Indicates if the output ethnicity is based on machine learning only, or further lifted as a known fact by a country-specific rule||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.countryIso2*|String|Most likely country of origin, in ISO 3166-1 alpha-2 format||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.ethnicitiesTop*|Array|Top 10 most likely etchnicities, order from most likely to least likely||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.probabilityCalibrated*|Number|The calibrated probability for ethnicity to have been guessed correctly. -1 = still calibrating. ||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.probabilityAltCalibrated*|Number|The calibrated probability for ethnicity OR ethnicityAlt to have been guessed correctly. -1 = still calibrating. ||
 |script|String|Character set used for analysis||
 
 
@@ -2113,6 +2424,8 @@ fetch("https://v2.namsor.com/NamsorAPIv2/api2/json/corridorBatch", {
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lifted*|Boolean|Indicates if the output ethnicity is based on machine learning only, or further lifted as a known fact by a country-specific rule||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.countryIso2*|String|Most likely country of origin, in ISO 3166-1 alpha-2 format||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.ethnicitiesTop*|Array|Top 10 most likely etchnicities, order from most likely to least likely||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.probabilityCalibrated*|Number|The calibrated probability for ethnicity to have been guessed correctly. -1 = still calibrating. ||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.probabilityAltCalibrated*|Number|The calibrated probability for ethnicity OR ethnicityAlt to have been guessed correctly. -1 = still calibrating. ||
 |script|String|Character set used for analysis||
 
 
@@ -3806,11 +4119,11 @@ fetch("https://v2.namsor.com/NamsorAPIv2/api2/json/parseName/John%20Smith", {
 |script|String|Character set used for analysis||
 |id|String|Provided unique identifier||
 |name|String|Submitted full name||
-|nameParserType|String|Most likely structure of the name||
-|nameParserTypeAlt|String|Second most likely structure of the name||
+|nameParserType|String|Most likely structure of the name|"FN1LN1", "LN1FN1", "FN1LN2", "LN2FN1", "FN1LNx", "LNxFN1", "FN2LN1", "LN1FN2", "FN2LN2", "LN2FN2", "FN2LNx", "LNxFN2", "FNxLN1", "LN1FNx", "FNxLN2", "LN2FNx", "FNxLNx" or "LNxFNx"|
+|nameParserTypeAlt|String|Second most likely structure of the name|"FN1LN1", "LN1FN1", "FN1LN2", "LN2FN1", "FN1LNx", "LNxFN1", "FN2LN1", "LN1FN2", "FN2LN2", "LN2FN2", "FN2LNx", "LNxFN2", "FNxLN1", "LN1FNx", "FNxLN2", "LN2FNx", "FNxLNx" or "LNxFNx"|
 |**firstLastName**|**Object**|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|*** string ***||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|*** string ***||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|Character set used for analysis||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|Provided unique identifier||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|First name (or given name)||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|Last name (or family name)||
 |score|Number|Higher implies a more reliable result, score is not normalized||
@@ -3960,11 +4273,11 @@ fetch("https://v2.namsor.com/NamsorAPIv2/api2/json/parseNameBatch", {
 |script|String|Character set used for analysis||
 |id|String|Provided unique identifier||
 |name|String|Submitted full name||
-|nameParserType|String|Most likely structure of the name||
-|nameParserTypeAlt|String|Second most likely structure of the name||
+|nameParserType|String|Most likely structure of the name|"FN1LN1", "LN1FN1", "FN1LN2", "LN2FN1", "FN1LNx", "LNxFN1", "FN2LN1", "LN1FN2", "FN2LN2", "LN2FN2", "FN2LNx", "LNxFN2", "FNxLN1", "LN1FNx", "FNxLN2", "LN2FNx", "FNxLNx" or "LNxFNx"|
+|nameParserTypeAlt|String|Second most likely structure of the name|"FN1LN1", "LN1FN1", "FN1LN2", "LN2FN1", "FN1LNx", "LNxFN1", "FN2LN1", "LN1FN2", "FN2LN2", "LN2FN2", "FN2LNx", "LNxFN2", "FNxLN1", "LN1FNx", "FNxLN2", "LN2FNx", "FNxLNx" or "LNxFNx"|
 |**firstLastName**|**Object**|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|*** string ***||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|*** string ***||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|Character set used for analysis||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|Provided unique identifier||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|First name (or given name)||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|Last name (or family name)||
 |score|Number|Higher implies a more reliable result, score is not normalized||
@@ -4083,11 +4396,11 @@ fetch("https://v2.namsor.com/NamsorAPIv2/api2/json/parseName/Ricardo%20Dar%C3%AD
 |script|String|Character set used for analysis||
 |id|String|Unique identifier||
 |name|String|Submitted full name||
-|nameParserType|String|Most likely structure of the name||
-|nameParserTypeAlt|String|Second most likely structure of the name||
+|nameParserType|String|Most likely structure of the name|"FN1LN1", "LN1FN1", "FN1LN2", "LN2FN1", "FN1LNx", "LNxFN1", "FN2LN1", "LN1FN2", "FN2LN2", "LN2FN2", "FN2LNx", "LNxFN2", "FNxLN1", "LN1FNx", "FNxLN2", "LN2FNx", "FNxLNx" or "LNxFNx"|
+|nameParserTypeAlt|String|Second most likely structure of the name|"FN1LN1", "LN1FN1", "FN1LN2", "LN2FN1", "FN1LNx", "LNxFN1", "FN2LN1", "LN1FN2", "FN2LN2", "LN2FN2", "FN2LNx", "LNxFN2", "FNxLN1", "LN1FNx", "FNxLN2", "LN2FNx", "FNxLNx" or "LNxFNx"|
 |**firstLastName**|**Object**|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|*** string ***||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|*** string ***||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|Character set used for analysis||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|Provided unique identifier||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|First name (or given name)||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|Last name (or family name)||
 |score|Number|Higher implies a more reliable result, score is not normalized||
@@ -4240,11 +4553,11 @@ fetch("https://v2.namsor.com/NamsorAPIv2/api2/json/parseNameGeoBatch", {
 |script|String|Character set used for analysis||
 |id|String|Provided unique identifier||
 |name|String|Submitted full name||
-|nameParserType|String|Most likely structure of the name||
-|nameParserTypeAlt|String|Second most likely structure of the name||
+|nameParserType|String|Most likely structure of the name|"FN1LN1", "LN1FN1", "FN1LN2", "LN2FN1", "FN1LNx", "LNxFN1", "FN2LN1", "LN1FN2", "FN2LN2", "LN2FN2", "FN2LNx", "LNxFN2", "FNxLN1", "LN1FNx", "FNxLN2", "LN2FNx", "FNxLNx" or "LNxFNx"|
+|nameParserTypeAlt|String|Second most likely structure of the name|"FN1LN1", "LN1FN1", "FN1LN2", "LN2FN1", "FN1LNx", "LNxFN1", "FN2LN1", "LN1FN2", "FN2LN2", "LN2FN2", "FN2LNx", "LNxFN2", "FNxLN1", "LN1FNx", "FNxLN2", "LN2FNx", "FNxLNx" or "LNxFNx"|
 |**firstLastName**|**Object**|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|*** string ***||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|*** string ***||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|Character set used for analysis||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|Provided unique identifier||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|First name (or given name)||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|Last name (or family name)||
 |score|Number|Higher implies a more reliable result, score is not normalized||
@@ -4263,11 +4576,11 @@ fetch("https://v2.namsor.com/NamsorAPIv2/api2/json/parseNameGeoBatch", {
 
 Namsor provides a specialized name processing API dedicated to analysing names in the <strong>Japanese language</strong>. We have developed a <strong>name converter</strong>, focused on Japanese names, to help you find the <strong>best transcriptions</strong> possible.<br/><br/>With our API, you can <strong>convert Japanese names</strong> both ways between Kanji and English. You can evaluate the <strong>quality of a transcriptions</strong> between a name in Kanji and a name in Latin characters. It is also possible to split Japansese full names, in either Kanji or Latin characters, into a first name and a last name as well as establish the <strong>gender of a name</strong>.<br><br><br><a class='demo-page-button' target='_blank' href='https://namsor.com/features/english-japanese-translation'>Try out Japanese features</a>
 
-## To Kanji Name
+## To Kanji Name Gender
 
-<a id="opIdTo-Kanji-Name"></a>
+<a id="opIdTo-Kanji-Name-Gender"></a>
 
-> **To Kanji Name** code sample :
+> **To Kanji Name Gender** code sample :
 
 ```shell
 curl --request GET \
@@ -4320,13 +4633,13 @@ fetch("https://v2.namsor.com/NamsorAPIv2/api2/json/japaneseNameKanjiCandidates/Y
 
 *<u>Cost :</u> The processing of each query requires **1** credits.*
 
-<h3 id="to-kanji-name-requesturl">HTTP Request</h3>
+<h3 id="to-kanji-name-gender-requesturl">HTTP Request</h3>
 
 `GET https://v2.namsor.com/NamsorAPIv2/api2/json/japaneseNameKanjiCandidates/{japaneseSurnameLatin}/{japaneseGivenNameLatin}`
 
 
 
-<h3 id="to-kanji-name-parameters">Request Parameters</h3>
+<h3 id="to-kanji-name-gender-parameters">Request Parameters</h3>
 
 |Name|Type|Required|Description|
 |---|---|---|---|
@@ -4365,7 +4678,7 @@ fetch("https://v2.namsor.com/NamsorAPIv2/api2/json/japaneseNameKanjiCandidates/Y
 }
 ```
 
-<h3 id="to-kanji-name-responses">Response</h3>
+<h3 id="to-kanji-name-gender-responses">Response</h3>
 
 *The HTTP response body is an object.*
 
@@ -4555,11 +4868,11 @@ fetch("https://v2.namsor.com/NamsorAPIv2/api2/json/japaneseNameKanjiCandidatesBa
 
 
 
-## To Kanji Name Gender
+## To Kanji Name
 
-<a id="opIdTo-Kanji-Name-Gender"></a>
+<a id="opIdTo-Kanji-Name"></a>
 
-> **To Kanji Name Gender** code sample :
+> **To Kanji Name** code sample :
 
 ```shell
 curl --request GET \
@@ -4612,13 +4925,13 @@ fetch("https://v2.namsor.com/NamsorAPIv2/api2/json/japaneseNameKanjiCandidates/Y
 
 *<u>Cost :</u> The processing of each query requires **1** credits.*
 
-<h3 id="to-kanji-name-gender-requesturl">HTTP Request</h3>
+<h3 id="to-kanji-name-requesturl">HTTP Request</h3>
 
 `GET https://v2.namsor.com/NamsorAPIv2/api2/json/japaneseNameKanjiCandidates/{japaneseSurnameLatin}/{japaneseGivenNameLatin}/{knownGender}`
 
 
 
-<h3 id="to-kanji-name-gender-parameters">Request Parameters</h3>
+<h3 id="to-kanji-name-parameters">Request Parameters</h3>
 
 |Name|Type|Required|Description|
 |---|---|---|---|
@@ -4659,7 +4972,7 @@ fetch("https://v2.namsor.com/NamsorAPIv2/api2/json/japaneseNameKanjiCandidates/Y
 }
 ```
 
-<h3 id="to-kanji-name-gender-responses">Response</h3>
+<h3 id="to-kanji-name-responses">Response</h3>
 
 *The HTTP response body is an object.*
 
@@ -5769,11 +6082,11 @@ fetch("https://v2.namsor.com/NamsorAPIv2/api2/json/parseJapaneseName/%E5%B0%8F%E
 |script|String|Character set used for analysis||
 |id|String|Provided unique identifier||
 |name|String|Submitted full name||
-|nameParserType|String|Most likely structure of the name||
-|nameParserTypeAlt|String|Second most likely structure of the name||
+|nameParserType|String|Most likely structure of the name|"FN1LN1", "LN1FN1", "FN1LN2", "LN2FN1", "FN1LNx", "LNxFN1", "FN2LN1", "LN1FN2", "FN2LN2", "LN2FN2", "FN2LNx", "LNxFN2", "FNxLN1", "LN1FNx", "FNxLN2", "LN2FNx", "FNxLNx" or "LNxFNx"|
+|nameParserTypeAlt|String|Second most likely structure of the name|"FN1LN1", "LN1FN1", "FN1LN2", "LN2FN1", "FN1LNx", "LNxFN1", "FN2LN1", "LN1FN2", "FN2LN2", "LN2FN2", "FN2LNx", "LNxFN2", "FNxLN1", "LN1FNx", "FNxLN2", "LN2FNx", "FNxLNx" or "LNxFNx"|
 |**firstLastName**|**Object**|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|*** string ***||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|*** string ***||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|Character set used for analysis||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|Provided unique identifier||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|First name (or given name)||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|Last name (or family name)||
 |score|Number|Higher implies a more reliable result, score is not normalized||
@@ -5923,11 +6236,11 @@ fetch("https://v2.namsor.com/NamsorAPIv2/api2/json/parseJapaneseNameBatch", {
 |script|String|Character set used for analysis||
 |id|String|Provided unique identifier||
 |name|String|Submitted full name||
-|nameParserType|String|Most likely structure of the name||
-|nameParserTypeAlt|String|Second most likely structure of the name||
+|nameParserType|String|Most likely structure of the name|"FN1LN1", "LN1FN1", "FN1LN2", "LN2FN1", "FN1LNx", "LNxFN1", "FN2LN1", "LN1FN2", "FN2LN2", "LN2FN2", "FN2LNx", "LNxFN2", "FNxLN1", "LN1FNx", "FNxLN2", "LN2FNx", "FNxLNx" or "LNxFNx"|
+|nameParserTypeAlt|String|Second most likely structure of the name|"FN1LN1", "LN1FN1", "FN1LN2", "LN2FN1", "FN1LNx", "LNxFN1", "FN2LN1", "LN1FN2", "FN2LN2", "LN2FN2", "FN2LNx", "LNxFN2", "FNxLN1", "LN1FNx", "FNxLN2", "LN2FNx", "FNxLNx" or "LNxFNx"|
 |**firstLastName**|**Object**|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|*** string ***||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|*** string ***||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|Character set used for analysis||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|Provided unique identifier||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|First name (or given name)||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|Last name (or family name)||
 |score|Number|Higher implies a more reliable result, score is not normalized||
@@ -6039,7 +6352,7 @@ fetch("https://v2.namsor.com/NamsorAPIv2/api2/json/japaneseNameMatch/Tomioka/Tes
 |---|---|---|---|
 |script|String|Character set used for analysis||
 |id|String|Unique identifier||
-|matchStatus|String|Success status of the match||
+|matchStatus|String|Success status of the match|"Match" or "Mismatch"|
 |score|Number|Higher implies a better match, score is not normalized||
 
 
@@ -6200,7 +6513,7 @@ fetch("https://v2.namsor.com/NamsorAPIv2/api2/json/japaneseNameMatchBatch", {
 |---|---|---|---|
 |script|String|Character set used for analysis||
 |id|String|Provided unique identifier||
-|matchStatus|String|Success status of the match||
+|matchStatus|String|Success status of the match|"Match" or "Mismatch"|
 |score|Number|Higher implies a better match, score is not normalized||
 
 
@@ -7012,11 +7325,11 @@ fetch("https://v2.namsor.com/NamsorAPIv2/api2/json/pinyinChineseName/%E8%B5%B5%E
 |script|String|Character set used for analysis||
 |id|String|Provided unique identifier||
 |name|String|Submitted full name||
-|nameParserType|String|Most likely structure of the name||
-|nameParserTypeAlt|String|Second most likely structure of the name||
+|nameParserType|String|Most likely structure of the name|"FN1LN1", "LN1FN1", "FN1LN2", "LN2FN1", "FN1LNx", "LNxFN1", "FN2LN1", "LN1FN2", "FN2LN2", "LN2FN2", "FN2LNx", "LNxFN2", "FNxLN1", "LN1FNx", "FNxLN2", "LN2FNx", "FNxLNx" or "LNxFNx"|
+|nameParserTypeAlt|String|Second most likely structure of the name|"FN1LN1", "LN1FN1", "FN1LN2", "LN2FN1", "FN1LNx", "LNxFN1", "FN2LN1", "LN1FN2", "FN2LN2", "LN2FN2", "FN2LNx", "LNxFN2", "FNxLN1", "LN1FNx", "FNxLN2", "LN2FNx", "FNxLNx" or "LNxFNx"|
 |**firstLastName**|**Object**|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|*** string ***||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|*** string ***||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|Character set used for analysis||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|Provided unique identifier||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|Most likely first name (or given name) transcription in Pinyin||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|Most likely last name (or family name) transcription in Pinyin||
 |score|Number|Higher implies a more reliable result, score is not normalized||
@@ -7166,11 +7479,11 @@ fetch("https://v2.namsor.com/NamsorAPIv2/api2/json/pinyinChineseNameBatch", {
 |script|String|Character set used for analysis||
 |id|String|Provided unique identifier||
 |name|String|Submitted full name||
-|nameParserType|String|Most likely structure of the name||
-|nameParserTypeAlt|String|Second most likely structure of the name||
+|nameParserType|String|Most likely structure of the name|"FN1LN1", "LN1FN1", "FN1LN2", "LN2FN1", "FN1LNx", "LNxFN1", "FN2LN1", "LN1FN2", "FN2LN2", "LN2FN2", "FN2LNx", "LNxFN2", "FNxLN1", "LN1FNx", "FNxLN2", "LN2FNx", "FNxLNx" or "LNxFNx"|
+|nameParserTypeAlt|String|Second most likely structure of the name|"FN1LN1", "LN1FN1", "FN1LN2", "LN2FN1", "FN1LNx", "LNxFN1", "FN2LN1", "LN1FN2", "FN2LN2", "LN2FN2", "FN2LNx", "LNxFN2", "FNxLN1", "LN1FNx", "FNxLN2", "LN2FNx", "FNxLNx" or "LNxFNx"|
 |**firstLastName**|**Object**|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|*** string ***||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|*** string ***||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|Character set used for analysis||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|Provided unique identifier||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|Most likely first name (or given name) transcription in Pinyin||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|Most likely last name (or family name) transcription in Pinyin||
 |score|Number|Higher implies a more reliable result, score is not normalized||
@@ -7810,11 +8123,11 @@ fetch("https://v2.namsor.com/NamsorAPIv2/api2/json/parseChineseName/%E8%B5%B5%E4
 |script|String|Character set used for analysis||
 |id|String|Unique identifier||
 |name|String|Submitted full name||
-|nameParserType|String|Most likely structure of the name||
-|nameParserTypeAlt|String|Second most likely structure of the name||
+|nameParserType|String|Most likely structure of the name|"FN1LN1", "LN1FN1", "FN1LN2", "LN2FN1", "FN1LNx", "LNxFN1", "FN2LN1", "LN1FN2", "FN2LN2", "LN2FN2", "FN2LNx", "LNxFN2", "FNxLN1", "LN1FNx", "FNxLN2", "LN2FNx", "FNxLNx" or "LNxFNx"|
+|nameParserTypeAlt|String|Second most likely structure of the name|"FN1LN1", "LN1FN1", "FN1LN2", "LN2FN1", "FN1LNx", "LNxFN1", "FN2LN1", "LN1FN2", "FN2LN2", "LN2FN2", "FN2LNx", "LNxFN2", "FNxLN1", "LN1FNx", "FNxLN2", "LN2FNx", "FNxLNx" or "LNxFNx"|
 |**firstLastName**|**Object**|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|*** string ***||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|*** string ***||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|Character set used for analysis||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|Provided unique identifier||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|First name (or given name) in Standard Mandarin Chinese||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|Last name (or family name) in Standard Mandarin Chinese||
 |score|Number|Higher implies a more reliable result, score is not normalized||
@@ -7964,11 +8277,11 @@ fetch("https://v2.namsor.com/NamsorAPIv2/api2/json/parseChineseNameBatch", {
 |script|String|Character set used for analysis||
 |id|String|Provided unique identifier||
 |name|String|Submitted full name||
-|nameParserType|String|Most likely structure of the name||
-|nameParserTypeAlt|String|Second most likely structure of the name||
+|nameParserType|String|Most likely structure of the name|"FN1LN1", "LN1FN1", "FN1LN2", "LN2FN1", "FN1LNx", "LNxFN1", "FN2LN1", "LN1FN2", "FN2LN2", "LN2FN2", "FN2LNx", "LNxFN2", "FNxLN1", "LN1FNx", "FNxLN2", "LN2FNx", "FNxLNx" or "LNxFNx"|
+|nameParserTypeAlt|String|Second most likely structure of the name|"FN1LN1", "LN1FN1", "FN1LN2", "LN2FN1", "FN1LNx", "LNxFN1", "FN2LN1", "LN1FN2", "FN2LN2", "LN2FN2", "FN2LNx", "LNxFN2", "FNxLN1", "LN1FNx", "FNxLN2", "LN2FNx", "FNxLNx" or "LNxFNx"|
 |**firstLastName**|**Object**|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|*** string ***||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|*** string ***||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|Character set used for analysis||
+|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String|Provided unique identifier||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|First name (or given name) in Standard Mandarin Chinese||
 |*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|Last name (or family name) in Standard Mandarin Chinese||
 |score|Number|Higher implies a more reliable result, score is not normalized||
@@ -8078,9 +8391,9 @@ fetch("https://v2.namsor.com/NamsorAPIv2/api2/json/chineseNameMatch/Yu/Hong/%E5%
 
 |Name|Type|Description|Enumerators|
 |---|---|---|---|
-|script|String|*** string ***||
-|id|String|*** string ***||
-|matchStatus|String|Success status of the match||
+|script|String|Character set used for analysis||
+|id|String|Provided unique identifier||
+|matchStatus|String|Success status of the match|"Match" or "Mismatch"|
 |score|Number|Higher implies a better match, score is not normalized||
 
 
@@ -8239,9 +8552,9 @@ fetch("https://v2.namsor.com/NamsorAPIv2/api2/json/chineseNameMatchBatch", {
 
 |Name|Type|Description|Enumerators|
 |---|---|---|---|
-|script|String|*** string ***||
-|id|String|*** string ***||
-|matchStatus|String|Success status of the match||
+|script|String|Character set used for analysis||
+|id|String|Provided unique identifier||
+|matchStatus|String|Success status of the match|"Match" or "Mismatch"|
 |score|Number|Higher implies a better match, score is not normalized||
 
 
@@ -8494,20 +8807,6 @@ fetch("https://v2.namsor.com/NamsorAPIv2/api2/json/phoneCodeBatch", {
 |firstName|String|true|First name (or given name)|
 |lastName|String|true|Last name (or family name)|
 |phoneNumber|String|true|Phone number, formatted or unformatted|
-|**FirstLastNameOriginedOut**|**Object**|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|true|*** string ***||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String||*** string ***||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|true|The first name (also known as given name)||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|true|The last name (also known as family name, or surname)||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.countryOrigin*|String|true|Most likely country of Origin||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.countryOriginAlt*|String|true|Second best alternative : country of Origin||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.countriesOriginTop*|Array|true|List countries of Origin (top 10)||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.score*|Number|true|Compatibility to Namsor_v1 Origin score value. Higher score is better, but score is not normalized. Use calibratedProbability if available. ||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.regionOrigin*|String|true|Most likely region of Origin (based on countryOrigin ISO2 code)||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.topRegionOrigin*|String|true|Most likely top region of Origin (based on countryOrigin ISO2 code)||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.subRegionOrigin*|String|true|Most likely sub region of Origin (based on countryOrigin ISO2 code)||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.probabilityCalibrated*|Number|true|The calibrated probability for countryOrigin to have been guessed correctly.||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.probabilityAltCalibrated*|Number|true|The calibrated probability for countryOrigin OR countryOriginAlt to have been guessed correctly.||
 
 
 
@@ -8813,20 +9112,6 @@ fetch("https://v2.namsor.com/NamsorAPIv2/api2/json/phoneCodeGeoBatch", {
 |firstName|String|true|First name (or given name)|
 |lastName|String|true|Last name (or family name)|
 |phoneNumber|String|true|Phone number, formatted or unformatted|
-|**FirstLastNameOriginedOut**|**Object**|||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.script*|String|true|*** string ***||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.id*|String||*** string ***||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.firstName*|String|true|The first name (also known as given name)||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.lastName*|String|true|The last name (also known as family name, or surname)||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.countryOrigin*|String|true|Most likely country of Origin||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.countryOriginAlt*|String|true|Second best alternative : country of Origin||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.countriesOriginTop*|Array|true|List countries of Origin (top 10)||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.score*|Number|true|Compatibility to Namsor_v1 Origin score value. Higher score is better, but score is not normalized. Use calibratedProbability if available. ||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.regionOrigin*|String|true|Most likely region of Origin (based on countryOrigin ISO2 code)||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.topRegionOrigin*|String|true|Most likely top region of Origin (based on countryOrigin ISO2 code)||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.subRegionOrigin*|String|true|Most likely sub region of Origin (based on countryOrigin ISO2 code)||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.probabilityCalibrated*|Number|true|The calibrated probability for countryOrigin to have been guessed correctly.||
-|*&nbsp;&nbsp;&nbsp;&nbsp;{...}.probabilityAltCalibrated*|Number|true|The calibrated probability for countryOrigin OR countryOriginAlt to have been guessed correctly.||
 |countryIso2|String|true|Most likely country of origin, in ISO 3166-1 alpha-2 format|
 |countryIso2Alt|String|true|Second most likely country of origin, in ISO 3166-1 alpha-2 format|
 

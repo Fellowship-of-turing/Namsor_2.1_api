@@ -12,6 +12,9 @@ module.exports = {
   origin: 'Origin',
   originBatch: 'Origin-Batch',
 
+  subclassification: "Country-Subclassification",
+  subclassificationBatch: "Country-Subclassification-Batch",
+
   usRaceEthnicity: 'US-Race-and-Ethnicity',
   usRaceEthnicityBatch: 'US-Race-and-Ethnicity-Batch',
 
@@ -124,7 +127,9 @@ module.exports = {
   apiUsageHistoryAggregate: 'Api-Usage-History-Aggregate',
 
   learnable: 'Learnable',
-  anonymize: 'Anonymize',
+  learnable_1: 'Learnable-(beta)',
+  anonymize: 'Anonymize-(beta)',
+  anonymize_1: 'Anonymize',
   disable: 'Disable-API-Key',
 
   // ____________________________________________
@@ -160,5 +165,6 @@ module.exports = {
   shutdown: 'Shutdown',
   flush: 'Flush',
   userInfo: 'User-Info',
+
 
 };

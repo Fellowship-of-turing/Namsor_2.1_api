@@ -3,7 +3,7 @@
     "info": {
         "title": "Namsor API",
         "description": "The REST based APIs allow you to get access to all of NamSor's features.<br><br>Namsor has developed a <strong>name checking technology</strong>, able to create comprehensive analysis through multiple processing. Our API can classify names by <strong>gender</strong>, <strong>country of origin</strong>, <strong>ethnicity</strong> and even by <strong>diaspora</strong>. Using a full name and it can distinguish the first name from the last name, infer if it's a personal name or a brand name as well as identify the most likely <strong>phone prefix</strong> for that name. Our API also supports many alphabets and is able to translate <strong>Japanese names</strong> in Kanji and <strong>Chinese names</strong> in Pinyin both ways.<br><br>Need something you can’t find here? We have many more features coming soon. Let us know, we’ll do our best to add it!<br><br>Email: contact@namsor.com<br>License: <a target='_blank' href='https://v2.namsor.com/NamSorAPIv2/assets/pdf/201803_NamSor_API_Terms_v007.pdf'>NamSorAPI_Lic_v0.0.7</a>",
-        "version": "2.0.15"
+        "version": "2.0.16"
     },
     "servers": [
         {
@@ -141,6 +141,134 @@
                                             ],
                                             "probabilityCalibrated": 0.6038660443624172,
                                             "probabilityAltCalibrated": 0.6013059169873552
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api2/json/subclassification/{countryIso2}/{firstName}/{lastName}": {
+            "get": {
+                "tags": [
+                    "Origin"
+                ],
+                "summary": "Returns the most likely geographic subdivision context of a first name and a last name. Subdivision are either a country's states or regions. At the moment this is only supported for India (ISO 3166-1 alpha-2 code \"IN\").",
+                "operationId": "Country-Subclassification",
+                "parameters": [
+                    {
+                        "name": "countryIso2",
+                        "in": "path",
+                        "required": true,
+                        "schema": "IN",
+                        "type": "String"
+                    },
+                    {
+                        "name": "firstName",
+                        "in": "path",
+                        "required": true,
+                        "schema": "Amitabh",
+                        "type": "String"
+                    },
+                    {
+                        "name": "lastName",
+                        "in": "path",
+                        "required": true,
+                        "schema": "Bachchan",
+                        "type": "String"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A subclassificationed name.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "script": "LATIN",
+                                    "id": "5dd784f2-d1d3-41b8-bba5-c064a836646b",
+                                    "firstName": "Amitabh",
+                                    "lastName": "Bachchan",
+                                    "countryIso2": "IN",
+                                    "subClassification": "IN-CH",
+                                    "subClassificationAlt": "IN-UT",
+                                    "subclassificationTop": [
+                                        "IN-CH",
+                                        "IN-UT",
+                                        "IN-AN",
+                                        "IN-UP",
+                                        "IN-DL",
+                                        "IN-HR",
+                                        "IN-RJ",
+                                        "IN-HP",
+                                        "IN-BR",
+                                        "IN-KL"
+                                    ],
+                                    "score": 8.02456285165782,
+                                    "probabilityCalibrated": 0.5561082178046067,
+                                    "probabilityAltCalibrated": 0.698831534498132
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api2/json/subclassificationBatch": {
+            "post": {
+                "tags": [
+                    "Origin"
+                ],
+                "summary": "Returns the most likely geographic subdivision context of of up to 100 first names and a last names. Subdivision are either a country's states or regions. At the moment this is only supported for India (ISO 3166-1 alpha-2 code \"IN\").",
+                "operationId": "Country-Subclassification-Batch",
+                "requestBody": {
+                    "description": "A list of personal names",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "personalNames": [
+                                    {
+                                        "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
+                                        "countryIso2": "IN",
+                                        "firstName": "Jannat",
+                                        "lastName": "Rahmani"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "A list of genderized names.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "personalNames": [
+                                        {
+                                            "script": "LATIN",
+                                            "id": "e630dda5-13b3-42c5-8f1d-648aa8a21c42",
+                                            "firstName": "Jannat",
+                                            "lastName": "Rahmani",
+                                            "countryIso2": "IN",
+                                            "subClassification": "IN-CH",
+                                            "subClassificationAlt": "IN-PY",
+                                            "subclassificationTop": [
+                                                "IN-CH",
+                                                "IN-PY",
+                                                "IN-UP",
+                                                "IN-AN",
+                                                "IN-RJ",
+                                                "IN-JH",
+                                                "IN-KL",
+                                                "IN-BR",
+                                                "IN-DL",
+                                                "IN-UT"
+                                            ],
+                                            "score": 2.5087208339960445,
+                                            "probabilityCalibrated": 0.3684249074494664,
+                                            "probabilityAltCalibrated": 0.4738687735374875
                                         }
                                     ]
                                 }
@@ -1608,7 +1736,7 @@
                     "Japanese"
                 ],
                 "summary": "Returns the most likely Kanji transcriptions for a japanese first name and last name in latin characters.",
-                "operationId": "To-Kanji-Name",
+                "operationId": "To-Kanji-Name-Gender",
                 "parameters": [
                     {
                         "name": "japaneseSurnameLatin",
@@ -1722,7 +1850,7 @@
                     "Japanese"
                 ],
                 "summary": "Returns the most likely Kanji transcriptions for a japanese first name and last name in latin characters, according to their gender.",
-                "operationId": "To-Kanji-Name-Gender",
+                "operationId": "To-Kanji-Name",
                 "parameters": [
                     {
                         "name": "japaneseSurnameLatin",

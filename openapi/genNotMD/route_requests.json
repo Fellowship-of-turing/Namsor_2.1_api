@@ -1,30 +1,4 @@
 {
-    "/api2/json/country/{personalNameFull}": {
-        "http": "get",
-        "type": "param",
-        "schema": {
-            "personalNameFull": {
-                "name": "personalNameFull",
-                "in": "path",
-                "required": true,
-                "schema": "Marie Curie",
-                "type": "String"
-            }
-        }
-    },
-    "/api2/json/nameType/{properNoun}": {
-        "http": "get",
-        "type": "param",
-        "schema": {
-            "properNoun": {
-                "name": "properNoun",
-                "in": "path",
-                "required": true,
-                "schema": "Zippo",
-                "type": "String"
-            }
-        }
-    },
     "/api2/json/disable/{source}/{disabled}": {
         "http": "get",
         "type": "param",
@@ -46,6 +20,19 @@
             }
         }
     },
+    "/api2/json/nameType/{properNoun}": {
+        "http": "get",
+        "type": "param",
+        "schema": {
+            "properNoun": {
+                "name": "properNoun",
+                "in": "path",
+                "required": true,
+                "schema": "Zippo",
+                "type": "String"
+            }
+        }
+    },
     "/api2/json/origin/{firstName}/{lastName}": {
         "http": "get",
         "type": "param",
@@ -62,6 +49,19 @@
                 "in": "path",
                 "required": true,
                 "schema": "Muholi",
+                "type": "String"
+            }
+        }
+    },
+    "/api2/json/country/{personalNameFull}": {
+        "http": "get",
+        "type": "param",
+        "schema": {
+            "personalNameFull": {
+                "name": "personalNameFull",
+                "in": "path",
+                "required": true,
+                "schema": "Marie Curie",
                 "type": "String"
             }
         }
@@ -97,6 +97,61 @@
                 "required": true,
                 "schema": true,
                 "type": "Boolean"
+            }
+        }
+    },
+    "/api2/json/learnable/{source}/{learnable}/{token}": {
+        "http": "get",
+        "type": "param",
+        "schema": {
+            "source": {
+                "name": "source",
+                "in": "path",
+                "description": "The API Key to set as learnable/non learnable.",
+                "required": true,
+                "schema": "dec1sourcedec2",
+                "type": "String"
+            },
+            "learnable": {
+                "name": "learnable",
+                "in": "path",
+                "required": true,
+                "schema": "dec1learnabledec2",
+                "type": "Boolean"
+            },
+            "token": {
+                "name": "token",
+                "in": "path",
+                "required": true,
+                "schema": "dec1tokendec2",
+                "type": "String"
+            }
+        }
+    },
+    "/api2/json/anonymize/{source}/{anonymized}/{token}": {
+        "http": "get",
+        "type": "param",
+        "schema": {
+            "source": {
+                "name": "source",
+                "in": "path",
+                "required": true,
+                "schema": "dec1sourcedec2",
+                "type": "String"
+            },
+            "anonymized": {
+                "name": "anonymized",
+                "in": "path",
+                "required": true,
+                "schema": "dec1anonymizeddec2",
+                "type": "Boolean"
+            },
+            "token": {
+                "name": "token",
+                "in": "path",
+                "required": true,
+                "schema": "dec1tokendec2",
+                "type": "String"
             }
         }
     },
@@ -495,6 +550,64 @@
                 }
             },
             "lastName": {
+                "type": "string",
+                "xml": {
+                    "attribute": true
+                }
+            }
+        }
+    },
+    "/api2/json/subclassification/{countryIso2}/{firstName}/{lastName}": {
+        "http": "get",
+        "type": "param",
+        "schema": {
+            "countryIso2": {
+                "name": "countryIso2",
+                "in": "path",
+                "required": true,
+                "schema": "IN",
+                "type": "String"
+            },
+            "firstName": {
+                "name": "firstName",
+                "in": "path",
+                "required": true,
+                "schema": "Amitabh",
+                "type": "String"
+            },
+            "lastName": {
+                "name": "lastName",
+                "in": "path",
+                "required": true,
+                "schema": "Bachchan",
+                "type": "String"
+            }
+        }
+    },
+    "/api2/json/subclassificationBatch": {
+        "http": "post",
+        "type": "array",
+        "description": "A list of personal names",
+        "schema": {
+            "id": {
+                "type": "string",
+                "xml": {
+                    "attribute": true
+                }
+            },
+            "firstName": {
+                "type": "string",
+                "xml": {
+                    "attribute": true
+                }
+            },
+            "lastName": {
+                "type": "string",
+                "xml": {
+                    "attribute": true
+                }
+            },
+            "countryIso2": {
                 "type": "string",
                 "xml": {
                     "attribute": true
@@ -1109,6 +1222,26 @@
             }
         }
     },
+    "/api2/json/japaneseNameKanjiCandidates/{japaneseSurnameLatin}/{japaneseGivenNameLatin}": {
+        "http": "get",
+        "type": "param",
+        "schema": {
+            "japaneseSurnameLatin": {
+                "name": "japaneseSurnameLatin",
+                "in": "path",
+                "required": true,
+                "schema": "Yamamoto",
+                "type": "String"
+            },
+            "japaneseGivenNameLatin": {
+                "name": "japaneseGivenNameLatin",
+                "in": "path",
+                "required": true,
+                "schema": "Sanae",
+                "type": "String"
+            }
+        }
+    },
     "/api2/json/japaneseNameKanjiCandidates/{japaneseSurnameLatin}/{japaneseGivenNameLatin}/{knownGender}": {
         "http": "get",
         "type": "param",
@@ -1132,26 +1265,6 @@
                 "in": "path",
                 "required": true,
                 "schema": "male",
-                "type": "String"
-            }
-        }
-    },
-    "/api2/json/japaneseNameKanjiCandidates/{japaneseSurnameLatin}/{japaneseGivenNameLatin}": {
-        "http": "get",
-        "type": "param",
-        "schema": {
-            "japaneseSurnameLatin": {
-                "name": "japaneseSurnameLatin",
-                "in": "path",
-                "required": true,
-                "schema": "Yamamoto",
-                "type": "String"
-            },
-            "japaneseGivenNameLatin": {
-                "name": "japaneseGivenNameLatin",
-                "in": "path",
-                "required": true,
-                "schema": "Sanae",
                 "type": "String"
             }
         }
@@ -1563,67 +1676,6 @@
             },
             "phoneNumber": {
                 "type": "string"
-            },
-            "FirstLastNameOriginedOut": {
-                "script": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "firstName": {
-                    "type": "string",
-                    "description": "The first name (also known as given name)"
-                },
-                "lastName": {
-                    "type": "string",
-                    "description": "The last name (also known as family name, or surname)"
-                },
-                "countryOrigin": {
-                    "type": "string",
-                    "description": "Most likely country of Origin"
-                },
-                "countryOriginAlt": {
-                    "type": "string",
-                    "description": "Second best alternative : country of Origin"
-                },
-                "countriesOriginTop": {
-                    "type": "array",
-                    "description": "List countries of Origin (top 10)",
-                    "items": {
-                        "type": "string",
-                        "description": "List countries of Origin (top 10)"
-                    }
-                },
-                "score": {
-                    "maximum": 100,
-                    "minimum": 0,
-                    "type": "number",
-                    "description": "Compatibility to NamSor_v1 Origin score value. Higher score is better, but score is not normalized. Use calibratedProbability if available. ",
-                    "format": "double"
-                },
-                "regionOrigin": {
-                    "type": "string",
-                    "description": "Most likely region of Origin (based on countryOrigin ISO2 code)"
-                },
-                "topRegionOrigin": {
-                    "type": "string",
-                    "description": "Most likely top region of Origin (based on countryOrigin ISO2 code)"
-                },
-                "subRegionOrigin": {
-                    "type": "string",
-                    "description": "Most likely sub region of Origin (based on countryOrigin ISO2 code)"
-                },
-                "probabilityCalibrated": {
-                    "type": "number",
-                    "description": "The calibrated probability for countryOrigin to have been guessed correctly.",
-                    "format": "double"
-                },
-                "probabilityAltCalibrated": {
-                    "type": "number",
-                    "description": "The calibrated probability for countryOrigin OR countryOriginAlt to have been guessed correctly.",
-                    "format": "double"
-                }
             }
         }
     },
@@ -1652,67 +1704,6 @@
             },
             "phoneNumber": {
                 "type": "string"
-            },
-            "FirstLastNameOriginedOut": {
-                "script": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "firstName": {
-                    "type": "string",
-                    "description": "The first name (also known as given name)"
-                },
-                "lastName": {
-                    "type": "string",
-                    "description": "The last name (also known as family name, or surname)"
-                },
-                "countryOrigin": {
-                    "type": "string",
-                    "description": "Most likely country of Origin"
-                },
-                "countryOriginAlt": {
-                    "type": "string",
-                    "description": "Second best alternative : country of Origin"
-                },
-                "countriesOriginTop": {
-                    "type": "array",
-                    "description": "List countries of Origin (top 10)",
-                    "items": {
-                        "type": "string",
-                        "description": "List countries of Origin (top 10)"
-                    }
-                },
-                "score": {
-                    "maximum": 100,
-                    "minimum": 0,
-                    "type": "number",
-                    "description": "Compatibility to NamSor_v1 Origin score value. Higher score is better, but score is not normalized. Use calibratedProbability if available. ",
-                    "format": "double"
-                },
-                "regionOrigin": {
-                    "type": "string",
-                    "description": "Most likely region of Origin (based on countryOrigin ISO2 code)"
-                },
-                "topRegionOrigin": {
-                    "type": "string",
-                    "description": "Most likely top region of Origin (based on countryOrigin ISO2 code)"
-                },
-                "subRegionOrigin": {
-                    "type": "string",
-                    "description": "Most likely sub region of Origin (based on countryOrigin ISO2 code)"
-                },
-                "probabilityCalibrated": {
-                    "type": "number",
-                    "description": "The calibrated probability for countryOrigin to have been guessed correctly.",
-                    "format": "double"
-                },
-                "probabilityAltCalibrated": {
-                    "type": "number",
-                    "description": "The calibrated probability for countryOrigin OR countryOriginAlt to have been guessed correctly.",
-                    "format": "double"
-                }
             },
             "countryIso2": {
                 "type": "string"

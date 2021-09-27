@@ -12,7 +12,7 @@
             "name": "NamSorAPI_Lic_v0.0.7",
             "url": "https://v2.namsor.com/NamSorAPIv2/assets/pdf/201803_NamSor_API_Terms_v007.pdf"
         },
-        "version": "2.0.16"
+        "version": "2.0.15"
     },
     "externalDocs": {
         "description": "NamSor API client SDKs v2 for Java, Python",
@@ -37,30 +37,36 @@
         { "name": "admin", "description": "Administrative, system management." }
     ],
     "paths": {
-        "/api2/json/disable/{source}/{disabled}": {
+        "/api2/json/country/{personalNameFull}": {
             "get": {
-                "tags": ["admin"],
-                "summary": "Activate/deactivate an API Key.",
-                "operationId": "disable",
+                "tags": ["personal"],
+                "summary": "[USES 10 UNITS PER NAME] Infer the likely country of residence of a personal full name, or one surname. Assumes names as they are in the country of residence OR the country of origin.",
+                "operationId": "country",
                 "parameters": [
                     {
-                        "name": "source",
+                        "name": "personalNameFull",
                         "in": "path",
-                        "description": "The API Key to set as enabled/disabled.",
                         "required": true,
                         "schema": { "type": "string" }
-                    },
-                    {
-                        "name": "disabled",
-                        "in": "path",
-                        "required": true,
-                        "schema": { "type": "boolean" }
                     }
                 ],
                 "responses": {
-                    "200": { "description": "Disabled the API Key." },
-                    "401": { "description": "Missing or incorrect API Key" }
-                }
+                    "200": {
+                        "description": "A origined name.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PersonalNameGeoOut"
+                                }
+                            }
+                        }
+                    },
+                    "401": { "description": "Missing or incorrect API Key" },
+                    "403": {
+                        "description": "API Limit Reached or API Key Disabled"
+                    }
+                },
+                "security": [{ "api_key": [] }]
             }
         },
         "/api2/json/nameType/{properNoun}": {
@@ -95,6 +101,32 @@
                 "security": [{ "api_key": [] }]
             }
         },
+        "/api2/json/disable/{source}/{disabled}": {
+            "get": {
+                "tags": ["admin"],
+                "summary": "Activate/deactivate an API Key.",
+                "operationId": "disable",
+                "parameters": [
+                    {
+                        "name": "source",
+                        "in": "path",
+                        "description": "The API Key to set as enabled/disabled.",
+                        "required": true,
+                        "schema": { "type": "string" }
+                    },
+                    {
+                        "name": "disabled",
+                        "in": "path",
+                        "required": true,
+                        "schema": { "type": "boolean" }
+                    }
+                ],
+                "responses": {
+                    "200": { "description": "Disabled the API Key." },
+                    "401": { "description": "Missing or incorrect API Key" }
+                }
+            }
+        },
         "/api2/json/origin/{firstName}/{lastName}": {
             "get": {
                 "tags": ["personal"],
@@ -121,38 +153,6 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/FirstLastNameOriginedOut"
-                                }
-                            }
-                        }
-                    },
-                    "401": { "description": "Missing or incorrect API Key" },
-                    "403": {
-                        "description": "API Limit Reached or API Key Disabled"
-                    }
-                },
-                "security": [{ "api_key": [] }]
-            }
-        },
-        "/api2/json/country/{personalNameFull}": {
-            "get": {
-                "tags": ["personal"],
-                "summary": "[USES 10 UNITS PER NAME] Infer the likely country of residence of a personal full name, or one surname. Assumes names as they are in the country of residence OR the country of origin.",
-                "operationId": "country",
-                "parameters": [
-                    {
-                        "name": "personalNameFull",
-                        "in": "path",
-                        "required": true,
-                        "schema": { "type": "string" }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "A origined name.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/PersonalNameGeoOut"
                                 }
                             }
                         }
@@ -342,74 +342,11 @@
                 }
             }
         },
-        "/api2/json/learnable/{source}/{learnable}/{token}": {
-            "get": {
-                "tags": ["admin"],
-                "summary": "Activate/deactivate learning from a source.",
-                "operationId": "learnable_1",
-                "parameters": [
-                    {
-                        "name": "source",
-                        "in": "path",
-                        "description": "The API Key to set as learnable/non learnable.",
-                        "required": true,
-                        "schema": { "type": "string" }
-                    },
-                    {
-                        "name": "learnable",
-                        "in": "path",
-                        "required": true,
-                        "schema": { "type": "boolean" }
-                    },
-                    {
-                        "name": "token",
-                        "in": "path",
-                        "required": true,
-                        "schema": { "type": "string" }
-                    }
-                ],
-                "responses": {
-                    "200": { "description": "Set learning from source." },
-                    "401": { "description": "Missing or incorrect API Key" }
-                }
-            }
-        },
-        "/api2/json/anonymize/{source}/{anonymized}/{token}": {
-            "get": {
-                "tags": ["admin"],
-                "summary": "Activate/deactivate anonymization for a source.",
-                "operationId": "anonymize",
-                "parameters": [
-                    {
-                        "name": "source",
-                        "in": "path",
-                        "required": true,
-                        "schema": { "type": "string" }
-                    },
-                    {
-                        "name": "anonymized",
-                        "in": "path",
-                        "required": true,
-                        "schema": { "type": "boolean" }
-                    },
-                    {
-                        "name": "token",
-                        "in": "path",
-                        "required": true,
-                        "schema": { "type": "string" }
-                    }
-                ],
-                "responses": {
-                    "200": { "description": "Anonymization of a source." },
-                    "401": { "description": "Missing or incorrect API Key" }
-                }
-            }
-        },
         "/api2/json/anonymize/{source}/{anonymized}": {
             "get": {
                 "tags": ["admin"],
                 "summary": "Activate/deactivate anonymization for a source.",
-                "operationId": "anonymize_1",
+                "operationId": "anonymize",
                 "parameters": [
                     {
                         "name": "source",
@@ -942,84 +879,6 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/BatchFirstLastNameOriginedOut"
-                                }
-                            }
-                        }
-                    },
-                    "401": { "description": "Missing or incorrect API Key" },
-                    "403": {
-                        "description": "API Limit Reached or API Key Disabled"
-                    }
-                },
-                "security": [{ "api_key": [] }]
-            }
-        },
-        "/api2/json/subclassification/{countryIso2}/{firstName}/{lastName}": {
-            "get": {
-                "tags": ["personal"],
-                "summary": "[USES 10 UNITS PER NAME] Infer the likely origin of a name at a country subclassification level (state or regeion). Initially, this is only supported for India (ISO2 code 'IN').",
-                "operationId": "subclassification",
-                "parameters": [
-                    {
-                        "name": "countryIso2",
-                        "in": "path",
-                        "required": true,
-                        "schema": { "type": "string" }
-                    },
-                    {
-                        "name": "firstName",
-                        "in": "path",
-                        "required": true,
-                        "schema": { "type": "string" }
-                    },
-                    {
-                        "name": "lastName",
-                        "in": "path",
-                        "required": true,
-                        "schema": { "type": "string" }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "A subclassificationed name.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/FirstLastNameGeoSubclassificationOut"
-                                }
-                            }
-                        }
-                    },
-                    "401": { "description": "Missing or incorrect API Key" },
-                    "403": {
-                        "description": "API Limit Reached or API Key Disabled"
-                    }
-                },
-                "security": [{ "api_key": [] }]
-            }
-        },
-        "/api2/json/subclassificationBatch": {
-            "post": {
-                "tags": ["personal"],
-                "summary": "[USES 10 UNITS PER NAME] Infer the likely origin of a list of up to 100 names at a country subclassification level (state or regeion). Initially, this is only supported for India (ISO2 code 'IN').",
-                "operationId": "subclassificationBatch",
-                "requestBody": {
-                    "description": "A list of personal names",
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/BatchFirstLastNameGeoIn"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "A list of genderized names.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/BatchFirstLastNameGeoSubclassificationOut"
                                 }
                             }
                         }
@@ -1964,10 +1823,10 @@
                 "security": [{ "api_key": [] }]
             }
         },
-        "/api2/json/japaneseNameKanjiCandidates/{japaneseSurnameLatin}/{japaneseGivenNameLatin}": {
+        "/api2/json/japaneseNameKanjiCandidates/{japaneseSurnameLatin}/{japaneseGivenNameLatin}/{knownGender}": {
             "get": {
                 "tags": ["japanese"],
-                "summary": "Identify japanese name candidates in KANJI, based on the romanized name ex. Yamamoto Sanae",
+                "summary": "Identify japanese name candidates in KANJI, based on the romanized name ex. Yamamoto Sanae - and a known gender.",
                 "operationId": "japaneseNameKanjiCandidates",
                 "parameters": [
                     {
@@ -1978,6 +1837,12 @@
                     },
                     {
                         "name": "japaneseGivenNameLatin",
+                        "in": "path",
+                        "required": true,
+                        "schema": { "type": "string" }
+                    },
+                    {
+                        "name": "knownGender",
                         "in": "path",
                         "required": true,
                         "schema": { "type": "string" }
@@ -2002,10 +1867,10 @@
                 "security": [{ "api_key": [] }]
             }
         },
-        "/api2/json/japaneseNameKanjiCandidates/{japaneseSurnameLatin}/{japaneseGivenNameLatin}/{knownGender}": {
+        "/api2/json/japaneseNameKanjiCandidates/{japaneseSurnameLatin}/{japaneseGivenNameLatin}": {
             "get": {
                 "tags": ["japanese"],
-                "summary": "Identify japanese name candidates in KANJI, based on the romanized name ex. Yamamoto Sanae - and a known gender.",
+                "summary": "Identify japanese name candidates in KANJI, based on the romanized name ex. Yamamoto Sanae",
                 "operationId": "japaneseNameKanjiCandidates_1",
                 "parameters": [
                     {
@@ -2016,12 +1881,6 @@
                     },
                     {
                         "name": "japaneseGivenNameLatin",
-                        "in": "path",
-                        "required": true,
-                        "schema": { "type": "string" }
-                    },
-                    {
-                        "name": "knownGender",
                         "in": "path",
                         "required": true,
                         "schema": { "type": "string" }
@@ -2713,65 +2572,6 @@
                 "description": "Represents the output of inferring the LIKELY gender from a list of personal names.",
                 "xml": { "name": "BatchFirstLastNameGenderedOut" }
             },
-            "FirstLastNameGeoSubclassificationOut": {
-                "type": "object",
-                "properties": {
-                    "script": { "type": "string" },
-                    "id": { "type": "string" },
-                    "firstName": {
-                        "type": "string",
-                        "description": "The first name (also known as given name)"
-                    },
-                    "lastName": {
-                        "type": "string",
-                        "description": "The last name (also known as family name, or surname)"
-                    },
-                    "countryIso2": {
-                        "type": "string",
-                        "description": "The input country ISO2 code",
-                        "xml": { "attribute": true }
-                    },
-                    "subClassification": {
-                        "type": "string",
-                        "description": "Most likely subclassification ISO_3166-2 code"
-                    },
-                    "subClassificationAlt": {
-                        "type": "string",
-                        "description": "Second best alternative : subclassification ISO_3166-2 code"
-                    },
-                    "subclassificationTop": {
-                        "type": "array",
-                        "description": "List subclassification ISO_3166-2 codes (top 10)",
-                        "items": {
-                            "type": "string",
-                            "description": "List subclassification ISO_3166-2 codes (top 10)"
-                        }
-                    },
-                    "score": {
-                        "maximum": 100,
-                        "minimum": 0,
-                        "type": "number",
-                        "description": "Compatibility to NamSor_v1 Origin score value. Higher score is better, but score is not normalized. Use calibratedProbability if available. ",
-                        "format": "double"
-                    },
-                    "probabilityCalibrated": {
-                        "maximum": 1,
-                        "minimum": -1,
-                        "type": "number",
-                        "description": "The calibrated probability for subclassification to have been guessed correctly. -1 = still calibrating. ",
-                        "format": "double"
-                    },
-                    "probabilityAltCalibrated": {
-                        "maximum": 1,
-                        "minimum": -1,
-                        "type": "number",
-                        "description": "The calibrated probability for subclassification OR subclassificationAlt to have been guessed correctly. -1 = still calibrating. ",
-                        "format": "double"
-                    }
-                },
-                "description": "Represents the geographic name origin at a country subclassification level (usually regional or state level).",
-                "xml": { "name": "FirstLastNameGeoSubclassificationOut" }
-            },
             "FirstLastNamePhoneNumberIn": {
                 "type": "object",
                 "properties": {
@@ -2784,7 +2584,10 @@
                         "type": "string",
                         "xml": { "attribute": true }
                     },
-                    "phoneNumber": { "type": "string" }
+                    "phoneNumber": { "type": "string" },
+                    "FirstLastNameOriginedOut": {
+                        "$ref": "#/components/schemas/FirstLastNameOriginedOut"
+                    }
                 },
                 "xml": { "name": "FirstLastNamePhoneNumberIn" }
             },
@@ -3063,10 +2866,8 @@
                         "enum": ["male", "female", "unknown"]
                     },
                     "genderScale": {
-                        "maximum": 1,
-                        "minimum": -1,
                         "type": "number",
-                        "description": "Compatibility to NamSor_v1 Gender Scale M[-1..U..+1]F value.",
+                        "description": "Compatibility to NamSor_v1 Gender Scale M[-1..U..+1]F value",
                         "format": "double"
                     },
                     "score": {
@@ -3077,10 +2878,8 @@
                         "format": "double"
                     },
                     "probabilityCalibrated": {
-                        "maximum": 1,
-                        "minimum": -1,
                         "type": "number",
-                        "description": "The calibrated probability for inferred gender to have been guessed correctly. -1 = still calibrating. ",
+                        "description": "The calibrated probability for inferred gender to have been guessed correctly.",
                         "format": "double"
                     }
                 },
@@ -3132,6 +2931,7 @@
                         "description": "The API Key is temporarily or permanently disabled."
                     }
                 },
+                "description": "The API Key.",
                 "xml": { "name": "APIKeyOut" }
             },
             "BatchFirstLastNameDiasporaedOut": {
@@ -3220,10 +3020,8 @@
                         "enum": ["male", "female", "unknown"]
                     },
                     "genderScale": {
-                        "maximum": 1,
-                        "minimum": -1,
                         "type": "number",
-                        "description": "Compatibility to NamSor_v1 Gender Scale M[-1..U..+1]F value.",
+                        "description": "Compatibility to NamSor_v1 Gender Scale M[-1..U..+1]F value",
                         "format": "double"
                     },
                     "score": {
@@ -3234,10 +3032,8 @@
                         "format": "double"
                     },
                     "probabilityCalibrated": {
-                        "maximum": 1,
-                        "minimum": -1,
                         "type": "number",
-                        "description": "The calibrated probability for inferred gender to have been guessed correctly. -1 = still calibrating. ",
+                        "description": "The calibrated probability for inferred gender to have been guessed correctly.",
                         "format": "double"
                     }
                 },
@@ -3293,17 +3089,13 @@
                         "description": "Most likely sub region of Origin (based on countryOrigin ISO2 code)"
                     },
                     "probabilityCalibrated": {
-                        "maximum": 1,
-                        "minimum": -1,
                         "type": "number",
-                        "description": "The calibrated probability for countryOrigin to have been guessed correctly. -1 = still calibrating. ",
+                        "description": "The calibrated probability for countryOrigin to have been guessed correctly.",
                         "format": "double"
                     },
                     "probabilityAltCalibrated": {
-                        "maximum": 1,
-                        "minimum": -1,
                         "type": "number",
-                        "description": "The calibrated probability for countryOrigin OR countryOriginAlt to have been guessed correctly. -1 = still calibrating. ",
+                        "description": "The calibrated probability for countryOrigin OR countryOriginAlt to have been guessed correctly.",
                         "format": "double"
                     }
                 },
@@ -3438,20 +3230,6 @@
                             "type": "string",
                             "description": "List most likely ethnicities (top 10)"
                         }
-                    },
-                    "probabilityCalibrated": {
-                        "maximum": 1,
-                        "minimum": -1,
-                        "type": "number",
-                        "description": "The calibrated probability for ethnicity to have been guessed correctly. -1 = still calibrating. ",
-                        "format": "double"
-                    },
-                    "probabilityAltCalibrated": {
-                        "maximum": 1,
-                        "minimum": -1,
-                        "type": "number",
-                        "description": "The calibrated probability for ethnicity OR ethnicityAlt to have been guessed correctly. -1 = still calibrating. ",
-                        "format": "double"
                     }
                 },
                 "description": "Represents the output of inferring the LIKELY ethnicity from a personal name, given an country of residence.",
@@ -3820,51 +3598,11 @@
                     },
                     "nameParserType": {
                         "type": "string",
-                        "description": "Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order.",
-                        "enum": [
-                            "FN1LN1",
-                            "LN1FN1",
-                            "FN1LN2",
-                            "LN2FN1",
-                            "FN1LNx",
-                            "LNxFN1",
-                            "FN2LN1",
-                            "LN1FN2",
-                            "FN2LN2",
-                            "LN2FN2",
-                            "FN2LNx",
-                            "LNxFN2",
-                            "FNxLN1",
-                            "LN1FNx",
-                            "FNxLN2",
-                            "LN2FNx",
-                            "FNxLNx",
-                            "LNxFNx"
-                        ]
+                        "description": "Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order."
                     },
                     "nameParserTypeAlt": {
                         "type": "string",
-                        "description": "Second best alternative parsing. Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order.",
-                        "enum": [
-                            "FN1LN1",
-                            "LN1FN1",
-                            "FN1LN2",
-                            "LN2FN1",
-                            "FN1LNx",
-                            "LNxFN1",
-                            "FN2LN1",
-                            "LN1FN2",
-                            "FN2LN2",
-                            "LN2FN2",
-                            "FN2LNx",
-                            "LNxFN2",
-                            "FNxLN1",
-                            "LN1FNx",
-                            "FNxLN2",
-                            "LN2FNx",
-                            "FNxLNx",
-                            "LNxFNx"
-                        ]
+                        "description": "Second best alternative parsing. Name parsing is addressed as a classification problem, for example FN1LN1 means a first then last name order."
                     },
                     "firstLastName": {
                         "$ref": "#/components/schemas/FirstLastNameOut"
@@ -3980,20 +3718,6 @@
                 },
                 "xml": { "name": "FirstLastName" }
             },
-            "BatchFirstLastNameGeoSubclassificationOut": {
-                "type": "object",
-                "properties": {
-                    "personalNames": {
-                        "type": "array",
-                        "description": "Classified names at sub country level (region or state)",
-                        "items": {
-                            "$ref": "#/components/schemas/FirstLastNameGeoSubclassificationOut"
-                        }
-                    }
-                },
-                "description": "Represents the output of inferring the LIKELY country subclassification (regional names).",
-                "xml": { "name": "BatchFirstLastNameGeoSubclassificationOut" }
-            },
             "APIClassifierTaxonomyOut": {
                 "type": "object",
                 "properties": {
@@ -4106,17 +3830,13 @@
                         }
                     },
                     "probabilityCalibrated": {
-                        "maximum": 1,
-                        "minimum": -1,
                         "type": "number",
-                        "description": "The calibrated probability for raceEthnicity to have been guessed correctly. -1 = still calibrating. ",
+                        "description": "The calibrated probability for raceEthnicity to have been guessed correctly.",
                         "format": "double"
                     },
                     "probabilityAltCalibrated": {
-                        "maximum": 1,
-                        "minimum": -1,
                         "type": "number",
-                        "description": "The calibrated probability for raceEthnicity OR raceEthnicityAlt to have been guessed correctly. -1 = still calibrating. ",
+                        "description": "The calibrated probability for raceEthnicity OR raceEthnicityAlt to have been guessed correctly.",
                         "format": "double"
                     }
                 },
@@ -4200,8 +3920,7 @@
                     "id": { "type": "string" },
                     "matchStatus": {
                         "type": "string",
-                        "description": "The name matching status.",
-                        "enum": ["Match", "Mismatch"]
+                        "description": "The name matching status."
                     },
                     "score": { "type": "number", "format": "double" }
                 },
@@ -4233,6 +3952,9 @@
                         "xml": { "attribute": true }
                     },
                     "phoneNumber": { "type": "string" },
+                    "FirstLastNameOriginedOut": {
+                        "$ref": "#/components/schemas/FirstLastNameOriginedOut"
+                    },
                     "countryIso2": { "type": "string" },
                     "countryIso2Alt": { "type": "string" }
                 },
@@ -4283,17 +4005,13 @@
                         }
                     },
                     "probabilityCalibrated": {
-                        "maximum": 1,
-                        "minimum": -1,
                         "type": "number",
-                        "description": "The calibrated probability for country to have been guessed correctly. -1 = still calibrating. ",
+                        "description": "The calibrated probability for country to have been guessed correctly.",
                         "format": "double"
                     },
                     "probabilityAltCalibrated": {
-                        "maximum": 1,
-                        "minimum": -1,
                         "type": "number",
-                        "description": "The calibrated probability for country OR countryAlt to have been guessed correctly. -1 = still calibrating. ",
+                        "description": "The calibrated probability for country OR countryAlt to have been guessed correctly.",
                         "format": "double"
                     }
                 },

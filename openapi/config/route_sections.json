@@ -10,6 +10,8 @@
         { "name": "Admin", "description": "$admin" }
     ],
 
+    "/api2/json/subclassification/{countryIso2}/{firstName}/{lastName}": "Origin",
+    "/api2/json/subclassificationBatch": "Origin",
     "/api2/json/country/{personalNameFull}": "Origin",
     "/api2/json/nameType/{properNoun}": "Name Type",
     "/api2/json/disable/{source}/{disabled}": "Admin",

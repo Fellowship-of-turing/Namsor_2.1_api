@@ -4,6 +4,12 @@ module.exports = [
     "/api2/json/country/{personalNameFull}",
     "/api2/json/countryBatch",
 
+    "/api2/json/subclassification/{countryIso2}/{firstName}/{lastName}",
+    "/api2/json/subclassificationBatch",
+
+    "/api2/json/origin/{firstName}/{lastName}",
+    "/api2/json/originBatch",
+
     "/api2/json/origin/{firstName}/{lastName}",
     "/api2/json/originBatch",
 

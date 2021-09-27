@@ -41,3 +41,11 @@ or
 ## Other helpful links
 
 https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site
+
+## Adding routes
+
+1. Add a route name in config/route_names.js using the operationId as key for the new name
+2. Add route examples in config/api_examples.js using the route path as key
+3. Add descriptions in config/combined_descriptions.js using the route path as key
+4. Specify the route's category in config/route_sections.js
+5. Specify the route's order in config/route_ordering.js

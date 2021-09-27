@@ -139,7 +139,7 @@ let mdConvert = (swaggerFile, store, wsOptions, opt) => {
           };
         }
         else {
-          console.log(`${colors.yellow("Warn - No REQUEST schema for :")}\n${route}`);
+          console.log(`${colors.yellow("No REQUEST schema for :")}\n${route}`);
         };
 
         // Insert new table
@@ -167,7 +167,13 @@ let mdConvert = (swaggerFile, store, wsOptions, opt) => {
                 descr[route].request &&
                 descr[route].request[param]
               ) {
-                prm.desc = descr[route].request[param];
+                if (descr[route].request[param].indexOf("***") !== -1) {
+                  console.log(`${colors.yellow("Missing field description for :")}\n${param}\n${route}\n`);
+                  prm.desc = "";
+                }
+                else {
+                  prm.desc = descr[route].request[param];
+                };
               }
               else {
                 prm.desc = prm.description ? prm.description : '';
@@ -215,7 +221,13 @@ let mdConvert = (swaggerFile, store, wsOptions, opt) => {
                 descr[route].request &&
                 descr[route].request[param]
               ) {
-                prm.desc = descr[route].request[param];
+                if (descr[route].request[param].indexOf("***") !== -1) {
+                  console.log(`${colors.yellow("Missing field description for :")}\n${param}\n${route}\n`);
+                  prm.desc = "";
+                }
+                else {
+                  prm.desc = descr[route].request[param];
+                };
               }
               else {
                 prm.desc = prm.description ? prm.description : '';
@@ -247,7 +259,13 @@ let mdConvert = (swaggerFile, store, wsOptions, opt) => {
                       descr[route].request[param] &&
                       descr[route].request[param][subKey]
                     ) {
-                      subPrm.desc = descr[route].request[param][subKey];
+                      if (descr[route].request[param][subKey].indexOf("***") !== -1) {
+                        console.log(`${colors.yellow("Missing field description for :")}\n${subkey}\n${route}\n`);
+                        prm.desc = "";
+                      }
+                      else {
+                        subPrm.desc = descr[route].request[param][subKey];
+                      };
                     }
                     else {
                       subPrm.desc = subPrm.description ? subPrm.description : '';
@@ -338,7 +356,13 @@ let mdConvert = (swaggerFile, store, wsOptions, opt) => {
               descr[route].response &&
               descr[route].response[param]
             ) {
-              prm.desc = descr[route].response[param];
+              if (descr[route].response[param].indexOf("***") !== -1) {
+                console.log(`${colors.yellow("Missing field description for :")}\n${param}\n${route}\n`);
+                prm.desc = "";
+              }
+              else {
+                prm.desc = descr[route].response[param];
+              }
             }
             else {
               prm.desc = prm.description ? prm.description : '';
@@ -365,7 +389,13 @@ let mdConvert = (swaggerFile, store, wsOptions, opt) => {
                     descr[route].response[param] &&
                     descr[route].response[param][subKey]
                   ) {
-                    subPrm.desc = descr[route].response[param][subKey];
+                    if (descr[route].response[param][subKey].indexOf("***") !== -1) {
+                      console.log(`${colors.yellow("Missing field description for :")}\n${subKey}\n${route}\n`);
+                      prm.desc = "";
+                    }
+                    else {
+                      subPrm.desc = descr[route].response[param][subKey];
+                    };
                   }
                   else {
                     subPrm.desc = subPrm.description ? subPrm.description : '';
@@ -381,7 +411,7 @@ let mdConvert = (swaggerFile, store, wsOptions, opt) => {
         }
         else {
           mdRouteReplace(resTag, 'In case of a success the API will respond with an HTTP 200 code.', routeStart(), routeEnd(), route);
-          console.log(`${colors.yellow("Warn - No RESPONSE schema for :")}\n${route}`);
+          console.log(`${colors.yellow("No RESPONSE schema for :")}\n${route}`);
         };
 
         /***********************

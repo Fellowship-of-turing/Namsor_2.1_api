@@ -1,24 +1,26 @@
 {
     "base": "https://v2.namsor.com/NamSorAPIv2",
-    "errorResponses": {
-        "401": "Missing or incorrect API Key",
-        "403": "API Limit Reached or API Key Disabled"
-    },
+    "errorResponses": [
+        "401",
+        "403"
+    ],
     "routes": {
         "nameTypeBatch": {
-            "http": "post",
-            "url": "/api2/json/nameTypeBatch",
-            "req": {
-                "properNouns": [
-                    {
-                        "id": "String",
-                        "name": "String"
-                    }
-                ]
+            "title": "Name Type Batch",
+            "summary": "Returns the type of  submitted proper nouns. Ex: John Smith = personal name, Namsor = brand name.",
+            "cost": 1,
+            "required": [
+                "name"
+            ],
+            "request": {
+                "properNouns": {
+                    "id": "String",
+                    "name": "String"
+                }
             },
-            "res": {
-                "properNouns": [
-                    {
+            "response": {
+                "200": {
+                    "properNouns": {
                         "script": "String",
                         "id": "String",
                         "name": "String",
@@ -26,10 +28,10 @@
                         "commonTypeAlt": "String",
                         "score": "Number"
                     }
-                ]
+                },
+                "401": "Missing or incorrect API Key",
+                "403": "API Limit Reached or API Key Disabled"
             },
-            "operationName": "Name Type Batch",
-            "summary": "Returns the type of  submitted proper nouns. Ex: John Smith = personal name, Namsor = brand name.",
             "reqMetaKey": "properNouns",
             "reqKeys": [
                 "id",
@@ -43,24 +45,26 @@
                 "commonType",
                 "commonTypeAlt",
                 "score"
-            ],
-            "cost": 1
+            ]
         },
         "nameTypeGeoBatch": {
-            "http": "post",
-            "url": "/api2/json/nameTypeGeoBatch",
-            "req": {
-                "properNouns": [
-                    {
-                        "id": "String",
-                        "name": "String",
-                        "countryIso2": "String"
-                    }
-                ]
+            "title": "Name Type Geo Batch",
+            "summary": "Returns the type of  submitted proper nouns using their geographic context. Ex: John Smith = personal name, Namsor = brand name.",
+            "cost": 1,
+            "required": [
+                "name",
+                "countryIso2"
+            ],
+            "request": {
+                "properNouns": {
+                    "id": "String",
+                    "name": "String",
+                    "countryIso2": "String"
+                }
             },
-            "res": {
-                "properNouns": [
-                    {
+            "response": {
+                "200": {
+                    "properNouns": {
                         "script": "String",
                         "id": "String",
                         "name": "String",
@@ -68,10 +72,10 @@
                         "commonTypeAlt": "String",
                         "score": "Number"
                     }
-                ]
+                },
+                "401": "Missing or incorrect API Key",
+                "403": "API Limit Reached or API Key Disabled"
             },
-            "operationName": "Name Type Geo Batch",
-            "summary": "Returns the type of  submitted proper nouns using their geographic context. Ex: John Smith = personal name, Namsor = brand name.",
             "reqMetaKey": "properNouns",
             "reqKeys": [
                 "id",
@@ -86,34 +90,40 @@
                 "commonType",
                 "commonTypeAlt",
                 "score"
-            ],
-            "cost": 1
+            ]
         },
         "corridorBatch": {
-            "http": "post",
-            "url": "/api2/json/corridorBatch",
-            "req": {
-                "corridorFromTo": [
-                    {
+            "title": "Corridor Batch",
+            "summary": "Returns complete analysis of  cross border interactions between two names using their geographic context. The sender is the one who initiated the interaction (from) while the receiver is the one intended to receive the interaction (to).",
+            "cost": 20,
+            "required": [
+                "firstLastNameGeoFrom.firstName",
+                "firstLastNameGeoFrom.lastName",
+                "firstLastNameGeoFrom.countryIso2",
+                "firstLastNameGeoTo.firstName",
+                "firstLastNameGeoTo.lastName",
+                "firstLastNameGeoTo.countryIso2"
+            ],
+            "request": {
+                "corridorFromTo": {
+                    "id": "String",
+                    "firstLastNameGeoFrom": {
                         "id": "String",
-                        "firstLastNameGeoFrom": {
-                            "id": "String",
-                            "firstName": "String",
-                            "lastName": "String",
-                            "countryIso2": "String"
-                        },
-                        "firstLastNameGeoTo": {
-                            "id": "String",
-                            "firstName": "String",
-                            "lastName": "String",
-                            "countryIso2": "String"
-                        }
+                        "firstName": "String",
+                        "lastName": "String",
+                        "countryIso2": "String"
+                    },
+                    "firstLastNameGeoTo": {
+                        "id": "String",
+                        "firstName": "String",
+                        "lastName": "String",
+                        "countryIso2": "String"
                     }
-                ]
+                }
             },
-            "res": {
-                "corridorFromTo": [
-                    {
+            "response": {
+                "200": {
+                    "corridorFromTo": {
                         "id": "String",
                         "FirstLastNameGenderedOut": {
                             "script": "String",
@@ -150,14 +160,16 @@
                             "ethnicity": "String",
                             "lifted": "Boolean",
                             "countryIso2": "String",
-                            "ethnicitiesTop": "Array"
+                            "ethnicitiesTop": "Array",
+                            "probabilityCalibrated": "Number",
+                            "probabilityAltCalibrated": "Number"
                         },
                         "script": "String"
                     }
-                ]
+                },
+                "401": "Missing or incorrect API Key",
+                "403": "API Limit Reached or API Key Disabled"
             },
-            "operationName": "Corridor Batch",
-            "summary": "Returns complete analysis of  cross border interactions between two names using their geographic context. The sender is the one who initiated the interaction (from) while the receiver is the one intended to receive the interaction (to).",
             "reqMetaKey": "corridorFromTo",
             "reqKeys": [
                 "id",
@@ -204,26 +216,31 @@
                 "FirstLastNameDiasporaedOut.lifted",
                 "FirstLastNameDiasporaedOut.countryIso2",
                 "FirstLastNameDiasporaedOut.ethnicitiesTop",
+                "FirstLastNameDiasporaedOut.probabilityCalibrated",
+                "FirstLastNameDiasporaedOut.probabilityAltCalibrated",
                 "script"
-            ],
-            "cost": 20
+            ]
         },
         "genderGeoBatch": {
-            "http": "post",
-            "url": "/api2/json/genderGeoBatch",
-            "req": {
-                "personalNames": [
-                    {
-                        "id": "String",
-                        "firstName": "String",
-                        "lastName": "String",
-                        "countryIso2": "String"
-                    }
-                ]
+            "title": "Gender Geo Batch",
+            "summary": "Returns the most likely gender of  first names and last names using their geographic context.",
+            "cost": 1,
+            "required": [
+                "firstName",
+                "lastName",
+                "countryIso2"
+            ],
+            "request": {
+                "personalNames": {
+                    "id": "String",
+                    "firstName": "String",
+                    "lastName": "String",
+                    "countryIso2": "String"
+                }
             },
-            "res": {
-                "personalNames": [
-                    {
+            "response": {
+                "200": {
+                    "personalNames": {
                         "script": "String",
                         "id": "String",
                         "firstName": "String",
@@ -233,10 +250,10 @@
                         "score": "Number",
                         "probabilityCalibrated": "Number"
                     }
-                ]
+                },
+                "401": "Missing or incorrect API Key",
+                "403": "API Limit Reached or API Key Disabled"
             },
-            "operationName": "Gender Geo Batch",
-            "summary": "Returns the most likely gender of  first names and last names using their geographic context.",
             "reqMetaKey": "personalNames",
             "reqKeys": [
                 "id",
@@ -254,24 +271,26 @@
                 "genderScale",
                 "score",
                 "probabilityCalibrated"
-            ],
-            "cost": 1
+            ]
         },
         "genderBatch": {
-            "http": "post",
-            "url": "/api2/json/genderBatch",
-            "req": {
-                "personalNames": [
-                    {
-                        "id": "String",
-                        "firstName": "String",
-                        "lastName": "String"
-                    }
-                ]
+            "title": "Gender Batch",
+            "summary": "Returns the most likely gender of  first names and last names.",
+            "cost": 1,
+            "required": [
+                "firstName",
+                "lastName"
+            ],
+            "request": {
+                "personalNames": {
+                    "id": "String",
+                    "firstName": "String",
+                    "lastName": "String"
+                }
             },
-            "res": {
-                "personalNames": [
-                    {
+            "response": {
+                "200": {
+                    "personalNames": {
                         "script": "String",
                         "id": "String",
                         "firstName": "String",
@@ -281,10 +300,10 @@
                         "score": "Number",
                         "probabilityCalibrated": "Number"
                     }
-                ]
+                },
+                "401": "Missing or incorrect API Key",
+                "403": "API Limit Reached or API Key Disabled"
             },
-            "operationName": "Gender Batch",
-            "summary": "Returns the most likely gender of  first names and last names.",
             "reqMetaKey": "personalNames",
             "reqKeys": [
                 "id",
@@ -301,23 +320,24 @@
                 "genderScale",
                 "score",
                 "probabilityCalibrated"
-            ],
-            "cost": 1
+            ]
         },
         "genderFullBatch": {
-            "http": "post",
-            "url": "/api2/json/genderFullBatch",
-            "req": {
-                "personalNames": [
-                    {
-                        "id": "String",
-                        "name": "String"
-                    }
-                ]
+            "title": "Gender Full Name Batch",
+            "summary": "Returns the most likely gender of  full names.",
+            "cost": 1,
+            "required": [
+                "name"
+            ],
+            "request": {
+                "personalNames": {
+                    "id": "String",
+                    "name": "String"
+                }
             },
-            "res": {
-                "personalNames": [
-                    {
+            "response": {
+                "200": {
+                    "personalNames": {
                         "script": "String",
                         "id": "String",
                         "name": "String",
@@ -326,10 +346,10 @@
                         "score": "Number",
                         "probabilityCalibrated": "Number"
                     }
-                ]
+                },
+                "401": "Missing or incorrect API Key",
+                "403": "API Limit Reached or API Key Disabled"
             },
-            "operationName": "Gender Full Name Batch",
-            "summary": "Returns the most likely gender of  full names.",
             "reqMetaKey": "personalNames",
             "reqKeys": [
                 "id",
@@ -344,24 +364,26 @@
                 "genderScale",
                 "score",
                 "probabilityCalibrated"
-            ],
-            "cost": 1
+            ]
         },
         "genderFullGeoBatch": {
-            "http": "post",
-            "url": "/api2/json/genderFullGeoBatch",
-            "req": {
-                "personalNames": [
-                    {
-                        "id": "String",
-                        "name": "String",
-                        "countryIso2": "String"
-                    }
-                ]
+            "title": "Gender Full Name Geo Batch",
+            "summary": "Returns the most likely gender of  full names, according to their geographic context.",
+            "cost": 1,
+            "required": [
+                "name",
+                "countryIso2"
+            ],
+            "request": {
+                "personalNames": {
+                    "id": "String",
+                    "name": "String",
+                    "countryIso2": "String"
+                }
             },
-            "res": {
-                "personalNames": [
-                    {
+            "response": {
+                "200": {
+                    "personalNames": {
                         "script": "String",
                         "id": "String",
                         "name": "String",
@@ -370,10 +392,10 @@
                         "score": "Number",
                         "probabilityCalibrated": "Number"
                     }
-                ]
+                },
+                "401": "Missing or incorrect API Key",
+                "403": "API Limit Reached or API Key Disabled"
             },
-            "operationName": "Gender Full Name Geo Batch",
-            "summary": "Returns the most likely gender of  full names, according to their geographic context.",
             "reqMetaKey": "personalNames",
             "reqKeys": [
                 "id",
@@ -389,24 +411,26 @@
                 "genderScale",
                 "score",
                 "probabilityCalibrated"
-            ],
-            "cost": 1
+            ]
         },
         "originBatch": {
-            "http": "post",
-            "url": "/api2/json/originBatch",
-            "req": {
-                "personalNames": [
-                    {
-                        "id": "String",
-                        "firstName": "String",
-                        "lastName": "String"
-                    }
-                ]
+            "title": "Origin Batch",
+            "summary": "Returns the most likely country of origin of  first names and a last names. Note that the \"Diaspora\" endpoint may be better suited for countries like U.S.A, Canada, Australia, New-Zealand and other melting-pots.",
+            "cost": 10,
+            "required": [
+                "firstName",
+                "lastName"
+            ],
+            "request": {
+                "personalNames": {
+                    "id": "String",
+                    "firstName": "String",
+                    "lastName": "String"
+                }
             },
-            "res": {
-                "personalNames": [
-                    {
+            "response": {
+                "200": {
+                    "personalNames": {
                         "script": "String",
                         "id": "String",
                         "firstName": "String",
@@ -421,10 +445,10 @@
                         "probabilityCalibrated": "Number",
                         "probabilityAltCalibrated": "Number"
                     }
-                ]
+                },
+                "401": "Missing or incorrect API Key",
+                "403": "API Limit Reached or API Key Disabled"
             },
-            "operationName": "Origin Batch",
-            "summary": "Returns the most likely country of origin of  first names and a last names. Note that the \"Diaspora\" endpoint may be better suited for countries like U.S.A, Canada, Australia, New-Zealand and other melting-pots.",
             "reqMetaKey": "personalNames",
             "reqKeys": [
                 "id",
@@ -446,23 +470,82 @@
                 "subRegionOrigin",
                 "probabilityCalibrated",
                 "probabilityAltCalibrated"
+            ]
+        },
+        "subclassificationBatch": {
+            "title": "Country Subclassification Batch",
+            "summary": "Returns the most likely geographic subdivision context of of  first names and a last names. Subdivision are either a country's states or regions. At the moment this is only supported for India (ISO 3166-1 alpha-2 code \"IN\").",
+            "cost": 10,
+            "required": [
+                "firstName",
+                "lastName",
+                "countryIso2"
             ],
-            "cost": 10
+            "request": {
+                "personalNames": {
+                    "id": "String",
+                    "firstName": "String",
+                    "lastName": "String",
+                    "countryIso2": "String"
+                }
+            },
+            "response": {
+                "200": {
+                    "personalNames": {
+                        "script": "String",
+                        "id": "String",
+                        "firstName": "String",
+                        "lastName": "String",
+                        "countryIso2": "String",
+                        "subClassification": "String",
+                        "subClassificationAlt": "String",
+                        "subclassificationTop": "Array",
+                        "score": "Number",
+                        "probabilityCalibrated": "Number",
+                        "probabilityAltCalibrated": "Number"
+                    }
+                },
+                "401": "Missing or incorrect API Key",
+                "403": "API Limit Reached or API Key Disabled"
+            },
+            "reqMetaKey": "personalNames",
+            "reqKeys": [
+                "id",
+                "firstName",
+                "lastName",
+                "countryIso2"
+            ],
+            "resMetaKey": "personalNames",
+            "resKeys": [
+                "script",
+                "id",
+                "firstName",
+                "lastName",
+                "countryIso2",
+                "subClassification",
+                "subClassificationAlt",
+                "subclassificationTop",
+                "score",
+                "probabilityCalibrated",
+                "probabilityAltCalibrated"
+            ]
         },
         "countryBatch": {
-            "http": "post",
-            "url": "/api2/json/countryBatch",
-            "req": {
-                "personalNames": [
-                    {
-                        "id": "String",
-                        "name": "String"
-                    }
-                ]
+            "title": "Country Batch",
+            "summary": "Returns the most likely geographic context of  full names (first names and last names) or surnames.",
+            "cost": 10,
+            "required": [
+                "name"
+            ],
+            "request": {
+                "personalNames": {
+                    "id": "String",
+                    "name": "String"
+                }
             },
-            "res": {
-                "personalNames": [
-                    {
+            "response": {
+                "200": {
+                    "personalNames": {
                         "script": "String",
                         "id": "String",
                         "name": "String",
@@ -476,10 +559,10 @@
                         "probabilityCalibrated": "Number",
                         "probabilityAltCalibrated": "Number"
                     }
-                ]
+                },
+                "401": "Missing or incorrect API Key",
+                "403": "API Limit Reached or API Key Disabled"
             },
-            "operationName": "Country Batch",
-            "summary": "Returns the most likely geographic context of  full names (first names and last names) or surnames.",
             "reqMetaKey": "personalNames",
             "reqKeys": [
                 "id",
@@ -499,25 +582,28 @@
                 "countriesTop",
                 "probabilityCalibrated",
                 "probabilityAltCalibrated"
-            ],
-            "cost": 10
+            ]
         },
         "usRaceEthnicityBatch": {
-            "http": "post",
-            "url": "/api2/json/usRaceEthnicityBatch",
-            "req": {
-                "personalNames": [
-                    {
-                        "id": "String",
-                        "firstName": "String",
-                        "lastName": "String",
-                        "countryIso2": "String"
-                    }
-                ]
+            "title": "US Race and Ethnicity Batch",
+            "summary": "Returns the most likely U.S. race or ethnicity of  U.S. resident's first names and last names.",
+            "cost": 10,
+            "required": [
+                "firstName",
+                "lastName",
+                "countryIso2"
+            ],
+            "request": {
+                "personalNames": {
+                    "id": "String",
+                    "firstName": "String",
+                    "lastName": "String",
+                    "countryIso2": "String"
+                }
             },
-            "res": {
-                "personalNames": [
-                    {
+            "response": {
+                "200": {
+                    "personalNames": {
                         "script": "String",
                         "id": "String",
                         "firstName": "String",
@@ -529,10 +615,10 @@
                         "probabilityCalibrated": "Number",
                         "probabilityAltCalibrated": "Number"
                     }
-                ]
+                },
+                "401": "Missing or incorrect API Key",
+                "403": "API Limit Reached or API Key Disabled"
             },
-            "operationName": "US Race and Ethnicity Batch",
-            "summary": "Returns the most likely U.S. race or ethnicity of  U.S. resident's first names and last names.",
             "reqMetaKey": "personalNames",
             "reqKeys": [
                 "id",
@@ -552,26 +638,30 @@
                 "raceEthnicitiesTop",
                 "probabilityCalibrated",
                 "probabilityAltCalibrated"
-            ],
-            "cost": 10
+            ]
         },
         "usZipRaceEthnicityBatch": {
-            "http": "post",
-            "url": "/api2/json/usZipRaceEthnicityBatch",
-            "req": {
-                "personalNames": [
-                    {
-                        "id": "String",
-                        "firstName": "String",
-                        "lastName": "String",
-                        "countryIso2": "String",
-                        "zipCode": "String"
-                    }
-                ]
+            "title": "US Race and Ethnicity ZIP Batch",
+            "summary": "Returns the most likely U.S. race or ethnicity of  U.S. resident's first names and last names, using their ZIP code.",
+            "cost": 10,
+            "required": [
+                "firstName",
+                "lastName",
+                "countryIso2",
+                "zipCode"
+            ],
+            "request": {
+                "personalNames": {
+                    "id": "String",
+                    "firstName": "String",
+                    "lastName": "String",
+                    "countryIso2": "String",
+                    "zipCode": "String"
+                }
             },
-            "res": {
-                "personalNames": [
-                    {
+            "response": {
+                "200": {
+                    "personalNames": {
                         "script": "String",
                         "id": "String",
                         "firstName": "String",
@@ -583,10 +673,10 @@
                         "probabilityCalibrated": "Number",
                         "probabilityAltCalibrated": "Number"
                     }
-                ]
+                },
+                "401": "Missing or incorrect API Key",
+                "403": "API Limit Reached or API Key Disabled"
             },
-            "operationName": "US Race and Ethnicity ZIP Batch",
-            "summary": "Returns the most likely U.S. race or ethnicity of  U.S. resident's first names and last names, using their ZIP code.",
             "reqMetaKey": "personalNames",
             "reqKeys": [
                 "id",
@@ -607,25 +697,28 @@
                 "raceEthnicitiesTop",
                 "probabilityCalibrated",
                 "probabilityAltCalibrated"
-            ],
-            "cost": 10
+            ]
         },
         "diasporaBatch": {
-            "http": "post",
-            "url": "/api2/json/diasporaBatch",
-            "req": {
-                "personalNames": [
-                    {
-                        "id": "String",
-                        "firstName": "String",
-                        "lastName": "String",
-                        "countryIso2": "String"
-                    }
-                ]
+            "title": "Diaspora Batch",
+            "summary": "Returns the most likely ethnicity or diaspora of  first names and last names, according to their country of residence.",
+            "cost": 20,
+            "required": [
+                "firstName",
+                "lastName",
+                "countryIso2"
+            ],
+            "request": {
+                "personalNames": {
+                    "id": "String",
+                    "firstName": "String",
+                    "lastName": "String",
+                    "countryIso2": "String"
+                }
             },
-            "res": {
-                "personalNames": [
-                    {
+            "response": {
+                "200": {
+                    "personalNames": {
                         "script": "String",
                         "id": "String",
                         "firstName": "String",
@@ -635,12 +728,14 @@
                         "ethnicity": "String",
                         "lifted": "Boolean",
                         "countryIso2": "String",
-                        "ethnicitiesTop": "Array"
+                        "ethnicitiesTop": "Array",
+                        "probabilityCalibrated": "Number",
+                        "probabilityAltCalibrated": "Number"
                     }
-                ]
+                },
+                "401": "Missing or incorrect API Key",
+                "403": "API Limit Reached or API Key Disabled"
             },
-            "operationName": "Diaspora Batch",
-            "summary": "Returns the most likely ethnicity or diaspora of  first names and last names, according to their country of residence.",
             "reqMetaKey": "personalNames",
             "reqKeys": [
                 "id",
@@ -659,24 +754,27 @@
                 "ethnicity",
                 "lifted",
                 "countryIso2",
-                "ethnicitiesTop"
-            ],
-            "cost": 20
+                "ethnicitiesTop",
+                "probabilityCalibrated",
+                "probabilityAltCalibrated"
+            ]
         },
         "parseNameBatch": {
-            "http": "post",
-            "url": "/api2/json/parseNameBatch",
-            "req": {
-                "personalNames": [
-                    {
-                        "id": "String",
-                        "name": "String"
-                    }
-                ]
+            "title": "Split Name Batch",
+            "summary": "Returns the most likely first name and last name structure of  full names.",
+            "cost": 1,
+            "required": [
+                "name"
+            ],
+            "request": {
+                "personalNames": {
+                    "id": "String",
+                    "name": "String"
+                }
             },
-            "res": {
-                "personalNames": [
-                    {
+            "response": {
+                "200": {
+                    "personalNames": {
                         "script": "String",
                         "id": "String",
                         "name": "String",
@@ -690,10 +788,10 @@
                         },
                         "score": "Number"
                     }
-                ]
+                },
+                "401": "Missing or incorrect API Key",
+                "403": "API Limit Reached or API Key Disabled"
             },
-            "operationName": "Split Name Batch",
-            "summary": "Returns the most likely first name and last name structure of  full names.",
             "reqMetaKey": "personalNames",
             "reqKeys": [
                 "id",
@@ -711,24 +809,26 @@
                 "firstLastName.firstName",
                 "firstLastName.lastName",
                 "score"
-            ],
-            "cost": 1
+            ]
         },
         "parseNameGeoBatch": {
-            "http": "post",
-            "url": "/api2/json/parseNameGeoBatch",
-            "req": {
-                "personalNames": [
-                    {
-                        "id": "String",
-                        "name": "String",
-                        "countryIso2": "String"
-                    }
-                ]
+            "title": "Split Name Geo Batch",
+            "summary": "Returns the most likely first name and last name structure of  full names using their geographic context.",
+            "cost": 1,
+            "required": [
+                "name",
+                "countryIso2"
+            ],
+            "request": {
+                "personalNames": {
+                    "id": "String",
+                    "name": "String",
+                    "countryIso2": "String"
+                }
             },
-            "res": {
-                "personalNames": [
-                    {
+            "response": {
+                "200": {
+                    "personalNames": {
                         "script": "String",
                         "id": "String",
                         "name": "String",
@@ -742,10 +842,10 @@
                         },
                         "score": "Number"
                     }
-                ]
+                },
+                "401": "Missing or incorrect API Key",
+                "403": "API Limit Reached or API Key Disabled"
             },
-            "operationName": "Split Name Geo Batch",
-            "summary": "Returns the most likely first name and last name structure of  full names using their geographic context.",
             "reqMetaKey": "personalNames",
             "reqKeys": [
                 "id",
@@ -764,23 +864,24 @@
                 "firstLastName.firstName",
                 "firstLastName.lastName",
                 "score"
-            ],
-            "cost": 1
+            ]
         },
         "parseChineseNameBatch": {
-            "http": "post",
-            "url": "/api2/json/parseChineseNameBatch",
-            "req": {
-                "personalNames": [
-                    {
-                        "id": "String",
-                        "name": "String"
-                    }
-                ]
+            "title": "Split Chinese Name Batch",
+            "summary": "Returns the most likely first name and last name structure of  full names (family names and given names) in Standard Mandarin Chinese.",
+            "cost": 1,
+            "required": [
+                "name"
+            ],
+            "request": {
+                "personalNames": {
+                    "id": "String",
+                    "name": "String"
+                }
             },
-            "res": {
-                "personalNames": [
-                    {
+            "response": {
+                "200": {
+                    "personalNames": {
                         "script": "String",
                         "id": "String",
                         "name": "String",
@@ -794,10 +895,10 @@
                         },
                         "score": "Number"
                     }
-                ]
+                },
+                "401": "Missing or incorrect API Key",
+                "403": "API Limit Reached or API Key Disabled"
             },
-            "operationName": "Split Chinese Name Batch",
-            "summary": "Returns the most likely first name and last name structure of  full names (family names and given names) in Standard Mandarin Chinese.",
             "reqMetaKey": "personalNames",
             "reqKeys": [
                 "id",
@@ -815,23 +916,24 @@
                 "firstLastName.firstName",
                 "firstLastName.lastName",
                 "score"
-            ],
-            "cost": 1
+            ]
         },
         "pinyinChineseNameBatch": {
-            "http": "post",
-            "url": "/api2/json/pinyinChineseNameBatch",
-            "req": {
-                "personalNames": [
-                    {
-                        "id": "String",
-                        "name": "String"
-                    }
-                ]
+            "title": "To Pinyin Name Batch",
+            "summary": "Return the most likely Pinyin transcription of  full names (family names and given names) in Standard Mandarin Chinese.",
+            "cost": 1,
+            "required": [
+                "name"
+            ],
+            "request": {
+                "personalNames": {
+                    "id": "String",
+                    "name": "String"
+                }
             },
-            "res": {
-                "personalNames": [
-                    {
+            "response": {
+                "200": {
+                    "personalNames": {
                         "script": "String",
                         "id": "String",
                         "name": "String",
@@ -845,10 +947,10 @@
                         },
                         "score": "Number"
                     }
-                ]
+                },
+                "401": "Missing or incorrect API Key",
+                "403": "API Limit Reached or API Key Disabled"
             },
-            "operationName": "To Pinyin Name Batch",
-            "summary": "Return the most likely Pinyin transcription of  full names (family names and given names) in Standard Mandarin Chinese.",
             "reqMetaKey": "personalNames",
             "reqKeys": [
                 "id",
@@ -866,40 +968,43 @@
                 "firstLastName.firstName",
                 "firstLastName.lastName",
                 "score"
-            ],
-            "cost": 1
+            ]
         },
         "chineseNameMatchBatch": {
-            "http": "post",
-            "url": "/api2/json/chineseNameMatchBatch",
-            "req": {
-                "personalNames": [
-                    {
+            "title": "Match Chinese Name Batch",
+            "summary": "Matches  full names in Standard Mandarin Chinese against corresponding family names and given names in Pinyin.",
+            "cost": 1,
+            "required": [
+                "name1.firstName",
+                "name1.lastName",
+                "name2.name"
+            ],
+            "request": {
+                "personalNames": {
+                    "id": "String",
+                    "name1": {
                         "id": "String",
-                        "name1": {
-                            "id": "String",
-                            "firstName": "String",
-                            "lastName": "String"
-                        },
-                        "name2": {
-                            "id": "String",
-                            "name": "String"
-                        }
+                        "firstName": "String",
+                        "lastName": "String"
+                    },
+                    "name2": {
+                        "id": "String",
+                        "name": "String"
                     }
-                ]
+                }
             },
-            "res": {
-                "matchedNames": [
-                    {
+            "response": {
+                "200": {
+                    "matchedNames": {
                         "script": "String",
                         "id": "String",
                         "matchStatus": "String",
                         "score": "Number"
                     }
-                ]
+                },
+                "401": "Missing or incorrect API Key",
+                "403": "API Limit Reached or API Key Disabled"
             },
-            "operationName": "Match Chinese Name Batch",
-            "summary": "Matches  full names in Standard Mandarin Chinese against corresponding family names and given names in Pinyin.",
             "reqMetaKey": "personalNames",
             "reqKeys": [
                 "id",
@@ -915,24 +1020,26 @@
                 "id",
                 "matchStatus",
                 "score"
-            ],
-            "cost": 1
+            ]
         },
         "genderChineseNamePinyinBatch": {
-            "http": "post",
-            "url": "/api2/json/genderChineseNamePinyinBatch",
-            "req": {
-                "personalNames": [
-                    {
-                        "id": "String",
-                        "firstName": "String",
-                        "lastName": "String"
-                    }
-                ]
+            "title": "Gender Name Pinyin Batch",
+            "summary": "Return the most likely gender of  family names and a given names in Pinyin.",
+            "cost": 1,
+            "required": [
+                "firstName",
+                "lastName"
+            ],
+            "request": {
+                "personalNames": {
+                    "id": "String",
+                    "firstName": "String",
+                    "lastName": "String"
+                }
             },
-            "res": {
-                "personalNames": [
-                    {
+            "response": {
+                "200": {
+                    "personalNames": {
                         "script": "String",
                         "id": "String",
                         "firstName": "String",
@@ -942,10 +1049,10 @@
                         "score": "Number",
                         "probabilityCalibrated": "Number"
                     }
-                ]
+                },
+                "401": "Missing or incorrect API Key",
+                "403": "API Limit Reached or API Key Disabled"
             },
-            "operationName": "Gender Name Pinyin Batch",
-            "summary": "Return the most likely gender of  family names and a given names in Pinyin.",
             "reqMetaKey": "personalNames",
             "reqKeys": [
                 "id",
@@ -962,23 +1069,24 @@
                 "genderScale",
                 "score",
                 "probabilityCalibrated"
-            ],
-            "cost": 1
+            ]
         },
         "genderChineseNameBatch": {
-            "http": "post",
-            "url": "/api2/json/genderChineseNameBatch",
-            "req": {
-                "personalNames": [
-                    {
-                        "id": "String",
-                        "name": "String"
-                    }
-                ]
+            "title": "Gender Name Mandarin Batch",
+            "summary": "Returns the most likely gender of  full names (family names and given names) in Standard Mandarin Chinese.",
+            "cost": 1,
+            "required": [
+                "name"
+            ],
+            "request": {
+                "personalNames": {
+                    "id": "String",
+                    "name": "String"
+                }
             },
-            "res": {
-                "personalNames": [
-                    {
+            "response": {
+                "200": {
+                    "personalNames": {
                         "script": "String",
                         "id": "String",
                         "name": "String",
@@ -987,10 +1095,10 @@
                         "score": "Number",
                         "probabilityCalibrated": "Number"
                     }
-                ]
+                },
+                "401": "Missing or incorrect API Key",
+                "403": "API Limit Reached or API Key Disabled"
             },
-            "operationName": "Gender Name Mandarin Batch",
-            "summary": "Returns the most likely gender of  full names (family names and given names) in Standard Mandarin Chinese.",
             "reqMetaKey": "personalNames",
             "reqKeys": [
                 "id",
@@ -1005,24 +1113,26 @@
                 "genderScale",
                 "score",
                 "probabilityCalibrated"
-            ],
-            "cost": 1
+            ]
         },
         "chineseNameCandidatesBatch": {
-            "http": "post",
-            "url": "/api2/json/chineseNameCandidatesBatch",
-            "req": {
-                "personalNames": [
-                    {
-                        "id": "String",
-                        "firstName": "String",
-                        "lastName": "String"
-                    }
-                ]
+            "title": "To Mandarin Name Batch",
+            "summary": "Returns the most likely Standard Mandarin Chinese transcriptions using  family names and given names in Pinyin.",
+            "cost": 1,
+            "required": [
+                "firstName",
+                "lastName"
+            ],
+            "request": {
+                "personalNames": {
+                    "id": "String",
+                    "firstName": "String",
+                    "lastName": "String"
+                }
             },
-            "res": {
-                "namesAndMatchCandidates": [
-                    {
+            "response": {
+                "200": {
+                    "namesAndMatchCandidates": {
                         "script": "String",
                         "id": "String",
                         "firstName": "String",
@@ -1037,10 +1147,10 @@
                             }
                         ]
                     }
-                ]
+                },
+                "401": "Missing or incorrect API Key",
+                "403": "API Limit Reached or API Key Disabled"
             },
-            "operationName": "To Mandarin Name Batch",
-            "summary": "Returns the most likely Standard Mandarin Chinese transcriptions using  family names and given names in Pinyin.",
             "reqMetaKey": "personalNames",
             "reqKeys": [
                 "id",
@@ -1055,25 +1165,28 @@
                 "lastName",
                 "orderOption",
                 "matchCandidates.[].candidateName,probability,predScoreGivenName,predScoreFamilyName"
-            ],
-            "cost": 1
+            ]
         },
         "chineseNameCandidatesGenderBatch": {
-            "http": "post",
-            "url": "/api2/json/chineseNameCandidatesGenderBatch",
-            "req": {
-                "personalNames": [
-                    {
-                        "id": "String",
-                        "firstName": "String",
-                        "lastName": "String",
-                        "gender": "String"
-                    }
-                ]
+            "title": "To Mandarin Name Gender Batch",
+            "summary": "Returns the most likely Standard Mandarin Chinese transcriptions for  Pinyin first names and last names, according to their gender.",
+            "cost": 1,
+            "required": [
+                "firstName",
+                "lastName",
+                "gender"
+            ],
+            "request": {
+                "personalNames": {
+                    "id": "String",
+                    "firstName": "String",
+                    "lastName": "String",
+                    "gender": "String"
+                }
             },
-            "res": {
-                "namesAndMatchCandidates": [
-                    {
+            "response": {
+                "200": {
+                    "namesAndMatchCandidates": {
                         "script": "String",
                         "id": "String",
                         "firstName": "String",
@@ -1088,10 +1201,10 @@
                             }
                         ]
                     }
-                ]
+                },
+                "401": "Missing or incorrect API Key",
+                "403": "API Limit Reached or API Key Disabled"
             },
-            "operationName": "To Mandarin Name Gender Batch",
-            "summary": "Returns the most likely Standard Mandarin Chinese transcriptions for  Pinyin first names and last names, according to their gender.",
             "reqMetaKey": "personalNames",
             "reqKeys": [
                 "id",
@@ -1107,23 +1220,24 @@
                 "lastName",
                 "orderOption",
                 "matchCandidates.[].candidateName,probability,predScoreGivenName,predScoreFamilyName"
-            ],
-            "cost": 1
+            ]
         },
         "parseJapaneseNameBatch": {
-            "http": "post",
-            "url": "/api2/json/parseJapaneseNameBatch",
-            "req": {
-                "personalNames": [
-                    {
-                        "id": "String",
-                        "name": "String"
-                    }
-                ]
+            "title": "Split Japanese Name Batch",
+            "summary": "Returns the most likely first name and last name structure of  full names (family names and given names) in Kanji or latin characters.",
+            "cost": 1,
+            "required": [
+                "name"
+            ],
+            "request": {
+                "personalNames": {
+                    "id": "String",
+                    "name": "String"
+                }
             },
-            "res": {
-                "personalNames": [
-                    {
+            "response": {
+                "200": {
+                    "personalNames": {
                         "script": "String",
                         "id": "String",
                         "name": "String",
@@ -1137,10 +1251,10 @@
                         },
                         "score": "Number"
                     }
-                ]
+                },
+                "401": "Missing or incorrect API Key",
+                "403": "API Limit Reached or API Key Disabled"
             },
-            "operationName": "Split Japanese Name Batch",
-            "summary": "Returns the most likely first name and last name structure of  full names (family names and given names) in Kanji or latin characters.",
             "reqMetaKey": "personalNames",
             "reqKeys": [
                 "id",
@@ -1158,24 +1272,26 @@
                 "firstLastName.firstName",
                 "firstLastName.lastName",
                 "score"
-            ],
-            "cost": 1
+            ]
         },
         "japaneseNameKanjiCandidatesBatch": {
-            "http": "post",
-            "url": "/api2/json/japaneseNameKanjiCandidatesBatch",
-            "req": {
-                "personalNames": [
-                    {
-                        "id": "String",
-                        "firstName": "String",
-                        "lastName": "String"
-                    }
-                ]
+            "title": "To Kanji Name Batch",
+            "summary": "Returns the most likely Kanji transcriptions for  japanese first names and last names in latin characters.",
+            "cost": 1,
+            "required": [
+                "firstName",
+                "lastName"
+            ],
+            "request": {
+                "personalNames": {
+                    "id": "String",
+                    "firstName": "String",
+                    "lastName": "String"
+                }
             },
-            "res": {
-                "namesAndMatchCandidates": [
-                    {
+            "response": {
+                "200": {
+                    "namesAndMatchCandidates": {
                         "script": "String",
                         "id": "String",
                         "firstName": "String",
@@ -1190,10 +1306,10 @@
                             }
                         ]
                     }
-                ]
+                },
+                "401": "Missing or incorrect API Key",
+                "403": "API Limit Reached or API Key Disabled"
             },
-            "operationName": "To Kanji Name Batch",
-            "summary": "Returns the most likely Kanji transcriptions for  japanese first names and last names in latin characters.",
             "reqMetaKey": "personalNames",
             "reqKeys": [
                 "id",
@@ -1208,25 +1324,28 @@
                 "lastName",
                 "orderOption",
                 "matchCandidates.[].candidateName,probability,predScoreGivenName,predScoreFamilyName"
-            ],
-            "cost": 1
+            ]
         },
         "japaneseNameGenderKanjiCandidatesBatch": {
-            "http": "post",
-            "url": "/api2/json/japaneseNameGenderKanjiCandidatesBatch",
-            "req": {
-                "personalNames": [
-                    {
-                        "id": "String",
-                        "firstName": "String",
-                        "lastName": "String",
-                        "gender": "String"
-                    }
-                ]
+            "title": "To Kanji Name Gender Batch",
+            "summary": "Returns the most likely Kanji transcriptions for  japanese first names and last names in latin characters, according to their gender.",
+            "cost": 1,
+            "required": [
+                "firstName",
+                "lastName",
+                "gender"
+            ],
+            "request": {
+                "personalNames": {
+                    "id": "String",
+                    "firstName": "String",
+                    "lastName": "String",
+                    "gender": "String"
+                }
             },
-            "res": {
-                "namesAndMatchCandidates": [
-                    {
+            "response": {
+                "200": {
+                    "namesAndMatchCandidates": {
                         "script": "String",
                         "id": "String",
                         "firstName": "String",
@@ -1241,10 +1360,10 @@
                             }
                         ]
                     }
-                ]
+                },
+                "401": "Missing or incorrect API Key",
+                "403": "API Limit Reached or API Key Disabled"
             },
-            "operationName": "To Kanji Name Gender Batch",
-            "summary": "Returns the most likely Kanji transcriptions for  japanese first names and last names in latin characters, according to their gender.",
             "reqMetaKey": "personalNames",
             "reqKeys": [
                 "id",
@@ -1260,24 +1379,26 @@
                 "lastName",
                 "orderOption",
                 "matchCandidates.[].candidateName,probability,predScoreGivenName,predScoreFamilyName"
-            ],
-            "cost": 1
+            ]
         },
         "japaneseNameLatinCandidatesBatch": {
-            "http": "post",
-            "url": "/api2/json/japaneseNameLatinCandidatesBatch",
-            "req": {
-                "personalNames": [
-                    {
-                        "id": "String",
-                        "firstName": "String",
-                        "lastName": "String"
-                    }
-                ]
+            "title": "To Latin Name Batch",
+            "summary": "Returns the most likely latin transcriptions for  japanese first names and last names in Kanji characters.",
+            "cost": 1,
+            "required": [
+                "firstName",
+                "lastName"
+            ],
+            "request": {
+                "personalNames": {
+                    "id": "String",
+                    "firstName": "String",
+                    "lastName": "String"
+                }
             },
-            "res": {
-                "namesAndMatchCandidates": [
-                    {
+            "response": {
+                "200": {
+                    "namesAndMatchCandidates": {
                         "script": "String",
                         "id": "String",
                         "firstName": "String",
@@ -1292,10 +1413,10 @@
                             }
                         ]
                     }
-                ]
+                },
+                "401": "Missing or incorrect API Key",
+                "403": "API Limit Reached or API Key Disabled"
             },
-            "operationName": "To Latin Name Batch",
-            "summary": "Returns the most likely latin transcriptions for  japanese first names and last names in Kanji characters.",
             "reqMetaKey": "personalNames",
             "reqKeys": [
                 "id",
@@ -1310,40 +1431,43 @@
                 "lastName",
                 "orderOption",
                 "matchCandidates.[].candidateName,probability,predScoreGivenName,predScoreFamilyName"
-            ],
-            "cost": 1
+            ]
         },
         "japaneseNameMatchBatch": {
-            "http": "post",
-            "url": "/api2/json/japaneseNameMatchBatch",
-            "req": {
-                "personalNames": [
-                    {
+            "title": "Match Japanese Name Batch",
+            "summary": "Matches  full names in Kanji against corresponding family names and given names in latin characters.",
+            "cost": 1,
+            "required": [
+                "name1.firstName",
+                "name1.lastName",
+                "name2.name"
+            ],
+            "request": {
+                "personalNames": {
+                    "id": "String",
+                    "name1": {
                         "id": "String",
-                        "name1": {
-                            "id": "String",
-                            "firstName": "String",
-                            "lastName": "String"
-                        },
-                        "name2": {
-                            "id": "String",
-                            "name": "String"
-                        }
+                        "firstName": "String",
+                        "lastName": "String"
+                    },
+                    "name2": {
+                        "id": "String",
+                        "name": "String"
                     }
-                ]
+                }
             },
-            "res": {
-                "matchedNames": [
-                    {
+            "response": {
+                "200": {
+                    "matchedNames": {
                         "script": "String",
                         "id": "String",
                         "matchStatus": "String",
                         "score": "Number"
                     }
-                ]
+                },
+                "401": "Missing or incorrect API Key",
+                "403": "API Limit Reached or API Key Disabled"
             },
-            "operationName": "Match Japanese Name Batch",
-            "summary": "Matches  full names in Kanji against corresponding family names and given names in latin characters.",
             "reqMetaKey": "personalNames",
             "reqKeys": [
                 "id",
@@ -1359,24 +1483,26 @@
                 "id",
                 "matchStatus",
                 "score"
-            ],
-            "cost": 1
+            ]
         },
         "genderJapaneseNamePinyinBatch": {
-            "http": "post",
-            "url": "/api2/json/genderJapaneseNameBatch",
-            "req": {
-                "personalNames": [
-                    {
-                        "id": "String",
-                        "firstName": "String",
-                        "lastName": "String"
-                    }
-                ]
+            "title": "Gender Name Latin Batch",
+            "summary": "Return the most likely gender of  japanese family names and a given names in latin characters.",
+            "cost": 1,
+            "required": [
+                "firstName",
+                "lastName"
+            ],
+            "request": {
+                "personalNames": {
+                    "id": "String",
+                    "firstName": "String",
+                    "lastName": "String"
+                }
             },
-            "res": {
-                "personalNames": [
-                    {
+            "response": {
+                "200": {
+                    "personalNames": {
                         "script": "String",
                         "id": "String",
                         "firstName": "String",
@@ -1386,10 +1512,10 @@
                         "score": "Number",
                         "probabilityCalibrated": "Number"
                     }
-                ]
+                },
+                "401": "Missing or incorrect API Key",
+                "403": "API Limit Reached or API Key Disabled"
             },
-            "operationName": "Gender Name Latin Batch",
-            "summary": "Return the most likely gender of  japanese family names and a given names in latin characters.",
             "reqMetaKey": "personalNames",
             "reqKeys": [
                 "id",
@@ -1406,23 +1532,24 @@
                 "genderScale",
                 "score",
                 "probabilityCalibrated"
-            ],
-            "cost": 1
+            ]
         },
         "genderJapaneseNameFullBatch": {
-            "http": "post",
-            "url": "/api2/json/genderJapaneseNameFullBatch",
-            "req": {
-                "personalNames": [
-                    {
-                        "id": "String",
-                        "name": "String"
-                    }
-                ]
+            "title": "Gender Name Kanji Batch",
+            "summary": "Find the most likely gender of  Japanese full names (surnames and given names), written in Kanji characters.",
+            "cost": 1,
+            "required": [
+                "name"
+            ],
+            "request": {
+                "personalNames": {
+                    "id": "String",
+                    "name": "String"
+                }
             },
-            "res": {
-                "personalNames": [
-                    {
+            "response": {
+                "200": {
+                    "personalNames": {
                         "script": "String",
                         "id": "String",
                         "name": "String",
@@ -1431,10 +1558,10 @@
                         "score": "Number",
                         "probabilityCalibrated": "Number"
                     }
-                ]
+                },
+                "401": "Missing or incorrect API Key",
+                "403": "API Limit Reached or API Key Disabled"
             },
-            "operationName": "Gender Name Kanji Batch",
-            "summary": "Find the most likely gender of  Japanese full names (surnames and given names), written in Kanji characters.",
             "reqMetaKey": "personalNames",
             "reqKeys": [
                 "id",
@@ -1449,40 +1576,28 @@
                 "genderScale",
                 "score",
                 "probabilityCalibrated"
-            ],
-            "cost": 1
+            ]
         },
         "phoneCodeBatch": {
-            "http": "post",
-            "url": "/api2/json/phoneCodeBatch",
-            "req": {
-                "personalNamesWithPhoneNumbers": [
-                    {
-                        "id": "String",
-                        "firstName": "String",
-                        "lastName": "String",
-                        "phoneNumber": "String",
-                        "FirstLastNameOriginedOut": {
-                            "script": "String",
-                            "id": "String",
-                            "firstName": "String",
-                            "lastName": "String",
-                            "countryOrigin": "String",
-                            "countryOriginAlt": "String",
-                            "countriesOriginTop": "Array",
-                            "score": "Number",
-                            "regionOrigin": "String",
-                            "topRegionOrigin": "String",
-                            "subRegionOrigin": "String",
-                            "probabilityCalibrated": "Number",
-                            "probabilityAltCalibrated": "Number"
-                        }
-                    }
-                ]
+            "title": "Phone Code Batch",
+            "summary": "Returns the most likely phone prefix, country of origin and format of  phone numbers using first names and last names.",
+            "cost": 11,
+            "required": [
+                "firstName",
+                "lastName",
+                "phoneNumber"
+            ],
+            "request": {
+                "personalNamesWithPhoneNumbers": {
+                    "id": "String",
+                    "firstName": "String",
+                    "lastName": "String",
+                    "phoneNumber": "String"
+                }
             },
-            "res": {
-                "personalNamesWithPhoneNumbers": [
-                    {
+            "response": {
+                "200": {
+                    "personalNamesWithPhoneNumbers": {
                         "script": "String",
                         "id": "String",
                         "firstName": "String",
@@ -1500,29 +1615,16 @@
                         "score": "Number",
                         "countryIso2": "String"
                     }
-                ]
+                },
+                "401": "Missing or incorrect API Key",
+                "403": "API Limit Reached or API Key Disabled"
             },
-            "operationName": "Phone Code Batch",
-            "summary": "Returns the most likely phone prefix, country of origin and format of  phone numbers using first names and last names.",
             "reqMetaKey": "personalNamesWithPhoneNumbers",
             "reqKeys": [
                 "id",
                 "firstName",
                 "lastName",
-                "phoneNumber",
-                "FirstLastNameOriginedOut.script",
-                "FirstLastNameOriginedOut.id",
-                "FirstLastNameOriginedOut.firstName",
-                "FirstLastNameOriginedOut.lastName",
-                "FirstLastNameOriginedOut.countryOrigin",
-                "FirstLastNameOriginedOut.countryOriginAlt",
-                "FirstLastNameOriginedOut.countriesOriginTop",
-                "FirstLastNameOriginedOut.score",
-                "FirstLastNameOriginedOut.regionOrigin",
-                "FirstLastNameOriginedOut.topRegionOrigin",
-                "FirstLastNameOriginedOut.subRegionOrigin",
-                "FirstLastNameOriginedOut.probabilityCalibrated",
-                "FirstLastNameOriginedOut.probabilityAltCalibrated"
+                "phoneNumber"
             ],
             "resMetaKey": "personalNamesWithPhoneNumbers",
             "resKeys": [
@@ -1542,42 +1644,32 @@
                 "verified",
                 "score",
                 "countryIso2"
-            ],
-            "cost": 11
+            ]
         },
         "phoneCodeGeoBatch": {
-            "http": "post",
-            "url": "/api2/json/phoneCodeGeoBatch",
-            "req": {
-                "personalNamesWithPhoneNumbers": [
-                    {
-                        "id": "String",
-                        "firstName": "String",
-                        "lastName": "String",
-                        "phoneNumber": "String",
-                        "FirstLastNameOriginedOut": {
-                            "script": "String",
-                            "id": "String",
-                            "firstName": "String",
-                            "lastName": "String",
-                            "countryOrigin": "String",
-                            "countryOriginAlt": "String",
-                            "countriesOriginTop": "Array",
-                            "score": "Number",
-                            "regionOrigin": "String",
-                            "topRegionOrigin": "String",
-                            "subRegionOrigin": "String",
-                            "probabilityCalibrated": "Number",
-                            "probabilityAltCalibrated": "Number"
-                        },
-                        "countryIso2": "String",
-                        "countryIso2Alt": "String"
-                    }
-                ]
+            "title": "Phone Code Geo Batch",
+            "summary": "Returns the most likely phone prefix and format of  phone numbers using first names, last names and geographic context.",
+            "cost": 11,
+            "required": [
+                "firstName",
+                "lastName",
+                "phoneNumber",
+                "countryIso2",
+                "countryIso2Alt"
+            ],
+            "request": {
+                "personalNamesWithPhoneNumbers": {
+                    "id": "String",
+                    "firstName": "String",
+                    "lastName": "String",
+                    "phoneNumber": "String",
+                    "countryIso2": "String",
+                    "countryIso2Alt": "String"
+                }
             },
-            "res": {
-                "personalNamesWithPhoneNumbers": [
-                    {
+            "response": {
+                "200": {
+                    "personalNamesWithPhoneNumbers": {
                         "script": "String",
                         "id": "String",
                         "firstName": "String",
@@ -1595,29 +1687,16 @@
                         "score": "Number",
                         "countryIso2": "String"
                     }
-                ]
+                },
+                "401": "Missing or incorrect API Key",
+                "403": "API Limit Reached or API Key Disabled"
             },
-            "operationName": "Phone Code Geo Batch",
-            "summary": "Returns the most likely phone prefix and format of  phone numbers using first names, last names and geographic context.",
             "reqMetaKey": "personalNamesWithPhoneNumbers",
             "reqKeys": [
                 "id",
                 "firstName",
                 "lastName",
                 "phoneNumber",
-                "FirstLastNameOriginedOut.script",
-                "FirstLastNameOriginedOut.id",
-                "FirstLastNameOriginedOut.firstName",
-                "FirstLastNameOriginedOut.lastName",
-                "FirstLastNameOriginedOut.countryOrigin",
-                "FirstLastNameOriginedOut.countryOriginAlt",
-                "FirstLastNameOriginedOut.countriesOriginTop",
-                "FirstLastNameOriginedOut.score",
-                "FirstLastNameOriginedOut.regionOrigin",
-                "FirstLastNameOriginedOut.topRegionOrigin",
-                "FirstLastNameOriginedOut.subRegionOrigin",
-                "FirstLastNameOriginedOut.probabilityCalibrated",
-                "FirstLastNameOriginedOut.probabilityAltCalibrated",
                 "countryIso2",
                 "countryIso2Alt"
             ],
@@ -1639,8 +1718,7 @@
                 "verified",
                 "score",
                 "countryIso2"
-            ],
-            "cost": 11
+            ]
         }
     }
 }

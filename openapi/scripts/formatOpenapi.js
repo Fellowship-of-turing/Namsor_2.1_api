@@ -199,7 +199,7 @@ module.exports = (swaggerFile, opt) => {
     let methodPath = swaggerFile.paths[routes[i]];
     let method = methodPath.get ? 'get' : methodPath.post ? 'post' : 'err';
     if (method === "err") {
-      console.log(`${colors.red("Error")}\nRoute ${routes[i]} - Unexpected method, must be either 'get' or 'post'`);
+      console.log(`${colors.red("Error - Unexpected method, must be either 'get' or 'post'.")}\n${routes[i]}\n`);
     }
     else {
       let route = methodPath[method];
@@ -237,7 +237,7 @@ module.exports = (swaggerFile, opt) => {
 
       // Swap operation ID for dash separated names
       if (!routeNames[route.operationId]) {
-        console.log(`${colors.red("Error")}\nRoute ${routes[i]} - No route name found for this operation id.`);
+        console.log(`${colors.red("Error - No route name found for this operation id.")}\n${routes[i]}\n`);
       };
       swaggerFile.paths[routes[i]][method].operationId = routeNames[route.operationId];
       ROUTE_STRUCT.operationName = route.operationId; // data location post renaming above
@@ -291,7 +291,7 @@ module.exports = (swaggerFile, opt) => {
         // GET REQUEST //
         ////////////////
         if (!route.parameters) {
-          if (opt.req_no_params) console.log(`${colors.yellow('Warning')}\nRoute ${routes[i]} - No request parameters where found`);
+          if (opt.req_no_params) console.log(`${colors.yellow('Warning')}\n${routes[i]}\nNo request parameters where found.`);
         }
         else {
           // SAVE Request
@@ -340,7 +340,7 @@ module.exports = (swaggerFile, opt) => {
         /////////////////
         let requestAccept = Object.keys(route.requestBody.content);
         if (requestAccept.length !== 1) {
-          console.log(`${colors.red("Error")}\nRoute ${routes[i]} - Multiple request content accept types`);
+          console.log(`${colors.red("Error - Multiple request content accept types.")}\n${routes[i]}\n`);
         }
         else {
           let requestSchemaPath = route.requestBody.content[requestAccept[0]].schema;
@@ -365,7 +365,7 @@ module.exports = (swaggerFile, opt) => {
               let requestSubSchema = schemas[requestSubSchemaName];
 
               if (!requestSubSchema.type === 'object') {
-                console.log(`${colors.red("Error")}\nRoute ${routes[i]} - Expected sub schema to be an object`);
+                console.log(`${colors.red("Error - Expected sub schema to be an object.")}\n${routes[i]}\n`);
               }
               else {
 
@@ -418,7 +418,10 @@ module.exports = (swaggerFile, opt) => {
                 REQ_STRUCT_ARRAY.push(requestSubStructure);
 
                 // Replace typed examples with value examples
-                if (
+                if (!apiExamples[routes[i]]) {
+                  console.log(`${colors.red("Error - No API examples object specified for route")}\n${routes[i]}\n`);
+                }
+                else if (
                   opt.inject_ex === true &&
                   Object.keys(apiExamples[routes[i]].input).length
                 ) {
@@ -496,11 +499,11 @@ module.exports = (swaggerFile, opt) => {
               ROUTE_STRUCT.req = REQ_STRUCT;
             }
             else {
-              // console.log(`${colors.red("Error")}\nRoute ${routes[i]} - Unexpected $ref request structure must be either an object or an array`);
+              // console.log(`${colors.red("Error - Unexpected $ref request structure must be either an object or an array.")}\n${routes[i]}\n`);
             };
           }
           else {
-            // console.log(`${colors.red("Error")}\nRoute ${routes[i]} - Unexpected request structure must be either an object or an array`);
+            // console.log(`${colors.red("Error - Unexpected request structure must be either an object or an array.")}\n${routes[i]}\n`);
           };
         };
       };
@@ -515,7 +518,7 @@ module.exports = (swaggerFile, opt) => {
         !route.responses['200'].content['application/json'].schema ||
         !route.responses['200'].content['application/json'].schema.$ref
       ) {
-        if (opt.res_no_schema) console.log(`${colors.red("Error")}\nRoute ${routes[i]} - Unable to find response schema`);
+        if (opt.res_no_schema) console.log(`${colors.red("Error - Unable to find response schema.")}\n${routes[i]}\n`);
       }
       else {
         let responseSchemaPath = route.responses['200'].content['application/json'].schema.$ref;
@@ -537,7 +540,7 @@ module.exports = (swaggerFile, opt) => {
           let responseSubSchema = schemas[responseSubSchemaName];
 
           if (!responseSubSchema.type === 'object') {
-            console.log(`${colors.red("Error")}\nRoute ${routes[i]} - Expected sub schema to be an object`);
+            console.log(`${colors.red("Error - Expected sub schema to be an object.")}\n${routes[i]}\n`);
           }
           else {
 
@@ -613,7 +616,10 @@ module.exports = (swaggerFile, opt) => {
             };
 
             // Replace typed examples with value examples
-            if (
+            if (!apiExamples[routes[i]]) {
+              console.log(`${colors.red("Error - No API examples object specified for route")}\n${routes[i]}\n`);
+            }
+            else if (
               opt.inject_ex === true &&
               Object.keys(apiExamples[routes[i]].output).length
             ) {
@@ -702,7 +708,10 @@ module.exports = (swaggerFile, opt) => {
           };
 
           // Replace typed examples with value examples
-          if (
+          if (!apiExamples[routes[i]]) {
+            console.log(`${colors.red("Error - No API examples object specified for route")}\n${routes[i]}\n`);
+          }
+          else if (
             opt.inject_ex === true &&
             Object.keys(apiExamples[routes[i]].output).length
           ) {
@@ -714,7 +723,7 @@ module.exports = (swaggerFile, opt) => {
           ROUTE_STRUCT.res = RES_STRUCT;
         }
         else {
-          // console.log(`${colors.red("Error")}\nRoute ${routes[i]} - Unexpected $ref response structure must be either an object or an array`);
+          // console.log(`${colors.red("Error - Unexpected $ref response structure must be either an object or an array.")}\n${routes[i]}\n`);
         };
       };
     };
@@ -752,38 +761,57 @@ module.exports = (swaggerFile, opt) => {
   // fs.writeFileSync('openapi/genNotMD/io_schemes.json', JSON.stringify(STRUCT, null, 4), 'utf8');
 
   // Generate config for CSV module
-  let csvData = JSON.parse(JSON.stringify(STRUCT));
-  Object.keys(csvData).forEach(key => {
-    if (key.indexOf('Batch') === -1) {
-      delete csvData[key];
-    }
-    else {
-      csvData[key].operationName = csvData[key].operationName.replace(/-/g, ' ');
-      csvData[key].summary = descr[csvData[key].url].summary;
+  let csvDataGen = () => {
+    let csvData = {}
 
-      // Remove referece to 100 unit calls
-      csvData[key].summary = csvData[key].summary.replace("up to 100", "");
+    // errorResponses: {
+    //   "401": "Missing or incorrect API Key",
+    //   "403": "API Limit Reached or API Key Disabled"
+    // },
 
-      // Req / Res structures formated for api_caller
-      let reqMetaKey = csvData[key].reqMetaKey = Object.keys(csvData[key].req)[0];
-      csvData[key].reqKeys = getDeepKeys(csvData[key].req[reqMetaKey][0], false, false);
-      let resMetaKey = csvData[key].resMetaKey = Object.keys(csvData[key].res)[0];
-      csvData[key].resKeys = getDeepKeys(csvData[key].res[resMetaKey][0], false, false);
+    Object.keys(STRUCT).forEach(key => {
+      if (key.indexOf('Batch') !== -1) {
 
-      // Route costs
-      if (routeCosts[csvData[key].url]) {
-        csvData[key].cost = routeCosts[csvData[key].url] * 1;
+        if (!descr[STRUCT[key].url]) {
+          console.log(`${colors.red("Error - No descriptions specified for route")}\n${csvData[key].url}\n`);
+        }
+        else {
+
+          // Find meta keys for request and responses
+          let reqMetaKey = Object.keys(STRUCT[key].req)[0];
+          let resMetaKey = Object.keys(STRUCT[key].res)[0];
+
+          csvData[key] = {
+            title: STRUCT[key].operationName.replace(/-/g, ' '),
+            summary: descr[STRUCT[key].url].summary.replace("up to 100", ""),
+            cost: routeCosts[STRUCT[key].url] ? routeCosts[STRUCT[key].url] * 1 : 1,
+            required: getDeepKeys(STRUCT[key].req[reqMetaKey][0], false, false).filter(key => key.indexOf('id') === -1),
+            request: STRUCT[key].req,
+            response: {
+              "200": STRUCT[key].res,
+              "401": "Missing or incorrect API Key",
+              "403": "API Limit Reached or API Key Disabled"
+            },
+            reqMetaKey: reqMetaKey,
+            reqKeys: getDeepKeys(STRUCT[key].req[reqMetaKey][0], false, false),
+            resMetaKey: resMetaKey,
+            resKeys: getDeepKeys(STRUCT[key].res[resMetaKey][0], false, false),
+          };
+
+          csvData[key].request[reqMetaKey] = csvData[key].request[reqMetaKey][0]
+          csvData[key].response["200"][resMetaKey] = csvData[key].response["200"][resMetaKey][0]
+
+        };
       };
+    });
 
-    };
-  });
+    return csvData;
+  };
+
   let csvStructure = {
     base: swaggerFile.servers[0].url,
-    errorResponses: {
-      "401": "Missing or incorrect API Key",
-      "403": "API Limit Reached or API Key Disabled"
-    },
-    routes: csvData
+    errorResponses: ["401", "403"],
+    routes: csvDataGen()
   };
   fs.writeFileSync('openapi/genNotMD/csv_structure.json', JSON.stringify(csvStructure, null, 4), 'utf8');
 

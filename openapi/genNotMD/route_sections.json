@@ -33,6 +33,8 @@
             "description": "$admin"
         }
     ],
+    "/api2/json/subclassification/{countryIso2}/{firstName}/{lastName}": "Origin",
+    "/api2/json/subclassificationBatch": "Origin",
     "/api2/json/country/{personalNameFull}": "Origin",
     "/api2/json/nameType/{properNoun}": "Name Type",
     "/api2/json/disable/{source}/{disabled}": "Admin",
@@ -104,5 +106,7 @@
     "/api2/json/phoneCodeGeoFeedbackLoop/{firstName}/{lastName}/{phoneNumber}/{phoneNumberE164}/{countryIso2}": "Phone",
     "/api2/json/phoneCodeBatch": "Phone",
     "/api2/json/phoneCodeGeoBatch": "Phone",
-    "/api2/json/parseName/{nameFull}": "Split Name"
+    "/api2/json/parseName/{nameFull}": "Split Name",
+    "/api2/json/learnable/{source}/{learnable}/{token}": "Admin",
+    "/api2/json/anonymize/{source}/{anonymized}/{token}": "Admin"
 }
