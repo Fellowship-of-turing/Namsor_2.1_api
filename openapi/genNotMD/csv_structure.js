@@ -1,13 +1,14 @@
-{
-    "base": "https://v2.namsor.com/NamSorAPIv2",
+export const csv_structure = {
+    "base": "https://v2.namsor.com/NamSorAPIv2/api2/json/",
     "errorResponses": [
         "401",
         "403"
     ],
     "routes": {
         "nameTypeBatch": {
-            "title": "Name Type Batch",
-            "summary": "Returns the type of  submitted proper nouns. Ex: John Smith = personal name, Namsor = brand name.",
+            "title": "Name Type",
+            "tag": "Name Type",
+            "summary": "Returns the type of submitted proper nouns. Ex: John Smith = personal name, Namsor = brand name.",
             "cost": 1,
             "required": [
                 "name"
@@ -48,8 +49,9 @@
             ]
         },
         "nameTypeGeoBatch": {
-            "title": "Name Type Geo Batch",
-            "summary": "Returns the type of  submitted proper nouns using their geographic context. Ex: John Smith = personal name, Namsor = brand name.",
+            "title": "Name Type Geo",
+            "tag": "Name Type",
+            "summary": "Returns the type of submitted proper nouns using their geographic context. Ex: John Smith = personal name, Namsor = brand name.",
             "cost": 1,
             "required": [
                 "name",
@@ -93,8 +95,9 @@
             ]
         },
         "corridorBatch": {
-            "title": "Corridor Batch",
-            "summary": "Returns complete analysis of  cross border interactions between two names using their geographic context. The sender is the one who initiated the interaction (from) while the receiver is the one intended to receive the interaction (to).",
+            "title": "Corridor",
+            "tag": "Origin",
+            "summary": "Returns complete analysis of cross border interactions between two names using their geographic context. The sender is the one who initiated the interaction (from) while the receiver is the one intended to receive the interaction (to).",
             "cost": 20,
             "required": [
                 "firstLastNameGeoFrom.firstName",
@@ -222,8 +225,9 @@
             ]
         },
         "genderGeoBatch": {
-            "title": "Gender Geo Batch",
-            "summary": "Returns the most likely gender of  first names and last names using their geographic context.",
+            "title": "Gender Geo",
+            "tag": "Gender",
+            "summary": "Returns the most likely gender of first names and last names using their geographic context.",
             "cost": 1,
             "required": [
                 "firstName",
@@ -274,8 +278,9 @@
             ]
         },
         "genderBatch": {
-            "title": "Gender Batch",
-            "summary": "Returns the most likely gender of  first names and last names.",
+            "title": "Gender",
+            "tag": "Gender",
+            "summary": "Returns the most likely gender of first names and last names.",
             "cost": 1,
             "required": [
                 "firstName",
@@ -323,8 +328,9 @@
             ]
         },
         "genderFullBatch": {
-            "title": "Gender Full Name Batch",
-            "summary": "Returns the most likely gender of  full names.",
+            "title": "Gender Full Name",
+            "tag": "Gender",
+            "summary": "Returns the most likely gender of full names.",
             "cost": 1,
             "required": [
                 "name"
@@ -367,8 +373,9 @@
             ]
         },
         "genderFullGeoBatch": {
-            "title": "Gender Full Name Geo Batch",
-            "summary": "Returns the most likely gender of  full names, according to their geographic context.",
+            "title": "Gender Full Name Geo",
+            "tag": "Gender",
+            "summary": "Returns the most likely gender of full names, according to their geographic context.",
             "cost": 1,
             "required": [
                 "name",
@@ -414,8 +421,9 @@
             ]
         },
         "originBatch": {
-            "title": "Origin Batch",
-            "summary": "Returns the most likely country of origin of  first names and a last names. Note that the \"Diaspora\" endpoint may be better suited for countries like U.S.A, Canada, Australia, New-Zealand and other melting-pots.",
+            "title": "Origin",
+            "tag": "Origin",
+            "summary": "Returns the most likely country of origin of first names and a last names. Note that the \"Diaspora\" endpoint may be better suited for countries like U.S.A, Canada, Australia, New-Zealand and other melting-pots.",
             "cost": 10,
             "required": [
                 "firstName",
@@ -473,8 +481,9 @@
             ]
         },
         "subclassificationBatch": {
-            "title": "Country Subclassification Batch",
-            "summary": "Returns the most likely geographic subdivision context of of  first names and a last names. Subdivision are either a country's states or regions. At the moment this is only supported for India (ISO 3166-1 alpha-2 code \"IN\").",
+            "title": "Country Subclassification",
+            "tag": "Origin",
+            "summary": "Returns the most likely geographic subdivision context of of first names and a last names. Subdivision are either a country's states or regions. At the moment this is only supported for India (ISO 3166-1 alpha-2 code \"IN\").",
             "cost": 10,
             "required": [
                 "firstName",
@@ -531,8 +540,9 @@
             ]
         },
         "countryBatch": {
-            "title": "Country Batch",
-            "summary": "Returns the most likely geographic context of  full names (first names and last names) or surnames.",
+            "title": "Country",
+            "tag": "Origin",
+            "summary": "Returns the most likely geographic context of full names (first names and last names) or surnames.",
             "cost": 10,
             "required": [
                 "name"
@@ -585,8 +595,9 @@
             ]
         },
         "usRaceEthnicityBatch": {
-            "title": "US Race and Ethnicity Batch",
-            "summary": "Returns the most likely U.S. race or ethnicity of  U.S. resident's first names and last names.",
+            "title": "US Race and Ethnicity",
+            "tag": "Origin",
+            "summary": "Returns the most likely U.S. race or ethnicity of U.S. resident's first names and last names.",
             "cost": 10,
             "required": [
                 "firstName",
@@ -641,8 +652,9 @@
             ]
         },
         "usZipRaceEthnicityBatch": {
-            "title": "US Race and Ethnicity ZIP Batch",
-            "summary": "Returns the most likely U.S. race or ethnicity of  U.S. resident's first names and last names, using their ZIP code.",
+            "title": "US Race and Ethnicity ZIP",
+            "tag": "Origin",
+            "summary": "Returns the most likely U.S. race or ethnicity of U.S. resident's first names and last names, using their ZIP code.",
             "cost": 10,
             "required": [
                 "firstName",
@@ -700,8 +712,9 @@
             ]
         },
         "diasporaBatch": {
-            "title": "Diaspora Batch",
-            "summary": "Returns the most likely ethnicity or diaspora of  first names and last names, according to their country of residence.",
+            "title": "Diaspora",
+            "tag": "Origin",
+            "summary": "Returns the most likely ethnicity or diaspora of first names and last names, according to their country of residence.",
             "cost": 20,
             "required": [
                 "firstName",
@@ -760,8 +773,9 @@
             ]
         },
         "parseNameBatch": {
-            "title": "Split Name Batch",
-            "summary": "Returns the most likely first name and last name structure of  full names.",
+            "title": "Split Name",
+            "tag": "Split Name",
+            "summary": "Returns the most likely first name and last name structure of full names.",
             "cost": 1,
             "required": [
                 "name"
@@ -812,8 +826,9 @@
             ]
         },
         "parseNameGeoBatch": {
-            "title": "Split Name Geo Batch",
-            "summary": "Returns the most likely first name and last name structure of  full names using their geographic context.",
+            "title": "Split Name Geo",
+            "tag": "Split Name",
+            "summary": "Returns the most likely first name and last name structure of full names using their geographic context.",
             "cost": 1,
             "required": [
                 "name",
@@ -867,8 +882,9 @@
             ]
         },
         "parseChineseNameBatch": {
-            "title": "Split Chinese Name Batch",
-            "summary": "Returns the most likely first name and last name structure of  full names (family names and given names) in Standard Mandarin Chinese.",
+            "title": "Split Chinese Name",
+            "tag": "Chinese",
+            "summary": "Returns the most likely first name and last name structure of full names (family names and given names) in Standard Mandarin Chinese.",
             "cost": 1,
             "required": [
                 "name"
@@ -919,8 +935,9 @@
             ]
         },
         "pinyinChineseNameBatch": {
-            "title": "To Pinyin Name Batch",
-            "summary": "Return the most likely Pinyin transcription of  full names (family names and given names) in Standard Mandarin Chinese.",
+            "title": "To Pinyin Name",
+            "tag": "Chinese",
+            "summary": "Return the most likely Pinyin transcription of full names (family names and given names) in Standard Mandarin Chinese.",
             "cost": 1,
             "required": [
                 "name"
@@ -971,8 +988,9 @@
             ]
         },
         "chineseNameMatchBatch": {
-            "title": "Match Chinese Name Batch",
-            "summary": "Matches  full names in Standard Mandarin Chinese against corresponding family names and given names in Pinyin.",
+            "title": "Match Chinese Name",
+            "tag": "Chinese",
+            "summary": "Matches full names in Standard Mandarin Chinese against corresponding family names and given names in Pinyin.",
             "cost": 1,
             "required": [
                 "name1.firstName",
@@ -1023,8 +1041,9 @@
             ]
         },
         "genderChineseNamePinyinBatch": {
-            "title": "Gender Name Pinyin Batch",
-            "summary": "Return the most likely gender of  family names and a given names in Pinyin.",
+            "title": "Gender Name Pinyin",
+            "tag": "Chinese",
+            "summary": "Return the most likely gender of family names and a given names in Pinyin.",
             "cost": 1,
             "required": [
                 "firstName",
@@ -1072,8 +1091,9 @@
             ]
         },
         "genderChineseNameBatch": {
-            "title": "Gender Name Mandarin Batch",
-            "summary": "Returns the most likely gender of  full names (family names and given names) in Standard Mandarin Chinese.",
+            "title": "Gender Name Mandarin",
+            "tag": "Chinese",
+            "summary": "Returns the most likely gender of full names (family names and given names) in Standard Mandarin Chinese.",
             "cost": 1,
             "required": [
                 "name"
@@ -1116,8 +1136,9 @@
             ]
         },
         "chineseNameCandidatesBatch": {
-            "title": "To Mandarin Name Batch",
-            "summary": "Returns the most likely Standard Mandarin Chinese transcriptions using  family names and given names in Pinyin.",
+            "title": "To Mandarin Name",
+            "tag": "Chinese",
+            "summary": "Returns the most likely Standard Mandarin Chinese transcriptions using family names and given names in Pinyin.",
             "cost": 1,
             "required": [
                 "firstName",
@@ -1168,8 +1189,9 @@
             ]
         },
         "chineseNameCandidatesGenderBatch": {
-            "title": "To Mandarin Name Gender Batch",
-            "summary": "Returns the most likely Standard Mandarin Chinese transcriptions for  Pinyin first names and last names, according to their gender.",
+            "title": "To Mandarin Name Gender",
+            "tag": "Chinese",
+            "summary": "Returns the most likely Standard Mandarin Chinese transcriptions for Pinyin first names and last names, according to their gender.",
             "cost": 1,
             "required": [
                 "firstName",
@@ -1223,8 +1245,9 @@
             ]
         },
         "parseJapaneseNameBatch": {
-            "title": "Split Japanese Name Batch",
-            "summary": "Returns the most likely first name and last name structure of  full names (family names and given names) in Kanji or latin characters.",
+            "title": "Split Japanese Name",
+            "tag": "Japanese",
+            "summary": "Returns the most likely first name and last name structure of full names (family names and given names) in Kanji or latin characters.",
             "cost": 1,
             "required": [
                 "name"
@@ -1275,8 +1298,9 @@
             ]
         },
         "japaneseNameKanjiCandidatesBatch": {
-            "title": "To Kanji Name Batch",
-            "summary": "Returns the most likely Kanji transcriptions for  japanese first names and last names in latin characters.",
+            "title": "To Kanji Name",
+            "tag": "Japanese",
+            "summary": "Returns the most likely Kanji transcriptions for japanese first names and last names in latin characters.",
             "cost": 1,
             "required": [
                 "firstName",
@@ -1327,8 +1351,9 @@
             ]
         },
         "japaneseNameGenderKanjiCandidatesBatch": {
-            "title": "To Kanji Name Gender Batch",
-            "summary": "Returns the most likely Kanji transcriptions for  japanese first names and last names in latin characters, according to their gender.",
+            "title": "To Kanji Name Gender",
+            "tag": "Japanese",
+            "summary": "Returns the most likely Kanji transcriptions for japanese first names and last names in latin characters, according to their gender.",
             "cost": 1,
             "required": [
                 "firstName",
@@ -1382,8 +1407,9 @@
             ]
         },
         "japaneseNameLatinCandidatesBatch": {
-            "title": "To Latin Name Batch",
-            "summary": "Returns the most likely latin transcriptions for  japanese first names and last names in Kanji characters.",
+            "title": "To Latin Name",
+            "tag": "Japanese",
+            "summary": "Returns the most likely latin transcriptions for japanese first names and last names in Kanji characters.",
             "cost": 1,
             "required": [
                 "firstName",
@@ -1434,8 +1460,9 @@
             ]
         },
         "japaneseNameMatchBatch": {
-            "title": "Match Japanese Name Batch",
-            "summary": "Matches  full names in Kanji against corresponding family names and given names in latin characters.",
+            "title": "Match Japanese Name",
+            "tag": "Japanese",
+            "summary": "Matches full names in Kanji against corresponding family names and given names in latin characters.",
             "cost": 1,
             "required": [
                 "name1.firstName",
@@ -1486,8 +1513,8 @@
             ]
         },
         "genderJapaneseNamePinyinBatch": {
-            "title": "Gender Name Latin Batch",
-            "summary": "Return the most likely gender of  japanese family names and a given names in latin characters.",
+            "title": "Gender Name Latin",
+            "summary": "Return the most likely gender of japanese family names and a given names in latin characters.",
             "cost": 1,
             "required": [
                 "firstName",
@@ -1535,8 +1562,9 @@
             ]
         },
         "genderJapaneseNameFullBatch": {
-            "title": "Gender Name Kanji Batch",
-            "summary": "Find the most likely gender of  Japanese full names (surnames and given names), written in Kanji characters.",
+            "title": "Gender Name Kanji",
+            "tag": "Japanese",
+            "summary": "Find the most likely gender of Japanese full names (surnames and given names), written in Kanji characters.",
             "cost": 1,
             "required": [
                 "name"
@@ -1579,8 +1607,9 @@
             ]
         },
         "phoneCodeBatch": {
-            "title": "Phone Code Batch",
-            "summary": "Returns the most likely phone prefix, country of origin and format of  phone numbers using first names and last names.",
+            "title": "Phone Code",
+            "tag": "Phone",
+            "summary": "Returns the most likely phone prefix, country of origin and format of phone numbers using first names and last names.",
             "cost": 11,
             "required": [
                 "firstName",
@@ -1647,8 +1676,9 @@
             ]
         },
         "phoneCodeGeoBatch": {
-            "title": "Phone Code Geo Batch",
-            "summary": "Returns the most likely phone prefix and format of  phone numbers using first names, last names and geographic context.",
+            "title": "Phone Code Geo",
+            "tag": "Phone",
+            "summary": "Returns the most likely phone prefix and format of phone numbers using first names, last names and geographic context.",
             "cost": 11,
             "required": [
                 "firstName",

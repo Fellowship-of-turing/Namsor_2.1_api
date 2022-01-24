@@ -451,6 +451,7 @@ let mdConvert = (swaggerFile, store, wsOptions, opt) => {
         mdRouteReplace('> Code samples', `> **${spaceNamed}** code sample :`, routeStart(), routeEnd(), route);
       });
 
+
       ///////////////
       //DOC FORMAT//
       /////////////
@@ -468,10 +469,10 @@ let mdConvert = (swaggerFile, store, wsOptions, opt) => {
       mdReplace('<a href=', '<a target="_blank" href=');
       // Apply correct Namsor casing name
       mdReplace('NamSor', 'Namsor');
-
+      mdReplace('https://v2.namsor.com/NamsorAPIv2', 'https://v2.namsor.com/NamSorAPIv2');
 
       // Insert include files into document
-      let contentToInject = '# Introduction\n\n';
+      let contentToInject = '## Introduction\n\n';
       opt.intro_includes.forEach(subFile => {
         let getFile = fs.readFileSync(`source/_includes/${subFile}`, 'utf8');
         contentToInject = `${contentToInject}\n\n${getFile}`;
@@ -523,9 +524,19 @@ let mdConvert = (swaggerFile, store, wsOptions, opt) => {
       dirtyMD = dirtyMD.replace('* <a target="_blank" href="https://v2.namsor.com/NamsorAPIv2">https://v2.namsor.com/NamsorAPIv2</a>', '');
       dirtyMD = dirtyMD.replace('|source|path|any|true|The API Key to set as enabled/disabled.|', '');
       dirtyMD = dirtyMD.replace('|source|path|any|true|The API Key to set as learnable/non learnable.|', '');
-      dirtyMD = dirtyMD.replace('title: NamSor API v2 v2.0.15', 'title: NamSor API Documentation');
-      dirtyMD = dirtyMD.replace('NamSor API v2 v2.0.15', 'NamSor API v2.0.15');
 
+      dirtyMD = dirtyMD.replace(
+        '<h1 id="namsor-api">Namsor API v2.0.16</h1>',
+        '<h1 id="namsor-api">Namsor API documentation <small>v2.0.16</small></h1>'
+      );
+
+      // const regexTitlesStart = new RegExp(/<h1 id="namsor-api-/, 'ig');
+      // dirtyMD = dirtyMD.replace(regexTitlesStart, "<h2 class=\"endpoint-title\" id=\"namsor-api-");
+      // const regexTitlesEnd = new RegExp(/<\/h1>/, 'ig');
+      // dirtyMD = dirtyMD.replace(regexTitlesEnd, "<h2>");
+
+      dirtyMD = dirtyMD.replace('title: Namsor API v2.0.16', 'title: Namsor API documentation v2.0.16');
+      dirtyMD = dirtyMD.replace('NamSor API v2 v2.0.15', 'NamSor API v2.0.16');
       // dirtyMD is now the clean converted markdown
       fs.writeFileSync('source/index.md', dirtyMD, 'utf8');
       console.log(`${colors.green("--> Generation Completed")}`);

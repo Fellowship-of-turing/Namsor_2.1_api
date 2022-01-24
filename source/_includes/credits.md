@@ -2,7 +2,7 @@
 
 ### What are Credits
 
-We use a credit system to track usage. Each plan comes with a monthly quantity of credits and a price for request that exceed your monthly allowance. The free Basic subscription plan grants you 5000 credits but <a target="_blank" href="https://www.namsor.com/prices">other plans are available</a> in case you have higher requirements.
+We use a credit system to track usage. Each plan comes with a monthly quantity of credits and a price for request that exceed your monthly allowance. The free Basic subscription plan grants you 5000 credits but <a target="_blank" href="https://namsor.app/prices">other plans are available</a> in case you have higher requirements.
 
 As an example, with 5000 credits you can either :
 
@@ -14,7 +14,7 @@ As an example, with 5000 credits you can either :
 
 ### Repeated Operations Tolerance
 
-Our API features smart processing and it will not charge for analyzing identical data for up to 20 times. For example if you submit the same full name 5 times in order to infer it's gender then you will only be charged 1 credit.
+Our API features smart processing and it will not charge for analysing identical data for up to 20 times. For example if you submit the same full name 5 times in order to infer it's gender then you will only be charged 1 credit.
 
 ### Soft Limit vs Hard Limit
 

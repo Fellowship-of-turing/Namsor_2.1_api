@@ -49,3 +49,10 @@ https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pag
 3. Add descriptions in config/combined_descriptions.js using the route path as key
 4. Specify the route's category in config/route_sections.js
 5. Specify the route's order in config/route_ordering.js
+
+## Editing the pages
+
+1. To modify the <head> use the source/\_includes/head.ejs file
+1. To modify the core code of the page use the source/\_includes/slate.ejs file
+1. To modify the first paragraph use the openapi\config\documentation_intro.js file
+1. To modify the <footer> use the source/\_includes/footer.ejs file

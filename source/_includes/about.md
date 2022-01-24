@@ -1,4 +1,4 @@
-## About
+### About
 
 -   The base endpoint URL is: https://v2.namsor.com/NamSorAPIv2
 -   For best results, use Batch endpoint to process multi-entity requests

@@ -58,12 +58,12 @@ const widdershinsOptions = {
   httpsnippet: true,
   toc_footers: [
     {
-      "description": "Visit namsor.com",
-      "url": "https://v2.namsor.com"
+      "description": "Visit www.namsor.app",
+      "url": "https://namsor.app"
     },
     {
       "description": "Get your API key now",
-      "url": "https://v2.namsor.com/NamSorAPIv2/sign-in.html"
+      "url": "https://namsor.app/login"
     },
     {
       "description": "View all our tools on Github",

@@ -758,20 +758,18 @@ module.exports = (swaggerFile, opt) => {
   fs.writeFileSync('openapi/genNotMD/combined_descriptions.json', JSON.stringify(DESCR, null, 4), 'utf8');
   fs.writeFileSync('openapi/genNotMD/route_sections.json', JSON.stringify(routeSections, null, 4), 'utf8');
   fs.writeFileSync('openapi/genNotMD/route_costs.json', JSON.stringify(routeCosts, null, 4), 'utf8');
-  // fs.writeFileSync('openapi/genNotMD/io_schemes.json', JSON.stringify(STRUCT, null, 4), 'utf8');
+  fs.writeFileSync('openapi/genNotMD/io_schemes(deprecated).json', JSON.stringify(STRUCT, null, 4), 'utf8');
 
   // Generate config for CSV module
   let csvDataGen = () => {
     let csvData = {}
 
-    // errorResponses: {
-    //   "401": "Missing or incorrect API Key",
-    //   "403": "API Limit Reached or API Key Disabled"
-    // },
-
+    // routeOrdering.forEach(route => {
+    //   let key = route.split('/')[route.split('/').length - 1];
     Object.keys(STRUCT).forEach(key => {
       if (key.indexOf('Batch') !== -1) {
 
+        console.log('key: ', key);
         if (!descr[STRUCT[key].url]) {
           console.log(`${colors.red("Error - No descriptions specified for route")}\n${csvData[key].url}\n`);
         }
@@ -781,9 +779,11 @@ module.exports = (swaggerFile, opt) => {
           let reqMetaKey = Object.keys(STRUCT[key].req)[0];
           let resMetaKey = Object.keys(STRUCT[key].res)[0];
 
+          console.log('key: ', key);
           csvData[key] = {
-            title: STRUCT[key].operationName.replace(/-/g, ' '),
-            summary: descr[STRUCT[key].url].summary.replace("up to 100", ""),
+            title: STRUCT[key].operationName.replace(/-/g, ' ').replace(' Batch', ''),
+            tag: routeSections[`/api2/json/${key}`],
+            summary: descr[STRUCT[key].url].summary.replace("up to 100 ", ""),
             cost: routeCosts[STRUCT[key].url] ? routeCosts[STRUCT[key].url] * 1 : 1,
             required: getDeepKeys(STRUCT[key].req[reqMetaKey][0], false, false).filter(key => key.indexOf('id') === -1),
             request: STRUCT[key].req,
@@ -809,11 +809,15 @@ module.exports = (swaggerFile, opt) => {
   };
 
   let csvStructure = {
-    base: swaggerFile.servers[0].url,
+    base: "https://v2.namsor.com/NamSorAPIv2/api2/json/",
     errorResponses: ["401", "403"],
     routes: csvDataGen()
   };
-  fs.writeFileSync('openapi/genNotMD/csv_structure.json', JSON.stringify(csvStructure, null, 4), 'utf8');
+  fs.writeFileSync(
+    'openapi/genNotMD/csv_structure.js',
+    `export const csv_structure = ${JSON.stringify(csvStructure, null, 4)}`,
+    'utf8'
+  );
 
   // Return stored values
   let formatedResult = {

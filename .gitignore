@@ -5,3 +5,4 @@ source/slate/js/lib/*.min.js
 source/slate/css/*.css
 
 .env
+blackwhale/*
